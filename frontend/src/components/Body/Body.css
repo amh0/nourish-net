@@ -1,0 +1,36 @@
+@import "../globals.css";
+.stats-wrapper {
+  background-color: var(--primary);
+  display: flex;
+  justify-content: space-between;
+  padding: 0px 120px;
+}
+.stats-card {
+  display: flex;
+  box-sizing: border-box;
+  align-items: center;
+  gap: 24px;
+  padding: 48px 24px;
+  width: 336px;
+}
+.stats-placeholder {
+  flex-shrink: 0;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: var(--background0);
+}
+.stats-info {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.card-wrapper{
+  display: flex;
+  justify-content: center;
+}
+p {
+  font-size: var(--parr1);
+  margin: 0px;
+}
+

@@ -1,0 +1,53 @@
+@import "../globals.css";
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  padding: 16px 80px;
+  box-shadow: 0px 4px 4px var(--textlighter);
+}
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+.nav-logo p {
+  color: var(--text);
+  font-size: var(--title5);
+  margin: 0;
+  font-weight: bold;
+}
+.nav-menu {
+  display: flex;
+  align-items: first baseline;
+  gap: 32px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  font-size: var(--parr1);
+  font-weight: bold;
+}
+.nav-menu li {
+  display: flex;
+  flex-direction: column;
+  margin-top: 23px; /*if set to 24 causes .6px of overflow*/
+  cursor: pointer;
+}
+.nav-menu hr {
+  border: 0px;
+  width: 80%;
+  height: 3px;
+  border-radius: 8px;
+  background-color: var(--primary);
+}
+.nav-login {
+  display: flex;
+  align-items: center;
+  padding: 0px;
+  gap: 32px;
+}
+.link {
+  text-decoration: none;
+}
+li .link {
+  color: var(--textlight);
+}

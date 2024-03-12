@@ -1,0 +1,36 @@
+.hero {
+  height: 86vh;
+  display: flex;
+  justify-content: space-between;
+  box-sizing: border-box;
+  padding: 64px 120px;
+}
+.hero-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+  width: 496px;
+}
+.title2 {
+  font-size: 48px;
+  line-height: 54px;
+  margin: 0;
+}
+.btn-wrapper {
+  display: flex;
+  margin-top: 44px;
+  gap: 16px;
+}
+.btn-wrapper .btn {
+  min-width: 240px;
+}
+.placeholder {
+  width: 504px;
+  height: 504px;
+  border-radius: 50%;
+  background-color: var(--primary);
+}
+.accent {
+  color: var(--primary);
+}

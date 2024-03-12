@@ -1,0 +1,80 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap");
+:root {
+  --primary: #ffd56f;
+  --secondary: #6db4ac;
+  /* --secondary_strong: #3e8e85; */
+  --secondary_strong: #48968d;
+  --tertiary: #feb491;
+  --background0: #ffffff;
+  --background1: #fcfcfc;
+  --background2: #fcfbf9;
+  --text: #222222;
+  --textlight: #888888;
+  --textlighter: #d9d9d9;
+  --title1: 60px;
+  --title2: 48px;
+  --title3: 40px;
+  --title4: 32px;
+  --title5: 24px;
+  --title6: 24px;
+  --parr1: 16px;
+  --parr2: 13px;
+  --subparr: 11px;
+}
+/* * {
+  color: var(--text);
+}  causes some bugs*/
+.title1,
+.title2,
+.title3,
+.title4,
+.title5,
+.title6,
+.parr1,
+.parr2,
+.parr3,
+.subpar {
+  margin: 0;
+  color: var(--text);
+}
+.title3 {
+  font-size: 40px;
+  line-height: 48px;
+}
+.title4 {
+  font-size: 32px;
+  line-height: 40px;
+}
+.parr1 {
+  font-size: 16px;
+  /* line-height: 20px; */ /*decided to use default*/
+}
+.btn {
+  box-sizing: border-box;
+  outline: none;
+  border: none;
+  border-radius: 16px;
+  width: 120px;
+  height: 51px;
+  font-size: var(--parr1);
+  font-weight: bold;
+  cursor: pointer;
+}
+.bg0-secondary-v {
+  background-color: var(--background0);
+  color: var(--secondary);
+}
+.bg0-secondary-v:active {
+  background-color: var(--secondary);
+  color: var(--background0);
+}
+.secondary-v {
+  background-color: var(--secondary);
+  color: var(--background1);
+}
+.secondary-v:active {
+  background-color: var(--secondary_strong);
+}
+.secondary-brd {
+  border: 1px solid var(--secondary);
+}
