@@ -1,0 +1,97 @@
+/* .step {
+  width: 468px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+} */
+
+.step {
+  width: 468px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  flex-direction: column;
+}
+
+.step-one {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: 320px;
+}
+
+.step-two {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: 260px;
+}
+
+.step .title3 {
+  margin-bottom: 24px;
+  font-size: var(--title3);
+}
+
+.step .parr2 {
+  font-size: var(--parr2);
+  margin-bottom: 40px;
+}
+
+.step .parr22 {
+  font-size: var(--parr2);
+}
+
+.text-option {
+  font-size: var(--parr2);
+}
+
+.mensageError {
+  color: var(--textlight);
+  font-size: var(--subparr);
+  margin-top: 3px;
+  margin-left: 5px;
+}
+
+.input-wrapper {
+  display: flex;
+  flex-wrap: nowrap;
+  margin-bottom: 16px;
+  width: 100%;
+}
+
+.custom-btn-grey {
+  width: 64px;
+  height: 51px;
+}
+
+.switch-container {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  margin-bottom: 16px;
+  align-items: center;
+}
+
+.button-wrapper {
+  display: flex;
+  align-items: stretch;
+  margin-top: 34px;
+  justify-content: space-between;
+}
+
+.step .btn .secondary-v {
+  height: 200px;
+}
+
+.custom-button {
+  width: 160px;
+  margin-left: 24px;
+}
+
+.custom-button2 {
+  width: 200px;
+}
+
+.input-wrapper input {
+  margin-right: 16px;
+}

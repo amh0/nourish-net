@@ -33,7 +33,28 @@ const Body = () => {
           ¿Estas listo para hacer la
           <span className="accent-secondary"> diferencia</span>?
         </h3>
-        <div className="card-section"> </div>
+        <div className="card-section">
+          <div className="card-box">
+            <div>
+              <h4 className="title4">Empieza a donar</h4>
+              <p>
+                Conviértete en un donante y comparte el sabor de la bondad.{" "}
+              </p>
+            </div>
+            <div className="card-placeholder"></div>
+            <button className="btn secondary-v">Donar ahora</button>
+          </div>
+          <div className="card-box">
+            <div>
+              <h4 className="title4">Voluntarios</h4>
+              <p>
+                Te necesitamos para transformar las vidas de otras personas.
+              </p>
+            </div>
+            <div className="card-placeholder"></div>
+            <button className="btn secondary-v">Quiero ser voluntario</button>
+          </div>
+        </div>
       </div>
     </>
   );

@@ -1,0 +1,14 @@
+.signup-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 50px 100px;
+}
+
+.rectangle-container {
+  width: 440px;
+  height: 480px;
+  background-color: var(--primary_light);
+  border-radius: 3%;
+  margin-right: 56px;
+}
