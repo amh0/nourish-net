@@ -1,6 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap");
 :root {
   --primary: #ffd56f;
+  --primary_light: #ffe6a9;
   --secondary: #6db4ac;
   /* --secondary_strong: #3e8e85; */
   --secondary_strong: #48968d;
@@ -77,4 +78,26 @@
 }
 .secondary-brd {
   border: 1px solid var(--secondary);
+}
+
+.input {
+  width: 93%;
+  padding: 10px;
+  margin-right: 0;
+  border: 1px solid var(--textlight);
+  border-radius: 5px;
+  color: var(--textlight);
+  font-size: var(--parr1);
+}
+
+.input::placeholder {
+  color: var(--textlighter);
+  font-size: var(--parr1);
+}
+
+.grey-v {
+  background-color: var(--textlight);
+}
+.grey-v:active {
+  background-color: var(--textlighter);
 }
