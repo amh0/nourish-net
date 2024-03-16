@@ -46,6 +46,10 @@
   font-size: 32px;
   line-height: 40px;
 }
+.title5 {
+  font-size: 24px;
+  line-height: 32px;
+}
 .parr1 {
   font-size: 16px;
   /* line-height: 20px; */ /*decided to use default*/
@@ -69,6 +73,26 @@
   background-color: var(--secondary);
   color: var(--background0);
 }
+.bg0-primary-v {
+  background-color: var(--background0);
+  color: var(--primary);
+}
+.bg0-primary-v:active {
+  background-color: var(--primary);
+  color: var(--background0);
+}
+.bg-text-v {
+  background-color: var(--text);
+  color: var(--background1);
+}
+.text-v {
+  background-color: var(--background0);
+  color: var(--text);
+}
+.text-v:active {
+  background-color: var(--text);
+  color: var(--background1);
+}
 .secondary-v {
   background-color: var(--secondary);
   color: var(--background1);
@@ -76,8 +100,14 @@
 .secondary-v:active {
   background-color: var(--secondary_strong);
 }
+.primary-brd {
+  border: 1px solid var(--primary);
+}
 .secondary-brd {
   border: 1px solid var(--secondary);
+}
+.text-brd {
+  border: 1px solid var(--text);
 }
 
 .input {
