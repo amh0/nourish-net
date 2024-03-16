@@ -1,5 +1,6 @@
 import React from "react";
 import "./Body.css";
+import Footer from "../footer/Footer";
 const Body = () => {
   return (
     <>
@@ -121,6 +122,7 @@ const Body = () => {
           <button className="btn text-v text-brd ">Obtén donaciones</button>
         </div>
       </div>
+      <Footer />
     </>
   );
 };
