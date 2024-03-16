@@ -1,0 +1,50 @@
+@import url(../globals.css);
+.footer {
+  display: flex;
+  gap: 120px;
+  justify-content: space-between;
+  box-sizing: border-box;
+  background-color: var(--text);
+  padding: 80px;
+  height: 340px;
+}
+.footer,
+.footer .title3,
+.footer .title5,
+.footer .parr1 {
+  color: var(--background2);
+}
+.logo-section {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  margin-bottom: 32px;
+}
+.description-section {
+  width: 330px;
+}
+.links-section .title5 {
+  margin-bottom: 32px;
+}
+.links-wrapper {
+  list-style: none;
+  padding: 0;
+  font-size: var(--parr1);
+}
+.links-wrapper .link {
+  color: var(--background2);
+}
+.links-wrapper li {
+  margin-bottom: 16px;
+}
+.socials-section .title5 {
+  margin-bottom: 32px;
+}
+.socials-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.footer-filler {
+  flex: 1;
+}
