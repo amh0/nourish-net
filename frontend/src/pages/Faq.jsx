@@ -4,7 +4,9 @@ const Faq = () => {
   return (
     <>
       <div className="about-us">
-        <h3 className="title3">Preguntas Frecuentes (FAQ)</h3>
+        <h3 className="title3" id="header-faq">
+          Preguntas Frecuentes (FAQ)
+        </h3>
         <h6 className="title6">¿Qué es Nourish Net?</h6>
         <p>
           Nourish Net es una plataforma digital que conecta donantes de

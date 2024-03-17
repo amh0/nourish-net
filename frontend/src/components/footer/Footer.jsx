@@ -25,25 +25,39 @@ const Footer = () => {
         <h5 className="title5">Conoce más</h5>
         <ol className="links-wrapper">
           <li>
-            <Link className="link">Inicio</Link>
+            <Link className="link" to="/">
+              Inicio
+            </Link>
           </li>
           <li>
-            <Link className="link">Nosotros</Link>
+            <Link className="link" to="/nosotros">
+              Nosotros
+            </Link>
           </li>
           <li>
-            <Link className="link">Contacto</Link>
+            <Link className="link" to="/contacto">
+              Contacto
+            </Link>
           </li>
           <li>
-            <Link className="link">Preguntas Frecuentes</Link>
+            <Link className="link" to="/faq">
+              Preguntas Frecuentes
+            </Link>
           </li>
         </ol>
       </div>
       <div className="socials-section">
         <h5 className="title5">Nuestras redes</h5>
         <div className="socials-wrapper">
-          <FacebookLogo size={48} color="#ffffff" weight="light" />
-          <InstagramLogo size={48} color="#ffffff" weight="light" />
-          <TiktokLogo size={48} color="#ffffff" weight="light" />
+          <Link>
+            <FacebookLogo size={48} color="#ffffff" weight="light" />
+          </Link>
+          <Link>
+            <InstagramLogo size={48} color="#ffffff" weight="light" />
+          </Link>
+          <Link>
+            <TiktokLogo size={48} color="#ffffff" weight="light" />
+          </Link>
         </div>
       </div>
     </div>

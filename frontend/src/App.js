@@ -7,10 +7,12 @@ import Contacto from "./pages/Contacto";
 import Faq from "./pages/Faq";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import ScrollToTop from "./components/utils/ScrollToTop";
 function App() {
   return (
     <div>
       <BrowserRouter>
+        <ScrollToTop />
         <NavBar />
         <Routes>
           <Route path="/" element={<Inicio />} />
