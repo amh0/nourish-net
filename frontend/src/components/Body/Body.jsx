@@ -1,12 +1,13 @@
 import React from "react";
 import "./Body.css";
 import Footer from "../footer/Footer";
+import { Buildings, HandHeart, UserCircle } from "@phosphor-icons/react";
 const Body = () => {
   return (
     <>
       <div className="stats-wrapper">
         <div className="stats-card">
-          <div className="stats-placeholder"></div>
+          <Buildings size={96} color="#222222" weight="light" />
           <div className="stats-info">
             <h4 className="title4">30+ entidades</h4>
             <p className="parr1">
@@ -15,14 +16,14 @@ const Body = () => {
           </div>
         </div>
         <div className="stats-card">
-          <div className="stats-placeholder"></div>
+          <HandHeart size={96} color="#222222" weight="light" />
           <div className="stats-info">
             <h4 className="title4">1000+ donaciones</h4>
             <p className="parr1">Realizadas a través de nuestra plataforma</p>
           </div>
         </div>
         <div className="stats-card">
-          <div className="stats-placeholder"></div>
+          <UserCircle size={96} color="#2b2b2b" weight="light" />
           <div className="stats-info">
             <h4 className="title4">50+ voluntarios</h4>
             <p className="parr1">Colaborando en la red de solidaridad</p>
