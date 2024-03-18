@@ -1,0 +1,63 @@
+@import url("../components/globals.css");
+.alimentos-page {
+  background-color: #fffdf9;
+}
+.products-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  max-width: 586px;
+}
+.sidebar {
+  box-sizing: border-box;
+  border-radius: 16px;
+  box-shadow: 0px 0px 4px 0px var(--textlighter);
+  padding: 32px;
+  height: 560px;
+  width: 200px;
+  background-color: var(--background0);
+}
+.sidebar .title5 {
+  margin-bottom: 32px;
+}
+.categories {
+  list-style: none;
+  margin: 0px;
+  padding: 0px;
+}
+
+.categories li {
+  margin-bottom: 16px;
+}
+
+.alimentos-page {
+  display: flex;
+  gap: 120px;
+  padding: 64px 80px;
+}
+.search-bar {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 40px;
+  width: 408px;
+}
+.search-bar .input {
+  box-sizing: border-box;
+  border-radius: 8px;
+}
+.search-bar .input-wrapper {
+  margin: 0px;
+}
+.search-bar .input-wrapper input {
+  width: 100%;
+  border: 1px solid var(--textlighter);
+  margin: 0px;
+}
+.search-bar .btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  width: 40px;
+  height: 40px;
+}

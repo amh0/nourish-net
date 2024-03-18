@@ -52,6 +52,16 @@ const NavBar = () => {
           </Link>
           {menu === "preguntas" ? <hr /> : <></>}
         </li>
+        <li
+          onClick={() => {
+            setMenu("alimentos");
+          }}
+        >
+          <Link className="link" to="/alimentos">
+            Alimentos
+          </Link>
+          {menu === "alimentos" ? <hr /> : <></>}
+        </li>
       </ul>
       <div className="nav-login">
         <Link className="link" to="/login">

@@ -58,6 +58,9 @@
   font-size: 16px;
   /* line-height: 20px; */ /*decided to use default*/
 }
+.parr2 {
+  font-size: 13px;
+}
 .btn {
   box-sizing: border-box;
   outline: none;
