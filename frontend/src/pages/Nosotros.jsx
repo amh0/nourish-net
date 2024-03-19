@@ -1,5 +1,5 @@
 import React from "react";
-import "./Nosotros.css";
+import "./css/Nosotros.css";
 import about1 from "../components/assets/about1.jpg";
 import Footer from "../components/footer/Footer";
 const Nosotros = () => {

@@ -1,8 +1,8 @@
 import React from "react";
-import data_food from "../components/assets/data";
+import food_data from "../components/assets/data";
 import Item from "../components/item/Item";
 import { MagnifyingGlass } from "@phosphor-icons/react";
-import "./Alimentos.css";
+import "./css/Alimentos.css";
 const Alimentos = () => {
   return (
     <div className="alimentos-page">
@@ -44,7 +44,7 @@ const Alimentos = () => {
           </button>
         </div>
         <div className="products-list">
-          {data_food.map((item, i) => {
+          {food_data.map((item, i) => {
             return (
               <Item
                 key={i}

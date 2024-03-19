@@ -4,7 +4,7 @@ const Hero = () => {
   return (
     <div className="hero">
       <div className="hero-left">
-        <h2 class="title2">
+        <h2 className="title2">
           La <span className="accent">bondad</span> tiene un sabor compartela
         </h2>
         <p className="parr1">
