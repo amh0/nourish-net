@@ -16,3 +16,7 @@
   width: 100%;
   margin-bottom: 24px;
 }
+.about-us p {
+  color: var(--text);
+  font-size: var(--parr1);
+}
