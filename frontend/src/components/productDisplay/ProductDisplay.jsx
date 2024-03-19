@@ -51,7 +51,7 @@ const ProductDisplay = (props) => {
             <Cube size={24} weight="light" color="var(--textlight)" />
             <p className="parr1 bold">Cantidad:</p>
             <p className="parr1">0 {product.unidad_medida}</p>
-            <CaretUpDown size={32} color="var(--text)" />
+            <CaretUpDown size={32} color="var(--text)" weight="light" />
           </div>
           <button className="btn secondary-v">Solicitar Alimento</button>
         </div>
