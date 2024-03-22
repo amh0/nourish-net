@@ -1,19 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Step.css";
+import { Link } from "react-router-dom";
 
 const SignupComplet = () => {
   return (
     <div className="step">
-      <div>
-        <h2 className="title3">Registro completado</h2>
-      </div>
-      <div>
-        <p className="parr22">Ahora eres parte de nuestra red solidaria</p>
-      </div>
+      <h2>Registro completado</h2>
+      <p className="marginBottom">Ahora eres parte de nuestra red solidaria</p>
       <div className="button-wrapper">
-        <button className="btn secondary-v custom-button2">
-          Comineza ahora
-        </button>
+        <Link className="link" to="/alimentos">
+          <button
+            className="btn secondary-v custom-button2"
+          >
+            Comienza ahora
+          </button>
+        </Link>
       </div>
     </div>
   );

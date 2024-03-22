@@ -1,0 +1,47 @@
+.input-field {
+  position: relative;
+}
+
+.input-field input {
+  width: 90%;
+  height: 40px;
+  border-radius: 6px;
+  font-size: var(--parr1);
+  padding: 0 15px;
+  border: 1.2px solid var(--textlight);
+  background: transparent;
+  outline: none;
+}
+
+.input-field label {
+  position: absolute;
+  top: 50%;
+  left: 15px;
+  transform: translateY(-50%);
+  color: var(--textlighter);
+  font-size: var(--parr1);
+  pointer-events: none;
+  transition: 0.4s;
+}
+
+.input-field label.focused {
+  top: 0;
+  left: 15px;
+  color: var(--textlight);
+  font-size: var(--parr2);
+  padding: 0 2px;
+  background: var(--background0);
+}
+
+
+input[type="date"]::placeholder {
+  visibility: hidden;
+}
+
+input[type="date"]:not(:valid) {
+  color: transparent;
+}
+
+input[type="date"]:valid {
+  color: black; 
+}

@@ -9,6 +9,7 @@ import Alimentos from "./pages/Alimentos";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import ScrollToTop from "./components/utils/ScrollToTop";
+import LoginHelp from "./pages/LoginHelp";
 function App() {
   return (
     <div>
@@ -23,6 +24,7 @@ function App() {
           <Route path="/alimentos" element={<Alimentos />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/login/loginHelp" element={<LoginHelp/>} />
         </Routes>
       </BrowserRouter>
     </div>
