@@ -1,17 +1,22 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "./Item.css";
 import "../globals.css";
 import { MapPin, Cube } from "@phosphor-icons/react";
 const Item = (props) => {
   return (
     <div className="item">
-      <div className="item-text">
-        <h4 className="item-title title5">{props.nombre}</h4>
-        <p className="parr2">{props.desc}</p>
-      </div>
-      <div className="img-container">
-        <img src={props.imagen} alt="" />
-      </div>
+      <Link className="link" to={`/producto/${props.id}`}>
+        <div className="item-text">
+          <h4 className="item-title title5">{props.nombre}</h4>
+          <p className="parr2">{props.desc}</p>
+        </div>
+      </Link>
+      <Link className="link" to={`/producto/${props.id}`}>
+        <div className="img-container">
+          <img src={props.imagen} alt="" />
+        </div>
+      </Link>
       <div className="item-location">
         <MapPin size={24} weight="light" color="var(--secondary)" />
         <p className="parr1">{props.ubicacion}</p>

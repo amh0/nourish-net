@@ -1,0 +1,7 @@
+.go-back .link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 24px;
+  margin-left: 80px;
+}

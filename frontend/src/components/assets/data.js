@@ -7,7 +7,7 @@ import p6_img from "./product_6.jpg";
 import p7_img from "./product_7.jpg";
 import p8_img from "./product_8.jpg";
 
-let data_food = [
+let food_data = [
   {
     id: 1,
     nombre: "Frutas en Conserva",
@@ -105,4 +105,4 @@ let data_food = [
   },
 ];
 
-export default data_food;
+export default food_data;
