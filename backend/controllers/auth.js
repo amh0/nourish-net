@@ -162,7 +162,6 @@ export const register = async (req, res) => {
 
 export const login = async (req, res) => {
   const { email, password } = req.body;
-  console.log("LOOOOGIN" + password + " " + email);
 
   try {
     const selectQuery = "SELECT * FROM usuario WHERE correo = ?";
@@ -185,6 +184,25 @@ export const login = async (req, res) => {
   } catch (error) {
     console.error("Error logging in:", error);
     res.status(500).json({ error: "Error logging in" });
+  }
+};
+
+export const forgotPassword = async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    const salt = bcrypt.genSaltSync(10);
+    const hashedPassword = bcrypt.hashSync(password, salt);
+
+    console.log(password + " " + hashedPassword);
+    const selectQuery = "UPDATE usuario SET contrasenia = ? WHERE correo = ?";
+    const selectResults = await queryDatabase(selectQuery, [
+      hashedPassword,
+      email,
+    ]);
+    console.log("Password updated successfully");
+  } catch (error) {
+    console.error("Error resetting password:", error);
+    res.status(500).json({ error: "Error resetting password" });
   }
 };
 
