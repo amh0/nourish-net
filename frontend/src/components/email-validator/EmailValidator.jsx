@@ -31,7 +31,7 @@ const EmailValidator = ({
 
   const sendCode = () => {
     axios
-      .post("http://localhost:3001/verify-email", {
+      .post("http://localhost:3001/api/auth/verifyEmail", {
         email,
         existsInDB: existsInDB,
       })

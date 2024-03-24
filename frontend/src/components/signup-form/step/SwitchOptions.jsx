@@ -8,15 +8,15 @@ const SwitchOptions = ({ formData, onBack, onNext }) => {
   const [isDonor, setIsDonor] = useState(formData.isDonor || false);
   const [isReceiver, setIsReceiver] = useState(formData.isReceiver || false);
   //--------------------------------------------
-  const [isDonOrg, setIsDonOrg] = useState(formData.isDonOrg || false);
-  const [isRecOrg, setIsRecOrg] = useState(formData.isRecOrg || false);
+  // const [isDonOrg, setIsDonOrg] = useState(formData.isDonOrg || false);
+  // const [isRecOrg, setIsRecOrg] = useState(formData.isRecOrg || false);
   const [isCharOrg, setIsCharOrg] = useState(formData.isCharOrg || false);
 
   const handleNext = () => {
     if (!formData.isOrganization) {
       onNext({ isVolunteer, isDonor, isReceiver });
     } else {
-      onNext({ isDonOrg, isRecOrg, isCharOrg });
+      onNext({ isDonor, isReceiver, isCharOrg });
     }
   };
 
@@ -69,19 +69,19 @@ const SwitchOptions = ({ formData, onBack, onNext }) => {
             <label className="text-option">Organización Donante</label>
             <Switch
               onChange={(checked) => {
-                setIsDonOrg(checked);
+                setIsDonor(checked);
               }}
-              checked={isDonOrg}
-              id="isDonOrg-switch"
+              checked={isDonor}
+              id="isDonorOrg-switch"
             />
           </div>
           <div className="switch-container">
             <label className="text-option">Organización Receptora</label>
             <Switch
               onChange={(checked) => {
-                setIsRecOrg(checked);
+                setIsReceiver(checked);
               }}
-              checked={isRecOrg}
+              checked={isReceiver}
               id="isRecOrg-switch"
             />
           </div>
