@@ -5,7 +5,7 @@ import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import "./css/Publicar.css";
 
-import { Warning, CheckCircle, SpinnerGap } from "@phosphor-icons/react";
+import { Warning, CheckCircle } from "@phosphor-icons/react";
 const Publicar = () => {
   const [nombre, setNombre] = useState("");
   const [cantidad, setCantidad] = useState();
@@ -86,36 +86,6 @@ const Publicar = () => {
         }
       })
       .catch((err) => console.log(err));
-  };
-  const handleUpload = () => {
-    const formData = new FormData();
-    formData.append("img", file);
-    axios
-      .post("http://localhost:3001/api/products/upload", formData)
-      .then((res) => {
-        if (res.data.Status === "OK") {
-          console.log("Succeded");
-        } else {
-          console.log("Failed");
-        }
-      })
-      .catch((err) => console.log(err));
-  };
-  const handleProductPublish = async () => {
-    const formData = new FormData();
-    formData.append("img", file);
-    // formData.append(nombre);
-    try {
-      const res = await axios.post("http://localhost:3001/uploadimg", formData);
-      if (res.data.Status === "Success") {
-        console.log("Succeded!!!!");
-      } else {
-        console.log("Failed!!!!");
-      }
-    } catch (err) {
-      console.log("Error");
-      console.log(err);
-    }
   };
   const handleCatSelection = (selectedCat) => {
     setSelectedCat(selectedCat);
