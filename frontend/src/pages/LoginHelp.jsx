@@ -18,7 +18,7 @@ const LoginHelp = () => {
       setStep(step + 1);
 
       if (step === 3) {
-        await updatePassword(data.encPassword);
+        await updatePassword(data.password);
       }
     } catch (error) {
       console.error(error);
@@ -27,9 +27,9 @@ const LoginHelp = () => {
 
   const updatePassword = async (password) => {
     try {
-      await axios.post("http://localhost:3001/update-password", {
+      await axios.post("http://localhost:3001/api/auth/forgotPassword", {
         email: formData.email,
-        encPassword: password,
+        password: password,
       });
     } catch (error) {
       console.error(error);

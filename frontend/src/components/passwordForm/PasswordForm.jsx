@@ -24,14 +24,15 @@ const PasswordForm = ({ formData, title, description, onBack, onNext }) => {
       setPasswordError("Las contraseñas no coinciden.");
     } else {
       setPasswordError("");
-      encryptCode();
+      // encryptCode();
+      onNext({ password });
     }
   };
 
-  const encryptCode = () => {
-    const encPassword = CryptoJS.AES.encrypt(password, "key").toString();
-    onNext({ encPassword });
-  };
+  // const encryptCode = () => {
+  //   const encPassword = CryptoJS.AES.encrypt(password, "key").toString();
+  //   onNext({ encPassword });
+  // };
 
   return (
     <div className="step">

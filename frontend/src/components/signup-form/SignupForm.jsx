@@ -24,7 +24,7 @@ const SignupForm = () => {
       (!formData.isOrganization && step === 6) ||
       (formData.isOrganization && step === 7)
     ) {
-      registerUser();
+      registerUser({ ...formData, ...data });
     }
   };
 
@@ -42,14 +42,25 @@ const SignupForm = () => {
     }
   };
 
-  const registerUser = () => {
+  // const registerUser = (formdata) => {
+  //   try {
+  //     axios.post("http://localhost:3001/api/auth/register", {
+  //       formdata,
+  //     });
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+  const registerUser = async (formDataR) => {
     try {
-      axios.post("http://localhost:3001/register", {
-        email: formData.email,
-        encPassword: formData.encPassword,
-      });
+      const response = await axios.post(
+        "http://localhost:3001/api/auth/register",
+        formDataR
+      );
+      console.log("Respuesta del servidor:", response.data);
     } catch (error) {
-      console.error(error);
+      console.error("Error al registrar usuario:", error);
+      console.error("Mensaje de error del servidor:", error.response.data);
     }
   };
 

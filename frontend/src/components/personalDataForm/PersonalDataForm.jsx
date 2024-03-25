@@ -21,17 +21,22 @@ const PersonalDataForm = ({
   const [cellPhoneNumber, setCellPhoneNumber] = useState(
     formData.cellPhoneNumber || ""
   );
+  const [mensageError, setMensageError] = useState("");
 
   const handleNext = () => {
-    onNext({
-      name,
-      lastName,
-      secondLastName,
-      dateOfBirth,
-      address,
-      phoneNumber,
-      cellPhoneNumber,
-    });
+    if (name === "" || dateOfBirth === "") {
+      setMensageError("Llene los espacios Obligatorios");
+    } else {
+      onNext({
+        name,
+        lastName,
+        secondLastName,
+        dateOfBirth,
+        address,
+        phoneNumber,
+        cellPhoneNumber,
+      });
+    }
   };
 
   return (
@@ -47,7 +52,7 @@ const PersonalDataForm = ({
           type="text"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          placeholder="Nombre"
+          placeholder="Nombre (Obligatorio)"
         />
       </div>
 
@@ -74,7 +79,7 @@ const PersonalDataForm = ({
           type="date"
           value={dateOfBirth}
           onChange={(e) => setDateOfBirth(e.target.value)}
-          placeholder="Fecha Nacimiento"
+          placeholder="Fecha Nacimiento (Obligatorio)"
         />
       </div>
       <div className="btn-margin-bottom">
@@ -102,6 +107,8 @@ const PersonalDataForm = ({
           placeholder="Teléfono"
         />
       </div>
+      <span className="mensageError">{mensageError}</span>
+
       <div className="button-wrapper">
         <button className="btn grey-v custom-btn-grey" onClick={onBack}>
           <ArrowLeft size={30} color="var(--background1)" />

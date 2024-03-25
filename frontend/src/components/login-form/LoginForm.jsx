@@ -16,7 +16,7 @@ const LoginForm = () => {
     setMensageErrorEmail("");
     setMensageErrorPassword("");
     axios
-      .post("http://localhost:3001/verify-email-password", {
+      .post("http://localhost:3001/api/auth/login", {
         email,
         password,
       })
