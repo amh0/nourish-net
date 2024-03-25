@@ -2,7 +2,8 @@ export const database = {
   host: "localhost",
   user: "root",
   password: "",
-  database: "bdnourishnet",
+  database: "nourishtest1",
+  port: "3307", // my port
 };
 
 export const smtpConfig = {

@@ -10,7 +10,7 @@ const PageContextProvider = (props) => {
   }, []);
   const fetchData = async () => {
     try {
-      const result = await axios("http://localhost:3001/getproducts");
+      const result = await axios("http://localhost:3001/api/products/findall");
       setFoodData(result.data);
     } catch (err) {
       console.log("Error");
