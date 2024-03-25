@@ -1,5 +1,4 @@
 import React, { createContext, useEffect, useState } from "react";
-// import food_data from "../components/assets/data";
 import axios from "axios";
 export const PageContext = createContext(null);
 const PageContextProvider = (props) => {
@@ -12,6 +11,7 @@ const PageContextProvider = (props) => {
     try {
       const result = await axios("http://localhost:3001/api/products/findall");
       setFoodData(result.data);
+      console.log("Products fetched");
     } catch (err) {
       console.log("Error");
       console.log(err);

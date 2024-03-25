@@ -64,7 +64,7 @@ const Alimentos = () => {
             return (
               <Item
                 key={i}
-                id={item.id}
+                idalimento={item.idalimento}
                 nombre={item.nombre}
                 desc={item.descripcion}
                 cantidad={item.cantidad}

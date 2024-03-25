@@ -2,10 +2,14 @@
 :root {
   --primary: #ffd56f;
   --primarylight: #fff7e2;
+  --primarylighter: #fff7e2;
   --secondary: #6db4ac;
+  --secondarylight: #a7d2cd;
+  --secondarylighter: #e2f0ee;
   /* --secondary_strong: #3e8e85; */
   --secondary_strong: #48968d;
   --tertiary: #feb491;
+  --tertiarylighter: #fff0e9;
   --background0: #ffffff;
   --background1: #fcfcfc;
   --background2: #fcfbf9;

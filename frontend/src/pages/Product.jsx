@@ -9,7 +9,12 @@ import "./css/Product.css";
 const Product = () => {
   const { foodData } = useContext(PageContext);
   const { productId } = useParams();
-  const product = foodData.find((e) => e.id === Number(productId));
+  // console.log("From Product");
+  // console.log(foodData);
+  // console.log(productId);
+  const product = foodData.find((e) => e.idalimento === Number(productId));
+  // console.log(product);
+
   return (
     <div>
       <div className="go-back">

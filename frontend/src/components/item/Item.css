@@ -51,3 +51,10 @@
 .item-specs p {
   color: var(--textlight);
 }
+.item .item-specs {
+  flex: 1;
+}
+.item-specs p {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

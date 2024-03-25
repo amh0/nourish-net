@@ -4,6 +4,7 @@ import "../globals.css";
 import { MapPin, Cube, CaretUpDown } from "@phosphor-icons/react";
 const ProductDisplay = (props) => {
   const { product } = props;
+  // console.log(product);
   const imgPath = "http://localhost:3001/img/";
   return (
     <div className="product-display">

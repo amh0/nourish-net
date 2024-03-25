@@ -4,7 +4,7 @@
   flex-wrap: wrap-reverse;
   justify-content: center;
   gap: 56px;
-  margin: 8px 0px;
+  margin: 8px 0px 24px 0px;
   padding: 16px;
 }
 .product-display .img-container {

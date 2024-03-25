@@ -5,12 +5,15 @@ import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import "./css/Publicar.css";
 
+import { Warning, CheckCircle, SpinnerGap } from "@phosphor-icons/react";
 const Publicar = () => {
   const [nombre, setNombre] = useState("");
   const [cantidad, setCantidad] = useState();
   const [unidad, setUnidad] = useState("");
   const [fecha_vencimiento, setFecha] = useState("");
   const [desc, setDesc] = useState("");
+  const [uploadState, setUploadState] = useState("none");
+  // working
   // list options
   const categories = [
     { value: "Fruta", label: "Fruta" },
@@ -52,19 +55,45 @@ const Publicar = () => {
     // console.log(unidad);
     // console.log(fecha_vencimiento);
     // console.log(desc);
-    if (nombre && cantidad > 0 && unidad && fecha_vencimiento && desc)
-      handleUpload();
+    if (nombre && cantidad > 0 && unidad && fecha_vencimiento && desc && file) {
+      handleData();
+    }
+    //handleUpload();
     else {
       console.log("error");
     }
+  };
+  const handleData = () => {
+    const formData = new FormData();
+    formData.append("nombre", nombre);
+    formData.append("descripcion", desc);
+    formData.append("cantidad", cantidad);
+    formData.append("unidad_medida", unidad);
+    formData.append("fecha_vencimiento", fecha_vencimiento);
+    formData.append("fecha_publicacion", new Date().toJSON());
+    formData.append("img", file);
+    //console.log([...formData]);
+    setUploadState("loading");
+    axios
+      .post("http://localhost:3001/api/products/upload", formData)
+      .then((res) => {
+        if (res.data.Status === "OK") {
+          console.log("Data inserted");
+          setUploadState("success");
+        } else {
+          console.log("An error has occurred");
+          setUploadState("error");
+        }
+      })
+      .catch((err) => console.log(err));
   };
   const handleUpload = () => {
     const formData = new FormData();
     formData.append("img", file);
     axios
-      .post("http://localhost:3001/uploadimg", formData)
+      .post("http://localhost:3001/api/products/upload", formData)
       .then((res) => {
-        if (res.data.Status === "Success") {
+        if (res.data.Status === "OK") {
           console.log("Succeded");
         } else {
           console.log("Failed");
@@ -103,6 +132,7 @@ const Publicar = () => {
         <div className="input-wrapper">
           <Input
             id="nombre"
+            name="nombre"
             type="text"
             value={nombre}
             onChange={(e) => setNombre(e.target.value)}
@@ -113,6 +143,7 @@ const Publicar = () => {
           <div className="input-wrapper">
             <Input
               id="cantidad"
+              name="cantidad"
               type="number"
               value={cantidad}
               onChange={(e) => setCantidad(e.target.value)}
@@ -122,6 +153,7 @@ const Publicar = () => {
           <div className="input-wrapper">
             <Input
               id="unidad_medida"
+              name="unidad_medida"
               type="text"
               value={unidad}
               onChange={(e) => setUnidad(e.target.value)}
@@ -204,6 +236,33 @@ const Publicar = () => {
           Publicar donación
         </button>
       </form>
+      {uploadState !== "none" ? (
+        <div className={"state-container " + uploadState}>
+          {uploadState === "loading" ? (
+            <>
+              <div class="lds-ring">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+              </div>
+              <p className="parr1">Publicando donación...</p>
+            </>
+          ) : uploadState === "success" ? (
+            <>
+              <CheckCircle size={32} color="var(--secondary)" weight="light" />
+              <p className="parr1 boldparr">¡Donacion publicada!</p>
+              <p className="parr2">Aceptar</p>
+            </>
+          ) : uploadState === "error" ? (
+            <>
+              <Warning size={32} color="var(--tertiary)" weight="light" />
+              <p className="parr1 boldparr">Error</p>
+              <p className="parr2">Ha ocurrido un error inesperado</p>
+            </>
+          ) : null}
+        </div>
+      ) : null}
     </div>
   );
 };

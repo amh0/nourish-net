@@ -2,7 +2,7 @@ export const database = {
   host: "localhost",
   user: "root",
   password: "",
-  database: "nourishtest1",
+  database: "bdnourishnet",
   port: "3307", // my port
 };
 

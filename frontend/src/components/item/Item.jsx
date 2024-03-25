@@ -6,13 +6,13 @@ import { MapPin, Cube } from "@phosphor-icons/react";
 const Item = (props) => {
   return (
     <div className="item">
-      <Link className="link" to={`/producto/${props.id}`}>
+      <Link className="link" to={`/producto/${props.idalimento}`}>
         <div className="item-text">
           <h4 className="item-title title5">{props.nombre}</h4>
           <p className="parr2">{props.desc}</p>
         </div>
       </Link>
-      <Link className="link" to={`/producto/${props.id}`}>
+      <Link className="link" to={`/producto/${props.idalimento}`}>
         <div className="img-container">
           <img src={props.imagen} alt="" />
         </div>
