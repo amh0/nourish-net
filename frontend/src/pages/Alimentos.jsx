@@ -1,9 +1,24 @@
-import React from "react";
-import food_data from "../components/assets/data";
+import React, { useState, useEffect } from "react";
+// import food_data from "../components/assets/data";
 import Item from "../components/item/Item";
 import { MagnifyingGlass } from "@phosphor-icons/react";
 import "./css/Alimentos.css";
+import axios from "axios";
 const Alimentos = () => {
+  const imgPath = "http://localhost:3001/img/";
+  const [foodData, setFoodData] = useState([]);
+  useEffect(() => {
+    fetchData();
+  }, []);
+  const fetchData = async () => {
+    try {
+      const result = await axios("http://localhost:3001/getproducts");
+      setFoodData(result.data);
+    } catch (err) {
+      console.log("Error");
+      console.log(err);
+    }
+  };
   return (
     <div className="alimentos-page">
       <div className="sidebar">
@@ -25,11 +40,12 @@ const Alimentos = () => {
           <li>Más donaciones</li>
         </ol> */}
       </div>
+
       <div className="products-section">
         <div className="search-bar">
           <div className="input-wrapper">
             <input
-              class="input"
+              className="input"
               type="text"
               id="search"
               placeholder="Buscar..."
@@ -44,6 +60,22 @@ const Alimentos = () => {
           </button>
         </div>
         <div className="products-list">
+          {foodData.map((item, i) => {
+            return (
+              <Item
+                key={i}
+                id={item.id}
+                nombre={item.nombre}
+                desc={item.descripcion}
+                cantidad={item.cantidad}
+                unidad_medida={item.unidad_medida}
+                imagen={imgPath + item.imagen}
+                ubicacion={"Av. 16 de Julio"}
+              />
+            );
+          })}
+        </div>
+        {/* <div className="products-list">
           {food_data.map((item, i) => {
             return (
               <Item
@@ -58,7 +90,7 @@ const Alimentos = () => {
               />
             );
           })}
-        </div>
+        </div> */}
       </div>
     </div>
   );

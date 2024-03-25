@@ -7,9 +7,9 @@ import { ArrowLeft } from "@phosphor-icons/react";
 import "../components/globals.css";
 import "./css/Product.css";
 const Product = () => {
-  const { food_data } = useContext(PageContext);
+  const { foodData } = useContext(PageContext);
   const { productId } = useParams();
-  const product = food_data.find((e) => e.id === Number(productId));
+  const product = foodData.find((e) => e.id === Number(productId));
   return (
     <div>
       <div className="go-back">

@@ -1,5 +1,4 @@
 import React from "react";
-import Footer from "../components/footer/Footer";
 const Contacto = () => {
   return (
     <>
@@ -26,7 +25,6 @@ const Contacto = () => {
           referrerpolicy="no-referrer-when-downgrade"
         ></iframe>
       </div>
-      <Footer />
     </>
   );
 };

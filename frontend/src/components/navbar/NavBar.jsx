@@ -62,6 +62,16 @@ const NavBar = () => {
           </Link>
           {menu === "alimentos" ? <hr /> : <></>}
         </li>
+        <li
+          onClick={() => {
+            setMenu("donar");
+          }}
+        >
+          <Link className="link" to="/donar">
+            Donar
+          </Link>
+          {menu === "donar" ? <hr /> : <></>}
+        </li>
       </ul>
       <div className="nav-login">
         <Link className="link" to="/login">

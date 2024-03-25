@@ -11,6 +11,8 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import ScrollToTop from "./components/utils/ScrollToTop";
 import LoginHelp from "./pages/LoginHelp";
+import Publicar from "./pages/Publicar";
+import Footer from "./components/footer/Footer";
 function App() {
   return (
     <div>
@@ -26,10 +28,12 @@ function App() {
           <Route path="/producto" element={<Product />}>
             <Route path=":productId" element={<Product />} />
           </Route>
+          <Route path="/donar" element={<Publicar />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/login/loginHelp" element={<LoginHelp/>} />
+          <Route path="/login/loginHelp" element={<LoginHelp />} />
         </Routes>
+        <Footer />
       </BrowserRouter>
     </div>
   );

@@ -4,21 +4,22 @@ import "../globals.css";
 import { MapPin, Cube, CaretUpDown } from "@phosphor-icons/react";
 const ProductDisplay = (props) => {
   const { product } = props;
+  const imgPath = "http://localhost:3001/img/";
   return (
     <div className="product-display">
       <div className="img-section">
         <div className="img-container">
-          <img src={product.imagen} alt="" />
+          <img src={imgPath + product.imagen} alt="" />
         </div>
         <div className="img-list">
           <div className="img-container">
-            <img src={product.imagen} alt="" />
+            <img src={imgPath + product.imagen} alt="" />
           </div>
           <div className="img-container">
-            <img src={product.imagen} alt="" />
+            <img src={imgPath + product.imagen} alt="" />
           </div>
           <div className="img-container">
-            <img src={product.imagen} alt="" />
+            <img src={imgPath + product.imagen} alt="" />
           </div>
         </div>
       </div>

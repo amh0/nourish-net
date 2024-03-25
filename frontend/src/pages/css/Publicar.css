@@ -1,0 +1,91 @@
+.publication {
+  margin: 80px auto 160px auto;
+  max-width: 496px;
+  padding: 0px 20px;
+  font-family: "Open Sans", sans-serif;
+}
+.publication .title4 {
+  color: var(--secondary);
+  margin-bottom: 40px;
+}
+.publication form {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+.publication Input {
+  font-family: "Open Sans", sans-serif;
+}
+.publication .row-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+.publication .input-wrapper {
+  flex: 1;
+}
+.publication .row-wrapper .input-wrapper Input {
+  /* box-sizing: border-box;
+  width: 100%; */
+}
+.publication .input-wrapper input {
+  box-sizing: border-box;
+  width: 100%;
+  margin-right: 0px;
+  padding: 0px 16px;
+}
+.publication .input-field label {
+  left: 16px;
+}
+.publication .text-area {
+  box-sizing: border-box;
+  border-radius: 6px;
+  padding: 16px;
+  display: flex;
+  width: 100%;
+  height: 200px;
+  font-family: "Open Sans", sans-serif;
+  resize: none;
+}
+.publication .text-area::placeholder {
+  color: var(--textlighter);
+}
+.publication .row-wrapper .list-option {
+  width: 100%;
+}
+.publication .form-label {
+  width: 160px;
+  margin-right: 20px;
+  font-weight: bold;
+}
+.publication .text-address {
+  width: 100%;
+}
+/* images */
+
+.publication input[type="file"] {
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  opacity: 0;
+}
+
+.custom-file-upload {
+  /* align-self: flex-start; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 120px;
+}
+.publication .img-container {
+  width: 144px;
+  height: 144px;
+}
+.publication .img-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.publication .btn.secondary-v {
+  width: 100%;
+}

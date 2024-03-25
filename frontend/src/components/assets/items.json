@@ -1,0 +1,12 @@
+{
+  "id": 1,
+  "nombre": "Arroz",
+  "descripcion": "Arroz blanco de grano largo",
+  "tipo": "Cereal",
+  "fecha_vencimiento": "2024-08-30",
+  "cantidad": 100,
+  "unidad_medida": "kg",
+  "proveedor": "Comercializadora ABC",
+  "imagen": "url_imagen_arroz.jpg",
+  "idgeneral": 001
+}

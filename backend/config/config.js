@@ -1,18 +1,17 @@
 module.exports = {
-    database: {
-      host: 'localhost',
-      user: 'root',
-      password: '',
-      database: 'bdnourishnet'
+  database: {
+    host: "localhost",
+    user: "root",
+    password: "",
+    database: "nourishtest1",
+  },
+  smtpConfig: {
+    host: "smtp.gmail.com",
+    port: 587,
+    auth: {
+      user: "contact.nourishnet@gmail.com",
+      // Contrasenia de aplicacion
+      pass: "yfnollxnxikdqcpy",
     },
-    smtpConfig: {
-        host: 'smtp.gmail.com',
-        port: 587,
-        auth : {
-            user: 'contact.nourishnet@gmail.com',
-            // Contrasenia de aplicacion
-            pass: 'yfnollxnxikdqcpy',
-        }
-    }
-  };
-  
+  },
+};

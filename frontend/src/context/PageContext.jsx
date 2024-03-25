@@ -1,8 +1,24 @@
-import React, { createContext } from "react";
-import food_data from "../components/assets/data";
+import React, { createContext, useEffect, useState } from "react";
+// import food_data from "../components/assets/data";
+import axios from "axios";
 export const PageContext = createContext(null);
 const PageContextProvider = (props) => {
-  const contextValue = { food_data };
+  const [foodData, setFoodData] = useState([]);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+  const fetchData = async () => {
+    try {
+      const result = await axios("http://localhost:3001/getproducts");
+      setFoodData(result.data);
+    } catch (err) {
+      console.log("Error");
+      console.log(err);
+    }
+  };
+
+  const contextValue = { foodData };
   return (
     <PageContext.Provider value={contextValue}>
       {props.children}

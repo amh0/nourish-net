@@ -1,5 +1,4 @@
 import React from "react";
-import Footer from "../components/footer/Footer";
 const Faq = () => {
   return (
     <>
@@ -96,7 +95,6 @@ const Faq = () => {
           directamente con nuestro equipo de atención al cliente.
         </p>
       </div>
-      <Footer />
     </>
   );
 };
