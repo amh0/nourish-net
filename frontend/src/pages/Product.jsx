@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { PageContext } from "../context/PageContext";
 import { useParams } from "react-router-dom";
@@ -9,12 +9,12 @@ import "./css/Product.css";
 const Product = () => {
   const { foodData } = useContext(PageContext);
   const { productId } = useParams();
-  // console.log("From Product");
-  // console.log(foodData);
-  // console.log(productId);
+  // handles foodData loading
+  if (foodData === undefined || foodData.length === 0) {
+    console.log("Fetching data... ");
+    return <p>Error when fetching data</p>;
+  }
   const product = foodData.find((e) => e.idalimento === Number(productId));
-  // console.log(product);
-
   return (
     <div>
       <div className="go-back">
@@ -23,6 +23,7 @@ const Product = () => {
           <p className="parr1">Volver a Alimentos</p>
         </Link>
       </div>
+      {/* <ProductDisplay product={product} /> */}
       <ProductDisplay product={product} />
     </div>
   );

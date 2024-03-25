@@ -9,9 +9,11 @@ const PageContextProvider = (props) => {
   }, []);
   const fetchData = async () => {
     try {
-      const result = await axios("http://localhost:3001/api/products/findall");
+      const result = await axios.get(
+        "http://localhost:3001/api/products/findall"
+      );
       setFoodData(result.data);
-      console.log("Products fetched");
+      // console.log("Products fetched");
     } catch (err) {
       console.log("Error");
       console.log(err);
