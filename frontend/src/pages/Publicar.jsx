@@ -50,16 +50,9 @@ const Publicar = () => {
   };
   const handleForm = () => {
     // TODO validation
-    // console.log(nombre);
-    // console.log(cantidad);
-    // console.log(unidad);
-    // console.log(fecha_vencimiento);
-    // console.log(desc);
     if (nombre && cantidad > 0 && unidad && fecha_vencimiento && desc && file) {
       handleData();
-    }
-    //handleUpload();
-    else {
+    } else {
       console.log("error");
     }
   };

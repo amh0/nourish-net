@@ -12,7 +12,11 @@ const Product = () => {
   // handles foodData loading
   if (foodData === undefined || foodData.length === 0) {
     console.log("Fetching data... ");
-    return <p>Error when fetching data</p>;
+    return (
+      <div className="loading-container">
+        <p>Cargando...</p>
+      </div>
+    );
   }
   const product = foodData.find((e) => e.idalimento === Number(productId));
   return (

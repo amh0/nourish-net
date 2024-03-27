@@ -75,22 +75,6 @@ const Alimentos = () => {
             );
           })}
         </div>
-        {/* <div className="products-list">
-          {food_data.map((item, i) => {
-            return (
-              <Item
-                key={i}
-                id={item.id}
-                nombre={item.nombre}
-                desc={item.descripcion}
-                cantidad={item.cantidad}
-                unidad_medida={item.unidad_medida}
-                imagen={item.imagen}
-                ubicacion={item.ubicacion}
-              />
-            );
-          })}
-        </div> */}
       </div>
     </div>
   );
