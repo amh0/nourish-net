@@ -8,6 +8,7 @@
   --secondarylighter: #e2f0ee;
   /* --secondary_strong: #3e8e85; */
   --secondary_strong: #48968d;
+  --primary_strong: #e7b43d;
   --tertiary: #feb491;
   --tertiarylighter: #fff0e9;
   --background0: #ffffff;
@@ -95,6 +96,16 @@
 .bg-text-v {
   background-color: var(--text);
   color: var(--background1);
+}
+
+.btn-yellow-white {
+  background-color: var(--primary);
+  color: var(--background0);
+}
+
+.btn-yellow-white:active {
+  background-color: var(--primary_strong);
+  color: var(--background0);
 }
 .text-v {
   background-color: var(--background0);

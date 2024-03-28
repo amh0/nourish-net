@@ -13,12 +13,22 @@ import ScrollToTop from "./components/utils/ScrollToTop";
 import LoginHelp from "./pages/LoginHelp";
 import Publicar from "./pages/Publicar";
 import Footer from "./components/footer/Footer";
+import ProfileNavbar from "./components/profileNavbar/ProfileNavbar ";
+import Donantes from "./pages/Donantes";
+import Peticiones from "./pages/Peticiones";
+import MisDonaciones from "./pages/MisDonaciones";
+import Tareas from "./pages/Tareas";
+import Notificaciones from "./pages/Notificaciones";
+import Perfil from "./pages/Perfil";
+
 function App() {
+  const currentUser = true;
+
   return (
     <div>
       <BrowserRouter>
         <ScrollToTop />
-        <NavBar />
+        {currentUser ? <ProfileNavbar /> : <NavBar />}
         <Routes>
           <Route path="/" element={<Inicio />} />
           <Route path="/nosotros" element={<Nosotros />} />
@@ -28,10 +38,22 @@ function App() {
           <Route path="/producto" element={<Product />}>
             <Route path=":productId" element={<Product />} />
           </Route>
-          <Route path="/donar" element={<Publicar />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/login/loginHelp" element={<LoginHelp />} />
+          {currentUser && <Route path="/donar" element={<Publicar />} />}{" "}
+          {/*verify donor*/}
+          {!currentUser && <Route path="/login" element={<Login />} />}
+          {!currentUser && <Route path="/signup" element={<Signup />} />}
+          {!currentUser && <Route path="/loginHelp" element={<LoginHelp />} />}
+          {currentUser && <Route path="/donantes" element={<Donantes />} />}
+          {currentUser && (
+            <Route path="/mis-donaciones" element={<MisDonaciones />} />
+          )}
+          {currentUser && <Route path="/peticiones" element={<Peticiones />} />}
+          {currentUser && <Route path="/tareas" element={<Tareas />} />}
+          {/*verify volunteer*/}
+          {currentUser && (
+            <Route path="/notificaciones" element={<Notificaciones />} />
+          )}
+          {currentUser && <Route path="/perfil" element={<Perfil />} />}
         </Routes>
         <Footer />
       </BrowserRouter>

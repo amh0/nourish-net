@@ -62,7 +62,7 @@ const NavBar = () => {
           </Link>
           {menu === "alimentos" ? <hr /> : <></>}
         </li>
-        <li
+        {/* <li
           onClick={() => {
             setMenu("donar");
           }}
@@ -71,7 +71,7 @@ const NavBar = () => {
             Donar
           </Link>
           {menu === "donar" ? <hr /> : <></>}
-        </li>
+        </li> */}
       </ul>
       <div className="nav-login">
         <Link className="link" to="/login">
