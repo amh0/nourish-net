@@ -61,6 +61,9 @@
 .controls-container .btn {
   width: 200px;
 }
+.product-display .controls-container .input-wrapper {
+  width: 144px;
+}
 
 .title3,
 .title4 {

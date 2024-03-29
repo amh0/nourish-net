@@ -24,10 +24,6 @@
 .publication .input-wrapper {
   flex: 1;
 }
-.publication .row-wrapper .input-wrapper Input {
-  /* box-sizing: border-box;
-  width: 100%; */
-}
 .publication .input-wrapper input {
   box-sizing: border-box;
   width: 100%;
@@ -117,6 +113,9 @@
 }
 .publication .state-container.loading {
   background-color: var(--primarylighter);
+}
+.publication .accent-tertiary {
+  color: var(--tertiary);
 }
 .lds-ring {
   display: inline-block;

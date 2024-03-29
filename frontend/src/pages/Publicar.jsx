@@ -1,21 +1,25 @@
 import React, { useContext, useState } from "react";
 import axios from "axios";
-import { PageContext } from "../context/PageContext";
-import Input from "../components/input/Input";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import { Warning, CheckCircle } from "@phosphor-icons/react";
+
+import { PageContext } from "../context/PageContext";
+import Input from "../components/input/Input";
 import "./css/Publicar.css";
+
 const Publicar = () => {
   const [nombre, setNombre] = useState("");
   const [cantidad, setCantidad] = useState();
   const [unidad, setUnidad] = useState("");
   const [fecha_vencimiento, setFecha] = useState("");
   const [desc, setDesc] = useState("");
+
   const [uploadState, setUploadState] = useState("none");
+  const [formError, setFormError] = useState(false);
   const idgeneral = 1;
   const { foodCat } = useContext(PageContext);
-  const categories2 = foodCat.map((cat) => {
+  const categories = foodCat.map((cat) => {
     return {
       value: cat.idcategoria,
       label: cat.nombre_cat,
@@ -58,6 +62,7 @@ const Publicar = () => {
     if (nombre && cantidad > 0 && unidad && fecha_vencimiento && desc && file) {
       handleData();
     } else {
+      setFormError(true);
       console.log("error");
     }
   };
@@ -115,8 +120,15 @@ const Publicar = () => {
               id="cantidad"
               name="cantidad"
               type="number"
+              min={1}
               value={cantidad}
-              onChange={(e) => setCantidad(e.target.value)}
+              onChange={(e) =>
+                e.target.value
+                  ? e.target.value > 0
+                    ? setCantidad(e.target.value)
+                    : setCantidad(1)
+                  : setCantidad()
+              }
               placeholder="Cantidad"
             />
           </div>
@@ -153,7 +165,7 @@ const Publicar = () => {
           <div className="form-label parr1">Categoria:</div>
           <Select
             className="list-option"
-            options={categories2}
+            options={categories}
             components={makeAnimated()}
             closeMenuOnSelect={false}
             value={selectedCat}
@@ -202,6 +214,13 @@ const Publicar = () => {
             </div>
           ) : null}
         </div>
+        {formError ? (
+          <p className="parr1 ">
+            {" "}
+            <span className="accent-tertiary">* </span>Verifica que los campos
+            contengan datos validos
+          </p>
+        ) : null}
         <button className="btn secondary-v" onClick={handleForm}>
           Publicar donación
         </button>

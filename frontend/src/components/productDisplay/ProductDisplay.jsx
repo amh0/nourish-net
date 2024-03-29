@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+
+import Input from "../input/Input";
 import "./ProductDisplay.css";
 import "../globals.css";
-import { MapPin, Cube, CaretUpDown } from "@phosphor-icons/react";
+import { MapPin, Cube } from "@phosphor-icons/react";
+
 const imgPath = "http://localhost:3001/img/";
 const apiURL = "http://localhost:3001/api/products/";
 
@@ -10,6 +13,7 @@ const ProductDisplay = (props) => {
   const { product } = props;
   const idProduct = product.idalimento;
   const idgen = product.idgeneral;
+  const [cantidad, setCantidad] = useState();
   const [categories, setCategories] = useState([]);
   const [donnor, setDonnor] = useState([]);
   // obtener categorias del producto
@@ -86,9 +90,29 @@ const ProductDisplay = (props) => {
         <div className="controls-container">
           <div>
             <Cube size={24} weight="light" color="var(--textlight)" />
-            <p className="parr1 bold">Cantidad:</p>
-            <p className="parr1">0 {product.unidad_medida}</p>
-            <CaretUpDown size={32} color="var(--text)" weight="light" />
+            {/* <p className="parr1 bold">Cantidad:</p> */}
+            <div className="input-wrapper">
+              <Input
+                id="cantidad"
+                name="cantidad"
+                type="number"
+                min={1}
+                max={product.cantidad}
+                value={cantidad}
+                onChange={(e) =>
+                  e.target.value
+                    ? e.target.value < 0
+                      ? setCantidad(1)
+                      : e.target.value > product.cantidad
+                      ? setCantidad(product.cantidad)
+                      : setCantidad(e.target.value)
+                    : setCantidad()
+                }
+                placeholder="Cantidad"
+              />
+            </div>
+            {/* <p className="parr1">0 {product.unidad_medida}</p> */}
+            {/* <CaretUpDown size={32} color="var(--text)" weight="light" /> */}
           </div>
           <button className="btn secondary-v">Solicitar Alimento</button>
         </div>
