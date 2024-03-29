@@ -55,7 +55,7 @@ export const uploadProduct = async (req, res) => {
       data.cantidad,
       data.unidad_medida,
       imagen,
-      null,
+      data.idGeneral,
     ];
     const insertResult = await queryDatabase(q, foodValues);
     const foodId = insertResult.insertId;

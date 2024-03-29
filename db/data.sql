@@ -59,8 +59,8 @@ INSERT INTO tiene_c (idalimento, idcategoria) VALUES
 (8, 4);
 
 INSERT INTO ORGANIZACION (idorg, nombre, logo, tipo_entidad, ubicacion, direccion, telefono, celular, correo_contacto) VALUES
-(1, 'Empresa ABC', 'abc_logo.png', 'Corporación', 'Ciudad de Nueva York, NY', '123 Calle Principal', '(123) 456-7890', '(987) 654-3210', 'contacto@empresaabc.com'),
-(2, 'Organización XYZ', 'xyz_logo.png', 'Sin ánimo de lucro', 'Los Ángeles, CA', '456 Avenida Elm', '(111) 222-3333', '(444) 555-6666', 'info@organizacionxyz.org'),
-(3, 'Corporación Acme', 'acme_logo.png', 'Corporación', 'Chicago, IL', '789 Calle Roble', '(777) 888-9999', '(333) 444-5555', 'soporte@corporacionacme.com'),
-(4, 'Soluciones Tecnológicas Inc.', 'tech_logo.png', 'Corporación', 'San Francisco, CA', '101 Calle Tecnológica', '(555) 666-7777', '(888) 999-0000', 'hola@solucionestecnologicas.com'),
-(5, 'Centro Comunitario de Ayuda', 'community_logo.png', 'Sin ánimo de lucro', 'Seattle, WA', '567 Bulevar Comunitario', '(222) 333-4444', '(999) 888-7777', 'voluntario@centrocomunitario.org');
+(1, 'Banco Nacional de Alimentos', 'bna.png', 'Corporación', 'La Paz', 'Av. 16 de Julio', '22020230', '71000001', 'contacto@bna.com'),
+(2, 'Hipermaxi', 'hipermaxi.png', 'Corporación', 'La Paz', 'Av. 16 de Julio', '2204140', '71000002', 'info@hipermaxi.com'),
+(3, 'Banco Ganadero', 'banco_gan.png', 'Corporación', 'Santa Cruz', '1er Anillio', '2204140', '71000003', 'contacto@ganadero.com'),
+(4, 'Hansa Ltda.', 'hansa.png', 'Corporación', 'Cochabamba', 'Av. Blanco Galindo', '220414', '71000004', 'info@hansa.com'),
+(5, 'Centro Comunitario de Ayuda', 'centro_com.png', 'Sin animo de Lucro', 'La Paz', 'Av. 16 de Julio', '220414', '71000005', 'contacto@comunidadlapaz.com');
