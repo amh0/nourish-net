@@ -95,6 +95,18 @@ const Publicar = () => {
       })
       .catch((err) => console.log(err));
   };
+  const handleNumberChange = (e) => {
+    if (e.target.value) {
+      if (e.target.value > 0) {
+        setCantidad(e.target.value);
+      } else {
+        setCantidad(1);
+      }
+    } else {
+      setCantidad();
+    }
+  };
+
   return (
     <div className="publication">
       <h4 className="title4">Registra tu donación</h4>
@@ -122,13 +134,7 @@ const Publicar = () => {
               type="number"
               min={1}
               value={cantidad}
-              onChange={(e) =>
-                e.target.value
-                  ? e.target.value > 0
-                    ? setCantidad(e.target.value)
-                    : setCantidad(1)
-                  : setCantidad()
-              }
+              onChange={(e) => handleNumberChange(e)}
               placeholder="Cantidad"
             />
           </div>

@@ -45,6 +45,21 @@ const ProductDisplay = (props) => {
     };
     fetchDonor();
   }, [idgen]);
+
+  const handleNumberChange = (e) => {
+    if (e.target.value) {
+      if (e.target.value < 0) {
+        setCantidad(1);
+      } else if (e.target.value > product.cantidad) {
+        setCantidad(product.cantidad);
+      } else {
+        setCantidad(e.target.value);
+      }
+    } else {
+      setCantidad();
+    }
+  };
+
   return (
     <div className="product-display">
       <div className="img-section">
@@ -99,20 +114,10 @@ const ProductDisplay = (props) => {
                 min={1}
                 max={product.cantidad}
                 value={cantidad}
-                onChange={(e) =>
-                  e.target.value
-                    ? e.target.value < 0
-                      ? setCantidad(1)
-                      : e.target.value > product.cantidad
-                      ? setCantidad(product.cantidad)
-                      : setCantidad(e.target.value)
-                    : setCantidad()
-                }
+                onChange={(e) => handleNumberChange(e)}
                 placeholder="Cantidad"
               />
             </div>
-            {/* <p className="parr1">0 {product.unidad_medida}</p> */}
-            {/* <CaretUpDown size={32} color="var(--text)" weight="light" /> */}
           </div>
           <button className="btn secondary-v">Solicitar Alimento</button>
         </div>
