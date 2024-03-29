@@ -1,11 +1,30 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import "./ProductDisplay.css";
 import "../globals.css";
 import { MapPin, Cube, CaretUpDown } from "@phosphor-icons/react";
+const imgPath = "http://localhost:3001/img/";
+const apiURL = "http://localhost:3001/api/products/";
+
 const ProductDisplay = (props) => {
   const { product } = props;
-  // console.log(product);
-  const imgPath = "http://localhost:3001/img/";
+  const idProduct = product.idalimento;
+  const [categories, setCategories] = useState([]);
+  // obtener categorias del producto
+  useEffect(() => {
+    const fetchCategoriesId = async () => {
+      try {
+        const result = await axios.post(apiURL + "categories_prod", {
+          idalimento: idProduct,
+        });
+        setCategories(result.data);
+      } catch (err) {
+        console.log("Error");
+        console.log(err);
+      }
+    };
+    fetchCategoriesId();
+  }, [idProduct]);
   return (
     <div className="product-display">
       <div className="img-section">
@@ -61,7 +80,7 @@ const ProductDisplay = (props) => {
         <p className="parr1 parr-row">{product.descripcion}</p>
         <p className="parr1 parr-row">
           <span className="bold-text">Fecha de vencimiento:</span>{" "}
-          {new Date(product.fecha_vencimiento).toLocaleDateString("es-MX", {
+          {new Date(product.fecha_vencimiento).toLocaleDateString("es-BO", {
             day: "2-digit",
             month: "2-digit",
             year: "numeric",
@@ -69,7 +88,18 @@ const ProductDisplay = (props) => {
         </p>
         <p className="parr1">
           {" "}
-          <span className="bold-text">Categorias:</span> Envasados, Otros
+          <span className="bold-text">Categorias:</span>{" "}
+          {categories.length === 0
+            ? "Sin categorias"
+            : categories.map((item, i) => {
+                let cat = item.nombre_cat;
+                if (i < categories.length - 1) {
+                  cat += ", ";
+                } else {
+                  cat += ". ";
+                }
+                return cat;
+              })}
         </p>
         <h4 className="title4 desc">Donante</h4>
         <p className="parr1">Banco de Alimentos de Bolivia</p>

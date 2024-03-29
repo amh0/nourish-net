@@ -1,7 +1,6 @@
 import { db } from "../connect.js";
 
 export const getCategories = (req, res) => {
-  //TODO
   const q = "select * from categoria";
   db.query(q, (err, data) => {
     if (err) {
@@ -11,8 +10,22 @@ export const getCategories = (req, res) => {
     }
   });
 };
+
+export const getCategoriesProdX = (req, res) => {
+  const data = req.body;
+  const idalimento = data.idalimento;
+  const q =
+    "select c.nombre_cat from categoria c inner join tiene_c t on c.idcategoria = t.idcategoria where t.idalimento = ?";
+  db.query(q, [idalimento], (err, data) => {
+    if (err) {
+      res.status(500).json(err);
+    } else {
+      res.status(200).json(data);
+    }
+  });
+};
+
 export const getAllProducts = (req, res) => {
-  //TODO
   const q = "select * from alimento";
   db.query(q, (err, data) => {
     if (err) {
@@ -24,13 +37,13 @@ export const getAllProducts = (req, res) => {
 };
 
 export const uploadProduct = async (req, res) => {
-  console.log(req.file);
-  console.log(req.file.filename);
-  console.log(req.body);
-  // alimento
+  // console.log(req.file);
+  // console.log(req.file.filename);
+  // console.log(req.body);
   const data = req.body;
   const imagen = req.file.filename;
   try {
+    // alimento
     const q = `insert into alimento (nombre, descripcion, estado, fecha_vencimiento, fecha_publicacion, cantidad, unidad_medida, imagen, idgeneral)
     values (?,?,?,?,?,?,?,?,?)`;
     const foodValues = [
@@ -115,8 +128,8 @@ export const uploadProduct2 = (req, res) => {
   });
   // db.query
 };
+
 export const uploadUser = (req, res) => {
-  // TODO
   const id = req.body.id;
   const name = req.body.name;
   const lastname = req.body.lastname;
