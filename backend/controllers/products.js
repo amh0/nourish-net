@@ -25,6 +25,19 @@ export const getCategoriesProdX = (req, res) => {
   });
 };
 
+export const getDonnor = (req, res) => {
+  const data = req.body;
+  const idgeneral = data.idgeneral;
+  const q = "select * from organizacion where idorg = ?";
+  db.query(q, [idgeneral], (err, data) => {
+    if (err) {
+      res.status(500).json(err);
+    } else {
+      res.status(200).json(data);
+    }
+  });
+};
+
 export const getAllProducts = (req, res) => {
   const q = "select * from alimento";
   db.query(q, (err, data) => {
@@ -55,7 +68,7 @@ export const uploadProduct = async (req, res) => {
       data.cantidad,
       data.unidad_medida,
       imagen,
-      data.idGeneral,
+      data.idgeneral,
     ];
     const insertResult = await queryDatabase(q, foodValues);
     const foodId = insertResult.insertId;

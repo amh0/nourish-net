@@ -9,7 +9,9 @@ const apiURL = "http://localhost:3001/api/products/";
 const ProductDisplay = (props) => {
   const { product } = props;
   const idProduct = product.idalimento;
+  const idgen = product.idgeneral;
   const [categories, setCategories] = useState([]);
+  const [donnor, setDonnor] = useState([]);
   // obtener categorias del producto
   useEffect(() => {
     const fetchCategoriesId = async () => {
@@ -25,6 +27,20 @@ const ProductDisplay = (props) => {
     };
     fetchCategoriesId();
   }, [idProduct]);
+  useEffect(() => {
+    const fetchDonor = async () => {
+      try {
+        const result = await axios.post(apiURL + "find_donnor", {
+          idgeneral: idgen,
+        });
+        setDonnor(result.data[0]);
+      } catch (err) {
+        console.log("Error");
+        console.log(err);
+      }
+    };
+    fetchDonor();
+  }, [idgen]);
   return (
     <div className="product-display">
       <div className="img-section">
@@ -102,7 +118,7 @@ const ProductDisplay = (props) => {
               })}
         </p>
         <h4 className="title4 desc">Donante</h4>
-        <p className="parr1">Banco de Alimentos de Bolivia</p>
+        <p className="parr1">{donnor ? donnor.nombre : ""}</p>
       </div>
     </div>
   );

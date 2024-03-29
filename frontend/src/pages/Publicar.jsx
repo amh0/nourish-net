@@ -13,7 +13,7 @@ const Publicar = () => {
   const [fecha_vencimiento, setFecha] = useState("");
   const [desc, setDesc] = useState("");
   const [uploadState, setUploadState] = useState("none");
-  const idGeneral = 1;
+  const idgeneral = 1;
   const { foodCat } = useContext(PageContext);
   const categories2 = foodCat.map((cat) => {
     return {
@@ -69,7 +69,7 @@ const Publicar = () => {
     formData.append("unidad_medida", unidad);
     formData.append("fecha_vencimiento", fecha_vencimiento);
     formData.append("fecha_publicacion", new Date().toJSON());
-    formData.append("idgeneral", idGeneral);
+    formData.append("idgeneral", idgeneral);
     formData.append("img", file);
     // categories handlign
     selectedCat.forEach((item) => {

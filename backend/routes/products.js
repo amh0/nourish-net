@@ -7,6 +7,7 @@ import {
   uploadProduct,
   getCategories,
   getCategoriesProdX,
+  getDonnor,
 } from "../controllers/products.js";
 const router = express.Router();
 
@@ -28,5 +29,6 @@ router.get("/findall", getAllProducts);
 router.post("/upload", upload.single("img"), uploadProduct);
 router.get("/findcategories", getCategories);
 router.post("/categories_prod", getCategoriesProdX);
+router.post("/find_donnor", getDonnor);
 
 export default router;
