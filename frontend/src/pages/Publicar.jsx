@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import axios from "axios";
+import { PageContext } from "../context/PageContext";
 import Input from "../components/input/Input";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
-import "./css/Publicar.css";
-
 import { Warning, CheckCircle } from "@phosphor-icons/react";
+import "./css/Publicar.css";
 const Publicar = () => {
   const [nombre, setNombre] = useState("");
   const [cantidad, setCantidad] = useState();
@@ -13,21 +13,13 @@ const Publicar = () => {
   const [fecha_vencimiento, setFecha] = useState("");
   const [desc, setDesc] = useState("");
   const [uploadState, setUploadState] = useState("none");
-  // TODO get categories from db
-  // list options
-  const categories = [
-    { value: "Fruta", label: "Fruta" },
-    { value: "Verdura", label: "Verdura" },
-    { value: "Bebida", label: "Bebidas" },
-    { value: "Organico", label: "Organicos" },
-    { value: "Enlatado", label: "Enlatados" },
-    { value: "Envasado", label: "Envasados" },
-    { value: "Ingredientes", label: "Ingredientes" },
-    { value: "No perecedero", label: "No Perecedero" },
-    { value: "Fresco", label: "Fresco" },
-    { value: "Lacteo", label: "Lacteo" },
-    { value: "Otro", label: "Otro" },
-  ];
+  const { foodCat } = useContext(PageContext);
+  const categories2 = foodCat.map((cat) => {
+    return {
+      value: cat.idcategoria,
+      label: cat.nombre_cat,
+    };
+  });
   // list conf
   const listStyle = {
     control: (styles) => ({ ...styles, backgroundColor: "white" }),
@@ -47,6 +39,10 @@ const Publicar = () => {
   const [selectedCat, setSelectedCat] = useState([]);
   const handleCatSelection = (selectedCat) => {
     setSelectedCat(selectedCat);
+    console.log("Categorias:");
+    selectedCat.forEach((cat) => {
+      console.log(cat.value);
+    });
   };
   // image handling
   const [file, setFile] = useState();
@@ -73,6 +69,10 @@ const Publicar = () => {
     formData.append("fecha_vencimiento", fecha_vencimiento);
     formData.append("fecha_publicacion", new Date().toJSON());
     formData.append("img", file);
+    // categories handlign
+    selectedCat.forEach((item) => {
+      formData.append("categoria[]", item.value);
+    });
     //console.log([...formData]);
     setUploadState("loading");
     axios
@@ -88,7 +88,6 @@ const Publicar = () => {
       })
       .catch((err) => console.log(err));
   };
-
   return (
     <div className="publication">
       <h4 className="title4">Registra tu donación</h4>
@@ -152,7 +151,7 @@ const Publicar = () => {
           <div className="form-label parr1">Categoria:</div>
           <Select
             className="list-option"
-            options={categories}
+            options={categories2}
             components={makeAnimated()}
             closeMenuOnSelect={false}
             value={selectedCat}

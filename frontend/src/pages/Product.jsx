@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { PageContext } from "../context/PageContext";
 import { useParams } from "react-router-dom";

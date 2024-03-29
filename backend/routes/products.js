@@ -2,7 +2,11 @@ import express from "express";
 import multer from "multer";
 import path from "path";
 
-import { getAllProducts, uploadProduct } from "../controllers/products.js";
+import {
+  getAllProducts,
+  uploadProduct,
+  getCategories,
+} from "../controllers/products.js";
 const router = express.Router();
 
 const storage = multer.diskStorage({
@@ -21,5 +25,6 @@ const upload = multer({ storage: storage });
 
 router.get("/findall", getAllProducts);
 router.post("/upload", upload.single("img"), uploadProduct);
+router.get("/findcategories", getCategories);
 
 export default router;

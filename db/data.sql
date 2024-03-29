@@ -21,3 +21,10 @@ VALUES ('Mermelada de Fresa', 'Mermelada casera de fresa, elaborada con frutas f
 
 INSERT INTO alimento (nombre, descripcion, estado, fecha_vencimiento, fecha_publicacion, cantidad, unidad_medida, imagen)
 VALUES ('Salsa de tomate', 'Salsa de tomate enlatado, ideal para salsas y guisos. Hecho con tomates frescos y jugosos.', 'Disponible', '2025-03-01', '2023-03-25', 200, 'g', 'product_8.jpg');
+
+
+INSERT INTO categoria(nombre_cat, imagen) values
+('Verdura', 'noimg.jpg'),
+('No perecedero', 'noimg.jpg'),
+('Enlatado', 'noimg.jpg'),
+('Envasado', 'noimg.jpg');
