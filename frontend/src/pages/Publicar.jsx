@@ -13,18 +13,22 @@ const Publicar = () => {
   const [fecha_vencimiento, setFecha] = useState("");
   const [desc, setDesc] = useState("");
   const [uploadState, setUploadState] = useState("none");
-  // working
+  // TODO get categories from db
   // list options
   const categories = [
     { value: "Fruta", label: "Fruta" },
     { value: "Verdura", label: "Verdura" },
-    { value: "Cereales", label: "Cereales" },
-    { value: "Bebidas", label: "Bebidas" },
-    { value: "Organicos", label: "Organicos" },
-    { value: "Enlatados", label: "Enlatados" },
-    { value: "Envasados", label: "Envasados" },
+    { value: "Bebida", label: "Bebidas" },
+    { value: "Organico", label: "Organicos" },
+    { value: "Enlatado", label: "Enlatados" },
+    { value: "Envasado", label: "Envasados" },
     { value: "Ingredientes", label: "Ingredientes" },
+    { value: "No perecedero", label: "No Perecedero" },
+    { value: "Fresco", label: "Fresco" },
+    { value: "Lacteo", label: "Lacteo" },
+    { value: "Otro", label: "Otro" },
   ];
+  // list conf
   const listStyle = {
     control: (styles) => ({ ...styles, backgroundColor: "white" }),
     multiValue: (styles, { data }) => {
@@ -41,6 +45,9 @@ const Publicar = () => {
     },
   };
   const [selectedCat, setSelectedCat] = useState([]);
+  const handleCatSelection = (selectedCat) => {
+    setSelectedCat(selectedCat);
+  };
   // image handling
   const [file, setFile] = useState();
   const [preview, setPreview] = useState();
@@ -48,6 +55,7 @@ const Publicar = () => {
     setFile(e.target.files[0]);
     if (e.target.files[0]) setPreview(URL.createObjectURL(e.target.files[0]));
   };
+  // form handling
   const handleForm = () => {
     // TODO validation
     if (nombre && cantidad > 0 && unidad && fecha_vencimiento && desc && file) {
@@ -80,9 +88,7 @@ const Publicar = () => {
       })
       .catch((err) => console.log(err));
   };
-  const handleCatSelection = (selectedCat) => {
-    setSelectedCat(selectedCat);
-  };
+
   return (
     <div className="publication">
       <h4 className="title4">Registra tu donación</h4>
@@ -168,7 +174,7 @@ const Publicar = () => {
         </div>
         <div className="row-wrapper">
           <div className="form-label parr1">Direccion:</div>
-          <div className="parr1 text-address"> Av. Ballivian</div>
+          <div className="parr1 text-address">Av. 16 de Julio </div>
         </div>
         <div className="row-wrapper">
           <label

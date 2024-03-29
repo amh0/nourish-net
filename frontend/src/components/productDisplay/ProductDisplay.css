@@ -72,3 +72,9 @@
 .product-text-section p {
   margin: 0px;
 }
+.product-text-section .parr-row {
+  margin-bottom: 24px;
+}
+.product-text-section .bold-text {
+  font-weight: bold;
+}

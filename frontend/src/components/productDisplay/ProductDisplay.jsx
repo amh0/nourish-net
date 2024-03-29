@@ -58,7 +58,19 @@ const ProductDisplay = (props) => {
           <button className="btn secondary-v">Solicitar Alimento</button>
         </div>
         <h4 className="title4">Descripción</h4>
-        <p className="parr1">{product.descripcion}</p>
+        <p className="parr1 parr-row">{product.descripcion}</p>
+        <p className="parr1 parr-row">
+          <span className="bold-text">Fecha de vencimiento:</span>{" "}
+          {new Date(product.fecha_vencimiento).toLocaleDateString("es-MX", {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+          })}
+        </p>
+        <p className="parr1">
+          {" "}
+          <span className="bold-text">Categorias:</span> Envasados, Otros
+        </p>
         <h4 className="title4 desc">Donante</h4>
         <p className="parr1">Banco de Alimentos de Bolivia</p>
       </div>
