@@ -153,3 +153,12 @@
 .grey-v:active {
   background-color: var(--textlighter);
 }
+.accent-secondary {
+  color: var(--secondary);
+}
+.accent-tertiary {
+  color: var(--tertiary);
+}
+.bold {
+  font-weight: bold;
+}

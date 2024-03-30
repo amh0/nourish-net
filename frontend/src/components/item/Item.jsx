@@ -19,7 +19,7 @@ const Item = (props) => {
       </Link>
       <div className="item-location">
         <MapPin size={24} weight="light" color="var(--secondary)" />
-        <p className="parr1">{props.ubicacion}</p>
+        <p className="parr1">{props.direccion}</p>
       </div>
       <div className="item-specs">
         <Cube size={24} weight="light" color="var(--textlight)" />

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 import Input from "../input/Input";
 import "./ProductDisplay.css";
@@ -11,17 +12,17 @@ const apiURL = "http://localhost:3001/api/products/";
 
 const ProductDisplay = (props) => {
   const { product } = props;
-  const idProduct = product.idalimento;
-  const idgen = product.idgeneral;
-  const [cantidad, setCantidad] = useState();
-  const [categories, setCategories] = useState([]);
   const [donnor, setDonnor] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const idgen = product.idgeneral;
+
+  const [cantidad, setCantidad] = useState();
   // obtener categorias del producto
   useEffect(() => {
     const fetchCategoriesId = async () => {
       try {
         const result = await axios.post(apiURL + "categories_prod", {
-          idalimento: idProduct,
+          idalimento: product.idalimento,
         });
         setCategories(result.data);
       } catch (err) {
@@ -30,7 +31,8 @@ const ProductDisplay = (props) => {
       }
     };
     fetchCategoriesId();
-  }, [idProduct]);
+  }, [product]);
+  // obtener donante del producto
   useEffect(() => {
     const fetchDonor = async () => {
       try {
@@ -88,7 +90,9 @@ const ProductDisplay = (props) => {
               weight="light"
               color="var(--secondary)"
             />
-            <p className="parr2">Av. Ballivian</p>
+            <p className="parr2">
+              {donnor.ubicacion + ", " + donnor.direccion}
+            </p>
           </div>
           <div>
             <Cube
@@ -119,7 +123,13 @@ const ProductDisplay = (props) => {
               />
             </div>
           </div>
-          <button className="btn secondary-v">Solicitar Alimento</button>
+          <Link
+            className="link"
+            to={`/producto/${product.idalimento}/solicitud`}
+            state={{ alimento: product }}
+          >
+            <button className="btn secondary-v">Solicitar Alimento</button>
+          </Link>
         </div>
         <h4 className="title4">Descripción</h4>
         <p className="parr1 parr-row">{product.descripcion}</p>

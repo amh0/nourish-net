@@ -20,7 +20,7 @@ import MisDonaciones from "./pages/MisDonaciones";
 import Tareas from "./pages/Tareas";
 import Notificaciones from "./pages/Notificaciones";
 import Perfil from "./pages/Perfil";
-
+import CoordSolicitud from "./pages/CoordSolicitud";
 function App() {
   const currentUser = true;
 
@@ -38,6 +38,10 @@ function App() {
           <Route path="/producto" element={<Product />}>
             <Route path=":productId" element={<Product />} />
           </Route>
+          <Route
+            path="/producto/:productId/solicitud"
+            element={<CoordSolicitud />}
+          />
           {currentUser && <Route path="/donar" element={<Publicar />} />}{" "}
           {/*verify donor*/}
           {!currentUser && <Route path="/login" element={<Login />} />}

@@ -19,6 +19,7 @@ const Alimentos = () => {
       console.log(err);
     }
   };
+  console.log(foodData);
   return (
     <div className="alimentos-page">
       <div className="sidebar">
@@ -70,7 +71,7 @@ const Alimentos = () => {
                 cantidad={item.cantidad}
                 unidad_medida={item.unidad_medida}
                 imagen={imgPath + item.imagen}
-                ubicacion={"Av. 16 de Julio"}
+                direccion={item.direccion}
               />
             );
           })}

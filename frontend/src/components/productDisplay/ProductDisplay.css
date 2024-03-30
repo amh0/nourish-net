@@ -64,12 +64,11 @@
 .product-display .controls-container .input-wrapper {
   width: 144px;
 }
-
-.title3,
-.title4 {
+.product-display .title3,
+.product-display .title4 {
   margin-bottom: 16px;
 }
-.title4.desc {
+.product-display .title4.desc {
   margin-top: 24px;
 }
 .product-text-section p {

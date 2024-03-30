@@ -48,6 +48,17 @@ export const getAllProducts = (req, res) => {
     }
   });
 };
+export const getAllProducts2 = (req, res) => {
+  const q =
+    "select a.*, o.nombre as organizacion, o.direccion from alimento a inner join organizacion o on a.idgeneral = o.idorg ";
+  db.query(q, (err, data) => {
+    if (err) {
+      return res.status(500).json(err);
+    } else {
+      res.status(200).json(data);
+    }
+  });
+};
 
 export const uploadProduct = async (req, res) => {
   // console.log(req.file);

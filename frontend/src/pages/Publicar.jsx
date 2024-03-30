@@ -25,6 +25,7 @@ const Publicar = () => {
       label: cat.nombre_cat,
     };
   });
+  console.log("categories", categories);
   // list conf
   const listStyle = {
     control: (styles) => ({ ...styles, backgroundColor: "white" }),
@@ -178,9 +179,10 @@ const Publicar = () => {
             onChange={handleCatSelection}
             isMulti={true}
             styles={listStyle}
+            placeholder={"Haz clic para seleccionar"}
             theme={(theme) => ({
               ...theme,
-              borderRadius: 8,
+              borderRadius: 6,
               colors: {
                 ...theme.colors,
                 text: "orangered",
