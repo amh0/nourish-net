@@ -126,7 +126,7 @@ const ProductDisplay = (props) => {
           <Link
             className="link"
             to={`/producto/${product.idalimento}/solicitud`}
-            state={{ alimento: product }}
+            state={{ alimento: product, cantidad_solicitada: cantidad }}
           >
             <button className="btn secondary-v">Solicitar Alimento</button>
           </Link>

@@ -1,8 +1,6 @@
-import React, { useContext, useEffect, useState } from "react";
-import axios from "axios";
-import { Link, Outlet } from "react-router-dom";
+import React, { useContext } from "react";
+import { Link, useParams } from "react-router-dom";
 import { PageContext } from "../context/PageContext";
-import { useParams } from "react-router-dom";
 import ProductDisplay from "../components/productDisplay/ProductDisplay";
 import { ArrowLeft } from "@phosphor-icons/react";
 import "../components/globals.css";
