@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
@@ -74,7 +74,7 @@ const Coordination = (props) => {
     };
     console.log("formData", formData);
     axios
-      .post("http://localhost:3001/api/donation/insert_donation", formData)
+      .post("http://localhost:3001/api/donations/insert_donation", formData)
       .then((res) => {
         if (res.status === 200) {
           console.log("Data inserted");

@@ -48,6 +48,7 @@ export const getAllProducts = (req, res) => {
     }
   });
 };
+
 export const getAllProducts2 = (req, res) => {
   const q =
     "select a.*, o.nombre as organizacion, o.direccion from alimento a inner join organizacion o on a.idgeneral = o.idorg ";

@@ -11,7 +11,7 @@ app.use(express.static("upload"));
 
 app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
-app.use("/api/donation", donationRoutes);
+app.use("/api/donations", donationRoutes);
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {

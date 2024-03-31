@@ -7,8 +7,9 @@
   --secondarylight: #a7d2cd;
   --secondarylighter: #e2f0ee;
   /* --secondary_strong: #3e8e85; */
-  --secondary_strong: #48968d;
   --primary_strong: #e7b43d;
+  --secondary_strong: #48968d;
+  --tertiary_strong: #fa9477;
   --tertiary: #feb491;
   --tertiarylighter: #fff0e9;
   --background0: #ffffff;
@@ -121,6 +122,13 @@
 }
 .secondary-v:active {
   background-color: var(--secondary_strong);
+}
+.tertiary-v {
+  background-color: var(--tertiary);
+  color: var(--background1);
+}
+.tertiary-v:active {
+  background-color: var(--tertiary_strong);
 }
 .primary-brd {
   border: 1px solid var(--primary);

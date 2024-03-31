@@ -1,6 +1,12 @@
 @import url("../../components/globals.css");
 .alimentos-page {
+  display: flex;
+  gap: 120px;
   background-color: #fffdf9;
+  padding: 64px 80px;
+}
+.products-section {
+  flex: 1;
 }
 .products-list {
   display: grid;
@@ -30,11 +36,6 @@
   margin-bottom: 16px;
 }
 
-.alimentos-page {
-  display: flex;
-  gap: 120px;
-  padding: 64px 80px;
-}
 .search-bar {
   display: flex;
   gap: 8px;

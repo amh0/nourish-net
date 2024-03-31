@@ -23,7 +23,6 @@ import Perfil from "./pages/Perfil";
 import CoordSolicitud from "./pages/CoordSolicitud";
 function App() {
   const currentUser = true;
-
   return (
     <div>
       <BrowserRouter>

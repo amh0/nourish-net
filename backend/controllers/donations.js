@@ -1,4 +1,33 @@
 import { db } from "../connect.js";
+
+export const getAllDonations = (req, res) => {
+  const q = `
+    select d.*, a.nombre as nombre_alimento, a.imagen, a.unidad_medida, grec.nombre as nombre_receptor, grec.direccion as direccion_receptor  
+    from donacion d 
+    inner join alimento a 
+    on d.idalimento = a.idalimento
+    inner join organizacion grec 
+    on d.idgeneral = grec.idorg
+    order by d.iddonacion
+    `;
+  db.query(q, (err, data) => {
+    if (err) {
+      return res.status(500).json(err);
+    } else {
+      res.status(200).json(data);
+    }
+  });
+};
+/*
+`
+select d.*, a.nombre as nombre_alimento, a.imagen, a.unidad_medida, grec.nombre as nombre_receptor, grec.direccion as direccion_receptor  
+from donacion d 
+inner join alimento a 
+on d.idalimento = a.idalimento
+inner join organizacion grec 
+on d.idgeneral = grec.idorg
+`
+*/
 export const insertDonation = async (req, res) => {
   const data = req.body;
   try {
