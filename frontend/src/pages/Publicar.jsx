@@ -1,30 +1,32 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import axios from "axios";
-import Input from "../components/input/Input";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
+import { Warning, CheckCircle } from "@phosphor-icons/react";
+
+import { PageContext } from "../context/PageContext";
+import Input from "../components/input/Input";
 import "./css/Publicar.css";
 
-import { Warning, CheckCircle } from "@phosphor-icons/react";
 const Publicar = () => {
   const [nombre, setNombre] = useState("");
   const [cantidad, setCantidad] = useState();
   const [unidad, setUnidad] = useState("");
   const [fecha_vencimiento, setFecha] = useState("");
   const [desc, setDesc] = useState("");
+
   const [uploadState, setUploadState] = useState("none");
-  // working
-  // list options
-  const categories = [
-    { value: "Fruta", label: "Fruta" },
-    { value: "Verdura", label: "Verdura" },
-    { value: "Cereales", label: "Cereales" },
-    { value: "Bebidas", label: "Bebidas" },
-    { value: "Organicos", label: "Organicos" },
-    { value: "Enlatados", label: "Enlatados" },
-    { value: "Envasados", label: "Envasados" },
-    { value: "Ingredientes", label: "Ingredientes" },
-  ];
+  const [formError, setFormError] = useState(false);
+  const idgeneral = 1;
+  const { foodCat } = useContext(PageContext);
+  const categories = foodCat.map((cat) => {
+    return {
+      value: cat.idcategoria,
+      label: cat.nombre_cat,
+    };
+  });
+  console.log("categories", categories);
+  // list conf
   const listStyle = {
     control: (styles) => ({ ...styles, backgroundColor: "white" }),
     multiValue: (styles, { data }) => {
@@ -41,6 +43,13 @@ const Publicar = () => {
     },
   };
   const [selectedCat, setSelectedCat] = useState([]);
+  const handleCatSelection = (selectedCat) => {
+    setSelectedCat(selectedCat);
+    console.log("Categorias:");
+    selectedCat.forEach((cat) => {
+      console.log(cat.value);
+    });
+  };
   // image handling
   const [file, setFile] = useState();
   const [preview, setPreview] = useState();
@@ -48,11 +57,13 @@ const Publicar = () => {
     setFile(e.target.files[0]);
     if (e.target.files[0]) setPreview(URL.createObjectURL(e.target.files[0]));
   };
+  // form handling
   const handleForm = () => {
     // TODO validation
     if (nombre && cantidad > 0 && unidad && fecha_vencimiento && desc && file) {
       handleData();
     } else {
+      setFormError(true);
       console.log("error");
     }
   };
@@ -67,7 +78,12 @@ const Publicar = () => {
     // formData.append("fecha_publicacion", fechaPublicacion);
 
     formData.append("fecha_publicacion", new Date().toJSON());
+    formData.append("idgeneral", idgeneral);
     formData.append("img", file);
+    // categories handlign
+    selectedCat.forEach((item) => {
+      formData.append("categoria[]", item.value);
+    });
     //console.log([...formData]);
     setUploadState("loading");
     axios
@@ -83,9 +99,18 @@ const Publicar = () => {
       })
       .catch((err) => console.log(err));
   };
-  const handleCatSelection = (selectedCat) => {
-    setSelectedCat(selectedCat);
+  const handleNumberChange = (e) => {
+    if (e.target.value) {
+      if (e.target.value > 0) {
+        setCantidad(e.target.value);
+      } else {
+        setCantidad(1);
+      }
+    } else {
+      setCantidad();
+    }
   };
+
   return (
     <div className="publication">
       <h4 className="title4">Registra tu donación</h4>
@@ -111,8 +136,9 @@ const Publicar = () => {
               id="cantidad"
               name="cantidad"
               type="number"
+              min={1}
               value={cantidad}
-              onChange={(e) => setCantidad(e.target.value)}
+              onChange={(e) => handleNumberChange(e)}
               placeholder="Cantidad"
             />
           </div>
@@ -156,9 +182,10 @@ const Publicar = () => {
             onChange={handleCatSelection}
             isMulti={true}
             styles={listStyle}
+            placeholder={"Haz clic para seleccionar"}
             theme={(theme) => ({
               ...theme,
-              borderRadius: 8,
+              borderRadius: 6,
               colors: {
                 ...theme.colors,
                 text: "orangered",
@@ -171,7 +198,7 @@ const Publicar = () => {
         </div>
         <div className="row-wrapper">
           <div className="form-label parr1">Direccion:</div>
-          <div className="parr1 text-address"> Av. Ballivian</div>
+          <div className="parr1 text-address">Av. 16 de Julio </div>
         </div>
         <div className="row-wrapper">
           <label
@@ -198,6 +225,13 @@ const Publicar = () => {
             </div>
           ) : null}
         </div>
+        {formError ? (
+          <p className="parr1 ">
+            {" "}
+            <span className="accent-tertiary">* </span>Verifica que los campos
+            contengan datos validos
+          </p>
+        ) : null}
         <button className="btn secondary-v" onClick={handleForm}>
           Publicar donación
         </button>

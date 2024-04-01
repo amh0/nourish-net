@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./Input.css";
 
-const Input = ({ id, type, placeholder, value, onChange }) => {
+const Input = ({ id, type, placeholder, value, onChange, min, max }) => {
   const [isFocused, setIsFocused] = useState(false);
 
   const handleFocus = () => {
@@ -18,6 +18,8 @@ const Input = ({ id, type, placeholder, value, onChange }) => {
         id={id}
         type={type}
         value={value}
+        min={min}
+        max={max}
         onChange={onChange}
         onFocus={handleFocus}
         onBlur={handleBlur}

@@ -29,16 +29,16 @@ CREATE TABLE PERSONA (
 
 
 CREATE TABLE ORGANIZACION (
-          idorg INT PRIMARY KEY,
-          nombre VARCHAR(30),
-          logo VARCHAR(50),
-          tipo_entidad VARCHAR(30),
-          ubicacion VARCHAR(50),
-          direccion VARCHAR(50),
-          telefono VARCHAR(30),
-          celular VARCHAR(30),
-          correo_contacto VARCHAR(50)
-      );
+    idorg INT PRIMARY KEY,
+    nombre VARCHAR(30),
+    logo VARCHAR(50),
+    tipo_entidad VARCHAR(30),
+    ubicacion VARCHAR(50),
+    direccion VARCHAR(50),
+    telefono VARCHAR(30),
+    celular VARCHAR(30),
+    correo_contacto VARCHAR(50)
+);
 
 CREATE TABLE RESPONSABLE (
     idresp INT AUTO_INCREMENT PRIMARY KEY,
@@ -109,10 +109,11 @@ CREATE TABLE PETICION (
     FOREIGN KEY (idgeneral) REFERENCES GENERAL(idgeneral)
 );
 
+-- modificqué el FK solo para pruebas
 CREATE TABLE ALIMENTO (
     idalimento INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(30),
-    descripcion VARCHAR(100),
+    descripcion VARCHAR(500),
     estado VARCHAR(20),
     fecha_vencimiento DATE,
     fecha_publicacion DATE,
@@ -120,18 +121,23 @@ CREATE TABLE ALIMENTO (
     unidad_medida VARCHAR(30),
     imagen VARCHAR(50),
     idgeneral INT,
-    FOREIGN KEY (idgeneral) REFERENCES GENERAL(idgeneral)
+    FOREIGN KEY (idgeneral) REFERENCES ORGANIZACION(idorg)
 );
+
 CREATE TABLE DONACION (
     iddonacion INT AUTO_INCREMENT PRIMARY KEY,
     tipo_envio VARCHAR(20),
     estado VARCHAR(20),
+    fecha_entrega DATE,
+    hora_entrega TIME,
+    mensaje_solicitud VARCHAR(200),
+    cantidad_donacion INT,
     idgeneral INT,
     idalimento INT,
     idvoluntario INT,
-    FOREIGN KEY (idgeneral) REFERENCES GENERAL(idgeneral),
-    FOREIGN KEY (idalimento) REFERENCES ALIMENTO(idalimento),
-    FOREIGN KEY (idvoluntario) REFERENCES VOLUNTARIO(idvoluntario)
+    -- FOREIGN KEY (idgeneral) REFERENCES GENERAL(idgeneral),
+    FOREIGN KEY (idalimento) REFERENCES ALIMENTO(idalimento)
+    -- FOREIGN KEY (idvoluntario) REFERENCES VOLUNTARIO(idvoluntario)
 );
 
 CREATE TABLE RECIBO (

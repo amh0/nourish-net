@@ -1,0 +1,90 @@
+@import url("../../components/globals.css");
+.coordination {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  margin: 16px auto 120px auto;
+  max-width: 496px;
+  padding: 0px 16px;
+  font-family: "Open Sans", sans-serif;
+}
+.grid-prod {
+  display: grid;
+  grid-template-columns: 1fr 96px 96px;
+  row-gap: 8px;
+  column-gap: 16px;
+  align-items: center;
+  margin-bottom: 24px;
+}
+.coordination .cell-left {
+  justify-self: end;
+}
+.coordination .img-container {
+  width: 80px;
+  height: 80px;
+  flex: 0 0 auto;
+}
+.coordination .img-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.coordination .product-name-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.row-border {
+  border-top: 2px solid var(--textlight);
+  grid-column: 1 / 4;
+}
+.coordination .form-area {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+.coordination .metodo-title {
+  margin-bottom: 24px;
+}
+.coordination .row-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+.coordination .input-wrapper input {
+  box-sizing: border-box;
+  width: 100%;
+  margin-right: 0px;
+  padding: 0px 16px;
+  font-family: "Open Sans", sans-serif;
+}
+.coordination .input-field label {
+  left: 16px;
+}
+.coordination .text-area {
+  box-sizing: border-box;
+  border-radius: 6px;
+  padding: 16px;
+  display: flex;
+  width: 100%;
+  height: 96px;
+  font-family: "Open Sans", sans-serif;
+  resize: none;
+}
+.coordination .text-area::placeholder {
+  color: var(--textlighter);
+}
+.coordination .row-wrapper .list-option {
+  width: 100%;
+  flex: 1;
+}
+.coordination .row-wrapper .input-wrapper,
+.coordination .row-wrapper .parr2 {
+  flex: 1;
+}
+.coordination .btn {
+  width: 100%;
+}
+.coordination .state-container {
+  margin-top: 0px;
+}

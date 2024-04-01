@@ -4,7 +4,7 @@
   flex-wrap: wrap-reverse;
   justify-content: center;
   gap: 56px;
-  margin: 8px 0px 24px 0px;
+  margin: 16px 0px 120px 0px;
   padding: 16px;
 }
 .product-display .img-container {
@@ -61,14 +61,22 @@
 .controls-container .btn {
   width: 200px;
 }
-
-.title3,
-.title4 {
+.product-display .controls-container .input-wrapper {
+  width: 144px;
+}
+.product-display .title3,
+.product-display .title4 {
   margin-bottom: 16px;
 }
-.title4.desc {
+.product-display .title4.desc {
   margin-top: 24px;
 }
 .product-text-section p {
   margin: 0px;
+}
+.product-text-section .parr-row {
+  margin-bottom: 24px;
+}
+.product-text-section .bold-text {
+  font-weight: bold;
 }

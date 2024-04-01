@@ -1,0 +1,15 @@
+.mis-donaciones {
+  display: flex;
+  gap: 120px;
+  background-color: #fffdf9;
+  padding: 64px 80px;
+}
+.products-section {
+  flex: 1;
+}
+.donations-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 40px;
+  max-width: 586px;
+}

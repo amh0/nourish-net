@@ -123,7 +123,6 @@ const Body = () => {
           <button className="btn text-v text-brd ">Obtén donaciones</button>
         </div>
       </div>
-      <Footer />
     </>
   );
 };

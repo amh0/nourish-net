@@ -33,15 +33,17 @@
   background: var(--background0);
 }
 
-
-input[type="date"]::placeholder {
+input[type="date"]::placeholder,
+input[type="time"]::placeholder {
   visibility: hidden;
 }
 
-input[type="date"]:not(:valid) {
+input[type="date"]:not(:valid),
+input[type="time"]:not(:valid) {
   color: transparent;
 }
 
-input[type="date"]:valid {
-  color: black; 
+input[type="date"]:valid,
+input[type="time"]:valid {
+  color: var(--text);
 }

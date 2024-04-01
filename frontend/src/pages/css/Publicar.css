@@ -1,5 +1,5 @@
 .publication {
-  margin: 80px auto 160px auto;
+  margin: 80px auto 120px auto;
   max-width: 496px;
   padding: 0px 20px;
   font-family: "Open Sans", sans-serif;
@@ -23,10 +23,6 @@
 }
 .publication .input-wrapper {
   flex: 1;
-}
-.publication .row-wrapper .input-wrapper Input {
-  /* box-sizing: border-box;
-  width: 100%; */
 }
 .publication .input-wrapper input {
   box-sizing: border-box;
@@ -90,7 +86,7 @@
   width: 100%;
 }
 /* State */
-.publication .state-container {
+.state-container {
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -98,24 +94,24 @@
   align-items: center;
   height: 144px;
   gap: 8px;
-  margin-top: 32px;
+  margin-top: 40px;
   border-radius: 16px;
   padding: 24px;
   color: var(--textlight);
 }
-.publication p {
+.state-container p {
   color: var(--textlight);
 }
-.publication .boldparr {
+.state-container .boldparr {
   font-weight: bold;
 }
-.publication .state-container.success {
+.state-container.success {
   background-color: var(--secondarylighter);
 }
-.publication .state-container.error {
+.state-container.error {
   background-color: var(--tertiarylighter);
 }
-.publication .state-container.loading {
+.state-container.loading {
   background-color: var(--primarylighter);
 }
 .lds-ring {

@@ -3,12 +3,14 @@ import cors from "cors";
 import authRoutes from "./routes/auth.js";
 import productRoutes from "./routes/products.js";
 import cookieParser from "cookie-parser";
+import donationRoutes from "./routes/donations.js";
 const app = express();
 
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Credentials", true);
   next();
 });
+
 app.use(
   cors({
     origin: "http://localhost:3000",
@@ -21,6 +23,7 @@ app.use(express.static("upload"));
 
 app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
+app.use("/api/donations", donationRoutes);
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {

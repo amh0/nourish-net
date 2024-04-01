@@ -1,11 +1,67 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { Link } from "react-router-dom";
+
+import Input from "../input/Input";
 import "./ProductDisplay.css";
 import "../globals.css";
-import { MapPin, Cube, CaretUpDown } from "@phosphor-icons/react";
+import { MapPin, Cube } from "@phosphor-icons/react";
+
+const imgPath = "http://localhost:3001/img/";
+const apiURL = "http://localhost:3001/api/products/";
+
 const ProductDisplay = (props) => {
   const { product } = props;
-  // console.log(product);
-  const imgPath = "http://localhost:3001/img/";
+  const [donnor, setDonnor] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const idgen = product.idgeneral;
+
+  const [cantidad, setCantidad] = useState();
+  // obtener categorias del producto
+  useEffect(() => {
+    const fetchCategoriesId = async () => {
+      try {
+        const result = await axios.post(apiURL + "categories_prod", {
+          idalimento: product.idalimento,
+        });
+        setCategories(result.data);
+      } catch (err) {
+        console.log("Error");
+        console.log(err);
+      }
+    };
+    fetchCategoriesId();
+  }, [product]);
+  // obtener donante del producto
+  useEffect(() => {
+    const fetchDonor = async () => {
+      try {
+        const result = await axios.post(apiURL + "find_donnor", {
+          idgeneral: idgen,
+        });
+        setDonnor(result.data[0]);
+      } catch (err) {
+        console.log("Error");
+        console.log(err);
+      }
+    };
+    fetchDonor();
+  }, [idgen]);
+
+  const handleNumberChange = (e) => {
+    if (e.target.value) {
+      if (e.target.value < 0) {
+        setCantidad(1);
+      } else if (e.target.value > product.cantidad) {
+        setCantidad(product.cantidad);
+      } else {
+        setCantidad(e.target.value);
+      }
+    } else {
+      setCantidad();
+    }
+  };
+
   return (
     <div className="product-display">
       <div className="img-section">
@@ -34,7 +90,9 @@ const ProductDisplay = (props) => {
               weight="light"
               color="var(--secondary)"
             />
-            <p className="parr2">Av. Ballivian</p>
+            <p className="parr2">
+              {donnor.ubicacion + ", " + donnor.direccion}
+            </p>
           </div>
           <div>
             <Cube
@@ -51,16 +109,55 @@ const ProductDisplay = (props) => {
         <div className="controls-container">
           <div>
             <Cube size={24} weight="light" color="var(--textlight)" />
-            <p className="parr1 bold">Cantidad:</p>
-            <p className="parr1">0 {product.unidad_medida}</p>
-            <CaretUpDown size={32} color="var(--text)" weight="light" />
+            {/* <p className="parr1 bold">Cantidad:</p> */}
+            <div className="input-wrapper">
+              <Input
+                id="cantidad"
+                name="cantidad"
+                type="number"
+                min={1}
+                max={product.cantidad}
+                value={cantidad}
+                onChange={(e) => handleNumberChange(e)}
+                placeholder="Cantidad"
+              />
+            </div>
           </div>
-          <button className="btn secondary-v">Solicitar Alimento</button>
+          <Link
+            className="link"
+            to={`/producto/${product.idalimento}/solicitud`}
+            state={{ alimento: product, cantidad_solicitada: cantidad }}
+          >
+            <button className="btn secondary-v">Solicitar Alimento</button>
+          </Link>
         </div>
         <h4 className="title4">Descripción</h4>
-        <p className="parr1">{product.descripcion}</p>
+        <p className="parr1 parr-row">{product.descripcion}</p>
+        <p className="parr1 parr-row">
+          <span className="bold-text">Fecha de vencimiento:</span>{" "}
+          {new Date(product.fecha_vencimiento).toLocaleDateString("es-BO", {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+          })}
+        </p>
+        <p className="parr1">
+          {" "}
+          <span className="bold-text">Categorias:</span>{" "}
+          {categories.length === 0
+            ? "Sin categorias"
+            : categories.map((item, i) => {
+                let cat = item.nombre_cat;
+                if (i < categories.length - 1) {
+                  cat += ", ";
+                } else {
+                  cat += ". ";
+                }
+                return cat;
+              })}
+        </p>
         <h4 className="title4 desc">Donante</h4>
-        <p className="parr1">Banco de Alimentos de Bolivia</p>
+        <p className="parr1">{donnor ? donnor.nombre : ""}</p>
       </div>
     </div>
   );

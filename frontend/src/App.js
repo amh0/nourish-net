@@ -20,6 +20,7 @@ import MisDonaciones from "./pages/MisDonaciones";
 import Tareas from "./pages/Tareas";
 import Notificaciones from "./pages/Notificaciones";
 import Perfil from "./pages/Perfil";
+import CoordSolicitud from "./pages/CoordSolicitud";
 import { useContext } from "react";
 import { AuthContext } from "./context/authContext";
 
@@ -40,7 +41,11 @@ function App() {
           <Route path="/producto" element={<Product />}>
             <Route path=":productId" element={<Product />} />
           </Route>
-          {currentUser && currentUser.isDonor && <Route path="/donar" element={<Publicar />} />}{" "}
+          <Route
+            path="/producto/:productId/solicitud"
+            element={<CoordSolicitud />}
+          />
+          {currentUser && <Route path="/donar" element={<Publicar />} />}{" "}
           {/*verify donor*/}
           {!currentUser && <Route path="/login" element={<Login />} />}
           {!currentUser && <Route path="/signup" element={<Signup />} />}
@@ -50,7 +55,9 @@ function App() {
             <Route path="/mis-donaciones" element={<MisDonaciones />} />
           )}
           {currentUser && <Route path="/peticiones" element={<Peticiones />} />}
-          {currentUser && currentUser.isVolunteer && <Route path="/tareas" element={<Tareas />} />}
+          {currentUser && currentUser.isVolunteer && (
+            <Route path="/tareas" element={<Tareas />} />
+          )}
           {/*verify volunteer*/}
           {currentUser && (
             <Route path="/notificaciones" element={<Notificaciones />} />
