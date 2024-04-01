@@ -1,20 +1,32 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import "./Step.css";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../../context/authContext";
 
-const SignupComplet = () => {
+const SignupComplet = ({ formData }) => {
+  const navigate = useNavigate();
+  const { login } = useContext(AuthContext);
+
+  const handleLoginAfterRegister = async () => {
+    try {
+      await login(formData.email, formData.password);
+      navigate("/");
+    } catch (err) {
+      console.error("Error al iniciar sesión automáticamente:", err);
+    }
+  };
+
   return (
     <div className="step">
       <h2>Registro completado</h2>
       <p className="marginBottom">Ahora eres parte de nuestra red solidaria</p>
       <div className="button-wrapper">
-        <Link className="link" to="/alimentos">
-          <button
-            className="btn secondary-v custom-button2"
-          >
-            Comienza ahora
-          </button>
-        </Link>
+        <button
+          className="btn secondary-v custom-button2"
+          onClick={handleLoginAfterRegister}
+        >
+          Comienza ahora
+        </button>
       </div>
     </div>
   );

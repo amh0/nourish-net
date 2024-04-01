@@ -174,13 +174,115 @@ export const login = async (req, res) => {
       password,
       selectResults[0].contrasenia
     );
-    if (checkPasword) {
-      console.log("Email and password are correct");
-      res.status(200).json({ verificationResult: "correct" });
-    } else {
+    if (!checkPasword) {
       console.log("Incorrect password");
-      res.status(200).json({ verificationResult: "incorrectPassword" });
+      return res.status(200).json({ verificationResult: "incorrectPassword" });
     }
+    console.log("Email and password are correct");
+    // res.status(200).json({ verificationResult: "correct" });
+
+    let userData = selectResults[0];
+    const { contrasenia, ...others } = userData;
+    userData = others;
+
+    let isAdmin = false;
+    let isVolunteer = false;
+    let isOrganization = false;
+    let isDonor = false;
+    let isReceiver = false;
+    let isBeneficial = false;
+
+    //ADMIN
+    const adminQuery = "SELECT * FROM ADMIN WHERE idadmin = ?";
+    const adminResults = await queryDatabase(adminQuery, [
+      selectResults[0].idusuario,
+    ]);
+
+    if (adminResults > 0) {
+      //TO DO
+      //otener datos del admin
+
+      isAdmin = true;
+
+      const adminData = { ...adminResults[0] };
+      delete adminData.idadmin;
+      userData = { ...userData, ...adminData };
+    } else {
+      //TABLA VOLUNTARIO
+      const volunteerQuery = "SELECT * FROM VOLUNTARIO WHERE idvoluntario = ?";
+      const volunteerResults = await queryDatabase(volunteerQuery, [
+        selectResults[0].idusuario,
+      ]);
+      if (volunteerResults.length > 0) {
+        isVolunteer = true;
+        const volunteerData = { ...volunteerResults[0] };
+        delete volunteerData.idvoluntario;
+        userData = { ...userData, ...volunteerData };
+      }
+      // TABLE GENERAL
+      const roleQuery = "SELECT * FROM GENERAL WHERE idgeneral = ?";
+      const roleResults = await queryDatabase(roleQuery, [
+        selectResults[0].idusuario,
+      ]);
+
+      if (roleResults.length > 0) {
+        const userRole = roleResults[0].rol.split(" ");
+        if (userRole.includes("Receptor")) isReceiver = true;
+        if (userRole.includes("Donador")) isDonor = true;
+        if (userRole.includes("Benefico")) isBeneficial = true;
+
+        if (!isVolunteer) {
+          //TABLE ORGANIZACION
+          const organizationQuery =
+            "SELECT * FROM ORGANIZACION WHERE idorg = ?";
+          const organizationResults = await queryDatabase(organizationQuery, [
+            selectResults[0].idusuario,
+          ]);
+          if (organizationResults.length > 0) {
+            const organizationData = { ...organizationResults[0] };
+            delete organizationData.idorg;
+            userData = { ...userData, ...organizationData };
+            isOrganization = true;
+          }
+
+          //TABLE PERSONA
+          const personaQuery = "SELECT * FROM PERSONA WHERE idpersona  = ?";
+          const personaResults = await queryDatabase(personaQuery, [
+            selectResults[0].idusuario,
+          ]);
+          if (personaResults.length > 0) {
+            const personaData = { ...personaResults[0] };
+            delete personaData.idpersona;
+            userData = { ...userData, ...personaData };
+          }
+        }
+      }
+    }
+
+    userData = {
+      ...userData,
+      isAdmin: isAdmin,
+      isVolunteer: isVolunteer,
+      isDonor: isDonor,
+      isOrganization: isOrganization,
+      isReceiver: isReceiver,
+      isBeneficial: isBeneficial,
+    };
+
+    // console.log(JSON.stringify(userData));
+
+    const token = jwt.sign(
+      { idusuario: selectResults[0].idusuario },
+      "secretkey"
+    );
+
+    // const { contrasenia, ...others } = selectResults[0];
+    res
+      .cookie("accessToken", token, {
+        httpOnly: true,
+      })
+      .status(200)
+      .json(userData);
   } catch (error) {
     console.error("Error logging in:", error);
     res.status(500).json({ error: "Error logging in" });
@@ -193,7 +295,7 @@ export const forgotPassword = async (req, res) => {
     const salt = bcrypt.genSaltSync(10);
     const hashedPassword = bcrypt.hashSync(password, salt);
 
-    console.log(password + " " + hashedPassword);
+    // console.log(password + " " + hashedPassword);
     const selectQuery = "UPDATE usuario SET contrasenia = ? WHERE correo = ?";
     const selectResults = await queryDatabase(selectQuery, [
       hashedPassword,
@@ -206,7 +308,16 @@ export const forgotPassword = async (req, res) => {
   }
 };
 
-export const logout = (req, res) => {};
+export const logout = (req, res) => {
+  console.log("User has been logged out");
+  res
+    .clearCookie("accessToken", {
+      secure: true,
+      sameSite: "none",
+    })
+    .status(200)
+    .json("User has been logged out");
+};
 
 const queryDatabase = (query, values) => {
   return new Promise((resolve, reject) => {

@@ -85,8 +85,8 @@ const LoginHelp = () => {
           <OperationComplete
             title="Contraseña actualizada"
             description="¡Tu contraseña ha sido cambiada con éxito! Ahora puedes acceder a tu cuenta"
-            link="/login"
             buttonText={"Iniciar sesión"}
+            formData={formData}
           />
         )}
       </div>

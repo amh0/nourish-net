@@ -63,6 +63,9 @@ const Publicar = () => {
     formData.append("cantidad", cantidad);
     formData.append("unidad_medida", unidad);
     formData.append("fecha_vencimiento", fecha_vencimiento);
+    // const fechaPublicacion = new Date().toISOString().slice(0, 10);
+    // formData.append("fecha_publicacion", fechaPublicacion);
+
     formData.append("fecha_publicacion", new Date().toJSON());
     formData.append("img", file);
     //console.log([...formData]);
