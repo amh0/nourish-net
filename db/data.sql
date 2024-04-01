@@ -1,29 +1,15 @@
 -- para reiniciar el id
 ALTER TABLE alimento AUTO_INCREMENT = 0;
 
-INSERT INTO alimento (nombre, descripcion, estado, fecha_vencimiento, fecha_publicacion, cantidad, unidad_medida, imagen, idgeneral)
-VALUES ('Frutas en Conserva 200 gr', 'Frutas en conserva en almíbar ligero, una deliciosa opción como postre o refrigerio.', 'Disponible', '2025-12-05', '2024-03-25', 5, 'envases', 'product_1.jpg', 1);
-
-INSERT INTO alimento (nombre, descripcion, estado, fecha_vencimiento, fecha_publicacion, cantidad, unidad_medida, imagen, idgeneral)
-VALUES ('Harina de Trigo', 'Harina de trigo todo uso, perfecta para hornear pan, pasteles y otros productos horneados.', 'Disponible', '2030-01-02', '2023-03-25', 30, 'u', 'product_2.jpg', 1);
-
-INSERT INTO alimento (nombre, descripcion, estado, fecha_vencimiento, fecha_publicacion, cantidad, unidad_medida, imagen, idgeneral)
-VALUES ('Leche en Polvo 200g', 'Leche en polvo fortificada, ideal para preparar bebidas lácteas y recetas.', 'Disponible', '2024-01-03', '2023-03-25', 200, 'u', 'product_3.jpg', 2);
-
-INSERT INTO alimento (nombre, descripcion, estado, fecha_vencimiento, fecha_publicacion, cantidad, unidad_medida, imagen, idgeneral)
-VALUES ('Atún enlatado', 'Atún enlatado en aceite vegetal, rico en proteínas y ácidos grasos omega-3.', 'Disponible', '2025-10-20', '2023-03-25', 10, 'latas', 'product_4.jpg', 2);
-
-INSERT INTO alimento (nombre, descripcion, estado, fecha_vencimiento, fecha_publicacion, cantidad, unidad_medida, imagen, idgeneral)
-VALUES ('Arroz Blanco', 'Arroz blanco de grano largo, ideal para acompañar comidas.', 'Disponible', '2025-06-30', '2023-03-25', 50, 'kg', 'product_5.jpg',3);
-
-INSERT INTO alimento (nombre, descripcion, estado, fecha_vencimiento, fecha_publicacion, cantidad, unidad_medida, imagen, idgeneral)
-VALUES ('Cereal de Avena', 'Cereal de avena integral, una opción nutritiva para el desayuno. Rico en fibra y vitaminas.', 'Disponible', '2025-11-28', '2023-03-25', 5, 'pqte.', 'product_6.jpg', 3);
-
-INSERT INTO alimento (nombre, descripcion, estado, fecha_vencimiento, fecha_publicacion, cantidad, unidad_medida, imagen, idgeneral)
-VALUES ('Mermelada de Fresa 150g', 'Mermelada casera de fresa, elaborada con frutas frescas y azúcar. Deliciosa para untar en pan o galletas.', 'Disponible', '2025-11-30', '2023-03-25', 150, 'u', 'product_7.jpg', 2);
-
-INSERT INTO alimento (nombre, descripcion, estado, fecha_vencimiento, fecha_publicacion, cantidad, unidad_medida, imagen, idgeneral)
-VALUES ('Salsa de tomate 200g', 'Salsa de tomate enlatado, ideal para salsas y guisos. Hecho con tomates frescos y jugosos.', 'Disponible', '2025-03-01', '2023-03-25', 30, 'sobres', 'product_8.jpg', 1);
+INSERT INTO alimento (nombre, descripcion, estado, fecha_vencimiento, fecha_publicacion, cantidad, unidad_medida, imagen, idgeneral) VALUES
+('Frutas en Conserva 200 gr', 'Frutas en conserva en almíbar ligero, una deliciosa opción como postre o refrigerio.', 'Disponible', '2025-12-05', '2024-03-25', 5, 'envases', 'product_1.jpg', 2001),
+('Harina de Trigo', 'Harina de trigo todo uso, perfecta para hornear pan, pasteles y otros productos horneados.', 'Disponible', '2030-01-02', '2023-03-25', 30, 'u', 'product_2.jpg', 2002),
+('Leche en Polvo 200g', 'Leche en polvo fortificada, ideal para preparar bebidas lácteas y recetas.', 'Disponible', '2024-01-03', '2023-03-25', 200, 'u', 'product_3.jpg', 2002),
+('Atún enlatado', 'Atún enlatado en aceite vegetal, rico en proteínas y ácidos grasos omega-3.', 'Disponible', '2025-10-20', '2023-03-25', 10, 'latas', 'product_4.jpg', 2001),
+('Arroz Blanco', 'Arroz blanco de grano largo, ideal para acompañar comidas.', 'Disponible', '2025-06-30', '2023-03-25', 50, 'kg', 'product_5.jpg',2003),
+('Cereal de Avena', 'Cereal de avena integral, una opción nutritiva para el desayuno. Rico en fibra y vitaminas.', 'Disponible', '2025-11-28', '2023-03-25', 5, 'pqte.', 'product_6.jpg', 2004),
+('Mermelada de Fresa 150g', 'Mermelada casera de fresa, elaborada con frutas frescas y azúcar. Deliciosa para untar en pan o galletas.', 'Disponible', '2025-11-30', '2023-03-25', 150, 'u', 'product_7.jpg', 2005),
+('Salsa de tomate 200g', 'Salsa de tomate enlatado, ideal para salsas y guisos. Hecho con tomates frescos y jugosos.', 'Disponible', '2025-03-01', '2023-03-25', 30, 'sobres', 'product_8.jpg', 2004);
 
 
 INSERT INTO categoria(nombre_cat, imagen) values
@@ -58,9 +44,30 @@ INSERT INTO tiene_c (idalimento, idcategoria) VALUES
 (8, 7),
 (8, 4);
 
+INSERT INTO GENERAL(idgeneral, rol) values
+(1001, 'Donante'),
+(1002, 'Receptor'),
+(1003, 'Donante'),
+(1004, 'Receptor'),
+(1005, 'Receptor'),
+(2001, 'Donante'),
+(2002, 'Donante'),
+(2003, 'Donante'),
+(2004, 'Donante'),
+(2005, 'Receptor'),
+(2006, 'Receptor');
+
+INSERT INTO PERSONA (idpersona, nombre, apellido_pat, apellido_mat, fechanaci, ubicacion, direccion, telefono, celular) VALUES
+(1001,'Juan', 'González', 'Lopez', '1990-05-15', 'La Paz, Bolivia', 'Calle 123', '222-5555', '777-8888'),
+(1002, 'Maria', 'Martinez', 'Garcia', '1985-10-20', 'Santa Cruz, Bolivia', 'Avenida Principal', '333-6666', '999-1111'),
+(1003, 'Carlos', 'Rodriguez', 'Chavez', '1992-03-08', 'Cochabamba, Bolivia', 'Calle 456', '444-7777', '222-3333'),
+(1004, 'Luisa', 'Gutierrez', 'Fernandez', '1988-12-01', 'Sucre, Bolivia', 'Avenida Central', '555-8888', '333-4444'),
+(1005, 'Pedro', 'Vargas', 'Herrera', '1995-06-25', 'Oruro, Bolivia', 'Calle Secundaria', '666-9999', '444-5555');
+
 INSERT INTO ORGANIZACION (idorg, nombre, logo, tipo_entidad, ubicacion, direccion, telefono, celular, correo_contacto) VALUES
-(1, 'Banco Nacional de Alimentos', 'bna.png', 'Corporación', 'La Paz', 'Av. 16 de Julio', '22020230', '71000001', 'contacto@bna.com'),
-(2, 'Hipermaxi', 'hipermaxi.png', 'Corporación', 'La Paz', 'Av. 16 de Julio', '2204140', '71000002', 'info@hipermaxi.com'),
-(3, 'Banco Ganadero', 'banco_gan.png', 'Corporación', 'Santa Cruz', '1er Anillio', '2204140', '71000003', 'contacto@ganadero.com'),
-(4, 'Hansa Ltda.', 'hansa.png', 'Corporación', 'Cochabamba', 'Av. Blanco Galindo', '220414', '71000004', 'info@hansa.com'),
-(5, 'Centro Comunitario de Ayuda', 'centro_com.png', 'Sin animo de Lucro', 'La Paz', 'Av. 16 de Julio', '220414', '71000005', 'contacto@comunidadlapaz.com');
+(2001, 'Banco Nacional de Alimentos', 'bna.png', 'Corporación', 'La Paz', 'Av. 16 de Julio', '22020230', '71000001', 'contacto@bna.com'),
+(2002, 'Hipermaxi', 'hipermaxi.png', 'Corporación', 'La Paz', 'Av. 16 de Julio', '2204140', '71000002', 'info@hipermaxi.com'),
+(2003, 'Banco Ganadero', 'banco_gan.png', 'Corporación', 'Santa Cruz', '1er Anillio', '2204140', '71000003', 'contacto@ganadero.com'),
+(2004, 'Hansa Ltda.', 'hansa.png', 'Corporación', 'Cochabamba', 'Av. Blanco Galindo', '220414', '71000004', 'info@hansa.com'),
+(2005, 'Centro Comunitario de Ayuda', 'centro_com.png', 'Sin animo de Lucro', 'La Paz', 'Av. 16 de Julio', '220414', '71000005', 'contacto@comunidadlapaz.com'),
+(2006, 'Albergue La Paz', 'centro_com.png', 'Sin animo de Lucro', 'La Paz', 'Av. Ballivian', '220414', '71000005', 'contacto@alberguelapaz.com');

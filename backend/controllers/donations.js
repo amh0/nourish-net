@@ -1,5 +1,18 @@
 import { db } from "../connect.js";
 
+export const updateStatus = async (req, res) => {
+  const data = req.body;
+  try {
+    const q = `update donacion set estado = ? where iddonacion = ?`;
+    const donationValues = [data.estado, data.iddonacion];
+    await queryDatabase(q, donationValues);
+    res.status(200).json({ Status: "OK" });
+  } catch (error) {
+    res.status(500).json(error);
+    console.log(error);
+  }
+};
+
 export const getAllDonations = (req, res) => {
   const q = `
     select d.*, a.nombre as nombre_alimento, a.imagen, a.unidad_medida, grec.nombre as nombre_receptor, grec.direccion as direccion_receptor  

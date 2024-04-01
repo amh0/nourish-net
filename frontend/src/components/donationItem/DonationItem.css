@@ -64,3 +64,22 @@
   width: 32px;
   height: 32px;
 }
+.status-container .entregado {
+  color: var(--secondary);
+}
+.status-container .pendiente {
+  color: var(--primary);
+}
+.status-container .solicitado {
+  color: var(--textlight);
+}
+.status-container .cancelado,
+.status-container .rechazado {
+  color: var(--tertiary);
+}
+
+.single-line {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}

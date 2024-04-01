@@ -63,6 +63,7 @@ const MisDonaciones = () => {
             return (
               <DonationItem
                 key={i}
+                donacion={item}
                 nombre={item.nombre_alimento}
                 imagen={imgPath + item.imagen}
                 unidad_medida={item.unidad_medida}

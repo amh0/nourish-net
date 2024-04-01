@@ -69,7 +69,7 @@ const Coordination = (props) => {
       hora_entrega: hora,
       mensaje_solicitud: msg,
       cantidad_donacion: cantidad,
-      idgeneral: product.idgeneral,
+      idgeneral: product.idgeneral, // id del receptor
       idalimento: product.idalimento,
     };
     console.log("formData", formData);
@@ -194,12 +194,12 @@ const Coordination = (props) => {
                 <div></div>
                 <div></div>
               </div>
-              <p className="parr1">Publicando donación...</p>
+              <p className="parr1">Enviando solicitud...</p>
             </>
           ) : insertState === "success" ? (
             <>
               <CheckCircle size={32} color="var(--secondary)" weight="light" />
-              <p className="parr1 boldparr">¡Donacion publicada!</p>
+              <p className="parr1 boldparr">¡Solicitud enviada!</p>
               <p className="parr2">Aceptar</p>
             </>
           ) : insertState === "error" ? (

@@ -24,32 +24,31 @@ export const getCategoriesProdX = (req, res) => {
     }
   });
 };
-
-export const getDonnor = (req, res) => {
+export const getDonnor = async (req, res) => {
   const data = req.body;
   const idgeneral = data.idgeneral;
-  const q = "select * from organizacion where idorg = ?";
-  db.query(q, [idgeneral], (err, data) => {
-    if (err) {
-      res.status(500).json(err);
+  try {
+    // organizacion
+    const q1 = `select * from organizacion where idorg = ?`;
+    const queryValues = [idgeneral];
+    const orgQuery = await queryDatabase(q1, queryValues);
+    if (orgQuery.length > 0) {
+      // console.log(orgQuery);
+      res.status(200).json(orgQuery);
     } else {
-      res.status(200).json(data);
+      // buscar persona
+      const q2 = `select * from persona where idpersona = ?`;
+      const perQuery = await queryDatabase(q2, queryValues);
+      res.status(200).json(orgQuery);
     }
-  });
+  } catch (error) {
+    res.status(500).json(error);
+    console.log(error);
+  }
 };
+
 
 export const getAllProducts = (req, res) => {
-  const q = "select * from alimento";
-  db.query(q, (err, data) => {
-    if (err) {
-      return res.status(500).json(err);
-    } else {
-      res.status(200).json(data);
-    }
-  });
-};
-
-export const getAllProducts2 = (req, res) => {
   const q =
     "select a.*, o.nombre as organizacion, o.direccion from alimento a inner join organizacion o on a.idgeneral = o.idorg ";
   db.query(q, (err, data) => {
@@ -101,75 +100,6 @@ export const uploadProduct = async (req, res) => {
     res.status(500).json(error);
     console.log(error);
   }
-};
-
-export const uploadProduct2 = (req, res) => {
-  console.log(req.file);
-  console.log(req.file.filename);
-  console.log(req.body);
-  // alimento
-  const nombre = req.body.nombre;
-  const descripcion = req.body.descripcion;
-  const fecha_vencimiento = req.body.fecha_vencimiento;
-  const fecha_publicacion = req.body.fecha_publicacion;
-  const cantidad = req.body.cantidad;
-  const unidad_medida = req.body.unidad_medida;
-  const imagen = req.file.filename;
-  const q = `insert into alimento (nombre, descripcion, estado, fecha_vencimiento, fecha_publicacion, cantidad, unidad_medida, imagen, idgeneral)
-    values (?,?,?,?,?,?,?,?,?)`;
-  db.query(
-    q,
-    [
-      nombre,
-      descripcion,
-      "Disponible",
-      fecha_vencimiento,
-      fecha_publicacion,
-      cantidad,
-      unidad_medida,
-      imagen,
-      null,
-    ],
-    (err, result) => {
-      if (err) {
-        res.status(500).json(err);
-        console.log(err);
-      } else {
-        // res.send("Data inserted");
-        res.json({ Status: "OK" });
-      }
-    }
-  );
-  // obtener id
-  // con nombre y fecha_publicacion
-
-  const id = 0;
-
-  // categoria
-  const categorias = req.body.categoria;
-  const q_cat = `insert into tiene_c (idalimento, idcategoria) values `;
-  categorias.forEach((element) => {
-    // concatenar al query
-  });
-  // db.query
-};
-
-export const uploadUser = (req, res) => {
-  const id = req.body.id;
-  const name = req.body.name;
-  const lastname = req.body.lastname;
-  console.log(req.body);
-  db.query(
-    "insert into user (id, name, lastname) values (?,?,?)",
-    [id, name, lastname],
-    (err, result) => {
-      if (err) {
-        console.log(err);
-      } else {
-        res.send("Data inserted");
-      }
-    }
-  );
 };
 
 const queryDatabase = (query, values) => {

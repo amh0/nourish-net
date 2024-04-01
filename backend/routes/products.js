@@ -4,7 +4,6 @@ import path from "path";
 
 import {
   getAllProducts,
-  getAllProducts2,
   uploadProduct,
   getCategories,
   getCategoriesProdX,
@@ -26,7 +25,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-router.get("/findall", getAllProducts2);
+router.get("/findall", getAllProducts);
 router.post("/upload", upload.single("img"), uploadProduct);
 router.get("/findcategories", getCategories);
 router.post("/categories_prod", getCategoriesProdX);

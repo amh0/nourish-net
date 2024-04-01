@@ -109,7 +109,6 @@ CREATE TABLE PETICION (
     FOREIGN KEY (idgeneral) REFERENCES GENERAL(idgeneral)
 );
 
--- modificqué el FK solo para pruebas
 CREATE TABLE ALIMENTO (
     idalimento INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(30),
@@ -121,7 +120,7 @@ CREATE TABLE ALIMENTO (
     unidad_medida VARCHAR(30),
     imagen VARCHAR(50),
     idgeneral INT,
-    FOREIGN KEY (idgeneral) REFERENCES ORGANIZACION(idorg)
+    FOREIGN KEY (idgeneral) REFERENCES GENERAL(idgeneral)
 );
 
 CREATE TABLE DONACION (
@@ -135,7 +134,9 @@ CREATE TABLE DONACION (
     idgeneral INT,
     idalimento INT,
     idvoluntario INT,
-    -- FOREIGN KEY (idgeneral) REFERENCES GENERAL(idgeneral),
+    conf_donante BOOLEAN,
+    conf_receptor BOOLEAN,
+    FOREIGN KEY (idgeneral) REFERENCES GENERAL(idgeneral),
     FOREIGN KEY (idalimento) REFERENCES ALIMENTO(idalimento)
     -- FOREIGN KEY (idvoluntario) REFERENCES VOLUNTARIO(idvoluntario)
 );
