@@ -71,3 +71,12 @@ INSERT INTO ORGANIZACION (idorg, nombre, logo, tipo_entidad, ubicacion, direccio
 (2004, 'Hansa Ltda.', 'hansa.png', 'Corporación', 'Cochabamba', 'Av. Blanco Galindo', '220414', '71000004', 'info@hansa.com'),
 (2005, 'Centro Comunitario de Ayuda', 'centro_com.png', 'Sin animo de Lucro', 'La Paz', 'Av. 16 de Julio', '220414', '71000005', 'contacto@comunidadlapaz.com'),
 (2006, 'Albergue La Paz', 'centro_com.png', 'Sin animo de Lucro', 'La Paz', 'Av. Ballivian', '220414', '71000005', 'contacto@alberguelapaz.com');
+
+-- DONACION
+-- Valores estado
+-- Solicitado: El receptor envió la solicitud de donacion
+-- Pendiente: El donante aceptó la solicitud del receptor
+-- Entregando...: El receptor ó donante (pero no ambos) confirmaron la entrega del producto
+-- Entregado: El receptor y donante confirmaron la entrega de la donacion
+-- Cancelado: El donante o receptor canceló la donación
+-- Rechazado: El donante rechazó la solicitud de donación

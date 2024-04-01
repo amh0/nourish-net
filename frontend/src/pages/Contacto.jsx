@@ -12,8 +12,8 @@ const Contacto = () => {
         </p>
         <p className="parr1">
           Correo electrónico de contacto: info@nourishnet.com <br />
-          Teléfono de contacto: +1 (555) 123-4567 <br />
-          Dirección: Av. Mariscal Andrés de Santa Cruz, La Paz Bolivia.
+          Teléfono de contacto: +591 74010203 <br />
+          Dirección: Av. Mariscal Santa Cruz, La Paz Bolivia.
         </p>
         <iframe
           title="contact-map"

@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { BlobProvider, PDFDownloadLink } from "@react-pdf/renderer";
+
+import DonationItem from "../components/donationItem/DonationItem";
+import ReceiptPdf from "../components/receipt/ReceiptPdf";
+
 import { MagnifyingGlass } from "@phosphor-icons/react";
 import "./css/MisDonaciones.css";
-import DonationItem from "../components/donationItem/DonationItem";
 const imgPath = "http://localhost:3001/img/";
 const apiPath = "http://localhost:3001/api";
 const MisDonaciones = () => {
@@ -20,7 +24,6 @@ const MisDonaciones = () => {
       console.log(err);
     }
   };
-  console.log(donationsData);
   return (
     <div className="mis-donaciones">
       <div className="sidebar">
@@ -59,6 +62,16 @@ const MisDonaciones = () => {
           </button>
         </div>
         <div className="donations-list">
+          <div>Recibo</div>
+          <div>
+            <BlobProvider document={<ReceiptPdf />}>
+              {({ url, blob }) => (
+                <a href={url} target="_blank" rel="noreferrer">
+                  <span>Imprimir</span>
+                </a>
+              )}
+            </BlobProvider>
+          </div>
           {donationsData.map((item, i) => {
             return (
               <DonationItem

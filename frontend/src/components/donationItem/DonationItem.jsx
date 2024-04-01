@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import "./DonationItem.css";
 import {
@@ -20,7 +20,6 @@ const apiPath = "http://localhost:3001/api";
 const DonationItem = (props) => {
   // Lado donante
   const [donacion, setDonacion] = useState(props.donacion);
-  console.log("props", donacion);
   let nuevoEstado = donacion.estado;
   const handleAccept = () => {
     nuevoEstado = "";
@@ -45,15 +44,13 @@ const DonationItem = (props) => {
     setDonacion((d) => ({ ...d, estado: nuevoEstado }));
     handleQuery();
   };
-  useEffect(() => {}, []);
   const handleQuery = () => {
     const formData = {
       iddonacion: donacion.iddonacion,
       estado: nuevoEstado,
     };
-    console.log(formData);
     axios
-      .post("http://localhost:3001/api/donations/update_status", formData)
+      .post(apiPath + "/donations/update_status", formData)
       .then((res) => {
         if (res.status === 200) {
           console.log("Status uptaded");
