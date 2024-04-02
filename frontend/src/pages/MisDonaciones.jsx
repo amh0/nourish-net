@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { BlobProvider, PDFDownloadLink } from "@react-pdf/renderer";
+import { BlobProvider } from "@react-pdf/renderer";
 
 import DonationItem from "../components/donationItem/DonationItem";
 import ReceiptPdf from "../components/receipt/ReceiptPdf";
@@ -36,12 +36,6 @@ const MisDonaciones = () => {
           <li>Cancelado</li>
           <li>Rechazado</li>
         </ol>
-        {/* <h5 className="title5">Ordenar por</h5>
-        <ol>
-          <li>Más cercano</li>
-          <li>Más reciente</li>
-          <li>Más donaciones</li>
-        </ol> */}
       </div>
       <div className="donations-section">
         <div className="search-bar">
@@ -62,7 +56,7 @@ const MisDonaciones = () => {
           </button>
         </div>
         <div className="donations-list">
-          <div>Recibo</div>
+          {/* <div>Recibo</div>
           <div>
             <BlobProvider document={<ReceiptPdf />}>
               {({ url, blob }) => (
@@ -71,7 +65,7 @@ const MisDonaciones = () => {
                 </a>
               )}
             </BlobProvider>
-          </div>
+          </div> */}
           {donationsData.map((item, i) => {
             return (
               <DonationItem

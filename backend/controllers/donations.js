@@ -1,5 +1,79 @@
 import { db } from "../connect.js";
 
+export const insertReceipt = async (req, res) => {
+  const data = req.body;
+  try {
+    const q = `insert into recibo (fecha, nota, iddonacion) values (?,?,?)`;
+    const donationValues = [data.fecha, data.nota, data.iddonacion];
+    const receiptResult = await queryDatabase(q, donationValues);
+    const idrecibo = receiptResult.insertId;
+    // console.log(receiptResult);
+    // console.log(idrecibo);
+    const q2 = `
+    select r.*, don.idgeneral as nombre_don, rec.idgeneral as nombre_rec, 
+        a.nombre as nombre_ali, a.unidad_medida as unidad,  
+         d.cantidad_donacion, d.fecha_entrega, d.hora_entrega
+    from recibo r 
+    inner join donacion d 
+    on r.iddonacion = d.iddonacion
+    inner join alimento a
+    on d.idalimento = a.idalimento
+    inner join general don 
+    on d.idgeneral = don.idgeneral
+    inner join general rec
+    on a.idgeneral = rec.idgeneral
+    where r.idrecibo = ?`;
+    const receiptValues = [idrecibo];
+    const receiptResultData = await queryDatabase(q2, receiptValues);
+    // console.log(receiptResultData);
+    res.status(200).json(receiptResultData);
+  } catch (error) {
+    res.status(500).json(error);
+    console.log(error);
+  }
+};
+
+export const getReceiptData = async (req, res) => {
+  const data = req.body;
+  try {
+    const q = `
+    select r.*, don.idgeneral as nombre_don, rec.idgeneral as nombre_rec, 
+        a.nombre as nombre_ali, a.unidad_medida as unidad,  
+         d.cantidad_donacion, d.fecha_entrega, d.hora_entrega
+    from recibo r 
+    inner join donacion d 
+    on r.iddonacion = d.iddonacion
+    inner join alimento a
+    on d.idalimento = a.idalimento
+    inner join general don 
+    on d.idgeneral = don.idgeneral
+    inner join general rec
+    on a.idgeneral = rec.idgeneral
+    where r.idrecibo = ?`;
+    const donationValues = [data.idrecibo];
+    const receiptResult = await queryDatabase(q, donationValues);
+    res.status(200).json(receiptResult);
+  } catch (error) {
+    res.status(500).json(error);
+    console.log(error);
+  }
+};
+/*
+  select r.*, don.idgeneral as nombre_don, rec.idgeneral as nombre_rec, 
+      a.nombre as nombre_ali, a.unidad as unidad, d.iddonacion, 
+      d.fecha_entrega, d.hora_entrega
+  from recibo r 
+  inner join donacion d 
+  on r.iddonacion = d.iddonacion
+  inner join alimento a
+  on d.idalimento = a.idalimento
+  inner join general don 
+  on d.idgeneral = don.idgeneral
+  inner join general rec
+  on a.idgeneral = rec.idgeneral
+  where r.idrecibo = ?
+*/
+
 export const updateStatus = async (req, res) => {
   const data = req.body;
   try {

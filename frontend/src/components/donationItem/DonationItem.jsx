@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { BlobProvider, PDFDownloadLink } from "@react-pdf/renderer";
+import ReceiptPdf from "../receipt/ReceiptPdf";
 import "./DonationItem.css";
 import {
   Export,
@@ -20,13 +22,37 @@ const apiPath = "http://localhost:3001/api";
 const DonationItem = (props) => {
   // Lado donante
   const [donacion, setDonacion] = useState(props.donacion);
+  const [dataReceipt, setDataReceipt] = useState({});
   let nuevoEstado = donacion.estado;
+  // obtener datos del recibo
+  // useEffect(() => {
+  //   if (donacion.estado === "Entregado") {
+  //     console.log("fetching receipt");
+  //     const handleQueryReceipt = async () => {
+  //       try {
+  //         const formData = {
+  //           iddonacion: donacion.iddonacion,
+  //         };
+  //         const result = await axios(
+  //           apiPath + "/donations/find_receipt",
+  //           formData
+  //         );
+  //         setDataReceipt(result.data);
+  //       } catch (err) {
+  //         console.log("Error");
+  //         console.log(err);
+  //       }
+  //     };
+  //     handleQueryReceipt();
+  //   }
+  // }, [donacion]);
   const handleAccept = () => {
     nuevoEstado = "";
     if (donacion.estado === "Solicitado") {
       nuevoEstado = "Pendiente";
     } else if (donacion.estado === "Pendiente") {
       nuevoEstado = "Entregado";
+      handleQueryInsertReceipt();
     } else {
       return;
     }
@@ -61,7 +87,42 @@ const DonationItem = (props) => {
       })
       .catch((err) => console.log(err));
   };
-
+  const handleQueryGetReceipt = async (data) => {
+    try {
+      const formData = {
+        idrecibo: data.insertid,
+      };
+      console.log(formData);
+      const result = await axios(apiPath + "/donations/find_receipt", formData);
+      setDataReceipt(result.data);
+      console.log("receipt fetched");
+    } catch (err) {
+      console.log("Error Get Receipt");
+      console.log(err);
+    }
+  };
+  const handleQueryInsertReceipt = () => {
+    const formData = {
+      fecha: new Date().toJSON(),
+      nota: "Nota del recibo",
+      iddonacion: donacion.iddonacion,
+    };
+    console.log(formData);
+    axios
+      .post(apiPath + "/donations/insert_receipt", formData)
+      .then((res) => {
+        if (res.status === 200) {
+          console.log("Receipt inserted");
+          // console.log(res.data);
+          console.log("recibo :", res.data);
+          setDataReceipt(res.data[0]);
+        } else {
+          console.log("Error insert Receipt");
+          // setInsertState("error");
+        }
+      })
+      .catch((err) => console.log(err));
+  };
   return (
     <div className="donation-item">
       <div className="img-container">
@@ -123,9 +184,7 @@ const DonationItem = (props) => {
         <p className={donacion.estado.toLowerCase() + " parr2"}>
           {donacion.estado}
         </p>
-        {donacion.estado === "Entregado" ||
-        donacion.estado === "Cancelado" ||
-        donacion.estado === "Rechazado" ? null : (
+        {donacion.estado === "Pendiente" || donacion.estado === "Solicitado" ? (
           <div className="row-wrapper">
             <button className="btn secondary-v">
               <Check
@@ -144,7 +203,26 @@ const DonationItem = (props) => {
               />
             </button>
           </div>
-        )}
+        ) : donacion.estado === "Entregado" ? (
+          <>
+            <BlobProvider document={<ReceiptPdf receipt={dataReceipt} />}>
+              {({ url, blob }) => (
+                <a href={url} target="_blank" rel="noreferrer">
+                  <span>PDF</span>
+                </a>
+              )}
+            </BlobProvider>
+            {/* <PDFDownloadLink
+
+              document={<ReceiptPdf receipt={dataReceipt} />}
+              fileName="somename.pdf"
+            >
+              {({ blob, url, loading, error }) =>
+                loading ? "Loading document..." : "Download now!"
+              }
+            </PDFDownloadLink> */}
+          </>
+        ) : null}
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Image,
   Text,
@@ -12,8 +12,6 @@ import logo from "../assets/logo_64.png";
 import OpenSansRegular from "./fonts/OpenSans-Regular.ttf";
 import OpenSansBold from "./fonts/OpenSans-Bold.ttf";
 import "../globals.css";
-import { Columns } from "@phosphor-icons/react";
-const logoPath = "../assets/logo_64.png";
 Font.register({
   family: "OpenSans",
   fonts: [
@@ -200,13 +198,10 @@ const TableHead = () => (
     </View>
   </View>
 );
-const TableBody = () => (
+const TableBody = (props) => (
   <View style={{ width: "100%", flexDirection: "row" }}>
     <View style={[styles.tbody, styles.tbody2]}>
-      <Text>
-        Frutas enlatadas, duraznos en almibar conservas de un alimento con
-        nombre muy largo
-      </Text>
+      <Text>Frutas en conserva 200gr</Text>
     </View>
     <View style={styles.tbody}>
       <Text>20</Text>
@@ -249,21 +244,34 @@ const ReceiptFooter = () => {
   );
 };
 
-const ReceiptPdf = () => {
+const ReceiptPdf = (props) => {
+  // console.log(props);
+  console.log(props.receipt);
+  const [receipt, setDataReceipt] = useState(props.receipt);
+  const [test, setTest] = useState({ idrecibo: 2 });
+  useEffect(() => {
+    console.log("state receipt:", receipt);
+  }, [receipt]);
+
   return (
     <Document>
       <Page size="A4" style={styles.page}>
-        <ReceiptTitle />
-        <ReceiptDetail />
-        <DonnorSection />
-        <View>
-          <TableHead />
-          <TableBody />
-        </View>
-        <DonationDetail />
-        <View></View>
-        <View></View>
-        <ReceiptFooter />
+        {receipt ? (
+          <>
+            <Text> idrecibo {receipt.idrecibo}</Text>
+            <ReceiptTitle />
+            <ReceiptDetail />
+            <DonnorSection />
+            <View>
+              <TableHead />
+              <TableBody receipt={receipt} />
+            </View>
+            <DonationDetail />
+            <View></View>
+            <View></View>
+            <ReceiptFooter />
+          </>
+        ) : null}
       </Page>
     </Document>
   );

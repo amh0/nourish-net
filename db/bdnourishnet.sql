@@ -127,6 +127,7 @@ CREATE TABLE DONACION (
     iddonacion INT AUTO_INCREMENT PRIMARY KEY,
     tipo_envio VARCHAR(20),
     estado VARCHAR(20),
+    lugar_entrega VARCHAR(20),
     fecha_entrega DATE,
     hora_entrega TIME,
     mensaje_solicitud VARCHAR(200),
@@ -144,7 +145,7 @@ CREATE TABLE DONACION (
 CREATE TABLE RECIBO (
     idrecibo INT AUTO_INCREMENT PRIMARY KEY,
     fecha DATE,
-    observacion VARCHAR(100),
+    nota VARCHAR(100),
     iddonacion INT,
     FOREIGN KEY (iddonacion) REFERENCES DONACION(iddonacion)
 );

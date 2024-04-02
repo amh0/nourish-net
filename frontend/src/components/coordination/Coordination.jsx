@@ -8,6 +8,7 @@ import Input from "../input/Input";
 import "./Coordination.css";
 
 const imgPath = "http://localhost:3001/img/";
+const apiPath = "http://localhost:3001/api";
 const methodOptions = [
   {
     value: "Personal",
@@ -74,7 +75,7 @@ const Coordination = (props) => {
     };
     console.log("formData", formData);
     axios
-      .post("http://localhost:3001/api/donations/insert_donation", formData)
+      .post(apiPath + "/donations/insert_donation", formData)
       .then((res) => {
         if (res.status === 200) {
           console.log("Data inserted");
