@@ -45,6 +45,7 @@ function App() {
             path="/producto/:productId/solicitud"
             element={<CoordSolicitud />}
           />
+          <Route path="/mis-donaciones" element={<MisDonaciones />} />
           {currentUser && <Route path="/donar" element={<Publicar />} />}{" "}
           {/*verify donor*/}
           {!currentUser && <Route path="/login" element={<Login />} />}

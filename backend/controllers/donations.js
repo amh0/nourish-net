@@ -35,6 +35,7 @@ export const insertReceipt = async (req, res) => {
 
 export const getReceiptData = async (req, res) => {
   const data = req.body;
+  console.log(data);
   try {
     const q = `
     select r.*, don.idgeneral as nombre_don, rec.idgeneral as nombre_rec, 
@@ -49,8 +50,8 @@ export const getReceiptData = async (req, res) => {
     on d.idgeneral = don.idgeneral
     inner join general rec
     on a.idgeneral = rec.idgeneral
-    where r.idrecibo = ?`;
-    const donationValues = [data.idrecibo];
+    where r.iddonacion = ?`;
+    const donationValues = [data.iddonacion];
     const receiptResult = await queryDatabase(q, donationValues);
     res.status(200).json(receiptResult);
   } catch (error) {

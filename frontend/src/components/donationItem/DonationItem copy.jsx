@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { BlobProvider } from "@react-pdf/renderer";
+import {
+  BlobProvider,
+  PDFDownloadLink,
+  usePDF,
+  pdf,
+} from "@react-pdf/renderer";
+import ReactDOMServer from "react-dom/server";
+import saveAs from "file-saver";
 import ReceiptPdf from "../receipt/ReceiptPdf";
 import "./DonationItem.css";
 import {
@@ -16,21 +23,20 @@ import {
   ArrowClockwise,
   XCircle,
   WarningCircle,
-  LinkSimple,
+  DiceFive,
 } from "@phosphor-icons/react";
 const imgPath = "http://localhost:3001/img/";
 const apiPath = "http://localhost:3001/api";
 const DonationPDFComponent = (props) => {
+  console.log("component", props);
+  console.log(props.receipt);
   if (props.estado === "Entregado" && props.receipt) {
     return (
       <BlobProvider document={<ReceiptPdf receipt={props.receipt} />}>
         {({ url, blob }) => (
-          <div className="btn secondary-v pdf-button">
-            <a href={url} target="_blank" rel="noreferrer" className="btn-link">
-              <span>Recibo</span>
-            </a>
-            <LinkSimple size={16} color="var(--background0)" />
-          </div>
+          <a href={url} target="_blank" rel="noreferrer">
+            <span>PDF</span>
+          </a>
         )}
       </BlobProvider>
     );
@@ -42,6 +48,14 @@ const DonationItem = (props) => {
   // Lado donante
   const [donacion, setDonacion] = useState(props.donacion);
   const [dataReceipt, setDataReceipt] = useState({});
+  // const [instance, updateInstance] = usePDF({
+  //   document: <ReceiptPdf receipt="datareceipt" />,
+  // });
+  // const [generate, setGenerate] = useState(0);
+  // const handleGenerate = () => {
+  //   fetchDataReceipt();
+  //   setGenerate(1);
+  // };
   useEffect(() => {
     fetchDataReceipt();
   }, []);
@@ -50,13 +64,13 @@ const DonationItem = (props) => {
       const formData = {
         iddonacion: donacion.iddonacion,
       };
-      // console.log(formData);
+      console.log(formData);
       const result = await axios.post(
         apiPath + "/donations/find_receipt",
         formData
       );
       if (result.status === 200) {
-        // console.log("data  " + dataReceipt);
+        console.log("data  " + dataReceipt);
         setDataReceipt(result.data[0]);
       }
     } catch (err) {
@@ -64,7 +78,67 @@ const DonationItem = (props) => {
       console.log(err);
     }
   };
+  // const handleRender = async () => {
+  //   await fetchDataReceipt();
+  //   showPdfNewTab(ReceiptPdf, { content: dataReceipt });
+  // };
+  // const showPdfNewTab = (Component, props) => {
+  //   // return (
+  //   //   <BlobProvider document={<Component {...props} />}>
+  //   //     {
+  //   //       ({ url }) => (
+  //   //         <a href={url} target="_blank" rel="noreferrer">
+  //   //           Open in new tab
+  //   //         </a>
+  //   //       )
+  //   //       // {window.open(url)}
+  //   //     }
+  //   //   </BlobProvider>
+  //   // );
+  //   const ContentString = ReactDOMServer.renderToStaticMarkup(
+  //     <Component {...props} />
+  //   );
+  //   const content = <Component {...props} />;
+  //   const pdfBlob = new Blob([ContentString], { type: "application/pdf" });
+  //   console.log(content);
+  //   console.log(pdfBlob);
+  //   // const
+  //   const url = URL.createObjectURL(pdfBlob);
+  //   window.open(url);
+  // };
+
+  // const generatePdfDocument = async (dataReceipt, fileName) => {
+  //   const blob = await pdf(<ReceiptPdf receipt={dataReceipt} />).toBlob();
+  //   saveAs.saveAs(blob, fileName);
+  // };
   let nuevoEstado = donacion.estado;
+  // obtener datos del recibo
+  // useEffect(() => {
+  //   if (donacion.estado === "Entregado") {
+  //     console.log("fetching receipt");
+  //     const handleQueryReceipt = async () => {
+  //       try {
+  //         const formData = {
+  //           iddonacion: donacion.iddonacion,
+  //         };
+  //         console.log(formData);
+  //         const result = await axios.post(
+  //           apiPath + "/donations/find_receipt",
+  //           formData
+  //         );
+  //         if (result.status === 200) {
+  //           setDataReceipt(result.data);
+  //           console.log("data  " + dataReceipt);
+  //           setDataReceipt(result.data[0]);
+  //         }
+  //       } catch (err) {
+  //         console.log("Error");
+  //         console.log(err);
+  //       }
+  //     };
+  //     handleQueryReceipt();
+  //   }
+  // }, [donacion]);
   const handleAccept = () => {
     nuevoEstado = "";
     if (donacion.estado === "Solicitado") {
@@ -106,6 +180,22 @@ const DonationItem = (props) => {
       })
       .catch((err) => console.log(err));
   };
+  // const handleQueryGetReceipt = async (data) => {
+  //   try {
+  //     const formData = {
+  //       idrecibo: data.insertid,
+  //     };
+  //     console.log(formData);
+  //     const result = await axios(apiPath + "/donations/find_receipt", formData);
+  //     if (result.status === 200) {
+  //       setDataReceipt(result.data);
+  //       console.log("receipt fetched");
+  //     }
+  //   } catch (err) {
+  //     console.log("Error Get Receipt");
+  //     console.log(err);
+  //   }
+  // };
   const handleQueryInsertReceipt = () => {
     const formData = {
       fecha: new Date().toJSON(),
@@ -119,7 +209,7 @@ const DonationItem = (props) => {
         if (res.status === 200) {
           console.log("Receipt inserted");
           // console.log(res.data);
-          // console.log("recibo :", res.data);
+          console.log("recibo :", res.data);
           setDataReceipt(res.data[0]);
         } else {
           console.log("Error insert Receipt");
@@ -218,17 +308,24 @@ const DonationItem = (props) => {
               </button>
             </div>
           ) : donacion.estado === "Entregado" ? (
-            <DonationPDFComponent
-              estado={donacion.estado}
-              receipt={dataReceipt}
-            />
+            <>
+              {/* <BlobProvider document={<ReceiptPdf receipt={dataReceipt} />}>
+                {({ url, blob }) => (
+                  <a href={url} target="_blank" rel="noreferrer">
+                    <span>PDF</span>
+                  </a>
+                )}
+              </BlobProvider> */}
+              <DonationPDFComponent
+                estado={donacion.estado}
+                receipt={dataReceipt}
+              />
+            </>
           ) : null}
         </div>
       </div>
     );
-  } else {
-    return null;
-  }
+  } else return null;
 };
 
 export default DonationItem;

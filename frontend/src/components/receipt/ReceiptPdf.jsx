@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   Image,
   Text,
@@ -11,6 +11,7 @@ import {
 import logo from "../assets/logo_64.png";
 import OpenSansRegular from "./fonts/OpenSans-Regular.ttf";
 import OpenSansBold from "./fonts/OpenSans-Bold.ttf";
+import { getFormattedDate, padNumber } from "../utils/functionUtils";
 import "../globals.css";
 Font.register({
   family: "OpenSans",
@@ -153,21 +154,27 @@ const ReceiptTitle = () => {
     </View>
   );
 };
-const ReceiptDetail = () => {
+const ReceiptDetail = (props) => {
+  const recibo = props.recibo;
   return (
     <View style={styles.detailContainer}>
       <View style={styles.detailRow}>
         <Text style={styles.detailTitle}>Código de recibo:</Text>
-        <Text style={styles.detailContent}>010001</Text>
+        <Text style={styles.detailContent}>
+          {padNumber(recibo.idrecibo, 8, "0")}
+        </Text>
       </View>
       <View style={styles.detailRow}>
         <Text style={styles.detailTitle}>Fecha:</Text>
-        <Text style={styles.detailContent}>26/03/24</Text>
+        <Text style={styles.detailContent}>
+          {getFormattedDate(recibo.fecha)}
+        </Text>
       </View>
     </View>
   );
 };
-const DonnorSection = () => {
+const DonnorSection = (props) => {
+  const recibo = props.recibo;
   return (
     <View style={styles.donnorContainer}>
       <View style={styles.donnorDetail}>
@@ -198,33 +205,39 @@ const TableHead = () => (
     </View>
   </View>
 );
-const TableBody = (props) => (
-  <View style={{ width: "100%", flexDirection: "row" }}>
-    <View style={[styles.tbody, styles.tbody2]}>
-      <Text>Frutas en conserva 200gr</Text>
+const TableBody = (props) => {
+  const recibo = props.recibo;
+  return (
+    <View style={{ width: "100%", flexDirection: "row" }}>
+      <View style={[styles.tbody, styles.tbody2]}>
+        <Text>{recibo.nombre_ali}</Text>
+      </View>
+      <View style={styles.tbody}>
+        <Text>{recibo.cantidad_donacion}</Text>
+      </View>
+      <View style={styles.tbody}>
+        <Text>{recibo.unidad}</Text>
+      </View>
     </View>
-    <View style={styles.tbody}>
-      <Text>20</Text>
-    </View>
-    <View style={styles.tbody}>
-      <Text>Unidades</Text>
-    </View>
-  </View>
-);
-const DonationDetail = () => {
+  );
+};
+const DonationDetail = (props) => {
+  const recibo = props.recibo;
   return (
     <View style={styles.detailContainer}>
       <View style={styles.detailRow}>
         <Text style={styles.detailTitle}>Fecha de donación:</Text>
-        <Text style={styles.detailContent}>27/07/24</Text>
+        <Text style={styles.detailContent}>
+          {getFormattedDate(recibo.fecha_entrega)}
+        </Text>
       </View>
       <View style={styles.detailRow}>
         <Text style={styles.detailTitle}>Lugar donación</Text>
-        <Text style={styles.detailContent}>26/03/24</Text>
+        <Text style={styles.detailContent}>DireccionNOT</Text>
       </View>
       <View style={styles.detailRow}>
         <Text style={styles.detailTitle}>Nota:</Text>
-        <Text style={styles.detailContent}>Sin ninguna nota en particular</Text>
+        <Text style={styles.detailContent}>{recibo.nota}</Text>
       </View>
     </View>
   );
@@ -245,28 +258,20 @@ const ReceiptFooter = () => {
 };
 
 const ReceiptPdf = (props) => {
-  // console.log(props);
-  console.log(props.receipt);
-  const [receipt, setDataReceipt] = useState(props.receipt);
-  const [test, setTest] = useState({ idrecibo: 2 });
-  useEffect(() => {
-    console.log("state receipt:", receipt);
-  }, [receipt]);
-
+  const recibo = props.receipt;
   return (
     <Document>
       <Page size="A4" style={styles.page}>
-        {receipt ? (
+        {recibo ? (
           <>
-            <Text> idrecibo {receipt.idrecibo}</Text>
             <ReceiptTitle />
-            <ReceiptDetail />
-            <DonnorSection />
+            <ReceiptDetail recibo={recibo} />
+            <DonnorSection recibo={recibo} />
             <View>
               <TableHead />
-              <TableBody receipt={receipt} />
+              <TableBody recibo={recibo} />
             </View>
-            <DonationDetail />
+            <DonationDetail recibo={recibo} />
             <View></View>
             <View></View>
             <ReceiptFooter />

@@ -83,3 +83,13 @@
   text-overflow: ellipsis;
   overflow: hidden;
 }
+.donation-item .status-container .btn.pdf-button {
+  display: flex;
+  gap: 4px;
+  width: 80px;
+  font-size: var(--parr2);
+  font-weight: normal;
+}
+.btn-link {
+  all: unset;
+}
