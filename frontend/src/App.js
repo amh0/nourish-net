@@ -21,8 +21,12 @@ import Tareas from "./pages/Tareas";
 import Notificaciones from "./pages/Notificaciones";
 import Perfil from "./pages/Perfil";
 import CoordSolicitud from "./pages/CoordSolicitud";
+import { useContext } from "react";
+import { AuthContext } from "./context/authContext";
+
 function App() {
-  const currentUser = true;
+  const { currentUser } = useContext(AuthContext);
+
   return (
     <div>
       <BrowserRouter>
@@ -47,11 +51,13 @@ function App() {
           {!currentUser && <Route path="/signup" element={<Signup />} />}
           {!currentUser && <Route path="/loginHelp" element={<LoginHelp />} />}
           {currentUser && <Route path="/donantes" element={<Donantes />} />}
-          {currentUser && (
+          {currentUser && currentUser.isDonor && (
             <Route path="/mis-donaciones" element={<MisDonaciones />} />
           )}
           {currentUser && <Route path="/peticiones" element={<Peticiones />} />}
-          {currentUser && <Route path="/tareas" element={<Tareas />} />}
+          {currentUser && currentUser.isVolunteer && (
+            <Route path="/tareas" element={<Tareas />} />
+          )}
           {/*verify volunteer*/}
           {currentUser && (
             <Route path="/notificaciones" element={<Notificaciones />} />

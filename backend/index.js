@@ -2,10 +2,22 @@ import express from "express";
 import cors from "cors";
 import authRoutes from "./routes/auth.js";
 import productRoutes from "./routes/products.js";
+import cookieParser from "cookie-parser";
 import donationRoutes from "./routes/donations.js";
 const app = express();
-app.use(cors());
+
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Credentials", true);
+  next();
+});
+
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+  })
+);
 app.use(express.json());
+app.use(cookieParser());
 
 app.use(express.static("upload"));
 

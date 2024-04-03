@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { Bell } from "phosphor-react";
 import "./ProfileNavbar.css";
 import logo from "../assets/logo_64.png";
 import perfil from "../assets/perfil.jpg";
+import { AuthContext } from "../../context/authContext";
 const ProfileNavbar = () => {
+  const { currentUser } = useContext(AuthContext);
   const [menu, setMenu] = useState("inicio");
   return (
     <div className="profile-navbar">
@@ -35,16 +37,18 @@ const ProfileNavbar = () => {
           {menu === "donantes" ? <hr /> : <></>}
         </li> */}
 
-        <li
-          onClick={() => {
-            setMenu("misDonaciones");
-          }}
-        >
-          <Link className="link" to="/mis-donaciones">
-            Mis donaciones
-          </Link>
-          {menu === "misDonaciones" ? <hr /> : <></>}
-        </li>
+        {currentUser && currentUser.isDonor && (
+          <li
+            onClick={() => {
+              setMenu("misDonaciones");
+            }}
+          >
+            <Link className="link" to="/mis-donaciones">
+              Mis donaciones
+            </Link>
+            {menu === "misDonaciones" ? <hr /> : <></>}
+          </li>
+        )}
 
         <li
           onClick={() => {
@@ -70,26 +74,30 @@ const ProfileNavbar = () => {
       </ul>
       <div className="actions-section">
         <div className="actions-section">
-          <Link className="link" to="/tareas">
-            <button
-              className="btn btn secondary-v"
-              onClick={() => {
-                setMenu("");
-              }}
-            >
-              Tareas
-            </button>
-          </Link>
-          <Link className="link" to="/donar">
-            <button
-              className="btn btn-yellow-white"
-              onClick={() => {
-                setMenu("");
-              }}
-            >
-              Donar
-            </button>
-          </Link>
+          {currentUser && currentUser.isVolunteer && (
+            <Link className="link" to="/tareas">
+              <button
+                className="btn btn secondary-v"
+                onClick={() => {
+                  setMenu("");
+                }}
+              >
+                Tareas
+              </button>
+            </Link>
+          )}
+          {currentUser && currentUser.isDonor && (
+            <Link className="link" to="/donar">
+              <button
+                className="btn btn-yellow-white"
+                onClick={() => {
+                  setMenu("");
+                }}
+              >
+                Donar
+              </button>
+            </Link>
+          )}
         </div>
 
         <div className="user">
@@ -109,8 +117,12 @@ const ProfileNavbar = () => {
               setMenu("");
             }}
           >
-            <img src={perfil} alt="" />
-            Mi perfil
+            {currentUser && currentUser.img_perfil ? (
+              <img src={currentUser.img_perfil} alt="" />
+            ) : (
+              <img src={perfil} alt="" />
+            )}
+            <span>{currentUser && currentUser.nombre} </span>
           </Link>
         </div>
       </div>

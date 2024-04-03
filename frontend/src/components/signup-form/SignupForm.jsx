@@ -121,7 +121,9 @@ const SignupForm = () => {
           />
         )}
 
-        {!formData.isOrganization && step === 7 && <SignupComplet />}
+        {!formData.isOrganization && step === 7 && (
+          <SignupComplet formData={formData} />
+        )}
 
         {formData.isOrganization && step === 6 && (
           <OrgRegForm
@@ -144,7 +146,9 @@ const SignupForm = () => {
             onNext={handleNext}
           />
         )}
-        {formData.isOrganization && step === 8 && <SignupComplet />}
+        {formData.isOrganization && step === 8 && (
+          <SignupComplet formData={formData} />
+        )}
       </div>
     </div>
   );
