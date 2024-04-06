@@ -47,10 +47,9 @@ export const getDonnor = async (req, res) => {
   }
 };
 
-
 export const getAllProducts = (req, res) => {
   const q =
-    "select a.*, o.nombre as organizacion, o.direccion from alimento a inner join organizacion o on a.idgeneral = o.idorg ";
+    "select a.*, o.nombre as organizacion, o.direccion from alimento a inner join organizacion o on a.idgeneral = o.idorg order by a.idalimento";
   db.query(q, (err, data) => {
     if (err) {
       return res.status(500).json(err);

@@ -23,7 +23,10 @@ const apiPath = "http://localhost:3001/api";
 const DonationPDFComponent = (props) => {
   if (props.estado === "Entregado" && props.receipt) {
     return (
-      <BlobProvider document={<ReceiptPdf receipt={props.receipt} />}>
+      <BlobProvider
+        document={<ReceiptPdf receipt={props.receipt} />}
+        fileName="recibo"
+      >
         {({ url, blob }) => (
           <div className="btn secondary-v pdf-button">
             <a href={url} target="_blank" rel="noreferrer" className="btn-link">

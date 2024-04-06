@@ -35,7 +35,7 @@ export const insertReceipt = async (req, res) => {
 
 export const getReceiptData = async (req, res) => {
   const data = req.body;
-  console.log(data);
+  // console.log(data);
   try {
     const q = `
     select r.*, don.idgeneral as nombre_don, rec.idgeneral as nombre_rec, 

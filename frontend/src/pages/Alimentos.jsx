@@ -19,7 +19,7 @@ const Alimentos = () => {
       console.log(err);
     }
   };
-  // console.log(foodData);
+  console.log(foodData);
   return (
     <div className="alimentos-wrapper">
       <div className="alimentos-page">

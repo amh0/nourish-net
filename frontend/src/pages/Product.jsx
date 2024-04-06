@@ -5,8 +5,11 @@ import ProductDisplay from "../components/productDisplay/ProductDisplay";
 import { ArrowLeft } from "@phosphor-icons/react";
 import "../components/globals.css";
 import "./css/Product.css";
+import { AuthContext } from "../context/authContext";
 const Product = () => {
   const { foodData } = useContext(PageContext);
+  const { userData } = useContext(AuthContext);
+  console.log(userData);
   const { productId } = useParams();
   // verifica que los datos se hayan obtenido de la base
   if (foodData === undefined || foodData.length === 0) {

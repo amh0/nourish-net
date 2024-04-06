@@ -1,12 +1,13 @@
 import React, { useContext, useState } from "react";
 import axios from "axios";
-import Select from "react-select";
+import Select, { createFilter } from "react-select";
 import makeAnimated from "react-select/animated";
 import { Warning, CheckCircle } from "@phosphor-icons/react";
 
 import { PageContext } from "../context/PageContext";
 import Input from "../components/input/Input";
 import "./css/Publicar.css";
+import foodDefault from "../components/assets/data";
 
 const Publicar = () => {
   const [nombre, setNombre] = useState("");
@@ -17,7 +18,8 @@ const Publicar = () => {
 
   const [uploadState, setUploadState] = useState("none");
   const [formError, setFormError] = useState(false);
-  const idgeneral = 1;
+  const [nameEnabled, setNameEnabled] = useState(false);
+  const idgeneral = 101;
   const { foodCat } = useContext(PageContext);
   const categories = foodCat.map((cat) => {
     return {
@@ -25,8 +27,7 @@ const Publicar = () => {
       label: cat.nombre_cat,
     };
   });
-  console.log("categories", categories);
-  // list conf
+  // default options
   const listStyle = {
     control: (styles) => ({ ...styles, backgroundColor: "white" }),
     multiValue: (styles, { data }) => {
@@ -42,10 +43,29 @@ const Publicar = () => {
       };
     },
   };
+  // seleccionar nombre
+  const [nombreSel, setNombreSel] = useState();
+  const seleccionarCategorias = (values) => {
+    const defaultCat = categories.filter((cat) => values.includes(cat.value));
+    console.log(defaultCat);
+    setSelectedCat(defaultCat);
+  };
+  const handleNombreSelection = (name) => {
+    setNombreSel(name);
+    if (name.value === 0) {
+      setNameEnabled(true);
+    } else {
+      setNameEnabled(false);
+    }
+    seleccionarCategorias(name.categoria);
+    console.log(name);
+  };
+  // seleccionar categorias
   const [selectedCat, setSelectedCat] = useState([]);
   const handleCatSelection = (selectedCat) => {
     setSelectedCat(selectedCat);
     console.log("Categorias:");
+    console.log(selectedCat);
     selectedCat.forEach((cat) => {
       console.log(cat.value);
     });
@@ -60,7 +80,14 @@ const Publicar = () => {
   // form handling
   const handleForm = () => {
     // TODO validation
-    if (nombre && cantidad > 0 && unidad && fecha_vencimiento && desc && file) {
+    if (
+      ((nameEnabled && nombre) || (!nameEnabled && nombreSel)) &&
+      cantidad > 0 &&
+      unidad &&
+      fecha_vencimiento &&
+      desc &&
+      file
+    ) {
       handleData();
     } else {
       setFormError(true);
@@ -69,7 +96,11 @@ const Publicar = () => {
   };
   const handleData = () => {
     const formData = new FormData();
-    formData.append("nombre", nombre);
+    if (nameEnabled) {
+      formData.append("nombre", nombre);
+    } else {
+      formData.append("nombre", nombreSel.label);
+    }
     formData.append("descripcion", desc);
     formData.append("cantidad", cantidad);
     formData.append("unidad_medida", unidad);
@@ -84,7 +115,7 @@ const Publicar = () => {
     selectedCat.forEach((item) => {
       formData.append("categoria[]", item.value);
     });
-    //console.log([...formData]);
+    console.log([...formData]);
     setUploadState("loading");
     axios
       .post("http://localhost:3001/api/products/upload", formData)
@@ -120,16 +151,42 @@ const Publicar = () => {
           e.preventDefault();
         }}
       >
-        <div className="input-wrapper">
-          <Input
-            id="nombre"
-            name="nombre"
-            type="text"
-            value={nombre}
-            onChange={(e) => setNombre(e.target.value)}
-            placeholder="Nombre producto"
-          />
-        </div>
+        <Select
+          className="list-option"
+          options={foodDefault}
+          components={makeAnimated()}
+          closeMenuOnSelect={true}
+          value={nombreSel}
+          onChange={handleNombreSelection}
+          styles={listStyle}
+          noOptionsMessage={() =>
+            "Sin resultados, selecciona 'Otro' para añadir un alimento"
+          }
+          placeholder={"Haz clic para seleccionar"}
+          theme={(theme) => ({
+            ...theme,
+            borderRadius: 6,
+            colors: {
+              ...theme.colors,
+              text: "orangered",
+              primary25: "#E2F0EE",
+              primary50: "#99CBC5",
+              primary: "#red",
+            },
+          })}
+        />
+        {nameEnabled ? (
+          <div className="input-wrapper">
+            <Input
+              id="nombre"
+              name="nombre"
+              type="text"
+              value={nombre}
+              onChange={(e) => setNombre(e.target.value)}
+              placeholder="Nombre producto"
+            />
+          </div>
+        ) : null}
         <div className="row-wrapper">
           <div className="input-wrapper">
             <Input
@@ -183,6 +240,7 @@ const Publicar = () => {
             isMulti={true}
             styles={listStyle}
             placeholder={"Haz clic para seleccionar"}
+            isDisabled={!nameEnabled}
             theme={(theme) => ({
               ...theme,
               borderRadius: 6,

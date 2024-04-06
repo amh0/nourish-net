@@ -2,11 +2,11 @@
 CREATE DATABASE bdnourishnet;
 use bdnourishnet;
 
-CREATE TABLE USUARIO (
-    idusuario INT AUTO_INCREMENT PRIMARY KEY,
-    correo VARCHAR(50),
-    contrasenia VARCHAR(255),
-    img_perfil VARCHAR(50)
+create table usuario (
+    idusuario int auto_increment primary key,
+    correo varchar(50),
+    contrasenia varchar(255),
+    img_perfil varchar(50)
 );
 ALTER TABLE USUARIO AUTO_INCREMENT = 100;
 

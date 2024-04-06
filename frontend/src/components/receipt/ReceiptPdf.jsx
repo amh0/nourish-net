@@ -185,9 +185,9 @@ const DonnorSection = (props) => {
       </View>
       <View style={styles.donnorDetail}>
         <Text style={styles.donnorTitle}>Receptor</Text>
-        <Text>Albergue Municipal de La Paz</Text>
+        <Text>Hagi Argani Mamani</Text>
         <Text>La Paz</Text>
-        <Text>74000002</Text>
+        <Text>78400021</Text>
       </View>
     </View>
   );
@@ -233,7 +233,7 @@ const DonationDetail = (props) => {
       </View>
       <View style={styles.detailRow}>
         <Text style={styles.detailTitle}>Lugar donación</Text>
-        <Text style={styles.detailContent}>DireccionNOT</Text>
+        <Text style={styles.detailContent}>Av. Mariscal Santa Cruz</Text>
       </View>
       <View style={styles.detailRow}>
         <Text style={styles.detailTitle}>Nota:</Text>
@@ -260,7 +260,7 @@ const ReceiptFooter = () => {
 const ReceiptPdf = (props) => {
   const recibo = props.receipt;
   return (
-    <Document>
+    <Document title={`recibo_donacion_${recibo.idrecibo}`}>
       <Page size="A4" style={styles.page}>
         {recibo ? (
           <>
