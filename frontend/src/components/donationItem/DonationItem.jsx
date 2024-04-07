@@ -174,11 +174,15 @@ const DonationItem = (props) => {
         <div className="donation-data section-2">
           <div className="row-wrapper">
             <User size={24} color="var(--textlight)" weight="light" />
-            <p className="parr1 single-line">{donacion.nombre_rec}</p>
+            <p className="parr1 single-line">
+              {isDonated ? donacion.nombre_rec : donacion.nombre_don}
+            </p>
           </div>
           <div className="row-wrapper">
             <MapPin size={24} weight="light" color="var(--secondary)" />
-            <p className="parr1 single-line">{donacion.direccion_rec}</p>
+            <p className="parr1 single-line">
+              {isDonated ? donacion.direccion_rec : donacion.direccion_rec}
+            </p>
           </div>
           <div className="date-section">
             <div className="row-wrapper date-wrapper">
