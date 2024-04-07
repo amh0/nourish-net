@@ -117,10 +117,10 @@ CREATE TABLE ALIMENTO (
     estado VARCHAR(20),
     fecha_vencimiento DATE,
     fecha_publicacion DATE,
-    cantidad INT,
-    -- cantidad_disponible INT,
-    -- cantidad_reservada INT,
-    -- cantidad_no_disponible INT,
+    -- cantidad INT,
+    cantidad_disponible INT,
+    cantidad_reservada INT,
+    cantidad_no_disponible INT,
     unidad_medida VARCHAR(30),
     imagen VARCHAR(50),
     idgeneral INT,
@@ -142,8 +142,8 @@ CREATE TABLE DONACION (
     conf_donante BOOLEAN,
     conf_receptor BOOLEAN,
     FOREIGN KEY (idgeneral) REFERENCES GENERAL(idgeneral),
-    FOREIGN KEY (idalimento) REFERENCES ALIMENTO(idalimento)
-    -- FOREIGN KEY (idvoluntario) REFERENCES VOLUNTARIO(idvoluntario)
+    FOREIGN KEY (idalimento) REFERENCES ALIMENTO(idalimento),
+    FOREIGN KEY (idvoluntario) REFERENCES VOLUNTARIO(idvoluntario)
 );
 
 CREATE TABLE RECIBO (

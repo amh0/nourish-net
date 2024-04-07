@@ -1,6 +1,13 @@
 import React, { useEffect, useState, useContext, usefo } from "react";
 import axios from "axios";
-import { MagnifyingGlass, X, Funnel } from "@phosphor-icons/react";
+import {
+  MagnifyingGlass,
+  X,
+  Funnel,
+  HandArrowUp,
+  HandArrowDown,
+  HandHeart,
+} from "@phosphor-icons/react";
 
 import { AuthContext } from "../context/authContext";
 import DonationItem from "../components/donationItem/DonationItem";
@@ -66,9 +73,28 @@ const MisDonaciones = () => {
       <div className="sidebar">
         <h5 class="title5 accent-secondary">Tipo</h5>
         <ol className="categories">
-          <li onClick={() => setTypeFilter("Todos")}>Todos</li>
-          <li onClick={() => setTypeFilter("Donado")}>Donado</li>
-          <li onClick={() => setTypeFilter("Recibido")}>Recibido</li>
+          <li onClick={() => setTypeFilter("Todos")}>
+            <div className="icon-text-wrapper">
+              <HandHeart size={24} weight="light" color="var(--textlight)" />
+              Todos
+            </div>
+          </li>
+          <li onClick={() => setTypeFilter("Donado")}>
+            <div className="icon-text-wrapper">
+              <HandArrowUp size={24} weight="light" color="var(--secondary)" />
+              Donado
+            </div>
+          </li>
+          <li onClick={() => setTypeFilter("Recibido")}>
+            <div className="icon-text-wrapper">
+              <HandArrowDown
+                size={24}
+                weight="light"
+                color="var(--primary_strong)"
+              />
+              Recibido
+            </div>
+          </li>
         </ol>
         <h5 className="title5 accent-secondary">Estado</h5>
         <ol className="categories">

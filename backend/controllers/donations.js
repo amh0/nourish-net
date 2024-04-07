@@ -1,3 +1,4 @@
+import { query } from "express";
 import { db } from "../connect.js";
 
 export const insertReceipt = async (req, res) => {
@@ -265,7 +266,17 @@ export const insertDonation = async (req, res) => {
       data.idalimento,
       null,
     ];
-    await queryDatabase(q, donationValues);
+    const insertResult = await queryDatabase(q, donationValues);
+    const qUpd = `update alimento 
+      set cantidad_disponible = cantidad_disponible - ?,
+        cantidad_reservada = ?
+      where idalimento = ? `;
+    const valuesUpd = [
+      data.cantidad_donacion,
+      data.cantidad_donacion,
+      data.idalimento,
+    ];
+    const updResult = await queryDatabase(qUpd, valuesUpd);
     res.status(200).json({ Status: "OK" });
   } catch (error) {
     res.status(500).json(error);

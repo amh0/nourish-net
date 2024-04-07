@@ -61,20 +61,22 @@ const Alimentos = () => {
             </button>
           </div>
           <div className="products-list">
-            {foodData.map((item, i) => {
-              return (
-                <Item
-                  key={item.idalimento}
-                  idalimento={item.idalimento}
-                  nombre={item.nombre}
-                  desc={item.descripcion}
-                  cantidad={item.cantidad}
-                  unidad_medida={item.unidad_medida}
-                  imagen={imgPath + item.imagen}
-                  direccion={item.direccion_don}
-                />
-              );
-            })}
+            {foodData
+              .filter((item) => item.cantidad_disponible > 0)
+              .map((item, i) => {
+                return (
+                  <Item
+                    key={item.idalimento}
+                    idalimento={item.idalimento}
+                    nombre={item.nombre}
+                    desc={item.descripcion}
+                    cantidad={item.cantidad_disponible}
+                    unidad_medida={item.unidad_medida}
+                    imagen={imgPath + item.imagen}
+                    direccion={item.direccion_don}
+                  />
+                );
+              })}
           </div>
         </div>
       </div>

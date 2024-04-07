@@ -52,8 +52,8 @@ const ProductDisplay = (props) => {
     if (e.target.value) {
       if (e.target.value < 0) {
         setCantidad(1);
-      } else if (e.target.value > product.cantidad) {
-        setCantidad(product.cantidad);
+      } else if (e.target.value > product.cantidad_disponible) {
+        setCantidad(product.cantidad_disponible);
       } else {
         setCantidad(e.target.value);
       }
@@ -102,7 +102,7 @@ const ProductDisplay = (props) => {
               color="var(--textlight)"
             />
             <p className="parr2">
-              {product.cantidad} {product.unidad_medida}
+              {product.cantidad_disponible} {product.unidad_medida}
             </p>
           </div>
         </div>
@@ -116,7 +116,7 @@ const ProductDisplay = (props) => {
                 name="cantidad"
                 type="number"
                 min={1}
-                max={product.cantidad}
+                max={product.cantidad_disponible}
                 value={cantidad}
                 onChange={(e) => handleNumberChange(e)}
                 placeholder="Cantidad"

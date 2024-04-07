@@ -1,15 +1,15 @@
 -- para reiniciar el id
 ALTER TABLE alimento AUTO_INCREMENT = 0;
 
-INSERT INTO alimento (nombre, descripcion, estado, fecha_vencimiento, fecha_publicacion, cantidad, unidad_medida, imagen, idgeneral) VALUES
-('Frutas en Conserva 200 gr', 'Frutas en conserva en almíbar ligero, una deliciosa opción como postre o refrigerio.', 'Disponible', '2025-12-05', '2024-03-25', 5, 'envases', 'product_1.jpg', 2001),
-('Harina de Trigo', 'Harina de trigo todo uso, perfecta para hornear pan, pasteles y otros productos horneados.', 'Disponible', '2030-01-02', '2023-03-25', 30, 'u', 'product_2.jpg', 2002),
-('Leche en Polvo 200g', 'Leche en polvo fortificada, ideal para preparar bebidas lácteas y recetas.', 'Disponible', '2024-01-03', '2023-03-25', 200, 'u', 'product_3.jpg', 2002),
-('Atún enlatado', 'Atún enlatado en aceite vegetal, rico en proteínas y ácidos grasos omega-3.', 'Disponible', '2025-10-20', '2023-03-25', 10, 'latas', 'product_4.jpg', 2001),
-('Arroz Blanco', 'Arroz blanco de grano largo, ideal para acompañar comidas.', 'Disponible', '2025-06-30', '2023-03-25', 50, 'kg', 'product_5.jpg',2003),
-('Cereal de Avena', 'Cereal de avena integral, una opción nutritiva para el desayuno. Rico en fibra y vitaminas.', 'Disponible', '2025-11-28', '2023-03-25', 5, 'pqte.', 'product_6.jpg', 2004),
-('Mermelada de Fresa 150g', 'Mermelada casera de fresa, elaborada con frutas frescas y azúcar. Deliciosa para untar en pan o galletas.', 'Disponible', '2025-11-30', '2023-03-25', 150, 'u', 'product_7.jpg', 2005),
-('Salsa de tomate 200g', 'Salsa de tomate enlatado, ideal para salsas y guisos. Hecho con tomates frescos y jugosos.', 'Disponible', '2025-03-01', '2023-03-25', 30, 'sobres', 'product_8.jpg', 2004);
+INSERT INTO alimento (nombre, descripcion, estado, fecha_vencimiento, fecha_publicacion, cantidad_disponible, cantidad_reservada, cantidad_no_disponible, unidad_medida, imagen, idgeneral) VALUES
+('Frutas en Conserva 200 gr', 'Frutas en conserva en almíbar ligero, una deliciosa opción como postre o refrigerio.', 'Disponible', '2025-12-05', '2024-03-25', 5, 0, 0, 'Envases', 'product_1.jpg', 101),
+('Harina de Trigo', 'Harina de trigo todo uso, perfecta para hornear pan, pasteles y otros productos horneados.', 'Disponible', '2030-01-02', '2023-03-25', 30, 0, 0, 'Unidades', 'product_2.jpg', 2002),
+('Leche en Polvo 200g', 'Leche en polvo fortificada, ideal para preparar bebidas lácteas y recetas.', 'Disponible', '2024-01-03', '2023-03-25', 200, 0, 0, 'Unidades', 'product_3.jpg', 101),
+('Atún enlatado', 'Atún enlatado en aceite vegetal, rico en proteínas y ácidos grasos omega-3.', 'Disponible', '2025-10-20', '2023-03-25', 10, 0, 0, 'Latas', 'product_4.jpg', 2001),
+('Arroz Blanco', 'Arroz blanco de grano largo, ideal para acompañar comidas.', 'Disponible', '2025-06-30', '2023-03-25', 200, 0, 0, 'Kg', 'product_5.jpg',101),
+('Cereal de Avena', 'Cereal de avena integral, una opción nutritiva para el desayuno. Rico en fibra y vitaminas.', 'Disponible', '2025-11-28', '2023-03-25', 5, 0, 0, 'Paquetes.', 'product_6.jpg', 2004),
+('Mermelada de Fresa 150g', 'Mermelada casera de fresa, elaborada con frutas frescas y azúcar. Deliciosa para untar en pan o galletas.', 'Disponible', '2025-11-30', '2023-03-25', 150, 0, 0, 'Unidades', 'product_7.jpg', 2005),
+('Salsa de tomate 200g', 'Salsa de tomate enlatado, ideal para salsas y guisos. Hecho con tomates frescos y jugosos.', 'Disponible', '2025-03-01', '2023-03-25', 30, 0, 0, 'Sobres', 'product_8.jpg', 100);
 
 
 INSERT INTO categoria(nombre_cat, imagen) values
@@ -44,18 +44,18 @@ INSERT INTO tiene_c (idalimento, idcategoria) VALUES
 (8, 7),
 (8, 4);
 
-INSERT INTO GENERAL(idgeneral, rol) values
-(1001, 'Donante'),
-(1002, 'Receptor'),
-(1003, 'Donante'),
-(1004, 'Receptor'),
-(1005, 'Receptor'),
-(2001, 'Donante'),
-(2002, 'Donante'),
-(2003, 'Donante'),
-(2004, 'Donante'),
-(2005, 'Receptor'),
-(2006, 'Receptor');
+INSERT INTO GENERAL(idgeneral, rol, tipo) values
+(1001, 'Donante', 'Persona'),
+(1002, 'Receptor', 'Persona'),
+(1003, 'Donante', 'Persona'),
+(1004, 'Receptor', 'Persona'),
+(1005, 'Receptor', 'Persona'),
+(2001, 'Donante', 'Organizacion'),
+(2002, 'Donante', 'Organizacion'),
+(2003, 'Donante', 'Organizacion'),
+(2004, 'Donante', 'Organizacion'),
+(2005, 'Receptor', 'Organizacion'),
+(2006, 'Receptor', 'Organizacion');
 
 INSERT INTO PERSONA (idpersona, nombre, apellido_pat, apellido_mat, fechanaci, ubicacion, direccion, telefono, celular) VALUES
 (1001,'Juan', 'González', 'Lopez', '1990-05-15', 'La Paz, Bolivia', 'Calle 123', '222-5555', '777-8888'),

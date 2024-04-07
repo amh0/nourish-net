@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { BlobProvider } from "@react-pdf/renderer";
 import ReceiptPdf from "../receipt/ReceiptPdf";
@@ -17,7 +17,12 @@ import {
   XCircle,
   WarningCircle,
   LinkSimple,
+  HandHeart,
+  ArrowDown,
+  HandArrowDown,
+  HandArrowUp,
 } from "@phosphor-icons/react";
+import { AuthContext } from "../../context/authContext";
 const imgPath = "http://localhost:3001/img/";
 const apiPath = "http://localhost:3001/api";
 const DonationPDFComponent = (props) => {
@@ -43,8 +48,15 @@ const DonationPDFComponent = (props) => {
 };
 const DonationItem = (props) => {
   // Lado donante
+  const { currentUser } = useContext(AuthContext);
   const [donacion, setDonacion] = useState(props.donacion);
   const [dataReceipt, setDataReceipt] = useState({});
+  const [isDonated, setIsDonated] = useState();
+
+  useEffect(() => {
+    setIsDonated(currentUser.idusuario === donacion.id_donante);
+  }, [donacion, currentUser]);
+
   useEffect(() => {
     fetchDataReceipt();
   }, []);
@@ -141,8 +153,17 @@ const DonationItem = (props) => {
           <img src={imgPath + donacion.img_alimento} alt="" />
         </div>
         <div className="donation-data section-1">
-          <p className="parr1 bold">{donacion.nombre_alimento}</p>
+          <p className="parr1 bold">{" " + donacion.nombre_alimento}</p>
           <div className="row-wrapper">
+            {isDonated ? (
+              <HandArrowUp size={24} weight="light" color="var(--secondary)" />
+            ) : (
+              <HandArrowDown
+                size={24}
+                weight="light"
+                color="var(--primary_strong)"
+              />
+            )}
             <Cube size={24} weight="light" color="var(--textlight)" />
             <p className="parr1 ">
               {donacion.cantidad_donacion + " " + donacion.unidad_medida}{" "}
