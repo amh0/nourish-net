@@ -13,3 +13,47 @@
   gap: 40px;
   max-width: 586px;
 }
+.sidebar li {
+  cursor: pointer;
+}
+.donations-section .filter-wrapper {
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 48px;
+}
+.filter-section {
+  display: flex;
+  color: var(--text);
+  flex-wrap: wrap;
+  gap: 16px;
+  height: 40px;
+}
+.filter-section .filter-container {
+  display: flex;
+  align-items: center;
+  border-radius: 8px;
+  background-color: var(--secondarylighter);
+}
+.filter-section .filter-text {
+  padding: 8px 4px 8px 8px;
+}
+.filter-container .btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  padding: 8px;
+  border-radius: 8px;
+  background-color: var(--secondarylighter);
+}
+.filter-container .btn:hover {
+  background-color: var(--tertiary);
+}
+
+.filter-section .icon-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

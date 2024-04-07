@@ -1,10 +1,11 @@
 import React, { useContext, useState } from "react";
 import axios from "axios";
-import Select, { createFilter } from "react-select";
+import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import { Warning, CheckCircle } from "@phosphor-icons/react";
 
 import { PageContext } from "../context/PageContext";
+import { AuthContext } from "../context/authContext";
 import Input from "../components/input/Input";
 import "./css/Publicar.css";
 import foodDefault from "../components/assets/data";
@@ -19,8 +20,10 @@ const Publicar = () => {
   const [uploadState, setUploadState] = useState("none");
   const [formError, setFormError] = useState(false);
   const [nameEnabled, setNameEnabled] = useState(false);
-  const idgeneral = 101;
+  // const idgeneral = 101;
   const { foodCat } = useContext(PageContext);
+  const { currentUser } = useContext(AuthContext);
+  // console.log(currentUser);
   const categories = foodCat.map((cat) => {
     return {
       value: cat.idcategoria,
@@ -88,10 +91,15 @@ const Publicar = () => {
       desc &&
       file
     ) {
-      handleData();
+      if (currentUser) {
+        handleData();
+      } else {
+        setFormError(true);
+        console.log("Error identifying user...");
+      }
     } else {
       setFormError(true);
-      console.log("error");
+      console.log("Error getting data from form...");
     }
   };
   const handleData = () => {
@@ -109,7 +117,7 @@ const Publicar = () => {
     // formData.append("fecha_publicacion", fechaPublicacion);
 
     formData.append("fecha_publicacion", new Date().toJSON());
-    formData.append("idgeneral", idgeneral);
+    formData.append("idgeneral", currentUser.idusuario);
     formData.append("img", file);
     // categories handlign
     selectedCat.forEach((item) => {
@@ -256,7 +264,9 @@ const Publicar = () => {
         </div>
         <div className="row-wrapper">
           <div className="form-label parr1">Direccion:</div>
-          <div className="parr1 text-address">Av. 16 de Julio </div>
+          <div className="parr1 text-address">
+            {currentUser.direccion || "Cargando..."}
+          </div>
         </div>
         <div className="row-wrapper">
           <label

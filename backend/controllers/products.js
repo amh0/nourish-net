@@ -37,9 +37,9 @@ export const getDonnor = async (req, res) => {
       res.status(200).json(orgQuery);
     } else {
       // buscar persona
-      const q2 = `select * from persona where idpersona = ?`;
+      const q2 = `select *, concat(nombre, ' ', apellido_pat, ' ', apellido_mat) as nombre from persona where idpersona = ?`;
       const perQuery = await queryDatabase(q2, queryValues);
-      res.status(200).json(orgQuery);
+      res.status(200).json(perQuery);
     }
   } catch (error) {
     res.status(500).json(error);
@@ -57,6 +57,31 @@ export const getAllProducts = (req, res) => {
       res.status(200).json(data);
     }
   });
+};
+export const getAllProducts2 = async (req, res) => {
+  try {
+    // obtener tipo de organizacion
+    const qType = `
+    select a.*, o.nombre as nombre_don, o.direccion as direccion_don
+    from alimento a inner join general g 
+    on a.idgeneral = g.idgeneral
+    inner join organizacion o
+    on g.idgeneral = o.idorg
+    where g.tipo like 'Organizacion'
+    UNION
+    select a.*, concat(p.nombre, ' ', p.apellido_pat, ' ', p.apellido_mat) as nombre_don, p.direccion as direccion_don  
+    from alimento a inner join general g 
+    on a.idgeneral = g.idgeneral
+    inner join persona p
+    on g.idgeneral like p.idpersona
+    where g.tipo = 'Persona'
+    order by 1, 6`;
+    const foodQuery = await queryDatabase(qType);
+    res.status(200).json(foodQuery);
+  } catch (error) {
+    res.status(500).json(error);
+    console.log(error);
+  }
 };
 
 export const uploadProduct = async (req, res) => {

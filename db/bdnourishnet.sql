@@ -12,7 +12,8 @@ ALTER TABLE USUARIO AUTO_INCREMENT = 100;
 
 CREATE TABLE GENERAL (
     idgeneral INT PRIMARY KEY,
-    rol VARCHAR(50)
+    rol VARCHAR(50),
+    tipo varchar(20)
 );
 
 CREATE TABLE PERSONA (
@@ -166,3 +167,78 @@ CREATE TABLE TIENE_C (
     FOREIGN KEY (idalimento) REFERENCES ALIMENTO(idalimento),
     FOREIGN KEY (idcategoria) REFERENCES CATEGORIA(idcategoria)
 );
+
+-- FUNCIONES
+-- reemplazar funciones
+drop function if exists nombre_funcion;
+
+-- funcion 1 
+delimiter //
+create function nombre_idx_gen(idx int)
+returns varchar(100)
+deterministic
+begin
+  declare xnombre varchar(100);
+  declare xtipo varchar(20);
+  select tipo into xtipo
+  from general
+  where idgeneral = idx;
+  if xtipo like 'Persona'  then
+    select concat(nombre, ' ', apellido_pat, ' ', apellido_mat) into xnombre
+    from persona
+    where idpersona = idx;
+  else
+    select nombre into xnombre
+    from organizacion
+    where idorg = idx;
+  end if;
+  return xnombre;
+end//
+delimiter ;
+
+-- funcion 2 
+delimiter //
+create function direccion_idx_gen(idx int) returns varchar(100)
+deterministic
+begin
+  declare xdireccion varchar(100);
+  declare xtipo varchar(20);
+  select tipo into xtipo
+  from general
+  where idgeneral = idx;
+  if xtipo like 'Persona'  then
+    select direccion into xdireccion
+    from persona
+    where idpersona = idx;
+  else
+    select direccion into xdireccion
+    from organizacion
+    where idorg = idx;
+  end if;
+  return xdireccion;
+end//
+delimiter ;
+
+-- funcion 3
+
+delimiter //
+create function cel_idx_gen(idx int) returns varchar(100)
+deterministic
+begin
+  declare xcel varchar(100);
+  declare xtipo varchar(20);
+  select tipo into xtipo
+  from general
+  where idgeneral = idx;
+  if xtipo like 'Persona'  then
+    select celular into xcel
+    from persona
+    where idpersona = idx;
+  else
+    select celular into xcel
+    from organizacion
+    where idorg = idx;
+  end if;
+  return xcel;
+end//
+delimiter ;

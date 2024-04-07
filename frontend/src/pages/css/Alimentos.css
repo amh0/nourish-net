@@ -26,6 +26,9 @@
 .sidebar .title5 {
   margin-bottom: 32px;
 }
+.sidebar ol + .title5 {
+  margin-top: 32px;
+}
 .categories {
   list-style: none;
   margin: 0px;
@@ -47,6 +50,7 @@
   border-radius: 8px;
 }
 .search-bar .input-wrapper {
+  flex: 1;
   margin: 0px;
 }
 .search-bar .input-wrapper input {

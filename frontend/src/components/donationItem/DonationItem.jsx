@@ -59,7 +59,7 @@ const DonationItem = (props) => {
         formData
       );
       if (result.status === 200) {
-        // console.log("data  " + dataReceipt);
+        // console.log("data  " + result.data[0]);
         setDataReceipt(result.data[0]);
       }
     } catch (err) {
@@ -123,7 +123,7 @@ const DonationItem = (props) => {
           console.log("Receipt inserted");
           // console.log(res.data);
           // console.log("recibo :", res.data);
-          setDataReceipt(res.data[0]);
+          fetchDataReceipt();
         } else {
           console.log("Error insert Receipt");
           // setInsertState("error");
@@ -138,7 +138,7 @@ const DonationItem = (props) => {
     return (
       <div className="donation-item">
         <div className="img-container">
-          <img src={imgPath + donacion.imagen} alt="" />
+          <img src={imgPath + donacion.img_alimento} alt="" />
         </div>
         <div className="donation-data section-1">
           <p className="parr1 bold">{donacion.nombre_alimento}</p>
@@ -153,11 +153,11 @@ const DonationItem = (props) => {
         <div className="donation-data section-2">
           <div className="row-wrapper">
             <User size={24} color="var(--textlight)" weight="light" />
-            <p className="parr1 single-line">{donacion.nombre_receptor}</p>
+            <p className="parr1 single-line">{donacion.nombre_rec}</p>
           </div>
           <div className="row-wrapper">
             <MapPin size={24} weight="light" color="var(--secondary)" />
-            <p className="parr1 single-line">{donacion.direccion_receptor}</p>
+            <p className="parr1 single-line">{donacion.direccion_rec}</p>
           </div>
           <div className="date-section">
             <div className="row-wrapper date-wrapper">

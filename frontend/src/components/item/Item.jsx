@@ -23,9 +23,9 @@ const Item = (props) => {
       </div>
       <div className="item-specs">
         <Cube size={24} weight="light" color="var(--textlight)" />
-        <p className="parr1">
-          {props.cantidad} {props.unidad_medida}
-        </p>
+        <div className="item-specs-qty">
+          {props.cantidad} <span className="units">{props.unidad_medida}</span>
+        </div>
       </div>
     </div>
   );

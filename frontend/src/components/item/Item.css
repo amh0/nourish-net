@@ -58,3 +58,6 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.item-specs .units {
+  font-size: var(--parr2);
+}

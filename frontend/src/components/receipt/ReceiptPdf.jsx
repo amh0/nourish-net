@@ -179,15 +179,15 @@ const DonnorSection = (props) => {
     <View style={styles.donnorContainer}>
       <View style={styles.donnorDetail}>
         <Text style={styles.donnorTitle}>Donante</Text>
-        <Text>Banco de Alimentos de Bolivia</Text>
-        <Text>La Paz</Text>
-        <Text>74000001</Text>
+        <Text>{recibo.nombre_don}</Text>
+        <Text>{recibo.direccion_don}</Text>
+        <Text>{recibo.cel_don}</Text>
       </View>
       <View style={styles.donnorDetail}>
         <Text style={styles.donnorTitle}>Receptor</Text>
-        <Text>Hagi Argani Mamani</Text>
-        <Text>La Paz</Text>
-        <Text>78400021</Text>
+        <Text>{recibo.nombre_rec}</Text>
+        <Text>{recibo.direccion_rec}</Text>
+        <Text>{recibo.cel_rec}</Text>
       </View>
     </View>
   );
@@ -216,7 +216,7 @@ const TableBody = (props) => {
         <Text>{recibo.cantidad_donacion}</Text>
       </View>
       <View style={styles.tbody}>
-        <Text>{recibo.unidad}</Text>
+        <Text>{recibo.unidad_medida}</Text>
       </View>
     </View>
   );
@@ -259,6 +259,7 @@ const ReceiptFooter = () => {
 
 const ReceiptPdf = (props) => {
   const recibo = props.receipt;
+  // console.log(recibo);
   return (
     <Document title={`recibo_donacion_${recibo.idrecibo}`}>
       <Page size="A4" style={styles.page}>

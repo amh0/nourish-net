@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import axios from "axios";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import { Warning, CheckCircle } from "@phosphor-icons/react";
+import { AuthContext } from "../../context/authContext";
 
 import Input from "../input/Input";
 import "./Coordination.css";
@@ -23,6 +24,8 @@ const methodOptions = [
 ];
 
 const Coordination = (props) => {
+  const { currentUser } = useContext(AuthContext);
+
   const { product } = props;
   const cantidad = props.cantidad || 1;
   const [method, setMethod] = useState(methodOptions[0]);
@@ -32,7 +35,6 @@ const Coordination = (props) => {
 
   const [insertState, setInsertState] = useState("none");
   const [formError, setFormError] = useState(false);
-
   const listStyle = {
     control: (styles) => ({ ...styles, backgroundColor: "white" }),
     multiValue: (styles, { data }) => {
@@ -70,7 +72,7 @@ const Coordination = (props) => {
       hora_entrega: hora,
       mensaje_solicitud: msg,
       cantidad_donacion: cantidad,
-      idgeneral: product.idgeneral, // id del receptor
+      idgeneral: currentUser.idusuario, // id del receptor
       idalimento: product.idalimento,
     };
     console.log("formData", formData);
@@ -172,7 +174,7 @@ const Coordination = (props) => {
         ></textarea>
         <div className="row-wrapper">
           <div className="form-label parr1 bold">Direccion entrega:</div>
-          <div className="parr1 text-address">{product.direccion}</div>
+          <div className="parr1 text-address">{product.direccion_don}</div>
         </div>
       </div>
       {formError ? (
