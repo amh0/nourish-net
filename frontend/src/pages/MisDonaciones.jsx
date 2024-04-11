@@ -18,17 +18,29 @@ const MisDonaciones = () => {
   const { currentUser } = useContext(AuthContext);
   const [donationsData, setDonationsData] = useState([]);
   const [filteredDonations, setFilteredDonations] = useState(donationsData);
-  const [typeFilter, setTypeFilter] = useState("");
+  const [typeFilter, setTypeFilter] = useState("Todos");
   const [statusFilter, setStatusFilter] = useState("");
   const [search, setSearch] = useState("");
   useEffect(() => {
     getAllDonations();
   }, []);
-  // console.log("user", currentUser);
-  // console.log(donationsData);
+  const getAllDonations = async () => {
+    try {
+      const result = await axios(apiPath + "/donations/findall");
+      setDonationsData(result.data);
+      //setFilteredDonations(result.data);
+      // console.log("fetching...");
+    } catch (err) {
+      console.log("Error");
+      console.log(err);
+    }
+  };
+  // filterEffect
   useEffect(() => {
     const newData = donationsData.filter((donation) => {
       let filteredByType = true;
+      let filteredByStatus = true;
+      let filteredBySearch = true;
       if (typeFilter === "Donado") {
         filteredByType = donation.id_donante === currentUser.idusuario;
       } else if (typeFilter === "Recibido")
@@ -40,41 +52,19 @@ const MisDonaciones = () => {
           donation.id_donante === currentUser.idusuario ||
           donation.id_receptor === currentUser.idusuario;
       }
-      return (
-        filteredByType &&
-        (!statusFilter ||
-          statusFilter === "Todos" ||
-          donation.estado === statusFilter)
-      );
+      filteredByStatus =
+        !statusFilter ||
+        statusFilter === "Todos" ||
+        donation.estado === statusFilter;
+      filteredBySearch = donation.nombre_alimento
+        .toLowerCase()
+        .includes(search.toLowerCase());
+      return filteredByType && filteredByStatus && filteredBySearch;
     });
     // console.log(newData);
     setFilteredDonations(newData);
-  }, [typeFilter, statusFilter, currentUser, donationsData]);
-  useEffect(() => {
-    // console.log(search);
-    if (search) {
-      const newData = donationsData.filter((donation) => {
-        return donation.nombre_alimento
-          .toLowerCase()
-          .includes(search.toLowerCase());
-      });
-      console.log("search", newData);
-      setFilteredDonations(newData);
-    } else {
-      setFilteredDonations(donationsData);
-    }
-  }, [search]);
-  const getAllDonations = async () => {
-    try {
-      const result = await axios(apiPath + "/donations/findall");
-      setDonationsData(result.data);
-      setFilteredDonations(result.data);
-      // console.log("fetching...");
-    } catch (err) {
-      console.log("Error");
-      console.log(err);
-    }
-  };
+  }, [typeFilter, statusFilter, search, currentUser, donationsData]);
+
   return (
     <div className="mis-donaciones">
       <div className="sidebar">
@@ -134,14 +124,16 @@ const MisDonaciones = () => {
             </button>
           </div>
           <div className="filter-section">
-            {(typeFilter && typeFilter !== "Todos") ||
+            {(typeFilter &&
+              (typeFilter === "Donado" || typeFilter === "Recibido")) ||
             (statusFilter && statusFilter !== "Todos") ? (
               <div className="icon-container light-v">
                 <Funnel size={24} color="var(--textlight)" weight="bold" />
               </div>
             ) : null}
             <div className="filter-container">
-              {typeFilter && typeFilter !== "Todos" ? (
+              {typeFilter &&
+              (typeFilter === "Donado" || typeFilter === "Recibido") ? (
                 <>
                   <div className="filter-text">{typeFilter}</div>
                   <button className="btn" onClick={() => setTypeFilter("")}>

@@ -7,6 +7,9 @@ import axios from "axios";
 const Alimentos = () => {
   const imgPath = "http://localhost:3001/img/";
   const [foodData, setFoodData] = useState([]);
+  const [filteredFood, setFilteredFood] = useState(foodData);
+  const [categoryFilter, setCategoryFilter] = useState("");
+  const [search, setSearch] = useState("");
   useEffect(() => {
     fetchData();
   }, []);
@@ -20,6 +23,7 @@ const Alimentos = () => {
       console.log(err);
     }
   };
+  
   return (
     <div className="alimentos-wrapper">
       <div className="alimentos-page">
