@@ -92,7 +92,7 @@ export const uploadProduct = async (req, res) => {
   const imagen = req.file.filename;
   try {
     // alimento
-    const q = `insert into alimento (nombre, descripcion, estado, fecha_vencimiento, fecha_publicacion, cantidad, unidad_medida, imagen, idgeneral)
+    const q = `insert into alimento (nombre, descripcion, estado, fecha_vencimiento, fecha_publicacion, cantidad_disponible, unidad_medida, imagen, idgeneral)
     values (?,?,?,?,?,?,?,?,?)`;
     const foodValues = [
       data.nombre,

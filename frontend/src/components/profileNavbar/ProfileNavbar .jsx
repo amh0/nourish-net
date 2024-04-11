@@ -37,7 +37,7 @@ const ProfileNavbar = () => {
           {menu === "donantes" ? <hr /> : <></>}
         </li> */}
 
-        {currentUser && currentUser.isDonor && (
+        {currentUser && (currentUser.isDonor || currentUser.isAdmin) && (
           <li
             onClick={() => {
               setMenu("misDonaciones");

@@ -27,7 +27,6 @@ import { AuthContext } from "./context/authContext";
 function App() {
   const { currentUser } = useContext(AuthContext);
   // const currentUser = null;
-
   return (
     <div>
       <BrowserRouter>
@@ -54,7 +53,7 @@ function App() {
           {!currentUser && <Route path="/signup" element={<Signup />} />}
           {!currentUser && <Route path="/loginHelp" element={<LoginHelp />} />}
           {currentUser && <Route path="/donantes" element={<Donantes />} />}
-          {currentUser && currentUser.isDonor && (
+          {currentUser && (currentUser.isDonor || currentUser.isAdmin) && (
             <Route path="/mis-donaciones" element={<MisDonaciones />} />
           )}
           {currentUser && <Route path="/peticiones" element={<Peticiones />} />}

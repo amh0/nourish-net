@@ -68,9 +68,10 @@
   color: var(--secondary);
 }
 .status-container .pendiente {
-  color: var(--primary);
+  color: var(--textlight);
 }
-.status-container .solicitado {
+.status-container .solicitado,
+.status-container .confirmando {
   color: var(--textlight);
 }
 .status-container .cancelado,

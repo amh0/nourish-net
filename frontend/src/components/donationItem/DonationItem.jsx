@@ -17,12 +17,13 @@ import {
   XCircle,
   WarningCircle,
   LinkSimple,
-  HandHeart,
-  ArrowDown,
   HandArrowDown,
   HandArrowUp,
+  Spinner,
+  ArrowsClockwise,
 } from "@phosphor-icons/react";
 import { AuthContext } from "../../context/authContext";
+import { getFormattedDate, getFormattedHour } from "../utils/functionUtils";
 const imgPath = "http://localhost:3001/img/";
 const apiPath = "http://localhost:3001/api";
 const DonationPDFComponent = (props) => {
@@ -52,7 +53,8 @@ const DonationItem = (props) => {
   const [donacion, setDonacion] = useState(props.donacion);
   const [dataReceipt, setDataReceipt] = useState({});
   const [isDonated, setIsDonated] = useState();
-
+  let confRec = donacion.conf_receptor;
+  let confDon = donacion.conf_donante;
   useEffect(() => {
     setIsDonated(currentUser.idusuario === donacion.id_donante);
   }, [donacion, currentUser]);
@@ -84,13 +86,30 @@ const DonationItem = (props) => {
     nuevoEstado = "";
     if (donacion.estado === "Solicitado") {
       nuevoEstado = "Pendiente";
-    } else if (donacion.estado === "Pendiente") {
-      nuevoEstado = "Entregado";
-      handleQueryInsertReceipt();
+    } else if (
+      donacion.estado === "Pendiente" ||
+      donacion.estado === "Confirmando"
+    ) {
+      if (isDonated) {
+        confDon = 1;
+      } else {
+        confRec = 1;
+      }
+      nuevoEstado = "Confirmando";
+      // updateConfDon();
+      if (confDon === 1 && confRec === 1) {
+        nuevoEstado = "Entregado";
+        handleQueryInsertReceipt();
+      }
     } else {
       return;
     }
-    setDonacion((d) => ({ ...d, estado: nuevoEstado }));
+    setDonacion((d) => ({
+      ...d,
+      estado: nuevoEstado,
+      conf_donante: confDon,
+      conf_receptor: confRec,
+    }));
     handleQuery();
   };
   const handleDeny = () => {
@@ -108,12 +127,17 @@ const DonationItem = (props) => {
     const formData = {
       iddonacion: donacion.iddonacion,
       estado: nuevoEstado,
+      conf_donante: confDon,
+      conf_receptor: confRec,
+      idalimento: donacion.idalimento,
+      cantidad_donacion: donacion.cantidad_donacion,
     };
     axios
       .post(apiPath + "/donations/update_status", formData)
       .then((res) => {
         if (res.status === 200) {
           console.log("Status uptaded");
+          setDonacion((d) => ({ ...d, ...res.data }));
         } else {
           console.log("An error has occurred");
           // setInsertState("error");
@@ -181,7 +205,7 @@ const DonationItem = (props) => {
           <div className="row-wrapper">
             <MapPin size={24} weight="light" color="var(--secondary)" />
             <p className="parr1 single-line">
-              {isDonated ? donacion.direccion_rec : donacion.direccion_rec}
+              {isDonated ? donacion.direccion_rec : donacion.direccion_don}
             </p>
           </div>
           <div className="date-section">
@@ -192,16 +216,12 @@ const DonationItem = (props) => {
                 weight="light"
               />
               <p className="parr1 ">
-                {new Date(donacion.fecha_entrega).toLocaleDateString("es-BO", {
-                  day: "2-digit",
-                  month: "2-digit",
-                  year: "numeric",
-                })}
+                {getFormattedDate(donacion.fecha_entrega)}
               </p>
             </div>
             <div className="row-wrapper date-wrapper">
               <Clock size={24} color="var(--textlight)" weight="light" />
-              <p className="parr1">{donacion.hora_entrega}</p>
+              <p className="parr1">{getFormattedHour(donacion.hora_entrega)}</p>
             </div>
           </div>
         </div>
@@ -211,13 +231,19 @@ const DonationItem = (props) => {
             {donacion.estado === "Entregado" ? (
               <CheckCircle size={32} color="var(--secondary)" weight="light" />
             ) : donacion.estado === "Pendiente" ? (
-              <ArrowClockwise size={32} color="var(--primary)" weight="light" />
+              <ArrowsClockwise
+                size={32}
+                color="var(--primary)"
+                weight="light"
+              />
             ) : donacion.estado === "Solicitado" ? (
               <Export size={32} color="var(--textlight)" weight="light" />
             ) : donacion.estado === "Cancelado" ? (
               <XCircle size={32} color="var(--tertiary)" weight="light" />
             ) : donacion.estado === "Rechazado" ? (
               <WarningCircle size={32} color="var(--tertiary)" weight="light" />
+            ) : donacion.estado === "Confirmando" ? (
+              <Spinner size={32} color="var(--primary)" weight="light" />
             ) : (
               <></>
             )}
@@ -226,7 +252,9 @@ const DonationItem = (props) => {
             {donacion.estado}
           </p>
           {donacion.estado === "Pendiente" ||
-          donacion.estado === "Solicitado" ? (
+          (donacion.estado === "Solicitado" && currentUser.isAdmin) ||
+          (donacion.estado === "Confirmando" && !confRec && !isDonated) ||
+          (donacion.estado === "Confirmando" && !confDon && isDonated) ? (
             <div className="row-wrapper">
               <button className="btn secondary-v">
                 <Check

@@ -102,10 +102,42 @@ export const getReceiptDataOld = async (req, res) => {
 export const updateStatus = async (req, res) => {
   const data = req.body;
   try {
-    const q = `update donacion set estado = ? where iddonacion = ?`;
-    const donationValues = [data.estado, data.iddonacion];
-    await queryDatabase(q, donationValues);
-    res.status(200).json({ Status: "OK" });
+    const q = `update donacion set estado = ?, conf_donante = ?, conf_receptor = ? where iddonacion = ?`;
+    const donationValues = [
+      data.estado,
+      data.conf_donante,
+      data.conf_receptor,
+      data.iddonacion,
+    ];
+    const result = await queryDatabase(q, donationValues);
+    if (
+      data.estado === "Entregado" &&
+      data.conf_donante &&
+      data.conf_receptor
+    ) {
+      const qUpd = `update alimento
+      set cantidad_reservada = cantidad_reservada -  ?,
+        cantidad_no_disponible = cantidad_no_disponible + ?
+      where idalimento = ? `;
+      const updValues = [
+        data.cantidad_donacion,
+        data.cantidad_donacion,
+        data.idalimento,
+      ];
+      await queryDatabase(qUpd, updValues);
+    } else if (data.estado === "Cancelado" || data.estado === "Rechazado") {
+      const qUpd = `update alimento
+      set cantidad_reservada = cantidad_reservada -  ?,
+        cantidad_disponible = cantidad_disponible + ?
+      where idalimento = ? `;
+      const updValues = [
+        data.cantidad_donacion,
+        data.cantidad_donacion,
+        data.idalimento,
+      ];
+      await queryDatabase(qUpd, updValues);
+    }
+    res.status(200).json(result);
   } catch (error) {
     res.status(500).json(error);
     console.log(error);
@@ -234,6 +266,7 @@ export const getAllDonations = (req, res) => {
     `;
   db.query(q, (err, data) => {
     if (err) {
+      console.log(err);
       return res.status(500).json(err);
     } else {
       res.status(200).json(data);
@@ -269,7 +302,7 @@ export const insertDonation = async (req, res) => {
     const insertResult = await queryDatabase(q, donationValues);
     const qUpd = `update alimento 
       set cantidad_disponible = cantidad_disponible - ?,
-        cantidad_reservada = ?
+        cantidad_reservada = cantidad_reservada + ?
       where idalimento = ? `;
     const valuesUpd = [
       data.cantidad_donacion,

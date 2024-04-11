@@ -17,7 +17,6 @@ const apiPath = "http://localhost:3001/api";
 const MisDonaciones = () => {
   const { currentUser } = useContext(AuthContext);
   const [donationsData, setDonationsData] = useState([]);
-
   const [filteredDonations, setFilteredDonations] = useState(donationsData);
   const [typeFilter, setTypeFilter] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
@@ -25,7 +24,8 @@ const MisDonaciones = () => {
   useEffect(() => {
     getAllDonations();
   }, []);
-  console.log(donationsData);
+  // console.log("user", currentUser);
+  // console.log(donationsData);
   useEffect(() => {
     const newData = donationsData.filter((donation) => {
       let filteredByType = true;
@@ -33,6 +33,13 @@ const MisDonaciones = () => {
         filteredByType = donation.id_donante === currentUser.idusuario;
       } else if (typeFilter === "Recibido")
         filteredByType = donation.id_receptor === currentUser.idusuario;
+      else {
+        // obtener donados y recibidos o todos las donaciones si es admin
+        filteredByType =
+          currentUser.isAdmin ||
+          donation.id_donante === currentUser.idusuario ||
+          donation.id_receptor === currentUser.idusuario;
+      }
       return (
         filteredByType &&
         (!statusFilter ||
@@ -44,7 +51,7 @@ const MisDonaciones = () => {
     setFilteredDonations(newData);
   }, [typeFilter, statusFilter, currentUser, donationsData]);
   useEffect(() => {
-    console.log(search);
+    // console.log(search);
     if (search) {
       const newData = donationsData.filter((donation) => {
         return donation.nombre_alimento
@@ -71,7 +78,7 @@ const MisDonaciones = () => {
   return (
     <div className="mis-donaciones">
       <div className="sidebar">
-        <h5 class="title5 accent-secondary">Tipo</h5>
+        <h5 className="title5 accent-secondary">Tipo</h5>
         <ol className="categories">
           <li onClick={() => setTypeFilter("Todos")}>
             <div className="icon-text-wrapper">

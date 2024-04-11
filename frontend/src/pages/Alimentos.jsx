@@ -14,6 +14,7 @@ const Alimentos = () => {
     try {
       const result = await axios("http://localhost:3001/api/products/findall");
       setFoodData(result.data);
+      console.log(result.data);
     } catch (err) {
       console.log("Error");
       console.log(err);

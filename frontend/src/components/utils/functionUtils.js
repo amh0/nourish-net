@@ -6,7 +6,10 @@ export function getFormattedDate(date) {
     year: "numeric",
   });
 }
-
+export function getFormattedHour(time) {
+  if (time.length === 8) return time.substring(0, 5);
+  return time;
+}
 export function padNumber(number, i, symbol) {
   if (number) {
     return number.toString().padStart(i, symbol);

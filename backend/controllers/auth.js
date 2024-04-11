@@ -197,13 +197,11 @@ export const login = async (req, res) => {
     const adminResults = await queryDatabase(adminQuery, [
       selectResults[0].idusuario,
     ]);
-
-    if (adminResults > 0) {
+    if (adminResults.length > 0) {
       //TO DO
       //otener datos del admin
 
       isAdmin = true;
-
       const adminData = { ...adminResults[0] };
       delete adminData.idadmin;
       userData = { ...userData, ...adminData };
