@@ -16,7 +16,8 @@
 .sidebar li {
   cursor: pointer;
 }
-.donations-section .filter-wrapper {
+.donations-section .filter-wrapper,
+.products-section .filter-wrapper {
   display: flex;
   align-items: flex-start;
   flex-wrap: wrap;

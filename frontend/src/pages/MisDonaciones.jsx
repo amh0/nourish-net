@@ -56,9 +56,9 @@ const MisDonaciones = () => {
         !statusFilter ||
         statusFilter === "Todos" ||
         donation.estado === statusFilter;
-      filteredBySearch = donation.nombre_alimento
-        .toLowerCase()
-        .includes(search.toLowerCase());
+      filteredBySearch =
+        search === "" ||
+        donation.nombre_alimento.toLowerCase().includes(search.toLowerCase());
       return filteredByType && filteredByStatus && filteredBySearch;
     });
     // console.log(newData);
@@ -97,6 +97,7 @@ const MisDonaciones = () => {
         <ol className="categories">
           <li onClick={() => setStatusFilter("Todos")}>Todos</li>
           <li onClick={() => setStatusFilter("Entregado")}>Entregado</li>
+          <li onClick={() => setStatusFilter("Confirmando")}>Confirmando</li>
           <li onClick={() => setStatusFilter("Pendiente")}>Pendiente</li>
           <li onClick={() => setStatusFilter("Solicitado")}>Solicitado</li>
           <li onClick={() => setStatusFilter("Cancelado")}>Cancelado</li>
