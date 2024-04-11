@@ -1,0 +1,26 @@
+/* body {
+  background-color: #fffdf9; 
+} */
+.container-informe {
+  display: flex;
+  margin: 20px;
+}
+
+.sidebar-menu-informe {
+  width: 20%;
+  height: 100vh;
+  box-sizing: border-box;
+  overflow-y: auto;
+}
+
+.content-right-informe {
+  flex: 1;
+  padding: 20px;
+  margin: 10px 10px 20px 0;
+  background-color: #f0f0f0;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+  background-color: var(--background0);
+  border-radius: 0px 10px 10px 10px;
+  position: relative;
+  z-index: 1;
+}

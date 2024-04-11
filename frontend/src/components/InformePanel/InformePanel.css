@@ -1,0 +1,57 @@
+.option-report-informe {
+  background-color: #fffdf9;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.2);
+}
+.option-report-informe h2 {
+  margin: 0px;
+  display: flex;
+  justify-content: center;
+  font-weight: bold;
+  font-size: var(--title4);
+}
+.option-report-informe p {
+  margin: 0;
+  font-size: var(--parr2);
+  color: var(--textlight);
+}
+
+.option-report-informe .buttons-container {
+  display: flex;
+  gap: 40px;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.option-report-informe .buttons-container button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px 40px;
+  background-color: var(--secondary);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  color: var(--background0);
+}
+
+.option-report-informe .container-btnPDF {
+  display: flex;
+  justify-content: center;
+}
+
+.option-report-informe .container-btnPDF button {
+  color: var(--background0);
+  background-color: var(--primary);
+  border: none;
+  border-radius: 10px;
+  padding: 10px 40px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.option-report-informe.container-btnPDF button:hover {
+  color: var(--background0);
+  background-color: var(--primary_strong);
+}

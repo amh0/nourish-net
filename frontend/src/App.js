@@ -1,6 +1,6 @@
 import "./App.css";
 import NavBar from "./components/navbar/NavBar";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Inicio from "./pages/Inicio";
 import Nosotros from "./pages/Nosotros";
 import Contacto from "./pages/Contacto";
@@ -21,11 +21,18 @@ import Tareas from "./pages/Tareas";
 import Notificaciones from "./pages/Notificaciones";
 import Perfil from "./pages/Perfil";
 import CoordSolicitud from "./pages/CoordSolicitud";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { AuthContext } from "./context/authContext";
+import Informes from "./pages/Informes";
 
 function App() {
   const { currentUser } = useContext(AuthContext);
+
+  useEffect(() => {
+    if (!currentUser) {
+      console.log("Usuario no autenticado. Redireccionando...");
+    }
+  }, [currentUser]);
 
   return (
     <div>
@@ -46,7 +53,7 @@ function App() {
             element={<CoordSolicitud />}
           />
           {currentUser && <Route path="/donar" element={<Publicar />} />}{" "}
-          {/*verify donor*/}
+          {/* verify donor */}
           {!currentUser && <Route path="/login" element={<Login />} />}
           {!currentUser && <Route path="/signup" element={<Signup />} />}
           {!currentUser && <Route path="/loginHelp" element={<LoginHelp />} />}
@@ -58,11 +65,14 @@ function App() {
           {currentUser && currentUser.isVolunteer && (
             <Route path="/tareas" element={<Tareas />} />
           )}
-          {/*verify volunteer*/}
+          {/* verify volunteer */}
           {currentUser && (
             <Route path="/notificaciones" element={<Notificaciones />} />
           )}
           {currentUser && <Route path="/perfil" element={<Perfil />} />}
+          {currentUser.isAdmin && <Route path="/informes" element={<Informes />} />}
+
+          <Route path="*" element={<Navigate to="/" />} />
         </Routes>
         <Footer />
       </BrowserRouter>

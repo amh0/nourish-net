@@ -26,6 +26,16 @@ const ProfileNavbar = () => {
           </Link>
           {menu === "inicio" ? <hr /> : <></>}
         </li>
+        <li
+          onClick={() => {
+            setMenu("informes");
+          }}
+        >
+          <Link className="link" to="/informes">
+            Informes
+          </Link>
+          {menu === "informes" ? <hr /> : <></>}
+        </li>
         {/* <li
           onClick={() => {
             setMenu("donantes");
@@ -50,27 +60,42 @@ const ProfileNavbar = () => {
           </li>
         )}
 
-        <li
-          onClick={() => {
-            setMenu("peticiones");
-          }}
-        >
-          <Link className="link" to="/peticiones">
-            Peticiones
-          </Link>
-          {menu === "peticiones" ? <hr /> : <></>}
-        </li>
-
-        <li
-          onClick={() => {
-            setMenu("alimentos");
-          }}
-        >
-          <Link className="link" to="/alimentos">
-            Alimentos
-          </Link>
-          {menu === "alimentos" ? <hr /> : <></>}
-        </li>
+        {currentUser && !currentUser.isAdmin && (
+          <li
+            onClick={() => {
+              setMenu("peticiones");
+            }}
+          >
+            <Link className="link" to="/peticiones">
+              Peticiones
+            </Link>
+            {menu === "peticiones" ? <hr /> : <></>}
+          </li>
+        )}
+        {currentUser && !currentUser.isAdmin && (
+          <li
+            onClick={() => {
+              setMenu("alimentos");
+            }}
+          >
+            <Link className="link" to="/alimentos">
+              Alimentos
+            </Link>
+            {menu === "alimentos" ? <hr /> : <></>}
+          </li>
+        )}
+        {currentUser && currentUser.isAdmin && (
+          <li
+            onClick={() => {
+              setMenu("informes");
+            }}
+          >
+            <Link className="link" to="/informes">
+              Informes
+            </Link>
+            {menu === "informes" ? <hr /> : <></>}
+          </li>
+        )}
       </ul>
       <div className="actions-section">
         <div className="actions-section">

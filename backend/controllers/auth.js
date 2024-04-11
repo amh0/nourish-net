@@ -73,9 +73,10 @@ export const register = async (req, res) => {
         (formData.isReceiver ? "Receptor " : "") +
         (formData.isOrganization && formData.isCharOrg ? "Benefico " : "");
 
+      let tipo = formData.isOrganization ? "organización" : "persona";
       const insertGeneralQuery =
-        "INSERT INTO general(idgeneral, rol) VALUES (?, ?)";
-      await queryDatabase(insertGeneralQuery, [userId, rol]);
+        "INSERT INTO general(idgeneral, rol, tipo) VALUES (?, ?, ?)";
+      await queryDatabase(insertGeneralQuery, [userId, rol, tipo]);
       console.log("User successfully registered in the GENERAL table.");
 
       if (!formData.isOrganization) {
@@ -198,10 +199,7 @@ export const login = async (req, res) => {
       selectResults[0].idusuario,
     ]);
 
-    if (adminResults > 0) {
-      //TO DO
-      //otener datos del admin
-
+    if (adminResults.length > 0) {
       isAdmin = true;
 
       const adminData = { ...adminResults[0] };

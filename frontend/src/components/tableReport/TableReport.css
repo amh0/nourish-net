@@ -1,0 +1,19 @@
+.data-table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.data-table td {
+  border: 1px solid var(--secondary);
+  padding: 8px;
+  font-size: var(--subparr);
+  text-align: center;
+}
+
+.data-table th {
+  padding: 8px;
+  font-size: var(--subparr);
+  text-align: center;
+  background-color: var(--secondary);
+  color: var(--background0);
+}
