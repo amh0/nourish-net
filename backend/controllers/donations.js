@@ -273,16 +273,49 @@ export const getAllDonations = (req, res) => {
     }
   });
 };
-/*
-`
-select d.*, a.nombre as nombre_alimento, a.imagen, a.unidad_medida, grec.nombre as nombre_receptor, grec.direccion as direccion_receptor  
-from donacion d 
-inner join alimento a 
-on d.idalimento = a.idalimento
-inner join organizacion grec 
-on d.idgeneral = grec.idorg
-`
-*/
+
+export const addToCart = async (req, res) => {
+  const data = req.body;
+  try {
+    // database verification to check the maximum available quantity of the product
+    const qMax =
+      "select cantidad_disponible from alimento where idalimento = ?";
+    const maxQty = await queryDatabase(qMax, [data.idalimento]);
+    console.log(maxQty);
+    // verify if donation already has product
+    const q = "select * from tiene_a where iddonacion = ? and idalimento = ?";
+    const queryResult = await queryDatabase(q, [
+      data.iddonacion,
+      data.idalimento,
+    ]);
+    if (queryResult.length > 0) {
+      // product is already in the cart, update the quantity
+      const qUpd = `update tiene_a 
+        set cantidad = least(?, cantidad + ?)
+        where iddonacion = ? and idalimento = ?`;
+      await queryDatabase(qUpd, [
+        maxQty[0].cantidad_disponible,
+        data.cantidad,
+        data.iddonacion,
+        data.idalimento,
+      ]);
+    } else {
+      // product is not in the cart, add it
+      const qInsert =
+        "insert into tiene_a (iddonacion, idalimento, cantidad) values (?,?, least(?,?))";
+      await queryDatabase(qInsert, [
+        data.iddonacion,
+        data.idalimento,
+        maxQty[0].cantidad_disponible,
+        data.cantidad,
+      ]);
+    }
+    res.status(200).json({ Status: "OK" });
+  } catch (error) {
+    res.status(500).json(error);
+    console.log(error);
+  }
+};
 export const insertDonation = async (req, res) => {
   const data = req.body;
   try {

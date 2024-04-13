@@ -9,6 +9,7 @@ import {
   getReceiptData,
   getDonationsGiven,
   getDonationsReceived,
+  addToCart,
 } from "../controllers/donations.js";
 const router = express.Router();
 
@@ -17,6 +18,7 @@ router.post("/find_given", getDonationsGiven);
 router.post("/find_received", getDonationsReceived);
 
 router.post("/insert_donation", insertDonation);
+router.post("/add_to_cart", addToCart);
 router.post("/update_status", updateStatus);
 
 router.post("/insert_receipt", insertReceipt);

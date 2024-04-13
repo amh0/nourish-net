@@ -1,27 +1,53 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-
+import { AuthContext } from "../../context/authContext";
 import Input from "../input/Input";
+import { MapPin, Cube } from "@phosphor-icons/react";
 import "./ProductDisplay.css";
 import "../globals.css";
-import { MapPin, Cube } from "@phosphor-icons/react";
 
 const imgPath = "http://localhost:3001/img/";
-const apiURL = "http://localhost:3001/api/products/";
+const apiURL = "http://localhost:3001/api/";
 
 const ProductDisplay = (props) => {
+  const { currentUser } = useContext(AuthContext);
   const { product } = props;
+
   const [donnor, setDonnor] = useState([]);
   const [categories, setCategories] = useState([]);
   const idgen = product.idgeneral;
-
   const [cantidad, setCantidad] = useState();
+  // agregar producto al carrito
+  const handleRequest = async () => {
+    const formData = {
+      idalimento: product.idalimento,
+      iddonacion: currentUser.idCarrito,
+      cantidad: parseInt(cantidad),
+    };
+    console.log(formData);
+    try {
+      const result = await axios.post(
+        apiURL + "donations/add_to_cart",
+        formData
+      );
+      console.log("OK product added: " + result.status);
+    } catch (err) {
+      console.log("Error");
+      console.log(err);
+    }
+  };
+  const handleQty = () => {
+    if (cantidad > 0 && cantidad <= product.cantidad_disponible) {
+      console.log(cantidad);
+      handleRequest();
+    }
+  };
   // obtener categorias del producto
   useEffect(() => {
     const fetchCategoriesId = async () => {
       try {
-        const result = await axios.post(apiURL + "categories_prod", {
+        const result = await axios.post(apiURL + "products/categories_prod", {
           idalimento: product.idalimento,
         });
         setCategories(result.data);
@@ -36,7 +62,7 @@ const ProductDisplay = (props) => {
   useEffect(() => {
     const fetchDonor = async () => {
       try {
-        const result = await axios.post(apiURL + "find_donnor", {
+        const result = await axios.post(apiURL + "products/find_donnor", {
           idgeneral: idgen,
         });
         setDonnor(result.data[0]);
@@ -123,13 +149,16 @@ const ProductDisplay = (props) => {
               />
             </div>
           </div>
-          <Link
+          {/* <Link
             className="link"
             to={`/producto/${product.idalimento}/solicitud`}
             state={{ alimento: product, cantidad_solicitada: cantidad }}
           >
             <button className="btn secondary-v">Solicitar Alimento</button>
-          </Link>
+          </Link> */}
+          <button className="btn secondary-v" onClick={handleQty}>
+            Agregar Alimento
+          </button>
         </div>
         <h4 className="title4">Descripción</h4>
         <p className="parr1 parr-row">{product.descripcion}</p>
