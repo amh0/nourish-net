@@ -16,14 +16,14 @@ INSERT INTO categoria(nombre_cat, imagen) values
 ('Fruta', 'noimg.jpg'),
 ('Verdura', 'noimg.jpg'),
 ('Bebidas', 'noimg.jpg'),
-('Organicos','noimg.jpg')
+('Organicos','noimg.jpg'),
 ('Enlatados', 'noimg.jpg'),
 ('Envasados', 'noimg.jpg'),
 ('Ingredientes', 'noimg.jpg'),
 ('No perecedero', 'noimg.jpg'),
 ('Fresco', 'noimg.jpg'),
 ('Lacteo', 'noimg.jpg'),
-('Otro', 'noimg.jpg'),
+('Otro', 'noimg.jpg');
 
 INSERT INTO tiene_c (idalimento, idcategoria) VALUES
 (1, 1),
@@ -73,7 +73,11 @@ INSERT INTO ORGANIZACION (idorg, nombre, logo, tipo_entidad, ubicacion, direccio
 (2006, 'Albergue La Paz', 'centro_com.png', 'Sin animo de Lucro', 'La Paz', 'Av. Ballivian', '220414', '71000005', 'contacto@alberguelapaz.com');
 
 -- DONACION
+INSERT INTO DONACION (idgeneral,estado) VALUES (100,'Inactivo');
+
+-- DONACION
 -- Valores estado
+-- Inactivo: El receptor esta seleccionado los prouductos 
 -- Solicitado: El receptor envió la solicitud de donacion
 -- Pendiente: El donante aceptó la solicitud del receptor
 -- Entregando...: El receptor ó donante (pero no ambos) confirmaron la entrega del producto

@@ -150,6 +150,13 @@ export const register = async (req, res) => {
       await queryDatabase(insertVoluntarioQuery, valueV);
       console.log("User successfully registered in the VOLUNTARIO table.");
     }
+    // carrito
+    const carrQuery = "insert into donacion (idgeneral, estado) values (?, ?)";
+    const carrValues = [userId, "Inactivo"];
+    await queryDatabase(carrQuery, carrValues);
+    console.log("Carrito creado....");
+    // -------
+
     res.status(200).json({
       message: "User successfully registered in database",
       userId,
@@ -192,6 +199,7 @@ export const login = async (req, res) => {
     let isReceiver = false;
     let isBeneficial = false;
 
+    let idCarrito = -1;
     //ADMIN
     const adminQuery = "SELECT * FROM ADMIN WHERE idadmin = ?";
     const adminResults = await queryDatabase(adminQuery, [
@@ -222,7 +230,17 @@ export const login = async (req, res) => {
       const roleResults = await queryDatabase(roleQuery, [
         selectResults[0].idusuario,
       ]);
-
+      // --- obtener id carrito
+      const carrQuery = `select g.idgeneral as idgeneral, iddonacion as idcarrito
+         from general g inner join donacion d 
+         on g.idgeneral = d.idgeneral 
+         where g.idgeneral = ? and estado = ?`;
+      const carrData = [selectResults[0].idusuario, "Inactivo"];
+      const carrResult = await queryDatabase(carrQuery, carrData);
+      if (carrResult.length > 0) {
+        idCarrito = carrResult[0].idcarrito;
+      }
+      // ---
       if (roleResults.length > 0) {
         const userRole = roleResults[0].rol.split(" ");
         if (userRole.includes("Receptor")) isReceiver = true;
@@ -256,7 +274,6 @@ export const login = async (req, res) => {
         }
       }
     }
-
     userData = {
       ...userData,
       isAdmin: isAdmin,
@@ -265,6 +282,7 @@ export const login = async (req, res) => {
       isOrganization: isOrganization,
       isReceiver: isReceiver,
       isBeneficial: isBeneficial,
+      idCarrito: idCarrito,
     };
 
     // console.log(JSON.stringify(userData));

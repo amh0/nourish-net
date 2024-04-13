@@ -144,7 +144,7 @@ CREATE TABLE DONACION (
     fecha_entrega DATE,
     hora_entrega TIME,
     mensaje_solicitud VARCHAR(200),
-    cantidad_donacion INT,
+    -- cantidad_donacion INT,
     idgeneral INT,
     -- idalimento INT,
     idvoluntario INT,
