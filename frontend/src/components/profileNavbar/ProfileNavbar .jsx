@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
-import { Bell } from "phosphor-react";
+import { Bell, ShoppingCartSimple } from "phosphor-react";
 import "./ProfileNavbar.css";
 import logo from "../assets/logo_64.png";
 import perfil from "../assets/perfil.jpg";
@@ -101,6 +101,16 @@ const ProfileNavbar = () => {
         </div>
 
         <div className="user">
+          <Link to="/notificaciones">
+            {/* -> confirmar donacion */}
+            <ShoppingCartSimple
+              size={30}
+              color="var(--textlight)"
+              onClick={() => {
+                setMenu("");
+              }}
+            />
+          </Link>
           <Link to="/notificaciones">
             <Bell
               size={30}
