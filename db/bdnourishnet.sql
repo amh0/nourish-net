@@ -122,8 +122,10 @@ CREATE TABLE ALIMENTO (
     cantidad_no_disponible INT DEFAULT 0,
     unidad_medida VARCHAR(30),
     imagen VARCHAR(50),
-    idgeneral INT,
     calidad VARCHAR(20),
+    idgeneral INT,
+    idvoluntario INT, 
+    FOREIGN KEY (idvoluntario) REFERENCES VOLUNTARIO(idvoluntario),
     FOREIGN KEY (idgeneral) REFERENCES GENERAL(idgeneral)
 );
 CREATE TABLE TIENE_A(
