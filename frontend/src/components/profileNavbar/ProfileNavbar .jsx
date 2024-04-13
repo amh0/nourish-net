@@ -101,7 +101,7 @@ const ProfileNavbar = () => {
         </div>
 
         <div className="user">
-          <Link to="/notificaciones">
+          <Link to="/solicitar">
             {/* -> confirmar donacion */}
             <ShoppingCartSimple
               size={30}

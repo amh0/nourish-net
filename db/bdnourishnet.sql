@@ -132,6 +132,7 @@ CREATE TABLE TIENE_A(
   iddonacion INT,
   idalimento INT,
   cantidad INT,
+  fecha_agregado DATE,
   PRIMARY KEY (iddonacion, idalimento),
   FOREIGN KEY (iddonacion) REFERENCES DONACION(iddonacion),
   FOREIGN KEY (idalimento) REFERENCES ALIMENTO(idalimento)

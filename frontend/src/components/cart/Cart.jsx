@@ -23,7 +23,7 @@ const methodOptions = [
   },
 ];
 
-const Coordination = (props) => {
+const Cart = (props) => {
   const { currentUser } = useContext(AuthContext);
 
   const { product } = props;
@@ -66,13 +66,14 @@ const Coordination = (props) => {
   };
   const handleData = () => {
     const formData = {
-      tipoEnvio: method.value,
+      tipo_envio: method.value,
       estado: "Solicitado",
-      fechaEntrega: fecha,
-      horaEntrega: hora,
-      mensajeSolicitud: msg,
-      idDonacion: currentUser.idCarrito, // id del receptor
-      idGeneral: currentUser.idUsuario
+      fecha_entrega: fecha,
+      hora_entrega: hora,
+      mensaje_solicitud: msg,
+      cantidad_donacion: cantidad,
+      idgeneral: currentUser.idusuario, // id del receptor
+      idalimento: product.idalimento,
     };
     console.log("formData", formData);
     axios
@@ -217,4 +218,4 @@ const Coordination = (props) => {
   );
 };
 
-export default Coordination;
+export default Cart;

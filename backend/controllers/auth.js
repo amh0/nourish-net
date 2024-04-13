@@ -151,9 +151,9 @@ export const register = async (req, res) => {
       console.log("User successfully registered in the VOLUNTARIO table.");
     }
     // carrito
-    const carrQuery = "insert into donacion (idgeneral, estado) values (?, ?)";
-    const carrValues = [userId, "Inactivo"];
-    await queryDatabase(carrQuery, carrValues);
+    const cartQuery = "insert into donacion (idgeneral, estado) values (?, ?)";
+    const cartValues = [userId, "Inactivo"];
+    await queryDatabase(cartQuery, cartValues);
     console.log("Carrito creado....");
     // -------
 
@@ -231,14 +231,14 @@ export const login = async (req, res) => {
         selectResults[0].idusuario,
       ]);
       // --- obtener id carrito
-      const carrQuery = `select g.idgeneral as idgeneral, iddonacion as idcarrito
+      const carrQuery = `select g.idgeneral as idgeneral, iddonacion as idCarrito
          from general g inner join donacion d 
          on g.idgeneral = d.idgeneral 
          where g.idgeneral = ? and estado = ?`;
       const carrData = [selectResults[0].idusuario, "Inactivo"];
       const carrResult = await queryDatabase(carrQuery, carrData);
       if (carrResult.length > 0) {
-        idCarrito = carrResult[0].idcarrito;
+        idCarrito = carrResult[0].idCarrito;
       }
       // ---
       if (roleResults.length > 0) {

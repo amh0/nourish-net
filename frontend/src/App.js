@@ -21,6 +21,7 @@ import Tareas from "./pages/Tareas";
 import Notificaciones from "./pages/Notificaciones";
 import Perfil from "./pages/Perfil";
 import CoordSolicitud from "./pages/CoordSolicitud";
+import CartPage from "./pages/CartPage";
 import { useContext } from "react";
 import { AuthContext } from "./context/authContext";
 
@@ -63,6 +64,9 @@ function App() {
           {/*verify volunteer*/}
           {currentUser && (
             <Route path="/notificaciones" element={<Notificaciones />} />
+          )}
+          {currentUser && !currentUser.isAdmin && (
+            <Route path="/solicitar" element={<CartPage />} />
           )}
           {currentUser && <Route path="/perfil" element={<Perfil />} />}
         </Routes>

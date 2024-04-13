@@ -38,10 +38,6 @@
   border-top: 2px solid var(--textlight);
   grid-column: 1 / 4;
 }
-.row-border-lighter {
-  border-top: 2px solid var(--textlighter);
-  grid-column: 1 / 4;
-}
 .coordination .form-area {
   display: flex;
   flex-direction: column;

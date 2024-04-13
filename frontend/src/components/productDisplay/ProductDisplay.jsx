@@ -21,9 +21,10 @@ const ProductDisplay = (props) => {
   // agregar producto al carrito
   const handleRequest = async () => {
     const formData = {
-      idalimento: product.idalimento,
-      iddonacion: currentUser.idCarrito,
+      idAlimento: product.idalimento,
+      idDonacion: currentUser.idCarrito,
       cantidad: parseInt(cantidad),
+      fechaAgregado: new Date().toJSON(),
     };
     console.log(formData);
     try {

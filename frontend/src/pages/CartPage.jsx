@@ -1,15 +1,16 @@
-import React, { useState, useContext } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import { Warning, CheckCircle } from "@phosphor-icons/react";
-import { AuthContext } from "../../context/authContext";
 
-import Input from "../input/Input";
-import "./Coordination.css";
+import { AuthContext } from "../context/authContext";
+import Input from "../components/input/Input";
+import "./css/CoordSolicitud.css";
 
 const imgPath = "http://localhost:3001/img/";
-const apiPath = "http://localhost:3001/api";
+const apiURL = "http://localhost:3001/api/";
+
 const methodOptions = [
   {
     value: "Personal",
@@ -23,11 +24,46 @@ const methodOptions = [
   },
 ];
 
-const Coordination = (props) => {
-  const { currentUser } = useContext(AuthContext);
+const listStyle = {
+  control: (styles) => ({ ...styles, backgroundColor: "white" }),
+  multiValue: (styles, { data }) => {
+    return {
+      ...styles,
+      backgroundColor: "#E2F0EE",
+    };
+  },
+  multiValueRemove: (styles, { data }) => {
+    return {
+      ...styles,
+      cursor: "pointer",
+    };
+  },
+};
 
-  const { product } = props;
-  const cantidad = props.cantidad || 1;
+const CartPage = () => {
+  const { currentUser } = useContext(AuthContext);
+  const [products, setProducts] = useState([]);
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const formData = {
+        idDonacion: currentUser.idCarrito,
+        idGeneral: currentUser.idusuario,
+      };
+      try {
+        const result = await axios.post(
+          apiURL + "donations/get_donation_products",
+          formData
+        );
+        setProducts(result.data);
+        console.log(result.data);
+      } catch (err) {
+        console.log("Error");
+        console.log(err);
+      }
+    };
+    fetchProducts();
+  }, [currentUser]);
+
   const [method, setMethod] = useState(methodOptions[0]);
   const [fecha, setFecha] = useState("");
   const [hora, setHora] = useState("");
@@ -35,21 +71,6 @@ const Coordination = (props) => {
 
   const [insertState, setInsertState] = useState("none");
   const [formError, setFormError] = useState(false);
-  const listStyle = {
-    control: (styles) => ({ ...styles, backgroundColor: "white" }),
-    multiValue: (styles, { data }) => {
-      return {
-        ...styles,
-        backgroundColor: "#E2F0EE",
-      };
-    },
-    multiValueRemove: (styles, { data }) => {
-      return {
-        ...styles,
-        cursor: "pointer",
-      };
-    },
-  };
 
   const handleOptSelection = (selectedOpt) => {
     setMethod(selectedOpt);
@@ -72,14 +93,15 @@ const Coordination = (props) => {
       horaEntrega: hora,
       mensajeSolicitud: msg,
       idDonacion: currentUser.idCarrito, // id del receptor
-      idGeneral: currentUser.idUsuario
+      idGeneral: currentUser.idusuario,
     };
     console.log("formData", formData);
     axios
-      .post(apiPath + "/donations/insert_donation", formData)
+      .post(apiURL + "donations/request_donation", formData)
       .then((res) => {
         if (res.status === 200) {
           console.log("Data inserted");
+          console.log(res.data);
           setInsertState("success");
         } else {
           console.log("An error has occurred");
@@ -97,18 +119,36 @@ const Coordination = (props) => {
           <div className="parr1 bold cell-left">Cantidad</div>
           <div className="parr1 bold cell-left">Unidad</div>
           <div className="row-border"></div>
-          <div className="product-name-container">
+          {products.map((item, i) => {
+            // return <DonationRow key={item.idalimento} alimento={alimento} />;
+            return (
+              <>
+                <div className="product-name-container">
+                  <div className="img-container">
+                    <img src={imgPath + item.imagen} alt="" />
+                  </div>
+                  <div>{item.nombre}</div>
+                </div>
+                <div className="cell-left">{item.cantidad}</div>
+                <div className="cell-left">{item.unidad_medida}</div>
+                {i !== products.length - 1 ? (
+                  <div className="row-border-lighter"></div>
+                ) : null}
+              </>
+            );
+          })}
+          {/* <div className="product-name-container">
             <div className="img-container">
               <img src={imgPath + product.imagen} alt="" />
             </div>
             <div>{product.nombre}</div>
           </div>
           <div className="cell-left">{cantidad}</div>
-          <div className="cell-left">{product.unidad_medida}</div>
+          <div className="cell-left">{product.unidad_medida}</div> */}
         </div>
-        <div className="parr1">
+        {/* <div className="parr1">
           <span className="bold">Donante:</span> {product.organizacion}
-        </div>
+        </div> */}
       </div>
       <div className="form-area">
         <div>
@@ -173,7 +213,7 @@ const Coordination = (props) => {
         ></textarea>
         <div className="row-wrapper">
           <div className="form-label parr1 bold">Direccion entrega:</div>
-          <div className="parr1 text-address">{product.direccion_don}</div>
+          <div className="parr1 text-address">direccion</div>
         </div>
       </div>
       {formError ? (
@@ -217,4 +257,4 @@ const Coordination = (props) => {
   );
 };
 
-export default Coordination;
+export default CartPage;

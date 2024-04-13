@@ -274,19 +274,84 @@ export const getAllDonations = (req, res) => {
   });
 };
 
+export const getDonationProducts = async (req, res) => {
+  const data = req.body;
+  try {
+    const q = `select a.nombre, t.cantidad, a.unidad_medida, nombre_idx_gen(g.idgeneral) as nombreDonante,
+     a.imagen, t.fecha_agregado
+    from tiene_a t
+    inner join alimento a
+    on t.idalimento = a.idalimento 
+    inner join general g
+    on a.idgeneral = g.idgeneral 
+    where iddonacion = ?
+    order by t.fecha_agregado`;
+    const queryResult = await queryDatabase(q, [data.idDonacion]);
+    res.status(200).json(queryResult);
+  } catch (error) {
+    res.status(500).json(error);
+    console.log(error);
+  }
+};
+
+export const requestDonation = async (req, res) => {
+  const data = req.body;
+  try {
+    // actualizar datos donacion y asignar estado solicitado
+    const q = `update donacion 
+    set tipo_envio = ?, estado = ?, fecha_entrega = ?, hora_entrega = ?, 
+      lugar_entrega = ?, mensaje_solicitud = ?
+    where iddonacion = ? and idgeneral = ?`;
+    const donationValues = [
+      data.tipoEnvio,
+      data.estado,
+      data.fechaEntrega,
+      data.horaEntrega,
+      data.lugarEntrega,
+      data.mensajeSolicitud,
+      data.idDonacion,
+      data.idGeneral,
+    ];
+    // actualizar cantidades de los alimentos seleccionados
+    await queryDatabase(q, donationValues);
+    const qProd = `select t.* 
+    from tiene_a t
+    inner join alimento a
+    on t.idalimento = a.idalimento 
+    where iddonacion = ?`;
+    const resultProd = await queryDatabase(qProd, [data.idDonacion]);
+    let qUpd = "";
+    resultProd.forEach((element) => {
+      qUpd += `update alimento set cantidad_disponible = cantidad_disponible - ${element.cantidad},
+       cantidad_reservada = cantidad_reservada + ${element.cantidad} 
+       where idalimento = ${element.idalimento};`;
+    });
+    await queryDatabase(qUpd);
+    // asignar un nuevo carrito
+    const cartQuery = "insert into donacion (idgeneral, estado) values (?, ?)";
+    const cartValues = [data.idGeneral, "Inactivo"];
+    const cartResult = await queryDatabase(cartQuery, cartValues);
+    const idCart = cartResult.insertId;
+    res.status(200).json({ Status: "OK", idCarrito: idCart });
+  } catch (error) {
+    res.status(500).json(error);
+    console.log(error);
+  }
+};
+
 export const addToCart = async (req, res) => {
   const data = req.body;
   try {
     // database verification to check the maximum available quantity of the product
     const qMax =
       "select cantidad_disponible from alimento where idalimento = ?";
-    const maxQty = await queryDatabase(qMax, [data.idalimento]);
+    const maxQty = await queryDatabase(qMax, [data.idAlimento]);
     console.log(maxQty);
     // verify if donation already has product
     const q = "select * from tiene_a where iddonacion = ? and idalimento = ?";
     const queryResult = await queryDatabase(q, [
-      data.iddonacion,
-      data.idalimento,
+      data.idDonacion,
+      data.idAlimento,
     ]);
     if (queryResult.length > 0) {
       // product is already in the cart, update the quantity
@@ -296,18 +361,19 @@ export const addToCart = async (req, res) => {
       await queryDatabase(qUpd, [
         maxQty[0].cantidad_disponible,
         data.cantidad,
-        data.iddonacion,
-        data.idalimento,
+        data.idDonacion,
+        data.idAlimento,
       ]);
     } else {
       // product is not in the cart, add it
       const qInsert =
-        "insert into tiene_a (iddonacion, idalimento, cantidad) values (?,?, least(?,?))";
+        "insert into tiene_a (iddonacion, idalimento, cantidad, fecha_agregado) values (?,?, least(?,?), ?)";
       await queryDatabase(qInsert, [
-        data.iddonacion,
-        data.idalimento,
+        data.idDonacion,
+        data.idAlimento,
         maxQty[0].cantidad_disponible,
         data.cantidad,
+        data.fechaAgregado,
       ]);
     }
     res.status(200).json({ Status: "OK" });
@@ -316,6 +382,7 @@ export const addToCart = async (req, res) => {
     console.log(error);
   }
 };
+
 export const insertDonation = async (req, res) => {
   const data = req.body;
   try {
