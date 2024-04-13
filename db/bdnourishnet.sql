@@ -117,16 +117,23 @@ CREATE TABLE ALIMENTO (
     estado VARCHAR(20),
     fecha_vencimiento DATE,
     fecha_publicacion DATE,
-    -- cantidad INT,
     cantidad_disponible INT DEFAULT 0,
     cantidad_reservada INT DEFAULT 0,
     cantidad_no_disponible INT DEFAULT 0,
     unidad_medida VARCHAR(30),
     imagen VARCHAR(50),
     idgeneral INT,
+    calidad VARCHAR(20),
     FOREIGN KEY (idgeneral) REFERENCES GENERAL(idgeneral)
 );
-
+CREATE TABLE TIENE_A(
+  iddonacion INT,
+  idalimento INT,
+  cantidad INT,
+  PRIMARY KEY (iddonacion, idalimento),
+  FOREIGN KEY (iddonacion) REFERENCES DONACION(iddonacion),
+  FOREIGN KEY (idalimento) REFERENCES ALIMENTO(idalimento)
+);
 CREATE TABLE DONACION (
     iddonacion INT AUTO_INCREMENT PRIMARY KEY,
     tipo_envio VARCHAR(20),
@@ -137,12 +144,13 @@ CREATE TABLE DONACION (
     mensaje_solicitud VARCHAR(200),
     cantidad_donacion INT,
     idgeneral INT,
-    idalimento INT,
+    -- idalimento INT,
     idvoluntario INT,
     conf_donante BOOLEAN DEFAULT 0,
-    conf_receptor BOOLEAN DEFAULT 0,
+    -- conf_receptor BOOLEAN DEFAULT 0,
+    conf_voluntario BOOLEAN DEFAULT 0,
     FOREIGN KEY (idgeneral) REFERENCES GENERAL(idgeneral),
-    FOREIGN KEY (idalimento) REFERENCES ALIMENTO(idalimento),
+    -- FOREIGN KEY (idalimento) REFERENCES ALIMENTO(idalimento),
     FOREIGN KEY (idvoluntario) REFERENCES VOLUNTARIO(idvoluntario)
 );
 
