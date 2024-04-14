@@ -101,20 +101,22 @@ const ProfileNavbar = () => {
         </div>
 
         <div className="user">
-          <Link to="/solicitar">
-            <div className="icon-badge-container">
-              <ShoppingCartSimple
-                size={30}
-                color="var(--textlight)"
-                onClick={() => {
-                  setMenu("");
-                }}
-              />
-              {currentUser.itemQty > 0 ? (
-                <div className="icon-badge">{currentUser.itemQty}</div>
-              ) : null}
-            </div>
-          </Link>
+          {currentUser.isReceiver ? (
+            <Link to="/solicitar">
+              <div className="icon-badge-container">
+                <ShoppingCartSimple
+                  size={30}
+                  color="var(--textlight)"
+                  onClick={() => {
+                    setMenu("");
+                  }}
+                />
+                {currentUser.itemQty > 0 ? (
+                  <div className="icon-badge">{currentUser.itemQty}</div>
+                ) : null}
+              </div>
+            </Link>
+          ) : null}
           <Link to="/notificaciones">
             <Bell
               size={30}

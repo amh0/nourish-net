@@ -7,7 +7,7 @@ export function getFormattedDate(date) {
   });
 }
 export function getFormattedHour(time) {
-  if (time.length === 8) return time.substring(0, 5);
+  if (time && time.length === 8) return time.substring(0, 5);
   return time;
 }
 export function padNumber(number, i, symbol) {

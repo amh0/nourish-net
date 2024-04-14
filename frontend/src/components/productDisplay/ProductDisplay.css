@@ -80,3 +80,9 @@
 .product-text-section .bold-text {
   font-weight: bold;
 }
+.state-container.product-state {
+  flex-direction: row;
+  align-items: center;
+  height: 64px;
+  margin-bottom: 40px;
+}

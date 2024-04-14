@@ -5,7 +5,7 @@
   flex-wrap: wrap;
   border-radius: 16px;
   box-shadow: 0px 0px 4px 0px var(--textlighter);
-  width: 772px;
+  width: 708px;
   height: 144px;
   padding: 24px;
   background-color: var(--background0);
@@ -41,6 +41,11 @@
   justify-content: center;
   gap: 8px;
   width: 96px;
+}
+.donation-item .detail-section {
+  display: flex;
+  align-items: center;
+  gap: 32px;
 }
 .donation-item .date-section {
   display: flex;

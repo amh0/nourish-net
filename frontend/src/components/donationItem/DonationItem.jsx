@@ -13,24 +13,28 @@ import {
   X,
   User,
   CheckCircle,
-  ArrowClockwise,
   XCircle,
   WarningCircle,
   LinkSimple,
-  HandArrowDown,
-  HandArrowUp,
   Spinner,
   ArrowsClockwise,
+  UserGear,
+  Barcode,
 } from "@phosphor-icons/react";
 import { AuthContext } from "../../context/authContext";
-import { getFormattedDate, getFormattedHour } from "../utils/functionUtils";
-const imgPath = "http://localhost:3001/img/";
+import {
+  getFormattedDate,
+  getFormattedHour,
+  padNumber,
+} from "../utils/functionUtils";
 const apiPath = "http://localhost:3001/api";
 const DonationPDFComponent = (props) => {
   if (props.estado === "Entregado" && props.receipt) {
     return (
       <BlobProvider
-        document={<ReceiptPdf receipt={props.receipt} />}
+        document={
+          <ReceiptPdf receipt={props.receipt[0]} products={props.products} />
+        }
         fileName="recibo"
       >
         {({ url, blob }) => (
@@ -48,24 +52,25 @@ const DonationPDFComponent = (props) => {
   }
 };
 const DonationItem = (props) => {
-  // Lado donante
+  // Lado receptor
   const { currentUser } = useContext(AuthContext);
   const [donacion, setDonacion] = useState(props.donacion);
   const [dataReceipt, setDataReceipt] = useState({});
-  const [isDonated, setIsDonated] = useState();
-  let confRec = donacion.conf_receptor;
-  let confDon = donacion.conf_donante;
-  useEffect(() => {
-    setIsDonated(currentUser.idusuario === donacion.id_donante);
-  }, [donacion, currentUser]);
+  let confRec = donacion.confReceptor;
+  let confVol = donacion.confVoluntario;
+  const isVolunteer = donacion.idVoluntario === currentUser.idusuario;
+  const isReceiver = donacion.idGeneral === currentUser.idusuario;
 
   useEffect(() => {
-    fetchDataReceipt();
+    if (props.donacion && props.donacion.estado === "Entregado") {
+      // console.log("fetching...");
+      fetchDataReceipt();
+    }
   }, []);
   const fetchDataReceipt = async () => {
     try {
       const formData = {
-        iddonacion: donacion.iddonacion,
+        idDonacion: donacion.idDonacion,
       };
       // console.log(formData);
       const result = await axios.post(
@@ -73,8 +78,7 @@ const DonationItem = (props) => {
         formData
       );
       if (result.status === 200) {
-        // console.log("data  " + result.data[0]);
-        setDataReceipt(result.data[0]);
+        setDataReceipt(result.data);
       }
     } catch (err) {
       console.log("Error");
@@ -90,14 +94,17 @@ const DonationItem = (props) => {
       donacion.estado === "Pendiente" ||
       donacion.estado === "Confirmando"
     ) {
-      if (isDonated) {
-        confDon = 1;
-      } else {
+      if (currentUser.idusuario === donacion.idGeneral) {
         confRec = 1;
+      } else if (
+        currentUser.idusuario === donacion.idVoluntario ||
+        currentUser.isAdmin
+      ) {
+        confVol = 1;
       }
       nuevoEstado = "Confirmando";
       // updateConfDon();
-      if (confDon === 1 && confRec === 1) {
+      if (confRec === 1 && confVol === 1) {
         nuevoEstado = "Entregado";
         handleQueryInsertReceipt();
       }
@@ -107,8 +114,8 @@ const DonationItem = (props) => {
     setDonacion((d) => ({
       ...d,
       estado: nuevoEstado,
-      conf_donante: confDon,
-      conf_receptor: confRec,
+      confVoluntario: confVol,
+      confReceptor: confRec,
     }));
     handleQuery();
   };
@@ -125,19 +132,18 @@ const DonationItem = (props) => {
   };
   const handleQuery = () => {
     const formData = {
-      iddonacion: donacion.iddonacion,
+      idDonacion: donacion.idDonacion,
       estado: nuevoEstado,
-      conf_donante: confDon,
-      conf_receptor: confRec,
-      idalimento: donacion.idalimento,
-      cantidad_donacion: donacion.cantidad_donacion,
+      confVoluntario: confVol,
+      confReceptor: confRec,
     };
+    console.log(formData);
     axios
       .post(apiPath + "/donations/update_status", formData)
       .then((res) => {
         if (res.status === 200) {
           console.log("Status uptaded");
-          setDonacion((d) => ({ ...d, ...res.data }));
+          // setDonacion((d) => ({ ...d, ...res.data }));
         } else {
           console.log("An error has occurred");
           // setInsertState("error");
@@ -149,7 +155,7 @@ const DonationItem = (props) => {
     const formData = {
       fecha: new Date().toJSON(),
       nota: "Nota del recibo",
-      iddonacion: donacion.iddonacion,
+      idDonacion: donacion.idDonacion,
     };
     console.log(formData);
     axios
@@ -173,41 +179,30 @@ const DonationItem = (props) => {
   ) {
     return (
       <div className="donation-item">
-        <div className="img-container">
-          <img src={imgPath + donacion.img_alimento} alt="" />
-        </div>
-        <div className="donation-data section-1">
-          <p className="parr1 bold">{" " + donacion.nombre_alimento}</p>
+        <div className="donation-data section-2">
+          <div className="detail-section">
+            <div className="row-wrapper">
+              <Barcode size={24} color="var(--primary)" />
+              <p className="parr1 ">
+                {"COD: " + padNumber(donacion.idDonacion, 6, "0")}
+              </p>
+            </div>
+            <div className="row-wrapper ">
+              <Cube size={24} color="var(--textlight)" weight="light" />
+              <p className="parr1">{donacion.cantAlim}</p>
+            </div>
+          </div>
           <div className="row-wrapper">
-            {isDonated ? (
-              <HandArrowUp size={24} weight="light" color="var(--secondary)" />
-            ) : (
-              <HandArrowDown
-                size={24}
-                weight="light"
-                color="var(--primary_strong)"
-              />
-            )}
-            <Cube size={24} weight="light" color="var(--textlight)" />
-            <p className="parr1 ">
-              {donacion.cantidad_donacion + " " + donacion.unidad_medida}{" "}
-            </p>
+            <UserGear size={24} color="var(--textlight)" weight="light" />
+            <p className="parr1 single-line">{donacion.nombreVoluntario}</p>
+          </div>
+          <div className="row-wrapper">
+            <MapPin size={24} weight="light" color="var(--secondary)" />
+            <p className="parr1 single-line">{donacion.direccionVoluntario}</p>
           </div>
         </div>
         <div className="col-separator"></div>
         <div className="donation-data section-2">
-          <div className="row-wrapper">
-            <User size={24} color="var(--textlight)" weight="light" />
-            <p className="parr1 single-line">
-              {isDonated ? donacion.nombre_rec : donacion.nombre_don}
-            </p>
-          </div>
-          <div className="row-wrapper">
-            <MapPin size={24} weight="light" color="var(--secondary)" />
-            <p className="parr1 single-line">
-              {isDonated ? donacion.direccion_rec : donacion.direccion_don}
-            </p>
-          </div>
           <div className="date-section">
             <div className="row-wrapper date-wrapper">
               <CalendarBlank
@@ -216,13 +211,21 @@ const DonationItem = (props) => {
                 weight="light"
               />
               <p className="parr1 ">
-                {getFormattedDate(donacion.fecha_entrega)}
+                {getFormattedDate(donacion.fechaEntrega)}
               </p>
             </div>
             <div className="row-wrapper date-wrapper">
               <Clock size={24} color="var(--textlight)" weight="light" />
-              <p className="parr1">{getFormattedHour(donacion.hora_entrega)}</p>
+              <p className="parr1">{getFormattedHour(donacion.horaEntrega)}</p>
             </div>
+          </div>
+          <div className="row-wrapper">
+            <User size={24} color="var(--textlight)" weight="light" />
+            <p className="parr1 single-line">{donacion.nombreGeneral}</p>
+          </div>
+          <div className="row-wrapper">
+            <MapPin size={24} weight="light" color="var(--secondary)" />
+            <p className="parr1 single-line">{donacion.direccionGeneral}</p>
           </div>
         </div>
         <div className="col-separator"></div>
@@ -253,8 +256,10 @@ const DonationItem = (props) => {
           </p>
           {donacion.estado === "Pendiente" ||
           (donacion.estado === "Solicitado" && currentUser.isAdmin) ||
-          (donacion.estado === "Confirmando" && !confRec && !isDonated) ||
-          (donacion.estado === "Confirmando" && !confDon && isDonated) ? (
+          (donacion.estado === "Confirmando" && !confRec && isReceiver) ||
+          (donacion.estado === "Confirmando" &&
+            !confVol &&
+            (currentUser.isAdmin || isVolunteer)) ? (
             <div className="row-wrapper">
               <button className="btn secondary-v">
                 <Check
@@ -273,10 +278,11 @@ const DonationItem = (props) => {
                 />
               </button>
             </div>
-          ) : donacion.estado === "Entregado" ? (
+          ) : donacion.estado === "Entregado" && dataReceipt ? (
             <DonationPDFComponent
               estado={donacion.estado}
-              receipt={dataReceipt}
+              receipt={dataReceipt.receipt}
+              products={dataReceipt.products}
             />
           ) : null}
         </div>

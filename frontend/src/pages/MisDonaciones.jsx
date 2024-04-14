@@ -22,8 +22,27 @@ const MisDonaciones = () => {
   const [statusFilter, setStatusFilter] = useState("");
   const [search, setSearch] = useState("");
   useEffect(() => {
-    getAllDonations();
+    getAllDonations2();
   }, []);
+  const getAllDonations2 = async () => {
+    try {
+      let result = [];
+      if (currentUser.isAdmin) {
+        result = await axios(apiPath + "/donations/findall");
+      } else {
+        console.log(currentUser.idusuario);
+        result = await axios.post(apiPath + "/donations/find_by_user", {
+          idUsuario: currentUser.idusuario,
+          isVolunteer: currentUser.isVolunteer,
+        });
+      }
+      setDonationsData(result.data);
+      // setFilteredDonations(result.data);
+    } catch (err) {
+      console.log("Error");
+      console.log(err);
+    }
+  };
   const getAllDonations = async () => {
     try {
       const result = await axios(apiPath + "/donations/findall");
@@ -41,24 +60,25 @@ const MisDonaciones = () => {
       let filteredByType = true;
       let filteredByStatus = true;
       let filteredBySearch = true;
-      if (typeFilter === "Donado") {
-        filteredByType = donation.id_donante === currentUser.idusuario;
-      } else if (typeFilter === "Recibido")
-        filteredByType = donation.id_receptor === currentUser.idusuario;
-      else {
-        // obtener donados y recibidos o todos las donaciones si es admin
-        filteredByType =
-          currentUser.isAdmin ||
-          donation.id_donante === currentUser.idusuario ||
-          donation.id_receptor === currentUser.idusuario;
-      }
+      // if (typeFilter === "Donado") {
+      //   filteredByType = donation.id_donante === currentUser.idusuario;
+      // } else if (typeFilter === "Recibido")
+      //   filteredByType = donation.id_receptor === currentUser.idusuario;
+      // else {
+      // obtener donados y recibidos o todos las donaciones si es admin
+      filteredByType =
+        currentUser.isAdmin ||
+        donation.idVoluntario === currentUser.idusuario ||
+        donation.idGeneral === currentUser.idusuario;
+      // }
       filteredByStatus =
         !statusFilter ||
         statusFilter === "Todos" ||
         donation.estado === statusFilter;
       filteredBySearch =
         search === "" ||
-        donation.nombre_alimento.toLowerCase().includes(search.toLowerCase());
+        donation.nombreGeneral.toLowerCase().includes(search.toLowerCase());
+
       return filteredByType && filteredByStatus && filteredBySearch;
     });
     // console.log(newData);
@@ -160,7 +180,7 @@ const MisDonaciones = () => {
         <div className="donations-list">
           {filteredDonations && filteredDonations.length > 0
             ? filteredDonations.map((item) => {
-                return <DonationItem key={item.iddonacion} donacion={item} />;
+                return <DonationItem key={item.idDonacion} donacion={item} />;
               })
             : "No se encontraron resultados..."}
         </div>

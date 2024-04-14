@@ -145,6 +145,7 @@ CREATE TABLE DONACION (
     fecha_entrega DATE,
     hora_entrega TIME,
     mensaje_solicitud VARCHAR(200),
+    fecha_solicitud DATETIME,
     -- cantidad_donacion INT,
     idgeneral INT,
     -- idalimento INT,
@@ -251,5 +252,32 @@ begin
     where idorg = idx;
   end if;
   return xcel;
+end//
+delimiter ;
+
+-- voluntario funcion 1
+delimiter //
+create function nombre_voluntario_x(idx int) returns varchar(100)
+deterministic
+begin
+  declare xnombre varchar(100) ;
+  set xnombre = 'Voluntario no asignado';
+  select concat(nombre, ' ', apellido_pat, ' ', apellido_mat) into xnombre
+  from voluntario
+  where idvoluntario = idx;
+  return xnombre;
+end//
+delimiter ;
+-- voluntario funcion 2
+delimiter //
+create function direccion_voluntario_x(idx int) returns varchar(100)
+deterministic
+begin
+  declare xdireccion varchar(100) ;
+  set xdireccion = 'Sin dirección';
+  select direccion into xdireccion
+  from voluntario
+  where idvoluntario = idx;
+  return xdireccion;
 end//
 delimiter ;

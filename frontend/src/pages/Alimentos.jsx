@@ -14,9 +14,7 @@ const Alimentos = () => {
   const [filteredFood, setFilteredFood] = useState(foodData);
   const [categoryFilter, setCategoryFilter] = useState("");
   const [search, setSearch] = useState("");
-  console.log(foodData);
-  console.log(currentUser);
-  console.log("itemqty:", itemQty);
+  // console.log(currentUser);
   useEffect(() => {
     fetchData();
   }, []);
@@ -24,7 +22,6 @@ const Alimentos = () => {
     try {
       const result = await axios("http://localhost:3001/api/products/findall");
       setFoodData(result.data);
-      console.log(result.data);
     } catch (err) {
       console.log("Error");
       console.log(err);

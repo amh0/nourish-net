@@ -13,3 +13,11 @@
 .empty-cart .parr1 {
   color: var(--textlight);
 }
+
+.grid-prod .btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  border-radius: 8px;
+}

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import {
   Image,
   Text,
@@ -124,6 +124,9 @@ const styles = StyleSheet.create({
     flex: 4,
   },
 
+  theader3: {
+    flex: 2,
+  },
   tbody: {
     fontSize: 11,
     padding: 8,
@@ -133,6 +136,13 @@ const styles = StyleSheet.create({
   },
   tbody2: {
     flex: 4,
+  },
+
+  tbody3: {
+    flex: 2,
+  },
+  alignRight: {
+    textAlign: "right",
   },
   footerText: {
     fontSize: 9,
@@ -161,7 +171,7 @@ const ReceiptDetail = (props) => {
       <View style={styles.detailRow}>
         <Text style={styles.detailTitle}>Código de recibo:</Text>
         <Text style={styles.detailContent}>
-          {padNumber(recibo.idrecibo, 8, "0")}
+          {padNumber(recibo.idRecibo, 6, "0")}
         </Text>
       </View>
       <View style={styles.detailRow}>
@@ -178,16 +188,15 @@ const DonnorSection = (props) => {
   return (
     <View style={styles.donnorContainer}>
       <View style={styles.donnorDetail}>
-        <Text style={styles.donnorTitle}>Donante</Text>
-        <Text>{recibo.nombre_don}</Text>
-        <Text>{recibo.direccion_don}</Text>
-        <Text>{recibo.cel_don}</Text>
+        <Text style={styles.donnorTitle}>Receptor</Text>
+        <Text>{recibo.nombreGeneral}</Text>
+        <Text>{recibo.direccionGeneral}</Text>
+        <Text>{recibo.celularGeneral}</Text>
       </View>
       <View style={styles.donnorDetail}>
-        <Text style={styles.donnorTitle}>Receptor</Text>
-        <Text>{recibo.nombre_rec}</Text>
-        <Text>{recibo.direccion_rec}</Text>
-        <Text>{recibo.cel_rec}</Text>
+        <Text style={styles.donnorTitle}>Voluntario</Text>
+        <Text>{recibo.nombreVoluntario}</Text>
+        <Text>{recibo.direccionVoluntario}</Text>
       </View>
     </View>
   );
@@ -196,6 +205,9 @@ const TableHead = () => (
   <View style={{ width: "100%", flexDirection: "row", marginTop: 10 }}>
     <View style={[styles.theader, styles.theader2]}>
       <Text>Descripción</Text>
+    </View>
+    <View style={[styles.theader, styles.theader3]}>
+      <Text>Donante</Text>
     </View>
     <View style={styles.theader}>
       <Text>Cantidad</Text>
@@ -206,20 +218,28 @@ const TableHead = () => (
   </View>
 );
 const TableBody = (props) => {
-  const recibo = props.recibo;
-  return (
-    <View style={{ width: "100%", flexDirection: "row" }}>
-      <View style={[styles.tbody, styles.tbody2]}>
-        <Text>{recibo.nombre_ali}</Text>
-      </View>
-      <View style={styles.tbody}>
-        <Text>{recibo.cantidad_donacion}</Text>
-      </View>
-      <View style={styles.tbody}>
-        <Text>{recibo.unidad_medida}</Text>
-      </View>
-    </View>
-  );
+  const products = props.products;
+  const tableRows = products.map((item) => {
+    return (
+      <Fragment key={item.idalimento}>
+        <View style={{ width: "100%", flexDirection: "row" }}>
+          <View style={[styles.tbody, styles.tbody2]}>
+            <Text>{item.nombre}</Text>
+          </View>
+          <View style={[styles.tbody, styles.tbody3]}>
+            <Text>{item.nombreDonante}</Text>
+          </View>
+          <View style={[styles.tbody, styles.alignRight]}>
+            <Text>{item.cantidad}</Text>
+          </View>
+          <View style={[styles.tbody, styles.alignRight]}>
+            <Text>{item.unidadMedida}</Text>
+          </View>
+        </View>
+      </Fragment>
+    );
+  });
+  return tableRows;
 };
 const DonationDetail = (props) => {
   const recibo = props.recibo;
@@ -228,12 +248,12 @@ const DonationDetail = (props) => {
       <View style={styles.detailRow}>
         <Text style={styles.detailTitle}>Fecha de donación:</Text>
         <Text style={styles.detailContent}>
-          {getFormattedDate(recibo.fecha_entrega)}
+          {getFormattedDate(recibo.fechaEntrega)}
         </Text>
       </View>
       <View style={styles.detailRow}>
         <Text style={styles.detailTitle}>Lugar donación</Text>
-        <Text style={styles.detailContent}>Av. Mariscal Santa Cruz</Text>
+        <Text style={styles.detailContent}>{recibo.lugarEntrega}</Text>
       </View>
       <View style={styles.detailRow}>
         <Text style={styles.detailTitle}>Nota:</Text>
@@ -259,7 +279,7 @@ const ReceiptFooter = () => {
 
 const ReceiptPdf = (props) => {
   const recibo = props.receipt;
-  // console.log(recibo);
+  const products = props.products;
   return (
     <Document title={`recibo_donacion_${recibo.idrecibo}`}>
       <Page size="A4" style={styles.page}>
@@ -270,7 +290,7 @@ const ReceiptPdf = (props) => {
             <DonnorSection recibo={recibo} />
             <View>
               <TableHead />
-              <TableBody recibo={recibo} />
+              <TableBody products={products} />
             </View>
             <DonationDetail recibo={recibo} />
             <View></View>

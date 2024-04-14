@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, Fragment } from "react";
 import axios from "axios";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
@@ -6,6 +6,7 @@ import {
   Warning,
   CheckCircle,
   ShoppingCartSimple,
+  X,
 } from "@phosphor-icons/react";
 
 import { AuthContext } from "../context/authContext";
@@ -47,28 +48,29 @@ const listStyle = {
 
 const CartPage = () => {
   const { currentUser, setCurrentUser } = useContext(AuthContext);
+  const { itemQty, setItemQty } = useContext(AuthContext);
   const [products, setProducts] = useState([]);
   useEffect(() => {
-    const fetchProducts = async () => {
-      const formData = {
-        idDonacion: currentUser.idCarrito,
-        idGeneral: currentUser.idusuario,
-      };
-      try {
-        const result = await axios.post(
-          apiURL + "donations/get_donation_products",
-          formData
-        );
-        setProducts(result.data);
-        console.log(result.data);
-      } catch (err) {
-        console.log("Error");
-        console.log(err);
-      }
-    };
     fetchProducts();
   }, []);
 
+  const fetchProducts = async () => {
+    const formData = {
+      idDonacion: currentUser.idCarrito,
+      idGeneral: currentUser.idusuario,
+    };
+    try {
+      const result = await axios.post(
+        apiURL + "donations/get_donation_products",
+        formData
+      );
+      setProducts(result.data);
+      console.log(result.data);
+    } catch (err) {
+      console.log("Error");
+      console.log(err);
+    }
+  };
   const [method, setMethod] = useState(methodOptions[0]);
   const [fecha, setFecha] = useState("");
   const [hora, setHora] = useState("");
@@ -103,6 +105,7 @@ const CartPage = () => {
       mensajeSolicitud: msg,
       idDonacion: currentUser.idCarrito, // id del receptor
       idGeneral: currentUser.idusuario,
+      fechaSolicitud: new Date().toJSON(),
     };
     console.log("formData", formData);
     axios
@@ -120,9 +123,31 @@ const CartPage = () => {
       })
       .catch((err) => console.log(err));
   };
+  const handleDelete = async (e, id) => {
+    console.log("clicked");
+    console.log(id);
+    const formData = {
+      idDonacion: currentUser.idCarrito,
+      idAlimento: id,
+    };
+    try {
+      const result = await axios.post(
+        apiURL + "donations/remove_product",
+        formData
+      );
+      console.log("deleted");
+      setCurrentUser((prev) => {
+        return { ...prev, itemQty: prev.itemQty - 1 };
+      });
+      fetchProducts();
+    } catch (err) {
+      console.log("Error");
+      console.log(err);
+    }
+  };
   return (
     <div className="coordination">
-      {currentUser.itemQty > 0 ? (
+      {currentUser.itemQty > 0 || insertState !== "none" ? (
         <>
           <h4 className="title4 accent-secondary">Coordinar entrega</h4>
           <div>
@@ -130,11 +155,15 @@ const CartPage = () => {
               <div className="parr1 bold">Alimento</div>
               <div className="parr1 bold cell-left">Cantidad</div>
               <div className="parr1 bold cell-left">Unidad</div>
+              <div className="parr1 bold cell-left"></div>
               <div className="row-border"></div>
               {products.map((item, i) => {
                 return (
-                  <>
-                    <div className="product-name-container">
+                  <Fragment key={item.idAlimento}>
+                    <div
+                      key={item.idalimento}
+                      className="product-name-container"
+                    >
                       <div className="img-container">
                         <img src={imgPath + item.imagen} alt="" />
                       </div>
@@ -142,10 +171,20 @@ const CartPage = () => {
                     </div>
                     <div className="cell-left">{item.cantidad}</div>
                     <div className="cell-left">{item.unidad_medida}</div>
+                    <button
+                      className="btn bg0-tertiary-v"
+                      onClick={(e) => handleDelete(e, item.idalimento)}
+                    >
+                      <X
+                        size={16}
+                        color="var(--tertiary_strong)"
+                        weight={"bold"}
+                      />
+                    </button>
                     {i !== products.length - 1 ? (
                       <div className="row-border-lighter"></div>
                     ) : null}
-                  </>
+                  </Fragment>
                 );
               })}
             </div>

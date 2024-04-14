@@ -3,7 +3,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/authContext";
 import Input from "../input/Input";
-import { MapPin, Cube } from "@phosphor-icons/react";
+import { MapPin, Cube, CheckCircle, Warning } from "@phosphor-icons/react";
 import "./ProductDisplay.css";
 import "../globals.css";
 
@@ -18,6 +18,8 @@ const ProductDisplay = (props) => {
   const [categories, setCategories] = useState([]);
   const idgen = product.idgeneral;
   const [cantidad, setCantidad] = useState();
+
+  const [insertState, setInsertState] = useState("none");
   // agregar producto al carrito
   const handleRequest = async () => {
     const formData = {
@@ -28,17 +30,20 @@ const ProductDisplay = (props) => {
     };
     console.log(formData);
     try {
+      setInsertState("loading");
       const result = await axios.post(
         apiURL + "donations/add_to_cart",
         formData
       );
       console.log("OK product added: " + result.status);
+      setInsertState("success");
       if (result.data.rowAdded) {
         setCurrentUser((prev) => {
           return { ...prev, itemQty: prev.itemQty + 1 };
         });
       }
     } catch (err) {
+      setInsertState("error");
       console.log("Error");
       console.log(err);
     }
@@ -166,6 +171,36 @@ const ProductDisplay = (props) => {
             Agregar Alimento
           </button>
         </div>
+        {insertState !== "none" ? (
+          <div className={"state-container product-state " + insertState}>
+            {insertState === "loading" ? (
+              <>
+                <div class="lds-ring">
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                </div>
+                <p className="parr1">Agregando...</p>
+              </>
+            ) : insertState === "success" ? (
+              <>
+                <CheckCircle
+                  size={32}
+                  color="var(--secondary)"
+                  weight="light"
+                />
+                <p className="parr1 boldparr">¡Alimento agregado!</p>
+              </>
+            ) : insertState === "error" ? (
+              <>
+                <Warning size={32} color="var(--tertiary)" weight="light" />
+                <p className="parr1 boldparr">Error</p>
+                <p className="parr2">Ha ocurrido un error inesperado</p>
+              </>
+            ) : null}
+          </div>
+        ) : null}
         <h4 className="title4">Descripción</h4>
         <p className="parr1 parr-row">{product.descripcion}</p>
         <p className="parr1 parr-row">

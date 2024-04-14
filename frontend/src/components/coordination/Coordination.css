@@ -10,8 +10,8 @@
 }
 .grid-prod {
   display: grid;
-  grid-template-columns: 1fr 96px 96px;
-  row-gap: 8px;
+  grid-template-columns: 1fr 80px 80px 32px;
+  row-gap: 12px;
   column-gap: 16px;
   align-items: center;
   margin-bottom: 24px;
@@ -36,11 +36,11 @@
 }
 .row-border {
   border-top: 2px solid var(--textlight);
-  grid-column: 1 / 4;
+  grid-column: 1 / 5;
 }
 .row-border-lighter {
   border-top: 2px solid var(--textlighter);
-  grid-column: 1 / 4;
+  grid-column: 1 / 5;
 }
 .coordination .form-area {
   display: flex;
