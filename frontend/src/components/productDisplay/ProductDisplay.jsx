@@ -11,7 +11,7 @@ const imgPath = "http://localhost:3001/img/";
 const apiURL = "http://localhost:3001/api/";
 
 const ProductDisplay = (props) => {
-  const { currentUser } = useContext(AuthContext);
+  const { currentUser, setCurrentUser } = useContext(AuthContext);
   const { product } = props;
 
   const [donnor, setDonnor] = useState([]);
@@ -33,6 +33,11 @@ const ProductDisplay = (props) => {
         formData
       );
       console.log("OK product added: " + result.status);
+      if (result.data.rowAdded) {
+        setCurrentUser((prev) => {
+          return { ...prev, itemQty: prev.itemQty + 1 };
+        });
+      }
     } catch (err) {
       console.log("Error");
       console.log(err);

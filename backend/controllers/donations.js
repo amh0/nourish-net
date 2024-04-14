@@ -342,6 +342,7 @@ export const requestDonation = async (req, res) => {
 export const addToCart = async (req, res) => {
   const data = req.body;
   try {
+    let rowAdded = false;
     // database verification to check the maximum available quantity of the product
     const qMax =
       "select cantidad_disponible from alimento where idalimento = ?";
@@ -375,8 +376,9 @@ export const addToCart = async (req, res) => {
         data.cantidad,
         data.fechaAgregado,
       ]);
+      rowAdded = true;
     }
-    res.status(200).json({ Status: "OK" });
+    res.status(200).json({ Status: "OK", rowAdded: rowAdded });
   } catch (error) {
     res.status(500).json(error);
     console.log(error);

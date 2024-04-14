@@ -200,6 +200,7 @@ export const login = async (req, res) => {
     let isBeneficial = false;
 
     let idCarrito = -1;
+    let itemQty = 0;
     //ADMIN
     const adminQuery = "SELECT * FROM ADMIN WHERE idadmin = ?";
     const adminResults = await queryDatabase(adminQuery, [
@@ -231,14 +232,19 @@ export const login = async (req, res) => {
         selectResults[0].idusuario,
       ]);
       // --- obtener id carrito
-      const carrQuery = `select g.idgeneral as idgeneral, iddonacion as idCarrito
+      const cartQuery = `select g.idgeneral as idgeneral, iddonacion as idCarrito
          from general g inner join donacion d 
          on g.idgeneral = d.idgeneral 
          where g.idgeneral = ? and estado = ?`;
-      const carrData = [selectResults[0].idusuario, "Inactivo"];
-      const carrResult = await queryDatabase(carrQuery, carrData);
-      if (carrResult.length > 0) {
-        idCarrito = carrResult[0].idCarrito;
+      const cartData = [selectResults[0].idusuario, "Inactivo"];
+      const cartResult = await queryDatabase(cartQuery, cartData);
+      if (cartResult.length > 0) {
+        idCarrito = cartResult[0].idCarrito;
+        const qtyQuery = `select count(idalimento) cantidadProd
+        from tiene_a 
+        where iddonacion = ?`;
+        const qtyResult = await queryDatabase(qtyQuery, [idCarrito]);
+        itemQty = qtyResult[0].cantidadProd;
       }
       // ---
       if (roleResults.length > 0) {
@@ -283,6 +289,7 @@ export const login = async (req, res) => {
       isReceiver: isReceiver,
       isBeneficial: isBeneficial,
       idCarrito: idCarrito,
+      itemQty: itemQty,
     };
 
     // console.log(JSON.stringify(userData));

@@ -102,14 +102,18 @@ const ProfileNavbar = () => {
 
         <div className="user">
           <Link to="/solicitar">
-            {/* -> confirmar donacion */}
-            <ShoppingCartSimple
-              size={30}
-              color="var(--textlight)"
-              onClick={() => {
-                setMenu("");
-              }}
-            />
+            <div className="icon-badge-container">
+              <ShoppingCartSimple
+                size={30}
+                color="var(--textlight)"
+                onClick={() => {
+                  setMenu("");
+                }}
+              />
+              {currentUser.itemQty > 0 ? (
+                <div className="icon-badge">{currentUser.itemQty}</div>
+              ) : null}
+            </div>
           </Link>
           <Link to="/notificaciones">
             <Bell
