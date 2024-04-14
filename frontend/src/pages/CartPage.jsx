@@ -48,7 +48,6 @@ const listStyle = {
 
 const CartPage = () => {
   const { currentUser, setCurrentUser } = useContext(AuthContext);
-  const { itemQty, setItemQty } = useContext(AuthContext);
   const [products, setProducts] = useState([]);
   useEffect(() => {
     fetchProducts();
@@ -71,6 +70,7 @@ const CartPage = () => {
       console.log(err);
     }
   };
+
   const [method, setMethod] = useState(methodOptions[0]);
   const [fecha, setFecha] = useState("");
   const [hora, setHora] = useState("");
@@ -131,10 +131,7 @@ const CartPage = () => {
       idAlimento: id,
     };
     try {
-      const result = await axios.post(
-        apiURL + "donations/remove_product",
-        formData
-      );
+      await axios.post(apiURL + "donations/remove_product", formData);
       console.log("deleted");
       setCurrentUser((prev) => {
         return { ...prev, itemQty: prev.itemQty - 1 };
