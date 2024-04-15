@@ -129,7 +129,6 @@ export const removeProduct = async (req, res) => {
 export const getDonationDetails = async (req, res) => {
   const data = req.body;
   try {
-    console.log(data);
     const qDonation = `
       select d.tipo_envio as tipoEnvio, d.iddonacion as idDonacion,  
         d.lugar_entrega as lugarEntrega, d.fecha_entrega as fechaEntrega, d.hora_entrega as horaEntrega, 
@@ -142,7 +141,6 @@ export const getDonationDetails = async (req, res) => {
       from donacion d
       where d.iddonacion = ?`;
     const resReceipt = await queryDatabase(qDonation, [data.idDonacion]);
-    console.log(resReceipt);
     res.status(200).json(resReceipt);
   } catch (error) {
     res.status(500).json(error);

@@ -55,13 +55,19 @@
   gap: 40px;
 }
 
+.donation-display .row-wrapper2 {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
 .donation-display .title-wrapper {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
-.title-wrapper .row-wrapper{
-    gap: 8px
+.title-wrapper .row-wrapper {
+  gap: 8px;
 }
 .donation-display .input-wrapper input {
   box-sizing: border-box;
@@ -99,4 +105,15 @@
 }
 .donation-display .state-container {
   margin-top: 0px;
+}
+.donations-info .row-wrapper {
+  margin-bottom: 16px;
+  gap: 24px;
+}
+.donation-display .title5 {
+  margin-bottom: 24px;
+}
+.sub-title {
+  width: 80px;
+  /* text-align: end; */
 }

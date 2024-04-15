@@ -51,7 +51,7 @@ const DonationDetailDisplay = (props) => {
   const { idDonacion } = props;
   const { currentUser, setCurrentUser } = useContext(AuthContext);
   const [products, setProducts] = useState([]);
-  const [donation, setDonation] = useState();
+  const [donation, setDonation] = useState({});
   const [method, setMethod] = useState(methodOptions[0]);
   useEffect(() => {
     fetchProducts();
@@ -84,7 +84,7 @@ const DonationDetailDisplay = (props) => {
         apiURL + "donations/get_donation_details",
         formData
       );
-      setDonation(result.data);
+      setDonation(result.data[0]);
       console.log(result.data);
     } catch (err) {
       console.log("Error");
@@ -99,8 +99,10 @@ const DonationDetailDisplay = (props) => {
       <div className="title-wrapper">
         <h4 className="title4 accent-secondary">Detalles donacion</h4>
         <div className="row-wrapper">
-          <Barcode size={24} color="var(--primary)" />
-          <p className="parr1 ">{"COD: " + padNumber(idDonacion, 6, "0")}</p>
+          <Barcode size={24} color="var(--textlight)" />
+          <p className="parr1 bold  ">
+            {"COD: " + padNumber(idDonacion, 6, "0")}
+          </p>
         </div>
       </div>
       <div>
@@ -133,79 +135,80 @@ const DonationDetailDisplay = (props) => {
         <div className="donations-info">
           <div className="row-wrapper">
             <div className="sub-title parr1 bold">Receptor</div>
-            <div className="parr1">Receptor</div>
+            <div className="parr1">{donation.nombreGeneral}</div>
           </div>
           <div className="row-wrapper">
             <div className="sub-title parr1 bold">Direccion</div>
-            <div className="parr1">Direccion</div>
+            <div className="parr1">{donation.direccionGeneral}</div>
           </div>
           <div className="row-wrapper">
-            <div className="row-wrapper">
+            <div className="row-wrapper2">
               <div className="sub-title parr1 bold">Fecha</div>
-              <div className="parr1">Receptor</div>
+              <div className="parr1">
+                {getFormattedDate(donation.fechaEntrega)}
+              </div>
             </div>
-            <div className="row-wrapper">
-              <div className="sub-title parr1 bold">Fecha</div>
-              <div className="parr1">Receptor</div>
+            <div className="row-wrapper2">
+              <div className="sub-title parr1 bold">Hora</div>
+              <div className="parr1">{donation.horaEntrega}</div>
             </div>
           </div>
 
           <div className="row-wrapper">
             <div className="sub-title parr1 bold">Metodo</div>
-            <div className="parr1">Direccion</div>
+            <div className="parr1">{donation.tipoEnvio}</div>
           </div>
           <div className="row-wrapper">
             <div className="sub-title parr1 bold">Mensaje</div>
-            <p className="parr1">Direccion</p>
+            <p className="parr1">{donation.mensajeSolicitud}</p>
           </div>
         </div>
       </div>
       <div>
         <h5 className="title5">Detalles Voluntario</h5>
         <div className="donations-info">
-          <div className="row-wrapper">
-            <div className="sub-title parr1 bold">Receptor</div>
-            <div className="parr1">Receptor</div>
-          </div>
-          <div className="row-wrapper">
-            <div className="sub-title parr1 bold">Direccion</div>
-            <div className="parr1">Direccion</div>
-          </div>
-          <div className="row-wrapper">
-            <div className="sub-title parr1 bold">Metodo</div>
-            <div className="parr1">Direccion</div>
-          </div>
-        </div>
-      </div>
-      <div className="form-area">
-        <div>
-          <p className="parr1 bold metodo-title">
-            <span className="accent-secondary"> Metodo de entrega</span>
-          </p>
-          <div className="row-wrapper ">
-            <Select
-              className="list-option"
-              options={methodOptions}
-              components={makeAnimated()}
-              closeMenuOnSelect={false}
-              value={method}
-              defaultValue={methodOptions[0]}
-              onChange={handleOptSelection}
-              styles={listStyle}
-              theme={(theme) => ({
-                ...theme,
-                borderRadius: 6,
-                colors: {
-                  ...theme.colors,
-                  text: "orangered",
-                  primary25: "#E2F0EE",
-                  primary50: "#99CBC5",
-                  primary: "#red",
-                },
-              })}
-            />
+          <div>
+            <p className="parr1 bold metodo-title">
+              <span className="accent-secondary">Asignar voluntario</span>
+            </p>
+            <div className="row-wrapper ">
+              <Select
+                className="list-option"
+                options={methodOptions}
+                components={makeAnimated()}
+                closeMenuOnSelect={false}
+                value={method}
+                defaultValue={methodOptions[0]}
+                onChange={handleOptSelection}
+                styles={listStyle}
+                theme={(theme) => ({
+                  ...theme,
+                  borderRadius: 6,
+                  colors: {
+                    ...theme.colors,
+                    text: "orangered",
+                    primary25: "#E2F0EE",
+                    primary50: "#99CBC5",
+                    primary: "#red",
+                  },
+                })}
+              />
+            </div>
+            <div className="row-wrapper">
+              <div className="sub-title parr1 bold">Nombre</div>
+              <div className="parr1">{donation.nombreVoluntario}</div>
+            </div>
+            <div className="row-wrapper">
+              <div className="sub-title parr1 bold">Direccion</div>
+              <div className="parr1">{donation.direccionVoluntario}</div>
+            </div>
+            <div className="row-wrapper">
+              <div className="sub-title parr1 bold">Celular</div>
+              <div className="parr1">{donation.celularVoluntario}</div>
+            </div>
           </div>
         </div>
+        <div className="form-area"></div>
       </div>
     </div>
   );
