@@ -1,13 +1,6 @@
-import React, { useEffect, useState, useContext, usefo } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
-import {
-  MagnifyingGlass,
-  X,
-  Funnel,
-  HandArrowUp,
-  HandArrowDown,
-  HandHeart,
-} from "@phosphor-icons/react";
+import { MagnifyingGlass, X, Funnel } from "@phosphor-icons/react";
 
 import { AuthContext } from "../context/authContext";
 import DonationItem from "../components/donationItem/DonationItem";
@@ -18,13 +11,12 @@ const MisDonaciones = () => {
   const { currentUser } = useContext(AuthContext);
   const [donationsData, setDonationsData] = useState([]);
   const [filteredDonations, setFilteredDonations] = useState(donationsData);
-  const [typeFilter, setTypeFilter] = useState("Todos");
   const [statusFilter, setStatusFilter] = useState("");
   const [search, setSearch] = useState("");
   useEffect(() => {
-    getAllDonations2();
+    getAllDonations();
   }, []);
-  const getAllDonations2 = async () => {
+  const getAllDonations = async () => {
     try {
       let result = [];
       if (currentUser.isAdmin) {
@@ -43,17 +35,6 @@ const MisDonaciones = () => {
       console.log(err);
     }
   };
-  const getAllDonations = async () => {
-    try {
-      const result = await axios(apiPath + "/donations/findall");
-      setDonationsData(result.data);
-      //setFilteredDonations(result.data);
-      // console.log("fetching...");
-    } catch (err) {
-      console.log("Error");
-      console.log(err);
-    }
-  };
   // filterEffect
   useEffect(() => {
     const newData = donationsData.filter((donation) => {
@@ -67,9 +48,7 @@ const MisDonaciones = () => {
       // else {
       // obtener donados y recibidos o todos las donaciones si es admin
       filteredByType =
-        currentUser.isAdmin ||
-        donation.idVoluntario === currentUser.idusuario ||
-        donation.idGeneral === currentUser.idusuario;
+        currentUser.isAdmin || donation.idGeneral === currentUser.idusuario;
       // }
       filteredByStatus =
         !statusFilter ||
@@ -83,12 +62,12 @@ const MisDonaciones = () => {
     });
     // console.log(newData);
     setFilteredDonations(newData);
-  }, [typeFilter, statusFilter, search, currentUser, donationsData]);
+  }, [statusFilter, search, currentUser, donationsData]);
 
   return (
     <div className="mis-donaciones">
       <div className="sidebar">
-        <h5 className="title5 accent-secondary">Tipo</h5>
+        {/* <h5 className="title5 accent-secondary">Tipo</h5>
         <ol className="categories">
           <li onClick={() => setTypeFilter("Todos")}>
             <div className="icon-text-wrapper">
@@ -112,7 +91,7 @@ const MisDonaciones = () => {
               Recibido
             </div>
           </li>
-        </ol>
+        </ol> */}
         <h5 className="title5 accent-secondary">Estado</h5>
         <ol className="categories">
           <li onClick={() => setStatusFilter("Todos")}>Todos</li>
@@ -145,26 +124,11 @@ const MisDonaciones = () => {
             </button>
           </div>
           <div className="filter-section">
-            {(typeFilter &&
-              (typeFilter === "Donado" || typeFilter === "Recibido")) ||
-            (statusFilter && statusFilter !== "Todos") ? (
+            {statusFilter && statusFilter !== "Todos" ? (
               <div className="icon-container light-v">
                 <Funnel size={24} color="var(--textlight)" weight="bold" />
               </div>
             ) : null}
-            <div className="filter-container">
-              {typeFilter &&
-              (typeFilter === "Donado" || typeFilter === "Recibido") ? (
-                <>
-                  <div className="filter-text">{typeFilter}</div>
-                  <button className="btn" onClick={() => setTypeFilter("")}>
-                    <X size={16} color="var(--parr1)" weight={"bold"} />
-                  </button>
-                </>
-              ) : (
-                <></>
-              )}
-            </div>
             <div className="filter-container">
               {statusFilter && statusFilter !== "Todos" ? (
                 <>
