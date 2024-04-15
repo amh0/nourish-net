@@ -25,6 +25,7 @@ import CartPage from "./pages/CartPage";
 import DetalleDonacion from "./pages/DetalleDonacion";
 import { useContext } from "react";
 import { AuthContext } from "./context/authContext";
+import DonacionesVoluntario from "./pages/DonacionesVoluntario";
 function App() {
   const { currentUser } = useContext(AuthContext);
   // const currentUser = null;
@@ -68,7 +69,13 @@ function App() {
           )}
           {currentUser && <Route path="/peticiones" element={<Peticiones />} />}
           {currentUser && currentUser.isVolunteer && (
-            <Route path="/tareas" element={<Tareas />} />
+            <>
+              <Route path="/tareas" element={<Tareas />} />
+              <Route
+                path="/donaciones/entregas"
+                element={<DonacionesVoluntario />}
+              />
+            </>
           )}
           {/*verify volunteer*/}
           {currentUser && (

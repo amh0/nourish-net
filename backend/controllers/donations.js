@@ -241,6 +241,10 @@ export const getDonationsUser = async (req, res) => {
   const data = req.body;
   // console.log(data);
   try {
+    let matchId = "d.idgeneral";
+    if (data.assignedDonations) {
+      matchId = "d.idvoluntario";
+    }
     const q = `
     select d.iddonacion as idDonacion, d.estado, d.tipo_envio as tipoEnvio,
       d.fecha_entrega as fechaEntrega, d.hora_entrega as horaEntrega, d.lugar_entrega as lugarEntrega,
@@ -256,7 +260,7 @@ export const getDonationsUser = async (req, res) => {
       ) as tmp
     on d.iddonacion = tmp.iddonacion
     where d.estado not like 'Inactivo'
-      and d.idgeneral = ?
+      and ${matchId} = ?
     order by d.fecha_solicitud desc`;
     const userValue = [data.idUsuario];
     const donationsRes = await queryDatabase(q, userValue);

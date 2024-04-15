@@ -7,29 +7,24 @@ import DonationItem from "../components/donationItem/DonationItem";
 import "./css/MisDonaciones.css";
 
 const apiPath = "http://localhost:3001/api";
-const MisDonaciones = () => {
+const DonacionesVoluntario = () => {
   const { currentUser } = useContext(AuthContext);
   const [donationsData, setDonationsData] = useState([]);
   const [filteredDonations, setFilteredDonations] = useState(donationsData);
   const [statusFilter, setStatusFilter] = useState("");
   const [search, setSearch] = useState("");
+  console.log("donaciones entregas");
   useEffect(() => {
     getAllDonations();
   }, []);
   const getAllDonations = async () => {
     try {
-      let result = [];
-      if (currentUser.isAdmin) {
-        result = await axios(apiPath + "/donations/findall");
-      } else {
-        console.log(currentUser.idusuario);
-        result = await axios.post(apiPath + "/donations/find_by_user", {
-          idUsuario: currentUser.idusuario,
-          assignedDonations: false,
-        });
-      }
+      const result = await axios.post(apiPath + "/donations/find_by_user", {
+        idUsuario: currentUser.idusuario,
+        assignedDonations: true,
+      });
       setDonationsData(result.data);
-      // setFilteredDonations(result.data);
+      console.log(result.data);
     } catch (err) {
       console.log("Error");
       console.log(err);
@@ -48,7 +43,7 @@ const MisDonaciones = () => {
       // else {
       // obtener donados y recibidos o todos las donaciones si es admin
       filteredByType =
-        currentUser.isAdmin || donation.idGeneral === currentUser.idusuario;
+        currentUser.isAdmin || donation.idVoluntario === currentUser.idusuario;
       // }
       filteredByStatus =
         !statusFilter ||
@@ -60,38 +55,13 @@ const MisDonaciones = () => {
 
       return filteredByType && filteredByStatus && filteredBySearch;
     });
-    // console.log(newData);
+    console.log("filetered", newData);
     setFilteredDonations(newData);
   }, [statusFilter, search, currentUser, donationsData]);
 
   return (
     <div className="mis-donaciones">
       <div className="sidebar">
-        {/* <h5 className="title5 accent-secondary">Tipo</h5>
-        <ol className="categories">
-          <li onClick={() => setTypeFilter("Todos")}>
-            <div className="icon-text-wrapper">
-              <HandHeart size={24} weight="light" color="var(--textlight)" />
-              Todos
-            </div>
-          </li>
-          <li onClick={() => setTypeFilter("Donado")}>
-            <div className="icon-text-wrapper">
-              <HandArrowUp size={24} weight="light" color="var(--secondary)" />
-              Donado
-            </div>
-          </li>
-          <li onClick={() => setTypeFilter("Recibido")}>
-            <div className="icon-text-wrapper">
-              <HandArrowDown
-                size={24}
-                weight="light"
-                color="var(--primary_strong)"
-              />
-              Recibido
-            </div>
-          </li>
-        </ol> */}
         <h5 className="title5 accent-secondary">Estado</h5>
         <ol className="categories">
           <li onClick={() => setStatusFilter("Todos")}>Todos</li>
@@ -153,4 +123,4 @@ const MisDonaciones = () => {
   );
 };
 
-export default MisDonaciones;
+export default DonacionesVoluntario;

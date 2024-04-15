@@ -75,7 +75,7 @@ const ProfileNavbar = () => {
       <div className="actions-section">
         <div className="actions-section">
           {currentUser && currentUser.isVolunteer && (
-            <Link className="link" to="/tareas">
+            <Link className="link" to="/donaciones/entregas">
               <button
                 className="btn btn secondary-v"
                 onClick={() => {
