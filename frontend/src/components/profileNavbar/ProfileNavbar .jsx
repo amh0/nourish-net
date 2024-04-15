@@ -43,7 +43,7 @@ const ProfileNavbar = () => {
               setMenu("misDonaciones");
             }}
           >
-            <Link className="link" to="/mis-donaciones">
+            <Link className="link" to="/donaciones">
               Mis donaciones
             </Link>
             {menu === "misDonaciones" ? <hr /> : <></>}

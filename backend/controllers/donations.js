@@ -1,4 +1,3 @@
-import { query } from "express";
 import { db } from "../connect.js";
 
 export const addToCart = async (req, res) => {
@@ -121,6 +120,30 @@ export const removeProduct = async (req, res) => {
       data.idAlimento,
     ]);
     res.status(200).json(queryResult);
+  } catch (error) {
+    res.status(500).json(error);
+    console.log(error);
+  }
+};
+
+export const getDonationDetails = async (req, res) => {
+  const data = req.body;
+  try {
+    console.log(data);
+    const qDonation = `
+      select d.tipo_envio as tipoEnvio, d.iddonacion as idDonacion,  
+        d.lugar_entrega as lugarEntrega, d.fecha_entrega as fechaEntrega, d.hora_entrega as horaEntrega, 
+        d.mensaje_solicitud as mensajeSolicitud, d.idgeneral as idGeneral, d.idvoluntario as idVoluntario,
+        nombre_voluntario_x(d.idvoluntario) as nombreVoluntario, 
+        direccion_voluntario_x(d.idvoluntario) as direccionVoluntario, 
+        celular_voluntario_x(d.idvoluntario) as celularVoluntario,
+        nombre_idx_gen(d.idgeneral) nombreGeneral, direccion_idx_gen(d.idgeneral) as direccionGeneral, 
+        cel_idx_gen(d.idgeneral) as celularGeneral
+      from donacion d
+      where d.iddonacion = ?`;
+    const resReceipt = await queryDatabase(qDonation, [data.idDonacion]);
+    console.log(resReceipt);
+    res.status(200).json(resReceipt);
   } catch (error) {
     res.status(500).json(error);
     console.log(error);

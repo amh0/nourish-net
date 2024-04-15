@@ -99,3 +99,10 @@
 .btn-link {
   all: unset;
 }
+.donation-item .details-btn {
+  height: 24px;
+  width: 72px;
+  font-size: var(--parr2);
+  font-weight: normal;
+  border-radius: 8px;
+}

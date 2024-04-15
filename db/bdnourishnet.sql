@@ -1,4 +1,3 @@
-
 CREATE DATABASE bdnourishnet;
 use bdnourishnet;
 
@@ -279,5 +278,18 @@ begin
   from voluntario
   where idvoluntario = idx;
   return xdireccion;
+end//
+delimiter ;
+-- voluntario funcion3
+delimiter //
+create function celular_voluntario_x(idx int) returns varchar(30)
+deterministic
+begin
+  declare xcelular varchar(30) ;
+  set xcelular = 'Sin número';
+  select celular into xcelular
+  from voluntario
+  where idvoluntario = idx;
+  return xcelular;
 end//
 delimiter ;

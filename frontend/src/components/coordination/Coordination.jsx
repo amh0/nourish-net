@@ -72,7 +72,7 @@ const Coordination = (props) => {
       horaEntrega: hora,
       mensajeSolicitud: msg,
       idDonacion: currentUser.idCarrito, // id del receptor
-      idGeneral: currentUser.idUsuario
+      idGeneral: currentUser.idUsuario,
     };
     console.log("formData", formData);
     axios

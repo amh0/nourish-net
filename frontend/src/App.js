@@ -22,9 +22,9 @@ import Notificaciones from "./pages/Notificaciones";
 import Perfil from "./pages/Perfil";
 import CoordSolicitud from "./pages/CoordSolicitud";
 import CartPage from "./pages/CartPage";
+import DetalleDonacion from "./pages/DetalleDonacion";
 import { useContext } from "react";
 import { AuthContext } from "./context/authContext";
-
 function App() {
   const { currentUser } = useContext(AuthContext);
   // const currentUser = null;
@@ -46,7 +46,9 @@ function App() {
             path="/producto/:productId/solicitud"
             element={<CoordSolicitud />}
           />
-          <Route path="/mis-donaciones" element={<MisDonaciones />} />
+          <Route path="/donaciones" element={<MisDonaciones />}>
+            <Route path=":donacionId" element={<DetalleDonacion />} />
+          </Route>
           <Route path="/donar" element={<Publicar />} />
           {currentUser && <Route path="/donar" element={<Publicar />} />}{" "}
           {/*verify donor*/}
@@ -55,7 +57,14 @@ function App() {
           {!currentUser && <Route path="/loginHelp" element={<LoginHelp />} />}
           {currentUser && <Route path="/donantes" element={<Donantes />} />}
           {currentUser && (currentUser.isDonor || currentUser.isAdmin) && (
-            <Route path="/mis-donaciones" element={<MisDonaciones />} />
+            <Route path="/donaciones" element={<MisDonaciones />}>
+              <Route path=":donacionId" element={<DetalleDonacion />} />
+            </Route>
+          )}
+          {currentUser && (currentUser.isDonor || currentUser.isAdmin) && (
+            <Route path="/detalles" element={<DetalleDonacion />}>
+              <Route path=":donacionId" element={<DetalleDonacion />} />
+            </Route>
           )}
           {currentUser && <Route path="/peticiones" element={<Peticiones />} />}
           {currentUser && currentUser.isVolunteer && (
