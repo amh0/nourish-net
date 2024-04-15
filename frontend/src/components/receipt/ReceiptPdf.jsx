@@ -197,6 +197,7 @@ const DonnorSection = (props) => {
         <Text style={styles.donnorTitle}>Voluntario</Text>
         <Text>{recibo.nombreVoluntario}</Text>
         <Text>{recibo.direccionVoluntario}</Text>
+        <Text>{recibo.celularVoluntario}</Text>
       </View>
     </View>
   );

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { BlobProvider } from "@react-pdf/renderer";
 import ReceiptPdf from "../receipt/ReceiptPdf";
@@ -52,6 +52,8 @@ const DonationPDFComponent = (props) => {
   }
 };
 const DonationItem = (props) => {
+  const navigate = useNavigate();
+
   // Lado receptor
   const { currentUser } = useContext(AuthContext);
   const [donacion, setDonacion] = useState(props.donacion);
@@ -60,7 +62,6 @@ const DonationItem = (props) => {
   let confVol = donacion.confVoluntario;
   const isVolunteer = donacion.idVoluntario === currentUser.idusuario;
   const isReceiver = donacion.idGeneral === currentUser.idusuario;
-  console.log(dataReceipt);
   useEffect(() => {
     if (props.donacion && props.donacion.estado === "Entregado") {
       // console.log("fetching...");
@@ -143,7 +144,9 @@ const DonationItem = (props) => {
       .then((res) => {
         if (res.status === 200) {
           console.log("Status uptaded");
-          // setDonacion((d) => ({ ...d, ...res.data }));
+          if (nuevoEstado === "Pendiente") {
+            navigate(`/detalles/${donacion.idDonacion}`);
+          }
         } else {
           console.log("An error has occurred");
           // setInsertState("error");

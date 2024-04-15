@@ -10,6 +10,7 @@ import {
   Barcode,
 } from "@phosphor-icons/react";
 import { AuthContext } from "../../context/authContext";
+import { PageContext } from "../../context/PageContext";
 import "./DonationDetailDisplay.css";
 import {
   getFormattedDate,
@@ -18,18 +19,6 @@ import {
 } from "../utils/functionUtils";
 const imgPath = "http://localhost:3001/img/";
 const apiURL = "http://localhost:3001/api/";
-const methodOptions = [
-  {
-    value: "Personal",
-    label: "Personal",
-    desc: "La entrega se realizará de forma personal.",
-  },
-  {
-    value: "Voluntario",
-    label: "Voluntario",
-    desc: "Un voluntario realizará la entrega de la donación.",
-  },
-];
 
 const listStyle = {
   control: (styles) => ({ ...styles, backgroundColor: "white" }),
@@ -46,13 +35,63 @@ const listStyle = {
     };
   },
 };
-
+const StateCard = (props) => {
+  const { uploadState } = props;
+  return (
+    <>
+      {props.uploadState !== "none" ? (
+        <div className={"state-container " + uploadState}>
+          {uploadState === "loading" ? (
+            <>
+              <div class="lds-ring">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+              </div>
+              <p className="parr1">Asignando voluntario...</p>
+            </>
+          ) : uploadState === "success" ? (
+            <>
+              <CheckCircle size={32} color="var(--secondary)" weight="light" />
+              <p className="parr1 boldparr">¡Voluntario asignado!</p>
+              <p className="parr2">Aceptar</p>
+            </>
+          ) : uploadState === "error" ? (
+            <>
+              <Warning size={32} color="var(--tertiary)" weight="light" />
+              <p className="parr1 boldparr">Error</p>
+              <p className="parr2">Ha ocurrido un error inesperado</p>
+            </>
+          ) : null}
+        </div>
+      ) : null}
+    </>
+  );
+};
 const DonationDetailDisplay = (props) => {
   const { idDonacion } = props;
   const { currentUser, setCurrentUser } = useContext(AuthContext);
+  const { volunteers } = useContext(PageContext);
   const [products, setProducts] = useState([]);
   const [donation, setDonation] = useState({});
-  const [method, setMethod] = useState(methodOptions[0]);
+  const [selectedVol, setSelectedVol] = useState();
+  const [volunteerList, setVolunteerList] = useState([]);
+  const [uploadState, setUploadState] = useState("none");
+  useEffect(() => {
+    setVolunteerList(
+      volunteers.map((volunteer) => {
+        return {
+          value: volunteer.idvoluntario,
+          label: volunteer.nombreCompleto,
+          direccion: volunteer.direccion,
+          celular: volunteer.celular,
+        };
+      })
+    );
+  }, []);
+  console.log("volunteers", volunteerList);
+  console.log(volunteers);
   useEffect(() => {
     fetchProducts();
     fetchDetails();
@@ -91,8 +130,28 @@ const DonationDetailDisplay = (props) => {
       console.log(err);
     }
   };
-  const handleOptSelection = (selectedOpt) => {
-    setMethod(selectedOpt);
+  const handleAssign = async () => {
+    const formData = {
+      idDonacion: parseInt(idDonacion),
+      idVoluntario: selectedVol.value,
+    };
+    console.log(formData);
+    setUploadState("loading");
+    try {
+      const result = await axios.post(
+        apiURL + "donations/assign_volunteer",
+        formData
+      );
+      setUploadState("success");
+      console.log("success");
+    } catch (err) {
+      console.log("Error");
+      console.log(err);
+      setUploadState("error");
+    }
+  };
+  const handleOptSelection = (selected) => {
+    setSelectedVol(selected);
   };
   return (
     <div className="donation-display">
@@ -113,8 +172,8 @@ const DonationDetailDisplay = (props) => {
           <div className="row-border"></div>
           {products.map((item, i) => {
             return (
-              <Fragment key={item.idAlimento}>
-                <div key={item.idalimento} className="product-name-container">
+              <Fragment key={item.idalimento}>
+                <div className="product-name-container">
                   <div className="img-container">
                     <img src={imgPath + item.imagen} alt="" />
                   </div>
@@ -168,48 +227,65 @@ const DonationDetailDisplay = (props) => {
         <h5 className="title5">Detalles Voluntario</h5>
         <div className="donations-info">
           <div>
-            <p className="parr1 bold metodo-title">
-              <span className="accent-secondary">Asignar voluntario</span>
-            </p>
-            <div className="row-wrapper ">
-              <Select
-                className="list-option"
-                options={methodOptions}
-                components={makeAnimated()}
-                closeMenuOnSelect={false}
-                value={method}
-                defaultValue={methodOptions[0]}
-                onChange={handleOptSelection}
-                styles={listStyle}
-                theme={(theme) => ({
-                  ...theme,
-                  borderRadius: 6,
-                  colors: {
-                    ...theme.colors,
-                    text: "orangered",
-                    primary25: "#E2F0EE",
-                    primary50: "#99CBC5",
-                    primary: "#red",
-                  },
-                })}
-              />
-            </div>
-            <div className="row-wrapper">
-              <div className="sub-title parr1 bold">Nombre</div>
-              <div className="parr1">{donation.nombreVoluntario}</div>
-            </div>
-            <div className="row-wrapper">
-              <div className="sub-title parr1 bold">Direccion</div>
-              <div className="parr1">{donation.direccionVoluntario}</div>
-            </div>
-            <div className="row-wrapper">
-              <div className="sub-title parr1 bold">Celular</div>
-              <div className="parr1">{donation.celularVoluntario}</div>
-            </div>
+            {!donation.idVoluntario &&
+            currentUser.isAdmin &&
+            donation.estado !== "Rechazado" &&
+            donation.estado !== "Cancelado" &&
+            donation.estado !== "Entregado" ? (
+              <>
+                <p className="parr1 metodo-title">
+                  <span className="accent-secondary">
+                    Asignar un voluntario
+                  </span>
+                </p>
+                <div className="row-wrapper ">
+                  <Select
+                    className="list-option"
+                    options={volunteerList}
+                    components={makeAnimated()}
+                    closeMenuOnSelect={true}
+                    value={selectedVol}
+                    defaultValue={volunteerList[2]}
+                    onChange={handleOptSelection}
+                    styles={listStyle}
+                    placeholder={"Haz clic para seleccionar"}
+                    theme={(theme) => ({
+                      ...theme,
+                      borderRadius: 6,
+                      colors: {
+                        ...theme.colors,
+                        text: "orangered",
+                        primary25: "#E2F0EE",
+                        primary50: "#99CBC5",
+                        primary: "#red",
+                      },
+                    })}
+                  />
+                </div>
+                <button className="btn secondary-v" onClick={handleAssign}>
+                  Asignar voluntario
+                </button>
+              </>
+            ) : (
+              <>
+                <div className="row-wrapper">
+                  <div className="sub-title parr1 bold">Nombre</div>
+                  <div className="parr1">{donation.nombreVoluntario}</div>
+                </div>
+                <div className="row-wrapper">
+                  <div className="sub-title parr1 bold">Direccion</div>
+                  <div className="parr1">{donation.direccionVoluntario}</div>
+                </div>
+                <div className="row-wrapper">
+                  <div className="sub-title parr1 bold">Celular</div>
+                  <div className="parr1">{donation.celularVoluntario}</div>
+                </div>
+              </>
+            )}
           </div>
         </div>
-        <div className="form-area"></div>
       </div>
+      <StateCard uploadState={uploadState} />
     </div>
   );
 };

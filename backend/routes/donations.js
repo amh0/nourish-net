@@ -13,6 +13,7 @@ import {
   removeProduct,
   getDonationsUser,
   getDonationDetails,
+  assignVolunteer,
 } from "../controllers/donations.js";
 const router = express.Router();
 
@@ -24,11 +25,12 @@ router.post("/get_donation_details", getDonationDetails);
 
 // router.post("/insert_donation", insertDonation);
 router.post("/update_status", updateStatus);
+router.post("/assign_volunteer", assignVolunteer);
 
 router.get("/findall", getAllDonations);
 router.post("/find_by_user", getDonationsUser);
-router.post("/find_given", getDonationsGiven);
-router.post("/find_received", getDonationsReceived);
+// router.post("/find_given", getDonationsGiven);
+// router.post("/find_received", getDonationsReceived);
 
 router.post("/insert_receipt", insertReceipt);
 router.post("/find_receipt", getReceiptData);

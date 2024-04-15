@@ -8,7 +8,6 @@ import "./css/Alimentos.css";
 const Alimentos = () => {
   const imgPath = "http://localhost:3001/img/";
   const { currentUser } = useContext(AuthContext);
-  const { itemQty, setItemQty } = useContext(AuthContext);
 
   const [foodData, setFoodData] = useState([]);
   const [filteredFood, setFilteredFood] = useState(foodData);

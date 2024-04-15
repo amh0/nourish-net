@@ -4,6 +4,7 @@ import authRoutes from "./routes/auth.js";
 import productRoutes from "./routes/products.js";
 import cookieParser from "cookie-parser";
 import donationRoutes from "./routes/donations.js";
+import userRoutes from "./routes/users.js";
 const app = express();
 
 app.use((req, res, next) => {
@@ -24,6 +25,7 @@ app.use(express.static("upload"));
 app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/donations", donationRoutes);
+app.use("/api/users", userRoutes);
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {

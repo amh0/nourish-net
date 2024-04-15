@@ -229,6 +229,7 @@ export const getAllDonations = (req, res) => {
       `;
   db.query(q, (err, data) => {
     if (err) {
+      console.log(err);
       return res.status(500).json(err);
     } else {
       res.status(200).json(data);
@@ -308,6 +309,20 @@ export const getDonationsReceived = async (req, res) => {
   }
 };
 
+export const assignVolunteer = async (req, res) => {
+  const data = req.body;
+  try {
+    const q = `
+    update donacion set idvoluntario = ? where iddonacion = ?`;
+    const donationValues = [data.idVoluntario, data.idDonacion];
+    const donationsRes = await queryDatabase(q, donationValues);
+    res.status(200).json(donationsRes);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json(error);
+  }
+};
+
 export const insertReceipt = async (req, res) => {
   const data = req.body;
   try {
@@ -340,6 +355,7 @@ export const getReceiptData = async (req, res) => {
         d.lugar_entrega as lugarEntrega, d.fecha_entrega as fechaEntrega, d.hora_entrega as horaEntrega, 
         d.mensaje_solicitud as mensajeSolicitud, d.idgeneral as idGeneral, d.idvoluntario as idVoluntario,
         nombre_voluntario_x(d.idvoluntario) as nombreVoluntario, direccion_voluntario_x(d.idvoluntario) as direccionVoluntario,
+        celular_voluntario_x(d.idvoluntario) as celularVoluntario,
         nombre_idx_gen(d.idgeneral) nombreGeneral, direccion_idx_gen(d.idgeneral) as direccionGeneral, 
         cel_idx_gen(d.idgeneral) as celularGeneral
       from donacion d
