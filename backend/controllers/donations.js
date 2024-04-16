@@ -1,4 +1,5 @@
 import { db } from "../connect.js";
+import { sendNotification } from "./users.js";
 
 export const addToCart = async (req, res) => {
   const data = req.body;
@@ -320,6 +321,10 @@ export const assignVolunteer = async (req, res) => {
     update donacion set idvoluntario = ? where iddonacion = ?`;
     const donationValues = [data.idVoluntario, data.idDonacion];
     const donationsRes = await queryDatabase(q, donationValues);
+    const notifData = { type: "Voluntario" };
+    console.log("calling send notification");
+    await sendNotification(req, res, notifData);
+    console.log("-------- finished calling");
     res.status(200).json(donationsRes);
   } catch (error) {
     console.log(error);

@@ -118,13 +118,18 @@ const ProfileNavbar = () => {
             </Link>
           ) : null}
           <Link to="/notificaciones">
-            <Bell
-              size={30}
-              color="var(--textlight)"
-              onClick={() => {
-                setMenu("");
-              }}
-            />
+            <div className="icon-badge-container">
+              <Bell
+                size={30}
+                color="var(--textlight)"
+                onClick={() => {
+                  setMenu("");
+                }}
+              />
+              {currentUser.newNotifQty > 0 ? (
+                <div className="icon-badge">{currentUser.newNotifQty}</div>
+              ) : null}
+            </div>
           </Link>
           <Link
             className="link"

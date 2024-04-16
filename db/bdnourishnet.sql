@@ -79,16 +79,17 @@ CREATE TABLE ADMIN (
 
 CREATE TABLE NOTIFICACION (
     idnotif INT AUTO_INCREMENT PRIMARY KEY,
-    titulo VARCHAR(20),
+    titulo VARCHAR(100),
     mensaje VARCHAR(100),
-    fecha DATE,
-    hora TIME,
-    tipo_not VARCHAR(30)
+    fecha DATETIME,
+    tipo_not VARCHAR(30),
+    link VARCHAR(50) --link del evento
 );
 
 CREATE TABLE TIENE_N (
     idusuario INT,
     idnotif INT,
+    visto BOOLEAN DEFAULT 0,
     PRIMARY KEY (idusuario, idnotif),
     FOREIGN KEY (idusuario) REFERENCES USUARIO(idusuario),
     FOREIGN KEY (idnotif) REFERENCES NOTIFICACION(idnotif)

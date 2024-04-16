@@ -43,7 +43,7 @@ const StateCard = (props) => {
         <div className={"state-container " + uploadState}>
           {uploadState === "loading" ? (
             <>
-              <div class="lds-ring">
+              <div className="lds-ring">
                 <div></div>
                 <div></div>
                 <div></div>
