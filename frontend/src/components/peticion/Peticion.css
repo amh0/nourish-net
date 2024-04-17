@@ -1,0 +1,130 @@
+@import "../globals.css";
+.peti-cont {
+    margin: 10px 0px;
+}
+
+.peticion {
+  -webkit-box-shadow: 0px 0px 17px 0px rgba(0, 0, 0, 0.38);
+  -moz-box-shadow: 0px 0px 17px -5px rgba(0, 0, 0, 0.38);
+  box-shadow: 0px 0px 17px -5px rgba(0, 0, 0, 0.38);
+  border-radius: 10px;
+  /* background-color: ; */
+  color: var(--text);
+  margin: 0 20%;
+}
+
+.peticion-container {
+  padding: 20px;
+}
+
+.user {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.userInfo {
+  display: flex;
+  gap: 20px;
+}
+.userInfo img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.userInfo .details {
+  display: flex;
+  flex-direction: column;
+}
+
+.userInfo .details .name {
+  font-weight: 500;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.userInfo .details .date {
+  font-size: var(--parr2);
+  color: var(--textlight);
+}
+
+.peticion-container .content {
+  margin: 25px 0 10px 0;
+}
+
+.peticion-container .content img {
+  width: 100%;
+  max-height: 350px;
+  object-fit: cover;
+  margin-top: 10px;
+}
+
+.content .title {
+  font-size: var(--parr1);
+  font-weight: bold;
+  margin: 0;
+}
+
+.content .ubication {
+  display: flex;
+  align-items: center;
+  font-size: var(--parr2);
+  color: var(--textlight);
+}
+
+.content .ubication p {
+  margin: 5px 2px;
+}
+
+.content .description {
+  font-size: var(--parr1);
+  margin: 2px 0px;
+}
+
+.urgent {
+  font-size: var(--parr1);
+  font-weight: bold;
+  color: var(--tertiary_strong);
+}
+
+.high {
+  font-size: var(--parr1);
+  font-weight: bold;
+  color: var(--primary_strong);
+}
+
+.medium {
+  font-size: var(--parr1);
+  font-weight: bold;
+  color: var(--secondary);
+}
+
+.low {
+  font-size: var(--parr1);
+  font-weight: bold;
+  color: var(--secondarylight);
+}
+
+.permanent {
+  font-size: var(--parr1);
+  font-weight: bold;
+  color: var(--textlighter);
+}
+
+
+/* .info{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+} */
+
+.content-item{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    font-size: var(--parr1);
+    color: var(--textlight);
+}
