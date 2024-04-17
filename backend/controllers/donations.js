@@ -100,6 +100,9 @@ export const requestDonation = async (req, res) => {
        where idalimento = ${element.idalimento};`;
     });
     await queryDatabase(qUpd);
+    // enviar notificacion al administrador
+    const notifData = { type: "Donacion solicitada" };
+    await sendNotification(req, res, notifData);
     // asignar un nuevo carrito
     const cartQuery = "insert into donacion (idgeneral, estado) values (?, ?)";
     const cartValues = [data.idGeneral, "Inactivo"];
@@ -158,9 +161,13 @@ export const updateStatus = async (req, res) => {
       data.confReceptor,
       data.confVoluntario,
       data.idDonacion,
+      data.idVoluntario,
     ];
     const result = await queryDatabase(q, donationValues);
-    // Update quantity of products
+    // Enviar notificacion de cambio de estado
+    const notifData = { type: "Cambio de estado" };
+    await sendNotification(req, res, notifData);
+    // Cambiar cantidad de productos
     if (
       (data.estado === "Entregado" &&
         data.confReceptor &&
@@ -321,10 +328,10 @@ export const assignVolunteer = async (req, res) => {
     update donacion set idvoluntario = ? where iddonacion = ?`;
     const donationValues = [data.idVoluntario, data.idDonacion];
     const donationsRes = await queryDatabase(q, donationValues);
+
     const notifData = { type: "Voluntario" };
-    console.log("calling send notification");
     await sendNotification(req, res, notifData);
-    console.log("-------- finished calling");
+
     res.status(200).json(donationsRes);
   } catch (error) {
     console.log(error);
@@ -338,6 +345,7 @@ export const insertReceipt = async (req, res) => {
     const q = `insert into recibo (fecha, nota, iddonacion) values (?,?,?)`;
     const donationValues = [data.fecha, data.nota, data.idDonacion];
     const receiptResult = await queryDatabase(q, donationValues);
+
     res.status(200).json(receiptResult.data);
   } catch (error) {
     res.status(500).json(error);

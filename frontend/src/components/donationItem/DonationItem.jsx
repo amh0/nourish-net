@@ -95,13 +95,16 @@ const DonationItem = (props) => {
       donacion.estado === "Pendiente" ||
       donacion.estado === "Confirmando"
     ) {
-      if (currentUser.idusuario === donacion.idGeneral) {
-        confRec = 1;
-      } else if (
+      if (
         currentUser.idusuario === donacion.idVoluntario ||
         currentUser.isAdmin
       ) {
         confVol = 1;
+      } else if (
+        currentUser.idusuario === donacion.idGeneral &&
+        confVol === 1
+      ) {
+        confRec = 1;
       }
       nuevoEstado = "Confirmando";
       // updateConfDon();
@@ -137,6 +140,9 @@ const DonationItem = (props) => {
       estado: nuevoEstado,
       confVoluntario: confVol,
       confReceptor: confRec,
+      idGeneral: donacion.idGeneral,
+      idVoluntario: donacion.idVoluntario,
+      usuarioCancela: isReceiver,
     };
     console.log(formData);
     axios
@@ -258,9 +264,13 @@ const DonationItem = (props) => {
           <p className={donacion.estado.toLowerCase() + " parr2"}>
             {donacion.estado}
           </p>
-          {donacion.estado === "Pendiente" ||
+          {(donacion.estado === "Pendiente" &&
+            (currentUser.isAdmin || isVolunteer)) ||
           (donacion.estado === "Solicitado" && currentUser.isAdmin) ||
-          (donacion.estado === "Confirmando" && !confRec && isReceiver) ||
+          (donacion.estado === "Confirmando" &&
+            !confRec &&
+            isReceiver &&
+            confVol) ||
           (donacion.estado === "Confirmando" &&
             !confVol &&
             (currentUser.isAdmin || isVolunteer)) ? (

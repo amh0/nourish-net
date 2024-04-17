@@ -1,4 +1,5 @@
 import React from "react";
+import ReactTimeAgo from "react-time-ago";
 import { HandHeart, Circle } from "@phosphor-icons/react";
 import "./NotificationItem.css";
 const NotificationItem = (props) => {
@@ -17,7 +18,9 @@ const NotificationItem = (props) => {
           {notification.titulo}
         </div>
         <p className="notification-content parr1">{notification.mensaje}</p>
-        <div className="notification-time parr2 ">{notification.fecha}</div>
+        <div className="notification-time parr2 ">
+          <ReactTimeAgo date={Date.parse(notification.fecha)} locale="es" />
+        </div>
       </div>
       <Circle className="icon" size={16} color="var(--primary)" weight="fill" />
     </div>

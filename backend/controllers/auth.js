@@ -247,12 +247,6 @@ export const login = async (req, res) => {
         const qtyResult = await queryDatabase(qtyQuery, [idCarrito]);
         itemQty = qtyResult[0].cantidadProd;
       }
-      // --- obtener cantidad nuevas notificaciones
-      const notifQuery = `select count(idnotif) as newNotifQty from tiene_n where idusuario = ? and visto = 0`;
-      const resNotif = await queryDatabase(notifQuery, [
-        selectResults[0].idusuario,
-      ]);
-      newNotifQty = resNotif[0].newNotifQty;
       // ---
       if (roleResults.length > 0) {
         const userRole = roleResults[0].rol.split(" ");
@@ -287,6 +281,13 @@ export const login = async (req, res) => {
         }
       }
     }
+    // --- obtener cantidad nuevas notificaciones
+    const notifQuery = `select count(idnotif) as newNotifQty from tiene_n where idusuario = ? and visto = 0`;
+    const resNotif = await queryDatabase(notifQuery, [
+      selectResults[0].idusuario,
+    ]);
+    newNotifQty = resNotif[0].newNotifQty;
+    // ----
     userData = {
       ...userData,
       isAdmin: isAdmin,

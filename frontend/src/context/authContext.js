@@ -32,6 +32,7 @@ export const AuthContextProvider = ({ children }) => {
     } else if (verificationResult === "emailNotFound") {
       throw new Error("emailNotFound");
     }
+    console.log("requesting user");
     // throw new Error("holaa");
     setCurrentUser(res.data);
   };
@@ -39,7 +40,6 @@ export const AuthContextProvider = ({ children }) => {
   useEffect(() => {
     localStorage.setItem("user", JSON.stringify(currentUser));
   }, [currentUser]);
-
   return (
     <AuthContext.Provider value={{ currentUser, login, setCurrentUser }}>
       {children}

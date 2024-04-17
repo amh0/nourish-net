@@ -80,7 +80,7 @@ CREATE TABLE ADMIN (
 CREATE TABLE NOTIFICACION (
     idnotif INT AUTO_INCREMENT PRIMARY KEY,
     titulo VARCHAR(100),
-    mensaje VARCHAR(100),
+    mensaje VARCHAR(150),
     fecha DATETIME,
     tipo_not VARCHAR(30),
     link VARCHAR(50) --link del evento
