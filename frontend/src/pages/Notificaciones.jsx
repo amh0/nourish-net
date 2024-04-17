@@ -39,10 +39,13 @@ const Notificaciones = () => {
   };
   return (
     <div className="notification">
-      <h4 className="title4 ">Notificaciones</h4>
-      <button className="btn secondary-v" onClick={handleReadAll}>
-        Leer todos
-      </button>
+      <div className="title-wrapper">
+        <h4 className="title4 ">Notificaciones</h4>
+        <button className="btn secondary-v" onClick={handleReadAll}>
+          Leer todos
+        </button>
+      </div>
+
       <div className="item-section">
         {notifications.map((notif) => {
           return <NotificationItem key={notif.idnotif} notification={notif} />;
