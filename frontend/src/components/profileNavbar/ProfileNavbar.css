@@ -99,3 +99,6 @@ li .link {
   top: -5px; /* changed */
   left: 18px; /* changed */
 }
+.notif-badge {
+  background-color: var(--tertiary_strong);
+}

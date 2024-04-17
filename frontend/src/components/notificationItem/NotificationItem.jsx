@@ -90,7 +90,7 @@ const NotificationItem = (props) => {
           <Circle
             className="icon"
             size={16}
-            color="var(--primary)"
+            color="var(--tertiary_strong)"
             weight="fill"
           />
         ) : (

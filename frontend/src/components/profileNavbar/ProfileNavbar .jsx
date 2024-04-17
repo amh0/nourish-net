@@ -128,7 +128,7 @@ const ProfileNavbar = () => {
                 }}
               />
               {notificationQty > 0 ? (
-                <div className="icon-badge">{notificationQty}</div>
+                <div className="icon-badge notif-badge">{notificationQty}</div>
               ) : null}
             </div>
           </Link>
