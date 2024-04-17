@@ -143,6 +143,7 @@ const DonationItem = (props) => {
       idGeneral: donacion.idGeneral,
       idVoluntario: donacion.idVoluntario,
       usuarioCancela: isReceiver,
+      idUsuario: currentUser.idusuario,
     };
     console.log(formData);
     axios

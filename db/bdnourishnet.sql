@@ -82,7 +82,8 @@ CREATE TABLE NOTIFICACION (
     titulo VARCHAR(100),
     mensaje VARCHAR(150),
     fecha DATETIME,
-    tipo_not VARCHAR(30),
+    evento VARCHAR(50),
+    tipo_notif VARCHAR(30)
     link VARCHAR(50) --link del evento
 );
 

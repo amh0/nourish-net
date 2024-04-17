@@ -5,10 +5,14 @@ import axios from "axios";
 
 export const AuthContext = createContext();
 
+const apiURL = "http://localhost:3001/api/";
+
 export const AuthContextProvider = ({ children }) => {
+  const [notificationQty, setNotificationQty] = useState(0);
   const [currentUser, setCurrentUser] = useState(
     JSON.parse(localStorage.getItem("user")) || null
   );
+
   console.log(currentUser);
   const login = async (email, password) => {
     //TO DO
@@ -40,8 +44,37 @@ export const AuthContextProvider = ({ children }) => {
   useEffect(() => {
     localStorage.setItem("user", JSON.stringify(currentUser));
   }, [currentUser]);
+
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      try {
+        const result = await axios.post(
+          apiURL + "users/get_notifications_qty",
+          {
+            idUsuario: currentUser.idusuario,
+          }
+        );
+        setNotificationQty(result.data[0].newNotifQty);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchNotifications();
+  }, [currentUser]);
+  // useEffect(() => {
+  //   localStorage.setItem("notificationQty", JSON.stringify(notificationQty));
+  //   console.log(localStorage);
+  // }, [notificationQty]);
   return (
-    <AuthContext.Provider value={{ currentUser, login, setCurrentUser }}>
+    <AuthContext.Provider
+      value={{
+        currentUser,
+        login,
+        setCurrentUser,
+        notificationQty,
+        setNotificationQty,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

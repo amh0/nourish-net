@@ -8,6 +8,7 @@ const apiURL = "http://localhost:3001/api/";
 
 const Notificaciones = () => {
   const { currentUser, setCurrentUser } = useContext(AuthContext);
+  const { notificationQty, setNotificationQty } = useContext(AuthContext);
   const [notifications, setNotifications] = useState([]);
   useEffect(() => {
     fetchNotifications();
@@ -24,9 +25,24 @@ const Notificaciones = () => {
       console.log(err);
     }
   };
+  const handleReadAll = async () => {
+    try {
+      await axios.post(apiURL + "users/read_all_notif", {
+        idUsuario: currentUser.idusuario,
+      });
+      setNotificationQty(0);
+      fetchNotifications();
+    } catch (err) {
+      console.log("Error");
+      console.log(err);
+    }
+  };
   return (
     <div className="notification">
       <h4 className="title4 ">Notificaciones</h4>
+      <button className="btn secondary-v" onClick={handleReadAll}>
+        Leer todos
+      </button>
       <div className="item-section">
         {notifications.map((notif) => {
           return <NotificationItem key={notif.idnotif} notification={notif} />;

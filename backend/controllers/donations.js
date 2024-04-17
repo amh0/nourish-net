@@ -162,6 +162,7 @@ export const updateStatus = async (req, res) => {
       data.confVoluntario,
       data.idDonacion,
       data.idVoluntario,
+      data.idUsuario,
     ];
     const result = await queryDatabase(q, donationValues);
     // Enviar notificacion de cambio de estado
@@ -182,8 +183,6 @@ export const updateStatus = async (req, res) => {
         on t.idalimento = a.idalimento
         where iddonacion = ?`;
       const allProducts = await queryDatabase(q, [data.idDonacion]);
-      console.log("actualizando...");
-      console.log(allProducts);
       if (
         data.estado === "Entregado" &&
         data.confReceptor &&
@@ -329,7 +328,7 @@ export const assignVolunteer = async (req, res) => {
     const donationValues = [data.idVoluntario, data.idDonacion];
     const donationsRes = await queryDatabase(q, donationValues);
 
-    const notifData = { type: "Voluntario" };
+    const notifData = { type: "Asignacion voluntario" };
     await sendNotification(req, res, notifData);
 
     res.status(200).json(donationsRes);

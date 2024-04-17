@@ -7,6 +7,7 @@ import perfil from "../assets/perfil.jpg";
 import { AuthContext } from "../../context/authContext";
 const ProfileNavbar = () => {
   const { currentUser } = useContext(AuthContext);
+  const { notificationQty } = useContext(AuthContext);
   const [menu, setMenu] = useState("inicio");
   return (
     <div className="profile-navbar">
@@ -126,8 +127,8 @@ const ProfileNavbar = () => {
                   setMenu("");
                 }}
               />
-              {currentUser.newNotifQty > 0 ? (
-                <div className="icon-badge">{currentUser.newNotifQty}</div>
+              {notificationQty > 0 ? (
+                <div className="icon-badge">{notificationQty}</div>
               ) : null}
             </div>
           </Link>

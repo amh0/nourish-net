@@ -239,6 +239,7 @@ export const login = async (req, res) => {
          where g.idgeneral = ? and estado = ?`;
       const cartData = [selectResults[0].idusuario, "Inactivo"];
       const cartResult = await queryDatabase(cartQuery, cartData);
+      // obtener cantidad de productos
       if (cartResult.length > 0) {
         idCarrito = cartResult[0].idCarrito;
         const qtyQuery = `select count(idalimento) cantidadProd
@@ -281,13 +282,7 @@ export const login = async (req, res) => {
         }
       }
     }
-    // --- obtener cantidad nuevas notificaciones
-    const notifQuery = `select count(idnotif) as newNotifQty from tiene_n where idusuario = ? and visto = 0`;
-    const resNotif = await queryDatabase(notifQuery, [
-      selectResults[0].idusuario,
-    ]);
-    newNotifQty = resNotif[0].newNotifQty;
-    // ----
+
     userData = {
       ...userData,
       isAdmin: isAdmin,
@@ -298,7 +293,6 @@ export const login = async (req, res) => {
       isBeneficial: isBeneficial,
       idCarrito: idCarrito,
       itemQty: itemQty,
-      newNotifQty: newNotifQty,
     };
 
     // console.log(JSON.stringify(userData));
