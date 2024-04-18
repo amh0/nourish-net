@@ -116,6 +116,7 @@ CREATE TABLE ALIMENTO (
     nombre VARCHAR(30),
     descripcion VARCHAR(500),
     estado VARCHAR(20),
+    evaluacion VARCHAR(30) DEFAULT 'No evaluado',
     fecha_vencimiento DATE,
     fecha_publicacion DATE,
     cantidad_disponible INT DEFAULT 0,
@@ -180,6 +181,7 @@ CREATE TABLE TIENE_C (
     FOREIGN KEY (idalimento) REFERENCES ALIMENTO(idalimento),
     FOREIGN KEY (idcategoria) REFERENCES CATEGORIA(idcategoria)
 );
+
 
 -- FUNCIONES
 -- reemplazar funciones

@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext, Fragment } from "react";
 import axios from "axios";
+import moment from "moment";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import {
@@ -156,11 +157,8 @@ const CartPage = () => {
               <div className="row-border"></div>
               {products.map((item, i) => {
                 return (
-                  <Fragment key={item.idAlimento}>
-                    <div
-                      key={item.idalimento}
-                      className="product-name-container"
-                    >
+                  <Fragment key={item.idalimento}>
+                    <div className="product-name-container">
                       <div className="img-container">
                         <img src={imgPath + item.imagen} alt="" />
                       </div>
@@ -223,6 +221,7 @@ const CartPage = () => {
                   name="fecha"
                   type="date"
                   value={fecha}
+                  min={moment().format("YYYY-MM-DD")}
                   onChange={(e) => setFecha(e.target.value)}
                   placeholder="Fecha de entrega"
                 />
@@ -249,7 +248,7 @@ const CartPage = () => {
             ></textarea>
             <div className="row-wrapper">
               <div className="form-label parr1 bold">Direccion entrega:</div>
-              <div className="parr1 text-address">direccion</div>
+              <div className="parr1 text-address">Av. Mariscal Santa Cruz</div>
             </div>
           </div>
           {formError ? (

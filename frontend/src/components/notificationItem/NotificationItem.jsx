@@ -44,7 +44,7 @@ const NotificationIcon = (props) => {
       className="icon"
       size={40}
       color={
-        indexType === 1 || indexType == 3
+        indexType === 1 || indexType === 3
           ? "var(--primary)"
           : indexType === 5 || indexType === 6
           ? "var(--tertiary_strong)"

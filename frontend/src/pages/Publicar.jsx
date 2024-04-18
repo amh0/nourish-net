@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import axios from "axios";
+import moment from "moment";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import { Warning, CheckCircle } from "@phosphor-icons/react";
@@ -223,6 +224,7 @@ const Publicar = () => {
             id="fecha_vencimiento"
             type="date"
             value={fecha_vencimiento}
+            min={moment().format("YYYY-MM-DD")}
             onChange={(e) => setFecha(e.target.value)}
             placeholder="Fecha de Vencimiento"
           />

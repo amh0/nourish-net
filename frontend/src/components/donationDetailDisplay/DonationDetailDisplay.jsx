@@ -209,7 +209,9 @@ const DonationDetailDisplay = (props) => {
             </div>
             <div className="row-wrapper2">
               <div className="sub-title parr1 bold">Hora</div>
-              <div className="parr1">{donation.horaEntrega}</div>
+              <div className="parr1">
+                {getFormattedHour(donation.horaEntrega)}
+              </div>
             </div>
           </div>
 

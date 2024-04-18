@@ -45,7 +45,7 @@ const ProfileNavbar = () => {
             }}
           >
             <Link className="link" to="/donaciones">
-              Mis donaciones
+              {currentUser.isAdmin ? "Donaciones" : "Mis donaciones"}
             </Link>
             {menu === "misDonaciones" ? <hr /> : <></>}
           </li>
