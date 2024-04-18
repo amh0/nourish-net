@@ -72,6 +72,20 @@ const ProfileNavbar = () => {
           </Link>
           {menu === "alimentos" ? <hr /> : <></>}
         </li>
+        {currentUser && (currentUser.isVolunteer || currentUser.isAdmin) ? (
+          <li
+            onClick={() => {
+              setMenu("evaluacion");
+            }}
+          >
+            <Link className="link" to="/evaluacion">
+              Evaluar
+            </Link>
+            {menu === "evaluacion" ? <hr /> : <></>}
+          </li>
+        ) : (
+          <></>
+        )}
       </ul>
       <div className="actions-section">
         <div className="actions-section">

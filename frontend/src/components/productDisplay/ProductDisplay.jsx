@@ -1,25 +1,69 @@
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import Select from "react-select";
+import makeAnimated from "react-select/animated";
 import { AuthContext } from "../../context/authContext";
 import Input from "../input/Input";
-import { MapPin, Cube, CheckCircle, Warning } from "@phosphor-icons/react";
+import {
+  MapPin,
+  Cube,
+  CheckCircle,
+  Warning,
+  Toolbox,
+} from "@phosphor-icons/react";
 import "./ProductDisplay.css";
 import "../globals.css";
 
 const imgPath = "http://localhost:3001/img/";
 const apiURL = "http://localhost:3001/api/";
-
+let evalDefault = [
+  {
+    value: 0,
+    label: "Excelente",
+  },
+  {
+    value: 1,
+    label: "Optimo",
+  },
+  {
+    value: 2,
+    label: "Deficiente",
+  },
+  {
+    value: 3,
+    label: "Error",
+  },
+];
+const listStyle = {
+  control: (styles) => ({ ...styles, backgroundColor: "white" }),
+  multiValue: (styles, { data }) => {
+    return {
+      ...styles,
+      backgroundColor: "#E2F0EE",
+    };
+  },
+  multiValueRemove: (styles, { data }) => {
+    return {
+      ...styles,
+      cursor: "pointer",
+    };
+  },
+};
 const ProductDisplay = (props) => {
   const { currentUser, setCurrentUser } = useContext(AuthContext);
   const { product } = props;
-
+  const { evaluation } = props;
+  console.log(evaluation);
   const [donnor, setDonnor] = useState([]);
   const [categories, setCategories] = useState([]);
   const idgen = product.idgeneral;
   const [cantidad, setCantidad] = useState();
 
   const [insertState, setInsertState] = useState("none");
+
+  // evaluation
+  const [evalSel, setEvalSel] = useState("");
   // agregar producto al carrito
   const handleRequest = async () => {
     const formData = {
@@ -98,7 +142,13 @@ const ProductDisplay = (props) => {
       setCantidad();
     }
   };
-
+  // eval
+  const handleEvalSelection = (evalSel) => {
+    setEvalSel(evalSel);
+  };
+  const handleEval = () => {
+    console.log(evalSel);
+  };
   return (
     <div className="product-display">
       <div className="img-section">
@@ -144,32 +194,61 @@ const ProductDisplay = (props) => {
           </div>
         </div>
         <div className="controls-container">
-          <div>
-            <Cube size={24} weight="light" color="var(--textlight)" />
-            {/* <p className="parr1 bold">Cantidad:</p> */}
-            <div className="input-wrapper">
-              <Input
-                id="cantidad"
-                name="cantidad"
-                type="number"
-                min={1}
-                max={product.cantidad_disponible}
-                value={cantidad}
-                onChange={(e) => handleNumberChange(e)}
-                placeholder="Cantidad"
-              />
-            </div>
-          </div>
-          {/* <Link
-            className="link"
-            to={`/producto/${product.idalimento}/solicitud`}
-            state={{ alimento: product, cantidad_solicitada: cantidad }}
-          >
-            <button className="btn secondary-v">Solicitar Alimento</button>
-          </Link> */}
-          <button className="btn secondary-v" onClick={handleQty}>
-            Agregar Alimento
-          </button>
+          {evaluation ? (
+            <>
+              <div>
+                <Toolbox size={24} weight="light" color="var(--textlight)" />
+                <div className="input-wrapper">
+                  <Select
+                    className="list-option"
+                    options={evalDefault}
+                    components={makeAnimated()}
+                    closeMenuOnSelect={true}
+                    value={evalSel}
+                    onChange={handleEvalSelection}
+                    styles={listStyle}
+                    noOptionsMessage={() => "Sin resultados"}
+                    placeholder={"Evaluación"}
+                    theme={(theme) => ({
+                      ...theme,
+                      borderRadius: 6,
+                      colors: {
+                        ...theme.colors,
+                        text: "orangered",
+                        primary25: "#E2F0EE",
+                        primary50: "#99CBC5",
+                        primary: "#red",
+                      },
+                    })}
+                  />
+                </div>
+              </div>
+              <button className="btn secondary-v" onClick={handleEval}>
+                Evaluar
+              </button>
+            </>
+          ) : (
+            <>
+              <div>
+                <Cube size={24} weight="light" color="var(--textlight)" />
+                <div className="input-wrapper">
+                  <Input
+                    id="cantidad"
+                    name="cantidad"
+                    type="number"
+                    min={1}
+                    max={product.cantidad_disponible}
+                    value={cantidad}
+                    onChange={(e) => handleNumberChange(e)}
+                    placeholder="Cantidad"
+                  />
+                </div>
+              </div>
+              <button className="btn secondary-v" onClick={handleQty}>
+                Agregar Alimento
+              </button>
+            </>
+          )}
         </div>
         {insertState !== "none" ? (
           <div className={"state-container product-state " + insertState}>
