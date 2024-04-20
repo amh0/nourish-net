@@ -17,7 +17,6 @@ const Publicar = () => {
   const [unidad, setUnidad] = useState("");
   const [fecha_vencimiento, setFecha] = useState("");
   const [desc, setDesc] = useState("");
-
   const [uploadState, setUploadState] = useState("none");
   const [formError, setFormError] = useState(false);
   const [nameEnabled, setNameEnabled] = useState(false);
@@ -114,13 +113,11 @@ const Publicar = () => {
     formData.append("cantidad", cantidad);
     formData.append("unidad_medida", unidad);
     formData.append("fecha_vencimiento", fecha_vencimiento);
-    // const fechaPublicacion = new Date().toISOString().slice(0, 10);
-    // formData.append("fecha_publicacion", fechaPublicacion);
-
     formData.append("fecha_publicacion", new Date().toJSON());
     formData.append("idgeneral", currentUser.idusuario);
     formData.append("img", file);
-    // categories handlign
+
+    // categories handling
     selectedCat.forEach((item) => {
       formData.append("categoria[]", item.value);
     });
