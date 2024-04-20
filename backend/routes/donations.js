@@ -5,8 +5,6 @@ import {
   updateStatus,
   insertReceipt,
   getReceiptData,
-  getDonationsGiven,
-  getDonationsReceived,
   getDonationProducts,
   addToCart,
   requestDonation,
@@ -14,6 +12,7 @@ import {
   getDonationsUser,
   getDonationDetails,
   assignVolunteer,
+  receiveDonation,
 } from "../controllers/donations.js";
 const router = express.Router();
 
@@ -23,16 +22,15 @@ router.post("/request_donation", requestDonation);
 router.post("/remove_product", removeProduct);
 router.post("/get_donation_details", getDonationDetails);
 
-// router.post("/insert_donation", insertDonation);
 router.post("/update_status", updateStatus);
 router.post("/assign_volunteer", assignVolunteer);
 
 router.get("/findall", getAllDonations);
 router.post("/find_by_user", getDonationsUser);
-// router.post("/find_given", getDonationsGiven);
-// router.post("/find_received", getDonationsReceived);
 
 router.post("/insert_receipt", insertReceipt);
 router.post("/find_receipt", getReceiptData);
+
+router.post("/receive", receiveDonation);
 
 export default router;

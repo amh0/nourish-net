@@ -41,7 +41,7 @@ const Alimentos = () => {
         filteredByCat &&
         filteredBySearch &&
         item.cantidad_disponible > 0 &&
-        item.evaluacion !== "No evaluado"
+        (item.evaluacion === "Optimo" || item.evaluacion === "Excelente")
       );
     });
     setFilteredFood(newData);
@@ -132,6 +132,7 @@ const Alimentos = () => {
                       unidad_medida={item.unidad_medida}
                       imagen={imgPath + item.imagen}
                       direccion={item.direccion_don}
+                      eval={false}
                     />
                   );
                 })

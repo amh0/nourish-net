@@ -2,14 +2,14 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "./Item.css";
 import "../globals.css";
-import { MapPin, Cube } from "@phosphor-icons/react";
+import { MapPin, Cube, Toolbox } from "@phosphor-icons/react";
 const Item = (props) => {
   return (
     <div className="item">
       <Link
         className="link"
         to={
-          props.evaluacion
+          props.eval
             ? `/evaluacion/${props.idalimento}`
             : `/producto/${props.idalimento}`
         }
@@ -25,8 +25,19 @@ const Item = (props) => {
         </div>
       </Link>
       <div className="item-location">
-        <MapPin size={24} weight="light" color="var(--secondary)" />
-        <p className="parr1">{props.direccion}</p>
+        {props.eval ? (
+          <>
+            <Toolbox size={24} weight="light" color="var(--secondary)" />
+            <p className="parr1">
+              {props.evaluacion ? props.evaluacion : "No evaluado"}
+            </p>
+          </>
+        ) : (
+          <>
+            <MapPin size={24} weight="light" color="var(--secondary)" />
+            <p className="parr1">{props.direccion}</p>
+          </>
+        )}
       </div>
       <div className="item-specs">
         <Cube size={24} weight="light" color="var(--textlight)" />
@@ -37,6 +48,4 @@ const Item = (props) => {
     </div>
   );
 };
-// ALIMENTO: idalimento, nombre, descripcion, tipo,
-// fecha_vencimiento, cantidad, unidad_medida, proveedor, imagen.
 export default Item;

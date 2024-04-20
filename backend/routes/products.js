@@ -4,11 +4,11 @@ import path from "path";
 
 import {
   getAllProducts,
-  getAllProducts2,
   uploadProduct,
   getCategories,
   getCategoriesProdX,
   getDonnor,
+  updateEvaluation,
 } from "../controllers/products.js";
 const router = express.Router();
 
@@ -26,10 +26,12 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-router.get("/findall", getAllProducts2);
+router.get("/findall", getAllProducts);
 router.post("/upload", upload.single("img"), uploadProduct);
 router.get("/findcategories", getCategories);
 router.post("/categories_prod", getCategoriesProdX);
 router.post("/find_donnor", getDonnor);
+
+router.post("/update_eval", updateEvaluation);
 
 export default router;

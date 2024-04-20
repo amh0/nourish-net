@@ -47,29 +47,18 @@ export const getDonnor = async (req, res) => {
   }
 };
 
-export const getAllProducts = (req, res) => {
-  const q =
-    "select a.*, o.nombre as organizacion, o.direccion from alimento a inner join organizacion o on a.idgeneral = o.idorg order by a.idalimento";
-  db.query(q, (err, data) => {
-    if (err) {
-      return res.status(500).json(err);
-    } else {
-      res.status(200).json(data);
-    }
-  });
-};
-export const getAllProducts2 = async (req, res) => {
+export const getAllProducts = async (req, res) => {
   try {
     // obtener tipo de organizacion
     const qType = `
-    select a.*, o.nombre as nombre_don, o.direccion as direccion_don
+    select a.*, nombre_voluntario_x(a.idvoluntario) as nombreVoluntario, o.nombre as nombre_don, o.direccion as direccion_don
     from alimento a inner join general g 
     on a.idgeneral = g.idgeneral
     inner join organizacion o
     on g.idgeneral = o.idorg
     where g.tipo like 'Organizacion'
     UNION
-    select a.*, concat(p.nombre, ' ', p.apellido_pat, ' ', p.apellido_mat) as nombre_don, p.direccion as direccion_don  
+    select a.*, nombre_voluntario_x(a.idvoluntario) as nombreVoluntario, concat(p.nombre, ' ', p.apellido_pat, ' ', p.apellido_mat) as nombre_don, p.direccion as direccion_don  
     from alimento a inner join general g 
     on a.idgeneral = g.idgeneral
     inner join persona p
@@ -85,9 +74,6 @@ export const getAllProducts2 = async (req, res) => {
 };
 
 export const uploadProduct = async (req, res) => {
-  // console.log(req.file);
-  // console.log(req.file.filename);
-  // console.log(req.body);
   const data = req.body;
   const imagen = req.file.filename;
   try {
@@ -120,6 +106,23 @@ export const uploadProduct = async (req, res) => {
     });
     await queryDatabase(qCategoria);
     res.status(200).json({ Status: "OK" });
+  } catch (error) {
+    res.status(500).json(error);
+    console.log(error);
+  }
+};
+
+export const updateEvaluation = async (req, res) => {
+  const data = req.body;
+  try {
+    const q = `update alimento set evaluacion = ?, idvoluntario = ? where idalimento = ?`;
+    const donationValues = [
+      data.evaluacion,
+      data.idVoluntario,
+      data.idAlimento,
+    ];
+    const result = await queryDatabase(q, donationValues);
+    res.status(200).json(result);
   } catch (error) {
     res.status(500).json(error);
     console.log(error);

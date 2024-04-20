@@ -278,48 +278,6 @@ export const getDonationsUser = async (req, res) => {
   }
 };
 
-export const getDonationsGiven = async (req, res) => {
-  const data = req.body;
-  try {
-    const q = `
-    select d.*, a.nombre as nombre_alimento, a.imagen as img_alimento, a.unidad_medida,
-      nombre_idx_gen(d.idgeneral) as nombre_rec, direccion_idx_gen(d.idgeneral) as direccion_rec, cel_idx_gen(d.idgeneral) as cel_rec,
-      nombre_idx_gen(a.idgeneral) as nombre_don, direccion_idx_gen(a.idgeneral) as direccion_don, cel_idx_gen(a.idgeneral) as cel_don
-    from donacion d 
-    inner join alimento a 
-    on d.idalimento = a.idalimento
-    where a.idgeneral = ?
-    order by d.iddonacion`;
-    const donationValues = [data.idgeneral];
-    const donationsRes = await queryDatabase(q, donationValues);
-    res.status(200).json(donationsRes);
-  } catch (error) {
-    res.status(500).json(error);
-    console.log(error);
-  }
-};
-
-export const getDonationsReceived = async (req, res) => {
-  const data = req.body;
-  try {
-    const q = `
-    select d.*, a.nombre as nombre_alimento, a.imagen as img_alimento, a.unidad_medida,
-      nombre_idx_gen(d.idgeneral) as nombre_rec, direccion_idx_gen(d.idgeneral) as direccion_rec, cel_idx_gen(d.idgeneral) as cel_rec,
-      nombre_idx_gen(a.idgeneral) as nombre_don, direccion_idx_gen(a.idgeneral) as direccion_don, cel_idx_gen(a.idgeneral) as cel_don
-    from donacion d 
-    inner join alimento a 
-    on d.idalimento = a.idalimento
-    where d.idgeneral = ?
-    order by d.iddonacion`;
-    const donationValues = [data.idgeneral];
-    const donationsRes = await queryDatabase(q, donationValues);
-    res.status(200).json(donationsRes);
-  } catch (error) {
-    res.status(500).json(error);
-    console.log(error);
-  }
-};
-
 export const assignVolunteer = async (req, res) => {
   const data = req.body;
   try {
@@ -380,6 +338,71 @@ export const getReceiptData = async (req, res) => {
       where r.iddonacion = ?`;
     const resReceipt = await queryDatabase(qReceipt, [data.idDonacion]);
     res.status(200).json({ receipt: resReceipt, products: resProducts });
+  } catch (error) {
+    res.status(500).json(error);
+    console.log(error);
+  }
+};
+
+// receive donation
+export const receiveDonation = async (req, res) => {
+  const data = req.body;
+  try {
+    const q = `update donacion set estado = ?, conf_receptor = ?, conf_voluntario = ? where iddonacion = ?`;
+    const donationValues = [
+      data.estado,
+      data.confReceptor,
+      data.confVoluntario,
+      data.idDonacion,
+      data.idVoluntario,
+      data.idUsuario,
+    ];
+    const result = await queryDatabase(q, donationValues);
+    // Enviar notificacion de cambio de estado
+    const notifData = { type: "Cambio de estado" };
+    await sendNotification(req, res, notifData);
+    // Cambiar cantidad de productos
+    if (
+      (data.estado === "Entregado" &&
+        data.confReceptor &&
+        data.confVoluntario) ||
+      data.estado === "Cancelado" ||
+      data.estado === "Rechazado"
+    ) {
+      // obtener todos los alimentos
+      const q = `select a.idalimento as idAlimento, t.cantidad, t.iddonacion as idDonacion
+        from tiene_a t
+        inner join alimento a
+        on t.idalimento = a.idalimento
+        where iddonacion = ?`;
+      const allProducts = await queryDatabase(q, [data.idDonacion]);
+      if (
+        data.estado === "Entregado" &&
+        data.confReceptor &&
+        data.confVoluntario
+      ) {
+        // alimentos fueron entregados, actualizar cantidad no disponible
+        let qUpd = "";
+        allProducts.forEach((product) => {
+          qUpd += `update alimento
+            set cantidad_reservada = cantidad_reservada -  ${product.cantidad},
+              cantidad_no_disponible = cantidad_no_disponible + ${product.cantidad}
+            where idalimento = ${product.idAlimento};\n `;
+        });
+        await queryDatabase(qUpd);
+      } else if (data.estado === "Cancelado" || data.estado === "Rechazado") {
+        // alimentos fueron cancelados, actualizar cantidad disponible
+        let qUpd = "";
+        allProducts.forEach((product) => {
+          qUpd += `update alimento
+            set cantidad_reservada = cantidad_reservada -  ${product.cantidad},
+              cantidad_disponible = cantidad_disponible + ${product.cantidad}
+            where idalimento = ${product.idAlimento};\n `;
+        });
+        await queryDatabase(qUpd);
+      }
+    }
+    res.status(200).json(result);
   } catch (error) {
     res.status(500).json(error);
     console.log(error);

@@ -10,7 +10,7 @@ const Evaluar = () => {
 
   const [foodData, setFoodData] = useState([]);
   const [filteredFood, setFilteredFood] = useState(foodData);
-  const [categoryFilter, setCategoryFilter] = useState("");
+  const [evaluationFilter, setEvaluationFilter] = useState("");
   const [search, setSearch] = useState("");
   // console.log(currentUser);
   useEffect(() => {
@@ -30,26 +30,33 @@ const Evaluar = () => {
     const newData = foodData.filter((item) => {
       let filteredByCat = true;
       let filteredBySearch = true;
-      filteredByCat = !categoryFilter || categoryFilter === "Todos";
-      // item.categorias.includes(categoryFilter); // TODO filter by category
+      filteredByCat =
+        !evaluationFilter ||
+        evaluationFilter === "Todos" ||
+        item.evaluacion === evaluationFilter;
       filteredBySearch =
         search === "" ||
         item.nombre.toLowerCase().includes(search.toLowerCase());
-      return filteredByCat && filteredBySearch && item.cantidad_disponible > 0;
+      return filteredByCat && filteredBySearch;
     });
     setFilteredFood(newData);
-  }, [categoryFilter, search, currentUser, foodData]);
+  }, [evaluationFilter, search, currentUser, foodData]);
   return (
     <div className="alimentos-wrapper">
       <div className="alimentos-page">
         <div className="sidebar">
           <h5 className="title5">Evaluación</h5>
           <ol className="categories">
-            <li onClick={() => setCategoryFilter("Todos")}>Todos</li>
-            <li onClick={() => setCategoryFilter("Fruta")}>Excelente</li>
-            <li onClick={() => setCategoryFilter("Verdura")}>Optimo</li>
-            <li onClick={() => setCategoryFilter("Bebida")}>Deficiente</li>
-            <li onClick={() => setCategoryFilter("Organico")}>Error</li>
+            <li onClick={() => setEvaluationFilter("Todos")}>Todos</li>
+            <li onClick={() => setEvaluationFilter("Excelente")}>Excelente</li>
+            <li onClick={() => setEvaluationFilter("Optimo")}>Optimo</li>
+            <li onClick={() => setEvaluationFilter("Deficiente")}>
+              Deficiente
+            </li>
+            <li onClick={() => setEvaluationFilter("Error")}>Error</li>
+            <li onClick={() => setEvaluationFilter("No evaluado")}>
+              No evaluado
+            </li>
           </ol>
         </div>
 
@@ -74,18 +81,18 @@ const Evaluar = () => {
               </button>
             </div>
             <div className="filter-section">
-              {categoryFilter && categoryFilter !== "Todos" ? (
+              {evaluationFilter && evaluationFilter !== "Todos" ? (
                 <div className="icon-container light-v">
                   <Funnel size={24} color="var(--textlight)" weight="bold" />
                 </div>
               ) : null}
               <div className="filter-container">
-                {categoryFilter && categoryFilter !== "Todos" ? (
+                {evaluationFilter && evaluationFilter !== "Todos" ? (
                   <>
-                    <div className="filter-text">{categoryFilter}</div>
+                    <div className="filter-text">{evaluationFilter}</div>
                     <button
                       className="btn"
-                      onClick={() => setCategoryFilter("")}
+                      onClick={() => setEvaluationFilter("")}
                     >
                       <X size={16} color="var(--parr1)" weight={"bold"} />
                     </button>
@@ -107,7 +114,9 @@ const Evaluar = () => {
                       unidad_medida={item.unidad_medida}
                       imagen={imgPath + item.imagen}
                       direccion={item.direccion_don}
-                      evaluacion={true}
+                      eval={true}
+                      evaluacion={item.evaluacion}
+                      nombreVoluntario={item.nombreVoluntario}
                     />
                   );
                 })

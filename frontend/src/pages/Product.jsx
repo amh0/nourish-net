@@ -26,12 +26,14 @@ const Product = () => {
   return (
     <div>
       <div className="go-back">
-        <Link className="link" to="/alimentos">
+        <Link className="link" to={isEvaluation ? "/evaluacion" : "/alimentos"}>
           <ArrowLeft size={24} weight="light" color="var(--textlight)" />
-          <p className="parr1">Volver a Alimentos</p>
+          <p className="parr1">
+            Volver a {isEvaluation ? "Evaluar" : "Alimentos"}
+          </p>
         </Link>
       </div>
-      <ProductDisplay product={product} evaluation={isEvaluation} />
+      <ProductDisplay product={product} isEval={isEvaluation} />
     </div>
   );
 };

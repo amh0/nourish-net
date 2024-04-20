@@ -81,7 +81,7 @@ const CartPage = () => {
   const [formError, setFormError] = useState(false);
 
   const handleNewCart = (data) => {
-    console.log("idCarrito" + data.idCarrito);
+    //console.log("idCarrito" + data.idCarrito);
     setCurrentUser({ ...currentUser, idCarrito: data.idCarrito, itemQty: 0 });
   };
   const handleOptSelection = (selectedOpt) => {
@@ -125,8 +125,6 @@ const CartPage = () => {
       .catch((err) => console.log(err));
   };
   const handleDelete = async (e, id) => {
-    console.log("clicked");
-    console.log(id);
     const formData = {
       idDonacion: currentUser.idCarrito,
       idAlimento: id,

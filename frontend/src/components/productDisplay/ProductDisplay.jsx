@@ -53,17 +53,19 @@ const listStyle = {
 const ProductDisplay = (props) => {
   const { currentUser, setCurrentUser } = useContext(AuthContext);
   const { product } = props;
-  const { evaluation } = props;
-  console.log(evaluation);
+  const { isEval } = props;
   const [donnor, setDonnor] = useState([]);
   const [categories, setCategories] = useState([]);
   const idgen = product.idgeneral;
   const [cantidad, setCantidad] = useState();
-
   const [insertState, setInsertState] = useState("none");
 
   // evaluation
-  const [evalSel, setEvalSel] = useState("");
+  const [evalSel, setEvalSel] = useState(
+    product.evaluation === "No evaluado"
+      ? null
+      : evalDefault.find((e) => e.label === product.evaluacion)
+  );
   // agregar producto al carrito
   const handleRequest = async () => {
     const formData = {
@@ -146,9 +148,26 @@ const ProductDisplay = (props) => {
   const handleEvalSelection = (evalSel) => {
     setEvalSel(evalSel);
   };
-  const handleEval = () => {
-    console.log(evalSel);
+  const handleEval = async () => {
+    if (product.evaluacion === "No evaluado") {
+      setInsertState("loading");
+      const formData = {
+        evaluacion: evalSel.label,
+        idVoluntario: currentUser.idusuario,
+        idAlimento: product.idalimento,
+      };
+      //console.log("form", formData);
+      try {
+        await axios.post(apiURL + "products/update_eval", formData);
+        setInsertState("success");
+      } catch (err) {
+        console.log("Error");
+        console.log(err);
+        setInsertState("error");
+      }
+    }
   };
+
   return (
     <div className="product-display">
       <div className="img-section">
@@ -194,7 +213,7 @@ const ProductDisplay = (props) => {
           </div>
         </div>
         <div className="controls-container">
-          {evaluation ? (
+          {isEval ? (
             <>
               <div>
                 <Toolbox size={24} weight="light" color="var(--textlight)" />
@@ -209,6 +228,10 @@ const ProductDisplay = (props) => {
                     styles={listStyle}
                     noOptionsMessage={() => "Sin resultados"}
                     placeholder={"Evaluación"}
+                    isDisabled={
+                      product.evaluacion !== "No evaluado" ||
+                      product.evaluacion === ""
+                    }
                     theme={(theme) => ({
                       ...theme,
                       borderRadius: 6,
@@ -254,13 +277,15 @@ const ProductDisplay = (props) => {
           <div className={"state-container product-state " + insertState}>
             {insertState === "loading" ? (
               <>
-                <div class="lds-ring">
+                <div className="lds-ring">
                   <div></div>
                   <div></div>
                   <div></div>
                   <div></div>
                 </div>
-                <p className="parr1">Agregando...</p>
+                <p className="parr1">
+                  {isEval ? "Actualizando..." : "Agregando..."}
+                </p>
               </>
             ) : insertState === "success" ? (
               <>
@@ -269,7 +294,9 @@ const ProductDisplay = (props) => {
                   color="var(--secondary)"
                   weight="light"
                 />
-                <p className="parr1 boldparr">¡Alimento agregado!</p>
+                <p className="parr1 boldparr">
+                  {isEval ? "¡Alimenta evaluado!" : "¡Alimento agregado!"}
+                </p>
               </>
             ) : insertState === "error" ? (
               <>
@@ -280,6 +307,14 @@ const ProductDisplay = (props) => {
             ) : null}
           </div>
         ) : null}
+        {isEval ? (
+          <p className="parr1 parr-row">
+            <span className="bold-text">Control de calidad: </span>
+            {product.nombreVoluntario}
+          </p>
+        ) : (
+          <></>
+        )}
         <h4 className="title4">Descripción</h4>
         <p className="parr1 parr-row">{product.descripcion}</p>
         <p className="parr1 parr-row">
