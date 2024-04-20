@@ -82,7 +82,6 @@ const Publicar = () => {
   };
   // form handling
   const handleForm = () => {
-    // TODO validation
     if (
       ((nameEnabled && nombre) || (!nameEnabled && nombreSel)) &&
       cantidad > 0 &&
