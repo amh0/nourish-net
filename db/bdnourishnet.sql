@@ -295,4 +295,3 @@ begin
 end//
 delimiter ;
 
--- estados de una donación

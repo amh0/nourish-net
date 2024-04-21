@@ -117,7 +117,7 @@ const CartPage = (props) => {
       mensajeSolicitud: msg,
       idDonacion: currentUser.idCarrito, // id del receptor
       idGeneral: currentUser.idusuario,
-      fechaSolicitud: new Date().toJSON(),
+      fechaSolicitud: moment(new Date()).format("YYYY-MM-DD HH:mm:ss"),
     };
     console.log("formData", formData);
     axios
@@ -169,6 +169,8 @@ const CartPage = (props) => {
   };
 
   const handleDeliveryData = () => {
+    console.log("Sending.....");
+    setInsertState("loading");
     const formData = {
       tipoEnvio: method.value,
       estado: "Solicitado",

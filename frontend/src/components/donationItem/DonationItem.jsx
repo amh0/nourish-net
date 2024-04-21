@@ -20,6 +20,7 @@ import {
   ArrowsClockwise,
   UserGear,
   Barcode,
+  HandArrowUp,
 } from "@phosphor-icons/react";
 import { AuthContext } from "../../context/authContext";
 import {
@@ -231,7 +232,8 @@ const DonationItem = (props) => {
             </div>
           </div>
           <div className="row-wrapper">
-            <User size={24} color="var(--textlight)" weight="light" />
+            {/* <User size={24} color="var(--textlight)" weight="light" /> */}
+            <HandArrowUp size={24} color="var(--textlight)" weight="light" />
             <p className="parr1 single-line">{donacion.nombreGeneral}</p>
           </div>
           <div className="row-wrapper">

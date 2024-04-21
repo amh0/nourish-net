@@ -56,7 +56,9 @@ export const getAllProducts = async (req, res) => {
     on a.idgeneral = g.idgeneral
     inner join organizacion o
     on g.idgeneral = o.idorg
-    where g.tipo like 'Organizacion'
+    where g.tipo like 'Organizacion' 
+      and a.estado not like 'No asignado'
+      and a.estado not like 'No recibido'
     UNION
     select a.*, nombre_voluntario_x(a.idvoluntario) as nombreVoluntario, concat(p.nombre, ' ', p.apellido_pat, ' ', p.apellido_mat) as nombre_don, p.direccion as direccion_don  
     from alimento a inner join general g 
@@ -64,6 +66,8 @@ export const getAllProducts = async (req, res) => {
     inner join persona p
     on g.idgeneral like p.idpersona
     where g.tipo = 'Persona'
+      and a.estado not like 'No asignado'
+      and a.estado not like 'No recibido'
     order by 1, 6`;
     const foodQuery = await queryDatabase(qType);
     res.status(200).json(foodQuery);

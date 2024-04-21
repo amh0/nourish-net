@@ -49,7 +49,6 @@ export const addToCart = async (req, res) => {
 export const getDeliveryProducts = async (req, res) => {
   const data = req.body;
   try {
-    console.log(data);
     const q = `select a.idalimento, a.nombre, a.cantidad_disponible as cantidad, a.unidad_medida, nombre_idx_gen(g.idgeneral) as nombreDonante,
      a.imagen
     from alimento a
@@ -67,7 +66,6 @@ export const getDeliveryProducts = async (req, res) => {
 export const insertDeliveryDonation = async (req, res) => {
   const data = req.body;
   try {
-    console.log(data);
     // create donation
     const idNourishNet = 1;
     const qCreate = `insert into donacion(tipo_envio, estado, lugar_entrega, fecha_entrega, hora_entrega, mensaje_solicitud, 
@@ -96,11 +94,9 @@ export const insertDeliveryDonation = async (req, res) => {
         qTieneA += ";";
       }
     });
-    console.log(qTieneA);
-    console.log(qUpdateA);
     await queryDatabase(qTieneA);
     await queryDatabase(qUpdateA);
-    res.status(200);
+    res.status(200).json(createResult);
   } catch (error) {
     res.status(500).json(error);
     console.log(error);
@@ -278,13 +274,18 @@ export const updateStatus = async (req, res) => {
 };
 
 export const getAllDonations = (req, res) => {
+  // aUsuario: 1 si es donacion hacia usuario (persona, organizacion) 0 si es al banco de alimentos
+  // donaciones hacia usuarios
+  // union
+  // donaciones hacia el banco de alimentos
   const q = `
     select d.iddonacion as idDonacion, d.estado, d.tipo_envio as tipoEnvio, d.fecha_solicitud as fechaSolicitud,
       d.fecha_entrega as fechaEntrega, d.hora_entrega as horaEntrega, d.lugar_entrega as lugarEntrega,
       d.mensaje_solicitud as MensajeSolicitud, d.idgeneral as idGeneral, d.idvoluntario as idVoluntario,
       d.conf_receptor as confReceptor, d.conf_voluntario as confVoluntario, 
       nombre_voluntario_x(d.idvoluntario) as nombreVoluntario, direccion_voluntario_x(d.idvoluntario) as direccionVoluntario,
-      nombre_idx_gen(d.idgeneral) nombreGeneral, direccion_idx_gen(d.idgeneral) as direccionGeneral, tmp.cantAlim 
+      nombre_idx_gen(d.idgeneral) nombreGeneral, direccion_idx_gen(d.idgeneral) as direccionGeneral, 
+      tmp.cantAlim, if(d.idgeneral!=1,true,false) as aUsuario
     from donacion d
     inner join (
       select iddonacion, count(idalimento) as cantAlim
@@ -292,8 +293,33 @@ export const getAllDonations = (req, res) => {
       group by iddonacion
       ) as tmp
     on d.iddonacion = tmp.iddonacion
-    where d.estado not like 'Inactivo'
-    order by d.fecha_solicitud desc
+    where d.estado not like 'Inactivo' 
+      and not d.idgeneral = 1
+    UNION
+    select d.iddonacion as idDonacion, d.estado, d.tipo_envio as tipoEnvio, d.fecha_solicitud as fechaSolicitud,
+      d.fecha_entrega as fechaEntrega, d.hora_entrega as horaEntrega, d.lugar_entrega as lugarEntrega, d.mensaje_solicitud as MensajeSolicitud, 
+      tmp2.idGeneral, d.idvoluntario as idVoluntario,
+      d.conf_receptor as confReceptor, d.conf_voluntario as confVoluntario, 
+      nombre_voluntario_x(d.idvoluntario) as nombreVoluntario, direccion_voluntario_x(d.idvoluntario) as direccionVoluntario,
+      nombre_idx_gen(tmp2.idGeneral) nombreGeneral, direccion_idx_gen(tmp2.idGeneral) as direccionGeneral, 
+      tmp.cantAlim, if(d.idgeneral!=1,true,false) as aUsuario
+    from donacion d
+    inner join (
+      select iddonacion, count(idalimento) as cantAlim
+      from tiene_a
+      group by iddonacion
+      ) as tmp
+    on d.iddonacion = tmp.iddonacion
+    inner join (
+      select distinct t.iddonacion, a.idgeneral as idGeneral
+      from tiene_a t
+      inner join alimento a
+      on t.idalimento = a.idalimento
+    ) as tmp2
+    on tmp2.iddonacion = d.iddonacion
+    where d.estado not like 'Inactivo' 
+      and d.idgeneral = 1
+    order by 4 desc
       `;
   db.query(q, (err, data) => {
     if (err) {
@@ -314,12 +340,13 @@ export const getDonationsUser = async (req, res) => {
       matchId = "d.idvoluntario";
     }
     const q = `
-    select d.iddonacion as idDonacion, d.estado, d.tipo_envio as tipoEnvio,
+    select d.iddonacion as idDonacion, d.estado, d.tipo_envio as tipoEnvio, d.fecha_solicitud as fechaSolicitud,
       d.fecha_entrega as fechaEntrega, d.hora_entrega as horaEntrega, d.lugar_entrega as lugarEntrega,
       d.mensaje_solicitud as mensajeSolicitud, d.idgeneral as idGeneral, d.idvoluntario as idVoluntario,
       d.conf_receptor as confReceptor, d.conf_voluntario as confVoluntario, 
       nombre_voluntario_x(d.idvoluntario) as nombreVoluntario, direccion_voluntario_x(d.idvoluntario) as direccionVoluntario,
-      nombre_idx_gen(d.idgeneral) nombreGeneral, direccion_idx_gen(d.idgeneral) as direccionGeneral, tmp.cantAlim
+      nombre_idx_gen(d.idgeneral) nombreGeneral, direccion_idx_gen(d.idgeneral) as direccionGeneral,
+      tmp.cantAlim, if(d.idgeneral!=1,true,false) as aUsuario
     from donacion d
     inner join (
       select iddonacion, count(idalimento) as cantAlim
@@ -328,9 +355,34 @@ export const getDonationsUser = async (req, res) => {
       ) as tmp
     on d.iddonacion = tmp.iddonacion
     where d.estado not like 'Inactivo'
+      and d.iddonacion != 1
       and ${matchId} = ?
-    order by d.fecha_solicitud desc`;
-    const userValue = [data.idUsuario];
+    UNION
+    select d.iddonacion as idDonacion, d.estado, d.tipo_envio as tipoEnvio, d.fecha_solicitud as fechaSolicitud,
+      d.fecha_entrega as fechaEntrega, d.hora_entrega as horaEntrega, d.lugar_entrega as lugarEntrega, 
+      d.mensaje_solicitud as MensajeSolicitud, tmp2.idGeneral, d.idvoluntario as idVoluntario,
+      d.conf_receptor as confReceptor, d.conf_voluntario as confVoluntario, 
+      nombre_voluntario_x(d.idvoluntario) as nombreVoluntario, direccion_voluntario_x(d.idvoluntario) as direccionVoluntario,
+      nombre_idx_gen(tmp2.idGeneral) nombreGeneral, direccion_idx_gen(tmp2.idGeneral) as direccionGeneral, 
+      tmp.cantAlim, if(d.idgeneral!=1,true,false) as aUsuario
+    from donacion d
+    inner join (
+      select iddonacion, count(idalimento) as cantAlim
+      from tiene_a
+      group by iddonacion
+      ) as tmp
+    on d.iddonacion = tmp.iddonacion
+    inner join (
+      select distinct t.iddonacion, a.idgeneral as idGeneral
+      from tiene_a t
+      inner join alimento a
+      on t.idalimento = a.idalimento
+    ) as tmp2
+    on tmp2.iddonacion = d.iddonacion
+    where d.estado not like 'Inactivo' 
+      and tmp2.idGeneral = ?
+    order by 4 desc`;
+    const userValue = [data.idUsuario, data.idUsuario];
     const donationsRes = await queryDatabase(q, userValue);
     res.status(200).json(donationsRes);
   } catch (error) {

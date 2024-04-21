@@ -1,6 +1,13 @@
 import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
-import { MagnifyingGlass, X, Funnel } from "@phosphor-icons/react";
+import {
+  MagnifyingGlass,
+  X,
+  Funnel,
+  HandHeart,
+  HandArrowUp,
+  HandArrowDown,
+} from "@phosphor-icons/react";
 
 import { AuthContext } from "../context/authContext";
 import DonationItem from "../components/donationItem/DonationItem";
@@ -12,6 +19,7 @@ const MisDonaciones = () => {
   const [donationsData, setDonationsData] = useState([]);
   const [filteredDonations, setFilteredDonations] = useState(donationsData);
   const [statusFilter, setStatusFilter] = useState("");
+  const [typeFilter, setTypeFilter] = useState("");
   const [search, setSearch] = useState("");
   useEffect(() => {
     getAllDonations();
@@ -22,12 +30,13 @@ const MisDonaciones = () => {
       if (currentUser.isAdmin) {
         result = await axios(apiPath + "/donations/findall");
       } else {
-        console.log(currentUser.idusuario);
+        console.log("user:", currentUser.idusuario);
         result = await axios.post(apiPath + "/donations/find_by_user", {
           idUsuario: currentUser.idusuario,
           assignedDonations: false,
         });
       }
+      console.log(result.data);
       setDonationsData(result.data);
       // setFilteredDonations(result.data);
     } catch (err) {
@@ -41,15 +50,19 @@ const MisDonaciones = () => {
       let filteredByType = true;
       let filteredByStatus = true;
       let filteredBySearch = true;
-      // if (typeFilter === "Donado") {
-      //   filteredByType = donation.id_donante === currentUser.idusuario;
-      // } else if (typeFilter === "Recibido")
-      //   filteredByType = donation.id_receptor === currentUser.idusuario;
-      // else {
-      // obtener donados y recibidos o todos las donaciones si es admin
-      filteredByType =
-        currentUser.isAdmin || donation.idGeneral === currentUser.idusuario;
-      // }
+      if (typeFilter === "Donado") {
+        // donaciones hechas al banco de alimentos
+        filteredByType = !donation.aUsuario;
+      } else if (typeFilter === "Recibido") {
+        // donaciones solicitadas al banco
+        filteredByType = donation.aUsuario;
+      } else {
+        // obtener donados y recibidos o todos las donaciones si es admin
+        filteredByType =
+          currentUser.isAdmin ||
+          (donation.aUsuario && donation.idGeneral === currentUser.idusuario) ||
+          !donation.aUsuario;
+      }
       filteredByStatus =
         !statusFilter ||
         statusFilter === "Todos" ||
@@ -62,12 +75,12 @@ const MisDonaciones = () => {
     });
     // console.log(newData);
     setFilteredDonations(newData);
-  }, [statusFilter, search, currentUser, donationsData]);
+  }, [statusFilter, typeFilter, search, currentUser, donationsData]);
 
   return (
     <div className="mis-donaciones">
       <div className="sidebar">
-        {/* <h5 className="title5 accent-secondary">Tipo</h5>
+        <h5 className="title5 accent-secondary">Tipo</h5>
         <ol className="categories">
           <li onClick={() => setTypeFilter("Todos")}>
             <div className="icon-text-wrapper">
@@ -91,7 +104,7 @@ const MisDonaciones = () => {
               Recibido
             </div>
           </li>
-        </ol> */}
+        </ol>
         <h5 className="title5 accent-secondary">Estado</h5>
         <ol className="categories">
           <li onClick={() => setStatusFilter("Todos")}>Todos</li>
