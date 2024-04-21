@@ -139,6 +139,7 @@ CREATE TABLE TIENE_A(
   FOREIGN KEY (iddonacion) REFERENCES DONACION(iddonacion),
   FOREIGN KEY (idalimento) REFERENCES ALIMENTO(idalimento)
 );
+
 CREATE TABLE DONACION (
     iddonacion INT AUTO_INCREMENT PRIMARY KEY,
     tipo_envio VARCHAR(20),
@@ -148,15 +149,11 @@ CREATE TABLE DONACION (
     hora_entrega TIME,
     mensaje_solicitud VARCHAR(200),
     fecha_solicitud DATETIME,
-    -- cantidad_donacion INT,
     idgeneral INT,
-    -- idalimento INT,
     idvoluntario INT,
     conf_donante BOOLEAN DEFAULT 0,
-    -- conf_receptor BOOLEAN DEFAULT 0,
     conf_voluntario BOOLEAN DEFAULT 0,
     FOREIGN KEY (idgeneral) REFERENCES GENERAL(idgeneral),
-    -- FOREIGN KEY (idalimento) REFERENCES ALIMENTO(idalimento),
     FOREIGN KEY (idvoluntario) REFERENCES VOLUNTARIO(idvoluntario)
 );
 

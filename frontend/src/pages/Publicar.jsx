@@ -20,7 +20,6 @@ const Publicar = () => {
   const [uploadState, setUploadState] = useState("none");
   const [formError, setFormError] = useState(false);
   const [nameEnabled, setNameEnabled] = useState(false);
-  // const idgeneral = 101;
   const { foodCat } = useContext(PageContext);
   const { currentUser } = useContext(AuthContext);
   // console.log(currentUser);
@@ -298,9 +297,17 @@ const Publicar = () => {
             contengan datos validos
           </p>
         ) : null}
-        <button className="btn secondary-v" onClick={handleForm}>
-          Publicar donación
-        </button>
+        <div className="button-container">
+          <button
+            className="btn bg0-secondary-v secondary-brd"
+            onClick={handleForm}
+          >
+            Agregar más
+          </button>
+          <button className="btn secondary-v" onClick={handleForm}>
+            Publicar donación
+          </button>
+        </div>
       </form>
       {uploadState !== "none" ? (
         <div className={"state-container " + uploadState}>

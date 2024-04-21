@@ -114,6 +114,13 @@
 .state-container.loading {
   background-color: var(--primarylighter);
 }
+.publication .button-container {
+  display: flex;
+  gap: 40px;
+}
+.publication .button-container .btn {
+  flex: 1;
+}
 .lds-ring {
   display: inline-block;
   position: relative;
