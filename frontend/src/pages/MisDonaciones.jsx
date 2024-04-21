@@ -90,7 +90,11 @@ const MisDonaciones = () => {
           </li>
           <li onClick={() => setTypeFilter("Donado")}>
             <div className="icon-text-wrapper">
-              <HandArrowUp size={24} weight="light" color="var(--secondary)" />
+              <HandArrowUp
+                size={24}
+                weight="light"
+                color="var(--primary_strong)"
+              />
               Donado
             </div>
           </li>
@@ -99,7 +103,7 @@ const MisDonaciones = () => {
               <HandArrowDown
                 size={24}
                 weight="light"
-                color="var(--primary_strong)"
+                color="var(--secondary)"
               />
               Recibido
             </div>

@@ -12,6 +12,7 @@ import {
   Check,
   X,
   User,
+  Cube,
   CheckCircle,
   XCircle,
   WarningCircle,
@@ -21,6 +22,7 @@ import {
   UserGear,
   Barcode,
   HandArrowUp,
+  HandArrowDown,
 } from "@phosphor-icons/react";
 import { AuthContext } from "../../context/authContext";
 import {
@@ -193,7 +195,7 @@ const DonationItem = (props) => {
         <div className="donation-data section-2">
           <div className="detail-section">
             <div className="row-wrapper">
-              <Barcode size={24} color="var(--primary)" />
+              <Barcode size={24} color="var(--text)" />
               <p className="parr1 ">
                 {"COD: " + padNumber(donacion.idDonacion, 6, "0")}
               </p>
@@ -205,12 +207,26 @@ const DonationItem = (props) => {
             </div>
           </div>
           <div className="row-wrapper">
-            <UserGear size={24} color="var(--textlight)" weight="light" />
-            <p className="parr1 single-line">{donacion.nombreVoluntario}</p>
+            {donacion.aUsuario ? (
+              <HandArrowDown
+                size={24}
+                color="var(--secondary)"
+                weight="light"
+              />
+            ) : (
+              <HandArrowUp
+                size={24}
+                color="var(--primary_strong)"
+                weight="light"
+              />
+            )}
+            <p className="parr1 single-line">{donacion.nombreGeneral}</p>
           </div>
           <div className="row-wrapper">
-            <MapPin size={24} weight="light" color="var(--secondary)" />
-            <p className="parr1 single-line">{donacion.direccionVoluntario}</p>
+            <Cube size={24} weight="light" color="var(--textlight)" />
+            <p className="parr1 single-line">
+              {donacion.cantAlim} alimento{donacion.cantAlim > 1 ? "s" : ""}
+            </p>
           </div>
         </div>
         <div className="col-separator"></div>
@@ -233,12 +249,12 @@ const DonationItem = (props) => {
           </div>
           <div className="row-wrapper">
             {/* <User size={24} color="var(--textlight)" weight="light" /> */}
-            <HandArrowUp size={24} color="var(--textlight)" weight="light" />
-            <p className="parr1 single-line">{donacion.nombreGeneral}</p>
+            <UserGear size={24} color="var(--textlight)" weight="light" />
+            <p className="parr1 single-line">{donacion.nombreVoluntario}</p>
           </div>
           <div className="row-wrapper">
             <MapPin size={24} weight="light" color="var(--secondary)" />
-            <p className="parr1 single-line">{donacion.direccionGeneral}</p>
+            <p className="parr1 single-line">{donacion.lugarEntrega}</p>
           </div>
         </div>
         <div className="col-separator"></div>
