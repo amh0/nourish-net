@@ -1,4 +1,5 @@
 import React, { useContext, useState } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import moment from "moment";
 import Select from "react-select";
@@ -111,7 +112,7 @@ const Publicar = () => {
     formData.append("cantidad", cantidad);
     formData.append("unidad_medida", unidad);
     formData.append("fecha_vencimiento", fecha_vencimiento);
-    formData.append("fecha_publicacion", new Date().toJSON());
+    formData.append("fecha_publicacion", moment().format());
     formData.append("idgeneral", currentUser.idusuario);
     formData.append("img", file);
 
@@ -145,7 +146,9 @@ const Publicar = () => {
       setCantidad();
     }
   };
-
+  const handleDonation = () => {
+    console.log("handling donation");
+  };
   return (
     <div className="publication">
       <h4 className="title4">Registra tu donación</h4>
@@ -304,9 +307,9 @@ const Publicar = () => {
           >
             Agregar más
           </button>
-          <button className="btn secondary-v" onClick={handleForm}>
-            Publicar donación
-          </button>
+          <Link className="link" to="/donar/entrega">
+            <button className="btn secondary-v">Publicar donación</button>
+          </Link>
         </div>
       </form>
       {uploadState !== "none" ? (

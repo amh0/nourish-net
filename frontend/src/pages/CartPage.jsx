@@ -8,6 +8,7 @@ import {
   CheckCircle,
   ShoppingCartSimple,
   X,
+  Empty,
 } from "@phosphor-icons/react";
 
 import { AuthContext } from "../context/authContext";
@@ -47,11 +48,17 @@ const listStyle = {
   },
 };
 
-const CartPage = () => {
+const CartPage = (props) => {
   const { currentUser, setCurrentUser } = useContext(AuthContext);
   const [products, setProducts] = useState([]);
+  const { isCart } = props;
   useEffect(() => {
-    fetchProducts();
+    if (isCart) {
+      fetchProducts();
+    } else {
+      fetchDeliveryProducts();
+      console.log("delivery");
+    }
   }, []);
 
   const fetchProducts = async () => {
@@ -91,7 +98,11 @@ const CartPage = () => {
   const handleForm = () => {
     // TODO validation
     if (fecha && hora) {
-      handleData();
+      if (isCart) {
+        handleData();
+      } else {
+        handleDeliveryData();
+      }
     } else {
       setFormError(true);
       console.log("error");
@@ -141,9 +152,53 @@ const CartPage = () => {
       console.log(err);
     }
   };
+
+  // Donaciones entregadas
+  const fetchDeliveryProducts = async () => {
+    try {
+      const result = await axios.post(
+        apiURL + "donations/get_delivery_products",
+        { idGeneral: currentUser.idusuario }
+      );
+      setProducts(result.data);
+      console.log(result.data);
+    } catch (err) {
+      console.log("Error");
+      console.log(err);
+    }
+  };
+
+  const handleDeliveryData = () => {
+    const formData = {
+      tipoEnvio: method.value,
+      estado: "Solicitado",
+      fechaEntrega: fecha,
+      horaEntrega: hora,
+      mensajeSolicitud: msg,
+      idGeneral: currentUser.idusuario,
+      fechaSolicitud: moment(new Date()).format("YYYY-MM-DD HH:mm:ss"),
+      products: products.map((item) => {
+        return { idAlimento: item.idalimento, cantidad: item.cantidad };
+      }),
+    };
+    console.log("formData", formData);
+    axios
+      .post(apiURL + "donations/insert_delivery_donation", formData)
+      .then((res) => {
+        if (res.status === 200) {
+          console.log("Donation created");
+          setInsertState("success");
+        } else {
+          console.log("An error has occurred");
+          setInsertState("error");
+        }
+      })
+      .catch((err) => console.log(err));
+  };
   return (
     <div className="coordination">
-      {currentUser.itemQty > 0 || insertState !== "none" ? (
+      {(isCart && (currentUser.itemQty > 0 || insertState !== "none")) ||
+      !isCart ? (
         <>
           <h4 className="title4 accent-secondary">Coordinar entrega</h4>
           <div>
@@ -164,16 +219,22 @@ const CartPage = () => {
                     </div>
                     <div className="cell-left">{item.cantidad}</div>
                     <div className="cell-left">{item.unidad_medida}</div>
-                    <button
-                      className="btn bg0-tertiary-v"
-                      onClick={(e) => handleDelete(e, item.idalimento)}
-                    >
-                      <X
-                        size={16}
-                        color="var(--tertiary_strong)"
-                        weight={"bold"}
-                      />
-                    </button>
+                    {isCart ? (
+                      <>
+                        <button
+                          className="btn bg0-tertiary-v"
+                          onClick={(e) => handleDelete(e, item.idalimento)}
+                        >
+                          <X
+                            size={16}
+                            color="var(--tertiary_strong)"
+                            weight={"bold"}
+                          />
+                        </button>
+                      </>
+                    ) : (
+                      <></>
+                    )}
                     {i !== products.length - 1 ? (
                       <div className="row-border-lighter"></div>
                     ) : null}
@@ -293,11 +354,23 @@ const CartPage = () => {
         </>
       ) : (
         <div className="empty-cart">
-          <ShoppingCartSimple size={64} color="var(--textlight)" />
-          <h4 className="title5">Tu carrito esta vacío</h4>
-          <p className="parr1">
-            Selecciona al menos un producto para coordinar la entrega
-          </p>
+          {isCart ? (
+            <>
+              <ShoppingCartSimple size={64} color="var(--textlight)" />
+              <h4 className="title5">Tu carrito esta vacío</h4>
+              <p className="parr1">
+                Selecciona al menos un producto para coordinar la entrega
+              </p>
+            </>
+          ) : (
+            <>
+              <Empty size={64} color="var(--textlight)" />
+              <h4 className="title5">No agregaste ningun producto</h4>
+              <p className="parr1">
+                Agrega al menos un producto para coordinar la entrega
+              </p>
+            </>
+          )}
         </div>
       )}
     </div>

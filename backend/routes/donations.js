@@ -12,7 +12,8 @@ import {
   getDonationsUser,
   getDonationDetails,
   assignVolunteer,
-  receiveDonation,
+  getDeliveryProducts,
+  insertDeliveryDonation,
 } from "../controllers/donations.js";
 const router = express.Router();
 
@@ -31,6 +32,8 @@ router.post("/find_by_user", getDonationsUser);
 router.post("/insert_receipt", insertReceipt);
 router.post("/find_receipt", getReceiptData);
 
-router.post("/receive", receiveDonation);
+// donar alimentos
+router.post("/get_delivery_products", getDeliveryProducts);
+router.post("/insert_delivery_donation", insertDeliveryDonation);
 
 export default router;

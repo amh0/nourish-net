@@ -118,7 +118,8 @@
   display: flex;
   gap: 40px;
 }
-.publication .button-container .btn {
+.publication .button-container .btn,
+.publication .button-container .link {
   flex: 1;
 }
 .lds-ring {

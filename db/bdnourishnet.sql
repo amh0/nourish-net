@@ -115,7 +115,7 @@ CREATE TABLE ALIMENTO (
     idalimento INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(30),
     descripcion VARCHAR(500),
-    estado VARCHAR(20),
+    estado VARCHAR(20) DEFAULT 'No asignado',
     evaluacion VARCHAR(30) DEFAULT 'No evaluado',
     fecha_vencimiento DATE,
     fecha_publicacion DATE,
@@ -294,3 +294,5 @@ begin
   return xcelular;
 end//
 delimiter ;
+
+-- estados de una donación

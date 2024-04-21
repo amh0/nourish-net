@@ -75,12 +75,25 @@ INSERT INTO ORGANIZACION (idorg, nombre, logo, tipo_entidad, ubicacion, direccio
 -- DONACION
 INSERT INTO DONACION (idgeneral,estado) VALUES (100,'Inactivo');
 
--- DONACION
--- Valores estado
--- Inactivo: El receptor esta seleccionado los prouductos 
+-- ESTADOS DE UNA DONACION
+-- Inactivo: El receptor esta seleccionado los prouductos (carrito)
 -- Solicitado: El receptor envió la solicitud de donacion
 -- Pendiente: El donante aceptó la solicitud del receptor
--- Entregando...: El receptor ó donante (pero no ambos) confirmaron la entrega del producto
+-- Entregando: El receptor ó donante (pero no ambos) confirmaron la entrega del producto
 -- Entregado: El receptor y donante confirmaron la entrega de la donacion
 -- Cancelado: El donante o receptor canceló la donación
 -- Rechazado: El donante rechazó la solicitud de donación
+
+-- ESTADO DE UN ALIMENTO  
+-- No asignado: Este alimento esta en proceso de ser donado, se registraron los datos por el donante
+-- No recibido: Este alimento ya fue asignado a una donacion para que se entregue al banco de alimentos, 
+--              pero aun no se completó la entrega
+-- Disponible: El producto fue recibido y tiene cantidad disponible
+-- No disponible: El producto no tiene cantidad disponible
+
+-- EVALUACION DE UNA DONACION
+-- Excelente: Es visible a todos 
+-- Optimao: Es visible a todos
+-- Deficiente: El producto no tiene la calidad minima para ser donada, no es visible a los usuarios
+-- Error: Los datos registrados no coinciden con el producto recibido, no es visible a los usuarios
+-- Sin evaluar: No es visible a los usuarios, pero si a admins y voluntarios

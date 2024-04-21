@@ -46,6 +46,67 @@ export const addToCart = async (req, res) => {
   }
 };
 
+export const getDeliveryProducts = async (req, res) => {
+  const data = req.body;
+  try {
+    console.log(data);
+    const q = `select a.idalimento, a.nombre, a.cantidad_disponible as cantidad, a.unidad_medida, nombre_idx_gen(g.idgeneral) as nombreDonante,
+     a.imagen
+    from alimento a
+    inner join general g
+    on a.idgeneral = g.idgeneral 
+    where a.idgeneral = ? and a.estado like 'No asignado'
+    order by a.fecha_publicacion`;
+    const queryResult = await queryDatabase(q, [data.idGeneral]);
+    res.status(200).json(queryResult);
+  } catch (error) {
+    res.status(500).json(error);
+    console.log(error);
+  }
+};
+export const insertDeliveryDonation = async (req, res) => {
+  const data = req.body;
+  try {
+    console.log(data);
+    // create donation
+    const idNourishNet = 1;
+    const qCreate = `insert into donacion(tipo_envio, estado, lugar_entrega, fecha_entrega, hora_entrega, mensaje_solicitud, 
+      fecha_solicitud, idgeneral) values (?,?,?,?,?,?,?,?)`;
+    const createValues = [
+      data.tipoEnvio,
+      data.estado,
+      data.lugarEntrega,
+      data.fechaEntrega,
+      data.horaEntrega,
+      data.mensajeSolicitud,
+      data.fechaSolicitud,
+      idNourishNet,
+    ];
+    const createResult = await queryDatabase(qCreate, createValues);
+    const idDonacion = createResult.insertId;
+    const alimentos = data.products;
+    let qTieneA = `insert into tiene_a (iddonacion, idalimento, cantidad, fecha_agregado) values`;
+    let qUpdateA = "";
+    alimentos.forEach((item, i) => {
+      qTieneA += `(${idDonacion}, ${item.idAlimento},  ${item.cantidad} , '${data.fechaSolicitud}')`;
+      qUpdateA += `update alimento set estado = "No recibido" where idalimento = ${item.idAlimento};\n`;
+      if (i < alimentos.length - 1) {
+        qTieneA += ",";
+      } else {
+        qTieneA += ";";
+      }
+    });
+    console.log(qTieneA);
+    console.log(qUpdateA);
+    await queryDatabase(qTieneA);
+    await queryDatabase(qUpdateA);
+    res.status(200);
+  } catch (error) {
+    res.status(500).json(error);
+    console.log(error);
+  }
+};
+
 export const getDonationProducts = async (req, res) => {
   const data = req.body;
   try {

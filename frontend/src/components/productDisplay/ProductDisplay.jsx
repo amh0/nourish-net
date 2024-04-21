@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import Select from "react-select";
+import moment from "moment";
 import makeAnimated from "react-select/animated";
 import { AuthContext } from "../../context/authContext";
 import Input from "../input/Input";
@@ -72,7 +73,7 @@ const ProductDisplay = (props) => {
       idAlimento: product.idalimento,
       idDonacion: currentUser.idCarrito,
       cantidad: parseInt(cantidad),
-      fechaAgregado: new Date().toJSON(),
+      fechaAgregado: moment().format(),
     };
     console.log(formData);
     try {

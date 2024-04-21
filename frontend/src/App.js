@@ -48,27 +48,24 @@ function App() {
             path="/producto/:productId/solicitud"
             element={<CoordSolicitud />}
           />
-          <Route path="/donaciones" element={<MisDonaciones />}>
-            <Route path=":donacionId" element={<DetalleDonacion />} />
-          </Route>
-          <Route path="/donar" element={<Publicar />} />
-          {currentUser && <Route path="/donar" element={<Publicar />} />}{" "}
+          {currentUser && <Route path="/donar" element={<Publicar />} />}
+
           {/*verify donor*/}
           {!currentUser && <Route path="/login" element={<Login />} />}
           {!currentUser && <Route path="/signup" element={<Signup />} />}
           {!currentUser && <Route path="/loginHelp" element={<LoginHelp />} />}
           {currentUser && <Route path="/donantes" element={<Donantes />} />}
-          {currentUser && (currentUser.isDonor || currentUser.isAdmin) && (
-            <Route path="/donaciones" element={<MisDonaciones />}>
-              <Route path=":donacionId" element={<DetalleDonacion />} />
-            </Route>
-          )}
-          {currentUser && (currentUser.isDonor || currentUser.isAdmin) && (
-            <Route path="/detalles" element={<DetalleDonacion />}>
-              <Route path=":donacionId" element={<DetalleDonacion />} />
-            </Route>
+          {/* donaciones */}
+          {currentUser && (
+            <>
+              <Route path="/donaciones" element={<MisDonaciones />} />
+              <Route path="/detalles" element={<DetalleDonacion />}>
+                <Route path=":donacionId" element={<DetalleDonacion />} />
+              </Route>
+            </>
           )}
           {currentUser && <Route path="/peticiones" element={<Peticiones />} />}
+          {/*verify volunteer*/}
           {currentUser && currentUser.isVolunteer && (
             <>
               <Route path="/tareas" element={<Tareas />} />
@@ -78,6 +75,7 @@ function App() {
               />
             </>
           )}
+          {/* Evaluacion */}
           {currentUser && (currentUser.isVolunteer || currentUser.isAdmin) && (
             <>
               <Route path="/evaluacion" element={<Evaluar />} />
@@ -86,12 +84,17 @@ function App() {
               </Route>
             </>
           )}
-          {/*verify volunteer*/}
           {currentUser && (
             <Route path="/notificaciones" element={<Notificaciones />} />
           )}
           {currentUser && !currentUser.isAdmin && (
-            <Route path="/solicitar" element={<CartPage />} />
+            <>
+              <Route path="/solicitar" element={<CartPage isCart={true} />} />
+              <Route
+                path="/donar/entrega"
+                element={<CartPage isCart={false} />}
+              />
+            </>
           )}
           {currentUser && <Route path="/perfil" element={<Perfil />} />}
         </Routes>

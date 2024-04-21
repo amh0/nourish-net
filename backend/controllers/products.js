@@ -83,7 +83,7 @@ export const uploadProduct = async (req, res) => {
     const foodValues = [
       data.nombre,
       data.descripcion,
-      "Disponible",
+      "No asignado",
       data.fecha_vencimiento,
       data.fecha_publicacion,
       data.cantidad,
