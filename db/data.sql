@@ -94,7 +94,7 @@ INSERT INTO DONACION (idgeneral,estado) VALUES (100,'Inactivo');
 
 -- EVALUACION DE UNA DONACION
 -- Excelente: Es visible a todos 
--- Optimao: Es visible a todos
+-- Optimo: Es visible a todos
 -- Deficiente: El producto no tiene la calidad minima para ser donada, no es visible a los usuarios
 -- Error: Los datos registrados no coinciden con el producto recibido, no es visible a los usuarios
--- Sin evaluar: No es visible a los usuarios, pero si a admins y voluntarios
+-- No evaluado: No es visible a los usuarios, pero si a admins y voluntarios

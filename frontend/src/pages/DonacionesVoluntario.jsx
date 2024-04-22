@@ -56,8 +56,7 @@ const DonacionesVoluntario = () => {
         // obtener donados y recibidos o todos las donaciones si es admin
         filteredByType =
           currentUser.isAdmin ||
-          (donation.aUsuario && donation.idGeneral === currentUser.idusuario) ||
-          !donation.aUsuario;
+          donation.idVoluntario === currentUser.idusuario;
       }
       // if (typeFilter === "Donado") {
       //   filteredByType = donation.id_donante === currentUser.idusuario;

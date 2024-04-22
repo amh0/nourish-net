@@ -61,3 +61,15 @@
 .item-specs .units {
   font-size: var(--parr2);
 }
+.item .parr1.error,
+.item .parr1.deficiente {
+  color: var(--tertiary_strong);
+}
+.item .parr1.excelente,
+.item .parr1.optimo {
+  color: var(--secondary);
+}
+.item .parr1.no-eval,
+.item .item-title.no-eval {
+  color: var(--textlight);
+}

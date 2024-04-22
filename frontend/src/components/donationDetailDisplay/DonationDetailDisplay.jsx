@@ -131,6 +131,7 @@ const DonationDetailDisplay = (props) => {
     const formData = {
       idDonacion: parseInt(idDonacion),
       idVoluntario: selectedVol.value,
+      aUsuario: donation.aUsuario,
     };
     console.log(formData);
     setUploadState("loading");

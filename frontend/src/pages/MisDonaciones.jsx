@@ -55,12 +55,6 @@ const MisDonaciones = () => {
       } else if (typeFilter === "Recibido") {
         // donaciones solicitadas al banco
         filteredByType = donation.aUsuario;
-      } else {
-        // obtener donados y recibidos o todos las donaciones si es admin
-        filteredByType =
-          currentUser.isAdmin ||
-          (donation.aUsuario && donation.idGeneral === currentUser.idusuario) ||
-          !donation.aUsuario;
       }
       filteredByStatus =
         !statusFilter ||

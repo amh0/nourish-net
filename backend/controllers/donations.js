@@ -96,6 +96,12 @@ export const insertDeliveryDonation = async (req, res) => {
     });
     await queryDatabase(qTieneA);
     await queryDatabase(qUpdateA);
+    const notifData = {
+      type: "Donacion solicitada",
+      aUsuario: false,
+      idDonacion: idDonacion,
+    };
+    await sendNotification(req, res, notifData);
     res.status(200).json(createResult);
   } catch (error) {
     res.status(500).json(error);
@@ -158,7 +164,7 @@ export const requestDonation = async (req, res) => {
     });
     await queryDatabase(qUpd);
     // enviar notificacion al administrador
-    const notifData = { type: "Donacion solicitada" };
+    const notifData = { type: "Donacion solicitada", aUsuario: true };
     await sendNotification(req, res, notifData);
     // asignar un nuevo carrito
     const cartQuery = "insert into donacion (idgeneral, estado) values (?, ?)";
@@ -313,7 +319,7 @@ export const updateStatus = async (req, res) => {
     ];
     const result = await queryDatabase(q, donationValues);
     // Enviar notificacion de cambio de estado
-    const notifData = { type: "Cambio de estado" };
+    const notifData = { type: "Cambio de estado", aUsuario: true };
     await sendNotification(req, res, notifData);
     // Cambiar cantidad de productos
     if (

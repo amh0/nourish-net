@@ -179,6 +179,7 @@ const CartPage = (props) => {
       horaEntrega: hora,
       mensajeSolicitud: msg,
       idGeneral: currentUser.idusuario,
+      aUsuario: false,
       fechaSolicitud: moment(new Date()).format("YYYY-MM-DD HH:mm:ss"),
       products: products.map((item) => {
         return { idAlimento: item.idalimento, cantidad: item.cantidad };

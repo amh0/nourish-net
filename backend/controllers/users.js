@@ -97,9 +97,13 @@ export const readNotif = async (req, res) => {
 };
 
 export const sendNotification = async (req, res, notifData) => {
-  const data = req.body;
+  let data = req.body;
   try {
     // datos de las queries por defecto
+    if (notifData.idDonacion) {
+      const temp = { ...data, idDonacion: notifData.idDonacion };
+      data = temp;
+    }
     let notifValues = [
       "Titulo",
       "Mensaje",
@@ -116,12 +120,13 @@ export const sendNotification = async (req, res, notifData) => {
       "insert into tiene_n (idusuario, idnotif) values (?,?)";
     // buscar datos Receptor
     let qRec;
-    if (data.aUsuario) {
+    if (notifData.aUsuario) {
       qRec = `select idgeneral as idGeneral, 
       nombre_idx_gen(idgeneral) as nombreGeneral from donacion 
       where iddonacion = ?`;
     } else {
       // es una donacion al banco de alimentos
+      console.log("retrieving");
       qRec = `select tmp.idGeneral, nombre_idx_gen(tmp.idGeneral) as nombreGeneral
       from (select distinct a.idgeneral as idGeneral 
       from tiene_a t
@@ -130,7 +135,6 @@ export const sendNotification = async (req, res, notifData) => {
       where t.iddonacion = ?) tmp`;
     }
     const qRecResult = await queryDatabase(qRec, [data.idDonacion]);
-    console.log(qRecResult);
     // buscar nombre Voluntario
     const qVol = "select nombre_voluntario_x(?) as nombreVoluntario";
     const qVolResult = await queryDatabase(qVol, [data.idVoluntario]);
