@@ -3,6 +3,7 @@ import express from "express";
 import {
   getAllDonations,
   updateStatus,
+  updateDeliveryStatus,
   insertReceipt,
   getReceiptData,
   getDonationProducts,
@@ -24,6 +25,7 @@ router.post("/remove_product", removeProduct);
 router.post("/get_donation_details", getDonationDetails);
 
 router.post("/update_status", updateStatus);
+router.post("/update_delivery_status", updateDeliveryStatus);
 router.post("/assign_volunteer", assignVolunteer);
 
 router.get("/findall", getAllDonations);

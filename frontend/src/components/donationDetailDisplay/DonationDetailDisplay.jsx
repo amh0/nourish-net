@@ -90,8 +90,6 @@ const DonationDetailDisplay = (props) => {
       })
     );
   }, []);
-  console.log("volunteers", volunteerList);
-  console.log(volunteers);
   useEffect(() => {
     fetchProducts();
     fetchDetails();
@@ -116,7 +114,6 @@ const DonationDetailDisplay = (props) => {
   const fetchDetails = async () => {
     const formData = {
       idDonacion: parseInt(idDonacion),
-      idGeneral: currentUser.idusuario,
     };
     try {
       const result = await axios.post(
@@ -193,7 +190,9 @@ const DonationDetailDisplay = (props) => {
         <h5 className="title5">Detalles de Solicitud</h5>
         <div className="donations-info">
           <div className="row-wrapper">
-            <div className="sub-title parr1 bold">Receptor</div>
+            <div className="sub-title parr1 bold">
+              {donation.aUsuario ? "Receptor" : "Donante"}
+            </div>
             <div className="parr1">{donation.nombreGeneral}</div>
           </div>
           <div className="row-wrapper">

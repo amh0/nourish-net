@@ -12,6 +12,22 @@ import Input from "../components/input/Input";
 import "./css/Publicar.css";
 import foodDefault from "../components/assets/data";
 
+// default options
+const listStyle = {
+  control: (styles) => ({ ...styles, backgroundColor: "white" }),
+  multiValue: (styles, { data }) => {
+    return {
+      ...styles,
+      backgroundColor: "#E2F0EE",
+    };
+  },
+  multiValueRemove: (styles, { data }) => {
+    return {
+      ...styles,
+      cursor: "pointer",
+    };
+  },
+};
 const Publicar = () => {
   const [nombre, setNombre] = useState("");
   const [cantidad, setCantidad] = useState();
@@ -23,6 +39,8 @@ const Publicar = () => {
   const [nameEnabled, setNameEnabled] = useState(false);
   const { foodCat } = useContext(PageContext);
   const { currentUser } = useContext(AuthContext);
+  const { uploadedQty, setUploadedQty } = useContext(AuthContext);
+  console.log(uploadedQty);
   // console.log(currentUser);
   const categories = foodCat.map((cat) => {
     return {
@@ -30,22 +48,6 @@ const Publicar = () => {
       label: cat.nombre_cat,
     };
   });
-  // default options
-  const listStyle = {
-    control: (styles) => ({ ...styles, backgroundColor: "white" }),
-    multiValue: (styles, { data }) => {
-      return {
-        ...styles,
-        backgroundColor: "#E2F0EE",
-      };
-    },
-    multiValueRemove: (styles, { data }) => {
-      return {
-        ...styles,
-        cursor: "pointer",
-      };
-    },
-  };
   // seleccionar nombre
   const [nombreSel, setNombreSel] = useState();
   const seleccionarCategorias = (values) => {
@@ -91,6 +93,7 @@ const Publicar = () => {
       file
     ) {
       if (currentUser) {
+        setFormError(false);
         handleData();
       } else {
         setFormError(true);
@@ -120,7 +123,6 @@ const Publicar = () => {
     selectedCat.forEach((item) => {
       formData.append("categoria[]", item.value);
     });
-    console.log([...formData]);
     setUploadState("loading");
     axios
       .post("http://localhost:3001/api/products/upload", formData)
@@ -128,6 +130,7 @@ const Publicar = () => {
         if (res.data.Status === "OK") {
           console.log("Data inserted");
           setUploadState("success");
+          setUploadedQty((prev) => prev + 1);
         } else {
           console.log("An error has occurred");
           setUploadState("error");
@@ -146,8 +149,19 @@ const Publicar = () => {
       setCantidad();
     }
   };
-  const handleDonation = () => {
-    console.log("handling donation");
+  const clearFields = () => {
+    setCantidad("");
+    setUnidad("");
+    setDesc("");
+    setFecha("");
+    setNombreSel("");
+    setNameEnabled(false);
+    setNombre("");
+    setUploadState("none");
+    setFile();
+    setPreview();
+    setSelectedCat([]);
+    console.log("clicked");
   };
   return (
     <div className="publication">
@@ -233,6 +247,7 @@ const Publicar = () => {
           id="descripcion"
           cols="30"
           rows="10"
+          value={desc}
           placeholder="Descripcion"
           onChange={(e) => setDesc(e.target.value)}
         ></textarea>
@@ -305,15 +320,21 @@ const Publicar = () => {
             className="btn bg0-secondary-v secondary-brd"
             onClick={handleForm}
           >
-            Agregar más
+            Agregar producto
           </button>
-          <Link className="link" to="/donar/entrega">
-            <button className="btn secondary-v">Publicar donación</button>
-          </Link>
+          {uploadedQty > 0 ? (
+            <Link className="link" to="/donar/entrega">
+              <button className="btn secondary-v">
+                Publicar donación ({uploadedQty})
+              </button>
+            </Link>
+          ) : (
+            <></>
+          )}
         </div>
       </form>
       {uploadState !== "none" ? (
-        <div className={"state-container " + uploadState}>
+        <div className={"state-container " + uploadState} onClick={clearFields}>
           {uploadState === "loading" ? (
             <>
               <div class="lds-ring">
@@ -322,12 +343,12 @@ const Publicar = () => {
                 <div></div>
                 <div></div>
               </div>
-              <p className="parr1">Publicando donación...</p>
+              <p className="parr1">Agregando alimento...</p>
             </>
           ) : uploadState === "success" ? (
             <>
               <CheckCircle size={32} color="var(--secondary)" weight="light" />
-              <p className="parr1 boldparr">¡Donacion publicada!</p>
+              <p className="parr1 boldparr">¡Alimento agregado!</p>
               <p className="parr2">Aceptar</p>
             </>
           ) : uploadState === "error" ? (

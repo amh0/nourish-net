@@ -40,7 +40,11 @@ const PageContextProvider = (props) => {
     }
   };
 
-  const contextValue = { foodData, foodCat, volunteers };
+  const contextValue = {
+    foodData,
+    foodCat,
+    volunteers,
+  };
   return (
     <PageContext.Provider value={contextValue}>
       {props.children}

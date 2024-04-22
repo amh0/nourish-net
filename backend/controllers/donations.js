@@ -190,7 +190,34 @@ export const removeProduct = async (req, res) => {
 export const getDonationDetails = async (req, res) => {
   const data = req.body;
   try {
-    const qDonation = `
+    let qDonation;
+    // query para obtener el id del receptor de la donacion
+    const qId =
+      "select idgeneral as idGeneral from donacion where iddonacion = ?";
+    const idRes = await queryDatabase(qId, [data.idDonacion]);
+    let idGeneral = idRes[0].idGeneral;
+    if (idGeneral === 1) {
+      // esta es una donacion que nourishnet recibio
+      qDonation = `
+      select d.tipo_envio as tipoEnvio, d.iddonacion as idDonacion,  
+        d.lugar_entrega as lugarEntrega, d.fecha_entrega as fechaEntrega, d.hora_entrega as horaEntrega, 
+        d.mensaje_solicitud as mensajeSolicitud, tmp.idgeneral as idGeneral, d.idvoluntario as idVoluntario,
+        nombre_voluntario_x(d.idvoluntario) as nombreVoluntario, 
+        direccion_voluntario_x(d.idvoluntario) as direccionVoluntario, 
+        celular_voluntario_x(d.idvoluntario) as celularVoluntario,
+        nombre_idx_gen(tmp.idgeneral) nombreGeneral, direccion_idx_gen(tmp.idgeneral) as direccionGeneral, 
+        cel_idx_gen(tmp.idgeneral) as celularGeneral, if(d.idgeneral!=1,true,false) as aUsuario
+      from donacion d
+      inner join (
+        select distinct t.iddonacion, a.idgeneral as idGeneral
+        from tiene_a t
+        inner join alimento a
+        on t.idalimento = a.idalimento
+      ) as tmp
+      on tmp.iddonacion = d.iddonacion
+      where d.iddonacion = ?`;
+    } else {
+      qDonation = `
       select d.tipo_envio as tipoEnvio, d.iddonacion as idDonacion,  
         d.lugar_entrega as lugarEntrega, d.fecha_entrega as fechaEntrega, d.hora_entrega as horaEntrega, 
         d.mensaje_solicitud as mensajeSolicitud, d.idgeneral as idGeneral, d.idvoluntario as idVoluntario,
@@ -198,11 +225,74 @@ export const getDonationDetails = async (req, res) => {
         direccion_voluntario_x(d.idvoluntario) as direccionVoluntario, 
         celular_voluntario_x(d.idvoluntario) as celularVoluntario,
         nombre_idx_gen(d.idgeneral) nombreGeneral, direccion_idx_gen(d.idgeneral) as direccionGeneral, 
-        cel_idx_gen(d.idgeneral) as celularGeneral
+        cel_idx_gen(d.idgeneral) as celularGeneral, if(d.idgeneral!=1,true,false) as aUsuario
       from donacion d
       where d.iddonacion = ?`;
+    }
     const resReceipt = await queryDatabase(qDonation, [data.idDonacion]);
     res.status(200).json(resReceipt);
+  } catch (error) {
+    res.status(500).json(error);
+    console.log(error);
+  }
+};
+
+export const updateDeliveryStatus = async (req, res) => {
+  const data = req.body;
+  try {
+    const q = `update donacion set estado = ?, conf_receptor = ?, conf_voluntario = ? where iddonacion = ?`;
+    const donationValues = [
+      data.estado,
+      data.confReceptor,
+      data.confVoluntario,
+      data.idDonacion,
+      data.idVoluntario,
+      data.idUsuario,
+    ];
+    const result = await queryDatabase(q, donationValues);
+    // Enviar notificacion de cambio de estado
+    const notifData = { type: "Cambio de estado", aUsuario: data.aUsuario };
+    await sendNotification(req, res, notifData);
+    // Cambiar cantidad de productos
+    if (
+      (data.estado === "Entregado" &&
+        data.confReceptor &&
+        data.confVoluntario) ||
+      data.estado === "Cancelado" ||
+      data.estado === "Rechazado"
+    ) {
+      // obtener todos los alimentos
+      const q = `select a.idalimento as idAlimento, t.cantidad, t.iddonacion as idDonacion
+        from tiene_a t
+        inner join alimento a
+        on t.idalimento = a.idalimento
+        where iddonacion = ?`;
+      const allProducts = await queryDatabase(q, [data.idDonacion]);
+      if (
+        data.estado === "Entregado" &&
+        data.confReceptor &&
+        data.confVoluntario
+      ) {
+        // alimentos fueron entregados, actualizar estado a disponible
+        let qUpd = "";
+        allProducts.forEach((product) => {
+          qUpd += `update alimento
+            set estado = 'Disponible' 
+            where idalimento = ${product.idAlimento};\n `;
+        });
+        await queryDatabase(qUpd);
+      } else if (data.estado === "Cancelado" || data.estado === "Rechazado") {
+        // alimentos fueron cancelados, actualizar cantidad disponible
+        let qUpd = "";
+        allProducts.forEach((product) => {
+          qUpd += `update alimento
+            set estado = 'Cancelado' 
+            where idalimento = ${product.idAlimento};\n `;
+        });
+        await queryDatabase(qUpd);
+      }
+    }
+    res.status(200).json(result);
   } catch (error) {
     res.status(500).json(error);
     console.log(error);
@@ -399,7 +489,10 @@ export const assignVolunteer = async (req, res) => {
     const donationValues = [data.idVoluntario, data.idDonacion];
     const donationsRes = await queryDatabase(q, donationValues);
 
-    const notifData = { type: "Asignacion voluntario" };
+    const notifData = {
+      type: "Asignacion voluntario",
+      aUsuario: data.aUsuario,
+    };
     await sendNotification(req, res, notifData);
 
     res.status(200).json(donationsRes);

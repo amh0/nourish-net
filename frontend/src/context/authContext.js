@@ -9,6 +9,7 @@ const apiURL = "http://localhost:3001/api/";
 
 export const AuthContextProvider = ({ children }) => {
   const [notificationQty, setNotificationQty] = useState(0);
+  const [uploadedQty, setUploadedQty] = useState(0);
   const [currentUser, setCurrentUser] = useState(
     JSON.parse(localStorage.getItem("user")) || null
   );
@@ -46,6 +47,20 @@ export const AuthContextProvider = ({ children }) => {
   }, [currentUser]);
 
   useEffect(() => {
+    const fetchUploaded = async () => {
+      try {
+        const result = await axios.post(apiURL + "users/get_not_assigned_qty", {
+          idUsuario: currentUser.idusuario,
+        });
+        setUploadedQty(result.data[0].uploadedQty);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchUploaded();
+  }, [currentUser]);
+
+  useEffect(() => {
     const fetchNotifications = async () => {
       try {
         const result = await axios.post(
@@ -73,6 +88,8 @@ export const AuthContextProvider = ({ children }) => {
         setCurrentUser,
         notificationQty,
         setNotificationQty,
+        uploadedQty,
+        setUploadedQty,
       }}
     >
       {children}

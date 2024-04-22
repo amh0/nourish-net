@@ -39,6 +39,23 @@ export const getNotificationsId = async (req, res) => {
     res.status(500).json(error);
   }
 };
+// productos subidos que no fueron agregados a una donacion
+export const getProdNotAssignedQty = async (req, res) => {
+  const data = req.body;
+  try {
+    const q = `
+      select count(idalimento) as uploadedQty
+      from alimento
+      where idgeneral = ?
+        and estado like 'No asignado'
+      `;
+    const queryResult = await queryDatabase(q, [data.idUsuario]);
+    res.status(200).json(queryResult);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json(error);
+  }
+};
 
 export const getNewNotificationsQty = async (req, res) => {
   const data = req.body;
@@ -98,10 +115,23 @@ export const sendNotification = async (req, res, notifData) => {
     const qInsertTieneN =
       "insert into tiene_n (idusuario, idnotif) values (?,?)";
     // buscar datos Receptor
-    const qRec = `select idgeneral as idGeneral, 
+    let qRec;
+    console.log("id", data.idGeneral);
+    if (data.aUsuario) {
+      qRec = `select idgeneral as idGeneral, 
       nombre_idx_gen(idgeneral) as nombreGeneral from donacion 
       where iddonacion = ?`;
+    } else {
+      // es una donacion al banco de alimentos
+      qRec = `select tmp.idGeneral, nombre_idx_gen(tmp.idGeneral) as nombreGeneral
+      from (select distinct a.idgeneral as idGeneral 
+      from tiene_a t
+      inner join alimento a
+      on t.idalimento = a.idalimento
+      where t.iddonacion = ?) tmp`;
+    }
     const qRecResult = await queryDatabase(qRec, [data.idDonacion]);
+    console.log(qRecResult);
     // buscar nombre Voluntario
     const qVol = "select nombre_voluntario_x(?) as nombreVoluntario";
     const qVolResult = await queryDatabase(qVol, [data.idVoluntario]);
@@ -109,7 +139,9 @@ export const sendNotification = async (req, res, notifData) => {
       // notificar al voluntario
       notifValues[0] = "Voluntario asignado";
       notifValues[1] = `Se te asignó como encargado de la donación COD: 
-      ${padNumber(data.idDonacion, 6, "0")} de ${qRecResult[0].nombreGeneral} `;
+      ${padNumber(data.idDonacion, 6, "0")} del usuario ${
+        qRecResult[0].nombreGeneral
+      } `;
       notifValues[4] = "Voluntario asignado";
       const insertNotifVol = await queryDatabase(qInsert, notifValues);
       await queryDatabase(qInsertTieneN, [
@@ -161,7 +193,7 @@ export const sendNotification = async (req, res, notifData) => {
           notifValues[1] = "Un administrador";
         }
         notifValues[1] += ` ha confirmado la entrega de la donación COD:  
-          ${padNumber(data.idDonacion, 6, "0")}, confirma la recepción`;
+          ${padNumber(data.idDonacion, 6, "0")}, confirma esta acción`;
         notifValues[4] = "Confirmando donacion";
         const insertNotifVol = await queryDatabase(qInsert, notifValues);
         await queryDatabase(qInsertTieneN, [
@@ -206,7 +238,7 @@ export const sendNotification = async (req, res, notifData) => {
         notifValues[4] = "Donacion cancelada";
         if (data.usuarioCancela) {
           notifValues[0] = "Donación cancelada";
-          notifValues[1] = `La petición de la donación con COD: 
+          notifValues[1] = `La solicitud de la donación con COD: 
           ${padNumber(data.idDonacion, 6, "0")} 
           fue cancelada, por el usuario ${qRecResult[0].nombreGeneral}`;
           no;
@@ -225,7 +257,7 @@ export const sendNotification = async (req, res, notifData) => {
         // si voluntario o admin cancelan, notificar al ususario
         else {
           notifValues[0] = "Donación cancelada";
-          notifValues[1] = `La petición de la donación con COD: 
+          notifValues[1] = `La solicitud de la donación con COD: 
           ${padNumber(data.idDonacion, 6, "0")} 
           fue cancelada`;
           if (data.idUsuario === idAdmin || !data.idVoluntario) {

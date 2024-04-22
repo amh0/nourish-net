@@ -63,6 +63,7 @@ const DonationItem = (props) => {
   const [dataReceipt, setDataReceipt] = useState({});
   let confRec = donacion.confReceptor;
   let confVol = donacion.confVoluntario;
+  console.log(donacion);
   const isVolunteer = donacion.idVoluntario === currentUser.idusuario;
   const isReceiver = donacion.idGeneral === currentUser.idusuario;
   useEffect(() => {
@@ -147,10 +148,17 @@ const DonationItem = (props) => {
       idVoluntario: donacion.idVoluntario,
       usuarioCancela: isReceiver,
       idUsuario: currentUser.idusuario,
+      aUsuario: donacion.aUsuario,
     };
     console.log(formData);
+    let requestPath = "";
+    if (donacion.aUsuario) {
+      requestPath = "/donations/update_status";
+    } else {
+      requestPath = "/donations/update_delivery_status";
+    }
     axios
-      .post(apiPath + "/donations/update_status", formData)
+      .post(apiPath + requestPath, formData)
       .then((res) => {
         if (res.status === 200) {
           console.log("Status uptaded");

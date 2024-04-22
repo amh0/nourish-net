@@ -88,6 +88,7 @@ INSERT INTO DONACION (idgeneral,estado) VALUES (100,'Inactivo');
 -- No asignado: Este alimento esta en proceso de ser donado, se registraron los datos por el donante
 -- No recibido: Este alimento ya fue asignado a una donacion para que se entregue al banco de alimentos, 
 --              pero aun no se completó la entrega
+-- Cancelado: Este alimento pertenece a una donacion que fue cancelada, no es visible para los usuarios
 -- Disponible: El producto fue recibido y tiene cantidad disponible
 -- No disponible: El producto no tiene cantidad disponible
 

@@ -50,6 +50,7 @@ const listStyle = {
 
 const CartPage = (props) => {
   const { currentUser, setCurrentUser } = useContext(AuthContext);
+  const { setUploadedQty } = useContext(AuthContext);
   const [products, setProducts] = useState([]);
   const { isCart } = props;
   useEffect(() => {
@@ -190,6 +191,7 @@ const CartPage = (props) => {
         if (res.status === 200) {
           console.log("Donation created");
           setInsertState("success");
+          setUploadedQty(0);
         } else {
           console.log("An error has occurred");
           setInsertState("error");
@@ -200,7 +202,7 @@ const CartPage = (props) => {
   return (
     <div className="coordination">
       {(isCart && (currentUser.itemQty > 0 || insertState !== "none")) ||
-      !isCart ? (
+      (!isCart && products.length > 0) ? (
         <>
           <h4 className="title4 accent-secondary">Coordinar entrega</h4>
           <div>
