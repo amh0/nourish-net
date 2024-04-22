@@ -116,7 +116,6 @@ export const sendNotification = async (req, res, notifData) => {
       "insert into tiene_n (idusuario, idnotif) values (?,?)";
     // buscar datos Receptor
     let qRec;
-    console.log("id", data.idGeneral);
     if (data.aUsuario) {
       qRec = `select idgeneral as idGeneral, 
       nombre_idx_gen(idgeneral) as nombreGeneral from donacion 
@@ -143,6 +142,7 @@ export const sendNotification = async (req, res, notifData) => {
         qRecResult[0].nombreGeneral
       } `;
       notifValues[4] = "Voluntario asignado";
+      notifValues[5] = `/donaciones/entregas/detalles/${data.idDonacion}`;
       const insertNotifVol = await queryDatabase(qInsert, notifValues);
       await queryDatabase(qInsertTieneN, [
         data.idVoluntario,
@@ -153,6 +153,7 @@ export const sendNotification = async (req, res, notifData) => {
       notifValues[1] = `Se ha asignado al voluntario 
       ${qVolResult[0].nombreVoluntario} a tu donacion 
       ${padNumber(data.idDonacion, 6, "0")}`;
+      notifValues[5] = `/detalles/${data.idDonacion}`;
       const insertNotifUser = await queryDatabase(qInsert, notifValues);
       await queryDatabase(qInsertTieneN, [
         qRecResult[0].idGeneral,

@@ -73,6 +73,15 @@ function App() {
                 path="/donaciones/entregas"
                 element={<DonacionesVoluntario />}
               />
+              <Route
+                path="/donaciones/entregas/detalles"
+                element={<DetalleDonacion dePaginaTareas={true} />}
+              >
+                <Route
+                  path=":donacionId"
+                  element={<DetalleDonacion dePaginaTareas={true} />}
+                />
+              </Route>
             </>
           )}
           {/* Evaluacion */}

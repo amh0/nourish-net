@@ -56,7 +56,9 @@ const DonationPDFComponent = (props) => {
 };
 const DonationItem = (props) => {
   const navigate = useNavigate();
-
+  // lado donante
+  const { dePaginaTareas } = props;
+  console.log("dePaginaTareas ", dePaginaTareas);
   // Lado receptor
   const { currentUser } = useContext(AuthContext);
   const [donacion, setDonacion] = useState(props.donacion);
@@ -209,7 +211,14 @@ const DonationItem = (props) => {
               </p>
             </div>
             <div className="row-wrapper ">
-              <Link className="link" to={`/detalles/${donacion.idDonacion}`}>
+              <Link
+                className="link"
+                to={
+                  dePaginaTareas
+                    ? `/donaciones/entregas/detalles/${donacion.idDonacion}`
+                    : `/detalles/${donacion.idDonacion}`
+                }
+              >
                 <button className="btn bg-text-v details-btn">Detalles</button>
               </Link>
             </div>

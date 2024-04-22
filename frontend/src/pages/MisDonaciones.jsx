@@ -147,6 +147,14 @@ const MisDonaciones = () => {
               </div>
             ) : null}
             <div className="filter-container">
+              {typeFilter && typeFilter !== "Todos" ? (
+                <>
+                  <div className="filter-text">{typeFilter}</div>
+                  <button className="btn" onClick={() => setStatusFilter("")}>
+                    <X size={16} color="var(--parr1)" weight={"bold"} />
+                  </button>
+                </>
+              ) : null}
               {statusFilter && statusFilter !== "Todos" ? (
                 <>
                   <div className="filter-text">{statusFilter}</div>
