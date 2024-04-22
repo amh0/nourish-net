@@ -65,12 +65,10 @@ const DonationItem = (props) => {
   const [dataReceipt, setDataReceipt] = useState({});
   let confRec = donacion.confReceptor;
   let confVol = donacion.confVoluntario;
-  console.log(donacion);
   const isVolunteer = donacion.idVoluntario === currentUser.idusuario;
   const isReceiver = donacion.idGeneral === currentUser.idusuario;
   useEffect(() => {
     if (props.donacion && props.donacion.estado === "Entregado") {
-      // console.log("fetching...");
       fetchDataReceipt();
     }
   }, []);
@@ -78,6 +76,7 @@ const DonationItem = (props) => {
     try {
       const formData = {
         idDonacion: donacion.idDonacion,
+        aUsuario: donacion.aUsuario,
       };
       // console.log(formData);
       const result = await axios.post(
@@ -86,6 +85,7 @@ const DonationItem = (props) => {
       );
       if (result.status === 200) {
         setDataReceipt(result.data);
+        console.log(result.data);
       }
     } catch (err) {
       console.log("Error");
@@ -152,7 +152,6 @@ const DonationItem = (props) => {
       idUsuario: currentUser.idusuario,
       aUsuario: donacion.aUsuario,
     };
-    console.log(formData);
     let requestPath = "";
     if (donacion.aUsuario) {
       requestPath = "/donations/update_status";

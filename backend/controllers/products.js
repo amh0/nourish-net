@@ -68,7 +68,7 @@ export const getAllProducts = async (req, res) => {
     where g.tipo = 'Persona'
       and (a.estado like 'Disponible'
       or a.estado like 'No disponible')
-    order by 1, 6`;
+    order by 7 desc`;
     const foodQuery = await queryDatabase(qType);
     res.status(200).json(foodQuery);
   } catch (error) {

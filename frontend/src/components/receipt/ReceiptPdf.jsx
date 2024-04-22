@@ -188,7 +188,9 @@ const DonnorSection = (props) => {
   return (
     <View style={styles.donnorContainer}>
       <View style={styles.donnorDetail}>
-        <Text style={styles.donnorTitle}>Receptor</Text>
+        <Text style={styles.donnorTitle}>
+          {recibo.aUsuario ? "Receptor" : "Donante"}
+        </Text>
         <Text>{recibo.nombreGeneral}</Text>
         <Text>{recibo.direccionGeneral}</Text>
         <Text>{recibo.celularGeneral}</Text>
@@ -202,24 +204,30 @@ const DonnorSection = (props) => {
     </View>
   );
 };
-const TableHead = () => (
-  <View style={{ width: "100%", flexDirection: "row", marginTop: 10 }}>
-    <View style={[styles.theader, styles.theader2]}>
-      <Text>Descripción</Text>
+const TableHead = (props) => {
+  const recibo = props.recibo;
+  return (
+    <View style={{ width: "100%", flexDirection: "row", marginTop: 10 }}>
+      <View style={[styles.theader, styles.theader2]}>
+        <Text>Descripción</Text>
+      </View>
+      {recibo.aUsuario ? (
+        <View style={[styles.theader, styles.theader3]}>
+          <Text>Donante</Text>
+        </View>
+      ) : null}
+      <View style={styles.theader}>
+        <Text>Cantidad</Text>
+      </View>
+      <View style={styles.theader}>
+        <Text>Unidad</Text>
+      </View>
     </View>
-    <View style={[styles.theader, styles.theader3]}>
-      <Text>Donante</Text>
-    </View>
-    <View style={styles.theader}>
-      <Text>Cantidad</Text>
-    </View>
-    <View style={styles.theader}>
-      <Text>Unidad</Text>
-    </View>
-  </View>
-);
+  );
+};
 const TableBody = (props) => {
   const products = props.products;
+  const recibo = props.recibo;
   const tableRows = products.map((item) => {
     return (
       <Fragment key={item.idalimento}>
@@ -227,9 +235,11 @@ const TableBody = (props) => {
           <View style={[styles.tbody, styles.tbody2]}>
             <Text>{item.nombre}</Text>
           </View>
-          <View style={[styles.tbody, styles.tbody3]}>
-            <Text>{item.nombreDonante}</Text>
-          </View>
+          {recibo.aUsuario ? (
+            <View style={[styles.tbody, styles.tbody3]}>
+              <Text>{item.nombreDonante}</Text>
+            </View>
+          ) : null}
           <View style={[styles.tbody, styles.alignRight]}>
             <Text>{item.cantidad}</Text>
           </View>
@@ -290,8 +300,8 @@ const ReceiptPdf = (props) => {
             <ReceiptDetail recibo={recibo} />
             <DonnorSection recibo={recibo} />
             <View>
-              <TableHead />
-              <TableBody products={products} />
+              <TableHead recibo={recibo} />
+              <TableBody products={products} recibo={recibo} />
             </View>
             <DonationDetail recibo={recibo} />
             <View></View>

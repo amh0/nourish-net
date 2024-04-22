@@ -36,7 +36,6 @@ const MisDonaciones = () => {
           assignedDonations: false,
         });
       }
-      console.log(result.data);
       setDonationsData(result.data);
       // setFilteredDonations(result.data);
     } catch (err) {

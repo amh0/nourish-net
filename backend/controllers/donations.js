@@ -533,18 +533,41 @@ export const getReceiptData = async (req, res) => {
     where iddonacion = ?
     order by t.fecha_agregado`;
     const resProducts = await queryDatabase(qProducts, [data.idDonacion]);
-    const qReceipt = `
+    let qReceipt;
+    if (data.aUsuario) {
+      qReceipt = `
       select r.idrecibo as idRecibo, r.fecha, r.nota, d.tipo_envio as tipoEnvio, d.iddonacion as idDonacion,  
         d.lugar_entrega as lugarEntrega, d.fecha_entrega as fechaEntrega, d.hora_entrega as horaEntrega, 
         d.mensaje_solicitud as mensajeSolicitud, d.idgeneral as idGeneral, d.idvoluntario as idVoluntario,
         nombre_voluntario_x(d.idvoluntario) as nombreVoluntario, direccion_voluntario_x(d.idvoluntario) as direccionVoluntario,
         celular_voluntario_x(d.idvoluntario) as celularVoluntario,
         nombre_idx_gen(d.idgeneral) nombreGeneral, direccion_idx_gen(d.idgeneral) as direccionGeneral, 
-        cel_idx_gen(d.idgeneral) as celularGeneral
+        cel_idx_gen(d.idgeneral) as celularGeneral, if(d.idgeneral!=1,true,false) as aUsuario
       from donacion d
       inner join recibo r
       on d.iddonacion = r.iddonacion
       where r.iddonacion = ?`;
+    } else {
+      qReceipt = `
+      select r.idrecibo as idRecibo, r.fecha, r.nota, d.tipo_envio as tipoEnvio, d.iddonacion as idDonacion,  
+        d.lugar_entrega as lugarEntrega, d.fecha_entrega as fechaEntrega, d.hora_entrega as horaEntrega, 
+        d.mensaje_solicitud as mensajeSolicitud, tmp.idGeneral, d.idvoluntario as idVoluntario,
+        nombre_voluntario_x(d.idvoluntario) as nombreVoluntario, direccion_voluntario_x(d.idvoluntario) as direccionVoluntario,
+        celular_voluntario_x(d.idvoluntario) as celularVoluntario,
+        nombre_idx_gen(tmp.idGeneral) nombreGeneral, direccion_idx_gen(tmp.idGeneral) as direccionGeneral, 
+        cel_idx_gen(tmp.idGeneral) as celularGeneral, if(d.idgeneral!=1,true,false) as aUsuario
+      from donacion d
+      inner join recibo r
+      on d.iddonacion = r.iddonacion
+      inner join (
+        select distinct t.iddonacion, a.idgeneral as idGeneral
+        from tiene_a t
+        inner join alimento a
+        on t.idalimento = a.idalimento
+      ) as tmp
+      on tmp.iddonacion = r.iddonacion
+      where r.iddonacion = ?`;
+    }
     const resReceipt = await queryDatabase(qReceipt, [data.idDonacion]);
     res.status(200).json({ receipt: resReceipt, products: resProducts });
   } catch (error) {
