@@ -65,6 +65,7 @@ const DonationItem = (props) => {
   const [dataReceipt, setDataReceipt] = useState({});
   let confRec = donacion.confReceptor;
   let confVol = donacion.confVoluntario;
+  console.log(donacion);
   const isVolunteer = donacion.idVoluntario === currentUser.idusuario;
   const isReceiver = donacion.idGeneral === currentUser.idusuario;
   useEffect(() => {
@@ -270,7 +271,7 @@ const DonationItem = (props) => {
           </div>
           <div className="row-wrapper">
             <MapPin size={24} weight="light" color="var(--secondary)" />
-            <p className="parr1 single-line">{donacion.lugarEntrega}</p>
+            <p className="parr1 single-line">{donacion.direccionGeneral}</p>
           </div>
         </div>
         <div className="col-separator"></div>

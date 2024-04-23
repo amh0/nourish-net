@@ -264,7 +264,7 @@ const DonationDetail = (props) => {
       </View>
       <View style={styles.detailRow}>
         <Text style={styles.detailTitle}>Lugar donación</Text>
-        <Text style={styles.detailContent}>{recibo.lugarEntrega}</Text>
+        <Text style={styles.detailContent}>{recibo.direccionGenearl}</Text>
       </View>
       <View style={styles.detailRow}>
         <Text style={styles.detailTitle}>Nota:</Text>
