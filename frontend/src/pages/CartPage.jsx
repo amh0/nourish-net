@@ -314,6 +314,15 @@ const CartPage = (props) => {
               <div className="form-label parr1 bold">Direccion entrega:</div>
               <div className="parr1 text-address">Av. Mariscal Santa Cruz</div>
             </div>
+            <iframe
+              title="contact-map"
+              src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d1704.0397599715216!2d-68.13117799957274!3d-16.50387525013958!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1ses!2sbo!4v1710634591751!5m2!1ses!2sbo"
+              width="100%"
+              height="450"
+              allowfullscreen=""
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+            ></iframe>
           </div>
           {formError ? (
             <p className="parr1 ">
