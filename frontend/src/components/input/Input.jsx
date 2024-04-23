@@ -24,6 +24,7 @@ const Input = ({ id, type, placeholder, value, onChange, min, max }) => {
         onFocus={handleFocus}
         onBlur={handleBlur}
         required
+        placeholder=""
       />
       <label className={isFocused || value ? "focused" : ""}>
         {placeholder}
