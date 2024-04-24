@@ -62,15 +62,50 @@ const Map = () => {
   const [place, setPlace] = useState();
   const [address, setAddress] = useState("");
   const [location, setLocation] = useState();
+  // marker
+  const [selectedLocation, setSelectedLocation] = useState({});
+  const [showDialog, setShowDialog] = useState(false);
+  const [dialogLocation, setDialogLocation] = useState("");
+  const [geocoder, setGeocoder] = useState(null);
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
     libraries: lib,
   });
+  useEffect(() => {
+    const googleMaps = window.google.maps;
+    if (isLoaded) {
+      const newGeocoder = new googleMaps.Geocoder();
+      setGeocoder(newGeocoder);
+    }
+  }, [isLoaded]);
   const options = {
     streetViewControl: false,
     mapTypeControl: false,
   };
-  console.log(place);
+  const handleMapClick = (e) => {
+    if (geocoder) {
+      console.log(e);
+      const lat = e.latLng.lat();
+      const lng = e.latLng.lng();
+      setSelectedLocation({ lat, lng });
+      console.log(e.latLng.lat());
+      console.log(e.latLng.lng());
+      setSelected(true);
+      geocoder.geocode({ location: { lat, lng } }, (results, status) => {
+        if (status === "OK") {
+          if (results[0]) {
+            console.log(results[0]);
+            setAddress(results[0].formatted_address);
+          } else {
+            setAddress("Address not found");
+          }
+        } else {
+          setAddress("Geocoder failed due to: " + status);
+        }
+      });
+    }
+  };
+
   if (!isLoaded) return <div>Loading...</div>;
   return (
     <div className="map-container">
@@ -92,8 +127,9 @@ const Map = () => {
         zoom={15}
         mapContainerStyle={{ height: "300px" }}
         options={options}
+        onClick={(e) => handleMapClick(e)}
       >
-        {selected && <Marker position={selected} />}
+        {selected && <Marker position={selectedLocation} />}
       </GoogleMap>
     </div>
   );
