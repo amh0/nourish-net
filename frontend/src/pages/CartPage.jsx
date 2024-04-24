@@ -84,6 +84,8 @@ const CartPage = (props) => {
   const [fecha, setFecha] = useState("");
   const [hora, setHora] = useState("");
   const [msg, setMsg] = useState("");
+  const [direccion, setDireccion] = useState("");
+  const [ubicacion, setUbicacion] = useState({});
 
   const [insertState, setInsertState] = useState("none");
   const [formError, setFormError] = useState(false);
@@ -98,7 +100,7 @@ const CartPage = (props) => {
 
   const handleForm = () => {
     // TODO validation
-    if (fecha && hora) {
+    if (fecha && hora && direccion) {
       if (isCart) {
         handleData();
       } else {
@@ -311,14 +313,22 @@ const CartPage = (props) => {
               onChange={(e) => setMsg(e.target.value)}
             ></textarea>
             <div className="row-wrapper">
-              <div className="form-label parr1 bold">Direccion entrega:</div>
-              <div className="parr1 text-address">Av. Mariscal Santa Cruz</div>
+              <div className="form-label parr1 bold accent-secondary">
+                Seleccione la ubicación de entrega
+              </div>
             </div>
-            <Map />
+            <Map setExtLocation={setUbicacion} setExtAddress={setDireccion} />
+            <Input
+              id="nombre"
+              name="nombre"
+              type="text"
+              value={direccion}
+              onChange={(e) => setDireccion(e.target.value)}
+              placeholder="Dirección"
+            />
           </div>
           {formError ? (
             <p className="parr1 ">
-              {" "}
               <span className="accent-tertiary">* </span>Verifica que los campos
               contengan datos validos
             </p>
