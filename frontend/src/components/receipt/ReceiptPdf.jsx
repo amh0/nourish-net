@@ -263,13 +263,13 @@ const DonationDetail = (props) => {
         </Text>
       </View>
       <View style={styles.detailRow}>
-        <Text style={styles.detailTitle}>Lugar donación</Text>
-        <Text style={styles.detailContent}>{recibo.direccionGenearl}</Text>
+        <Text style={styles.detailTitle}>Lugar de donación</Text>
+        <Text style={styles.detailContent}>{recibo.lugarEntrega}</Text>
       </View>
-      <View style={styles.detailRow}>
+      {/* <View style={styles.detailRow}>
         <Text style={styles.detailTitle}>Nota:</Text>
         <Text style={styles.detailContent}>{recibo.nota}</Text>
-      </View>
+      </View> */}
     </View>
   );
 };

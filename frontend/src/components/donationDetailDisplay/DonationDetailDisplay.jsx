@@ -66,7 +66,7 @@ const StateCard = (props) => {
 };
 const DonationDetailDisplay = (props) => {
   const { idDonacion } = props;
-  const { currentUser, setCurrentUser } = useContext(AuthContext);
+  const { currentUser } = useContext(AuthContext);
   const { volunteers } = useContext(PageContext);
   const [products, setProducts] = useState([]);
   const [donation, setDonation] = useState({});
@@ -80,11 +80,8 @@ const DonationDetailDisplay = (props) => {
       lat: parseFloat(donation.lat),
       lng: parseFloat(donation.lng),
     });
-    console.log("aaaa", parseFloat(donation.lat), parseFloat(donation.lng));
   }, [donation]);
 
-  console.log(donation);
-  console.log("location ", location);
   useEffect(() => {
     setVolunteerList(
       volunteers.map((volunteer) => {
@@ -96,7 +93,7 @@ const DonationDetailDisplay = (props) => {
         };
       })
     );
-  }, []);
+  }, [volunteers]);
   useEffect(() => {
     fetchProducts();
     fetchDetails();
@@ -112,7 +109,6 @@ const DonationDetailDisplay = (props) => {
         formData
       );
       setProducts(result.data);
-      console.log(result.data);
     } catch (err) {
       console.log("Error");
       console.log(err);
@@ -128,7 +124,6 @@ const DonationDetailDisplay = (props) => {
         formData
       );
       setDonation(result.data[0]);
-      console.log(result.data);
     } catch (err) {
       console.log("Error");
       console.log(err);
@@ -140,15 +135,10 @@ const DonationDetailDisplay = (props) => {
       idVoluntario: selectedVol.value,
       aUsuario: donation.aUsuario,
     };
-    console.log(formData);
     setUploadState("loading");
     try {
-      const result = await axios.post(
-        apiURL + "donations/assign_volunteer",
-        formData
-      );
+      await axios.post(apiURL + "donations/assign_volunteer", formData);
       setUploadState("success");
-      console.log("success");
     } catch (err) {
       console.log("Error");
       console.log(err);
@@ -242,7 +232,11 @@ const DonationDetailDisplay = (props) => {
               Ubicación de entrega
             </div>
           </div>
-          <Map initialLocation={location} isDisabled={true} />
+          {location ? (
+            <Map initialLocation={location} isDisabled={true} />
+          ) : (
+            <></>
+          )}
         </div>
       </div>
       <div>

@@ -9,6 +9,8 @@ import {
   ShoppingCartSimple,
   X,
   Empty,
+  HandArrowUp,
+  HandArrowDown,
 } from "@phosphor-icons/react";
 
 import { AuthContext } from "../context/authContext";
@@ -58,7 +60,6 @@ const CartPage = (props) => {
       fetchProducts();
     } else {
       fetchDeliveryProducts();
-      console.log("delivery");
     }
   }, []);
 
@@ -73,7 +74,6 @@ const CartPage = (props) => {
         formData
       );
       setProducts(result.data);
-      console.log(result.data);
     } catch (err) {
       console.log("Error");
       console.log(err);
@@ -127,13 +127,10 @@ const CartPage = (props) => {
       idGeneral: currentUser.idusuario,
       fechaSolicitud: moment(new Date()).format("YYYY-MM-DD HH:mm:ss"),
     };
-    console.log("formData", formData);
     axios
       .post(apiURL + "donations/request_donation", formData)
       .then((res) => {
         if (res.status === 200) {
-          console.log("Data inserted");
-          console.log(res.data);
           setInsertState("success");
           handleNewCart(res.data);
         } else {
@@ -150,7 +147,6 @@ const CartPage = (props) => {
     };
     try {
       await axios.post(apiURL + "donations/remove_product", formData);
-      console.log("deleted");
       setCurrentUser((prev) => {
         return { ...prev, itemQty: prev.itemQty - 1 };
       });
@@ -169,7 +165,6 @@ const CartPage = (props) => {
         { idGeneral: currentUser.idusuario }
       );
       setProducts(result.data);
-      console.log(result.data);
     } catch (err) {
       console.log("Error");
       console.log(err);
@@ -177,13 +172,15 @@ const CartPage = (props) => {
   };
 
   const handleDeliveryData = () => {
-    console.log("Sending.....");
     setInsertState("loading");
     const formData = {
       tipoEnvio: method.value,
       estado: "Solicitado",
       fechaEntrega: fecha,
       horaEntrega: hora,
+      lugarEntrega: direccion,
+      lat: ubicacion.lat,
+      lng: ubicacion.lng,
       mensajeSolicitud: msg,
       idGeneral: currentUser.idusuario,
       aUsuario: false,
@@ -192,12 +189,10 @@ const CartPage = (props) => {
         return { idAlimento: item.idalimento, cantidad: item.cantidad };
       }),
     };
-    console.log("formData", formData);
     axios
       .post(apiURL + "donations/insert_delivery_donation", formData)
       .then((res) => {
         if (res.status === 200) {
-          console.log("Donation created");
           setInsertState("success");
           setUploadedQty(0);
         } else {
@@ -212,7 +207,19 @@ const CartPage = (props) => {
       {(isCart && (currentUser.itemQty > 0 || insertState !== "none")) ||
       (!isCart && products.length > 0) ? (
         <>
-          <h4 className="title4 accent-secondary">Coordinar entrega</h4>
+          <div className="row-wrapper">
+            <h4 className="title4 accent-secondary">Coordinar entrega</h4>
+            {isCart ? (
+              <HandArrowDown
+                size={40}
+                color="var(--secondary)"
+                weight="light"
+              />
+            ) : (
+              <HandArrowUp size={40} color="var(--secondary)" weight="light" />
+            )}
+          </div>
+
           <div>
             <div className="grid-prod parr1">
               <div className="parr1 bold">Alimento</div>
@@ -345,7 +352,7 @@ const CartPage = (props) => {
             <div className={"state-container " + insertState}>
               {insertState === "loading" ? (
                 <>
-                  <div class="lds-ring">
+                  <div className="lds-ring">
                     <div></div>
                     <div></div>
                     <div></div>

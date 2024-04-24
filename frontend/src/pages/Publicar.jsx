@@ -40,8 +40,7 @@ const Publicar = () => {
   const { foodCat } = useContext(PageContext);
   const { currentUser } = useContext(AuthContext);
   const { uploadedQty, setUploadedQty } = useContext(AuthContext);
-  console.log(uploadedQty);
-  // console.log(currentUser);
+
   const categories = foodCat.map((cat) => {
     return {
       value: cat.idcategoria,
@@ -52,7 +51,6 @@ const Publicar = () => {
   const [nombreSel, setNombreSel] = useState();
   const seleccionarCategorias = (values) => {
     const defaultCat = categories.filter((cat) => values.includes(cat.value));
-    console.log(defaultCat);
     setSelectedCat(defaultCat);
   };
   const handleNombreSelection = (name) => {
@@ -276,12 +274,6 @@ const Publicar = () => {
               },
             })}
           />
-        </div>
-        <div className="row-wrapper">
-          <div className="form-label parr1">Direccion:</div>
-          <div className="parr1 text-address">
-            {currentUser.direccion || "Cargando..."}
-          </div>
         </div>
         <div className="row-wrapper">
           <label

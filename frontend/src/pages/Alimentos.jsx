@@ -13,7 +13,7 @@ const Alimentos = () => {
   const [filteredFood, setFilteredFood] = useState(foodData);
   const [categoryFilter, setCategoryFilter] = useState("");
   const [search, setSearch] = useState("");
-  // console.log(currentUser);
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -26,7 +26,6 @@ const Alimentos = () => {
       console.log(err);
     }
   };
-  console.log(foodData);
   // filterEffect
   useEffect(() => {
     const newData = foodData.filter((item) => {

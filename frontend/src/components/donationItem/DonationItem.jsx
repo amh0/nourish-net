@@ -11,7 +11,6 @@ import {
   MapPin,
   Check,
   X,
-  User,
   Cube,
   CheckCircle,
   XCircle,
@@ -32,7 +31,11 @@ import {
 } from "../utils/functionUtils";
 const apiPath = "http://localhost:3001/api";
 const DonationPDFComponent = (props) => {
-  if (props.estado === "Entregado" && props.receipt) {
+  if (
+    props.estado === "Entregado" &&
+    props.receipt &&
+    props.receipt.length > 0
+  ) {
     return (
       <BlobProvider
         document={
@@ -51,21 +54,19 @@ const DonationPDFComponent = (props) => {
       </BlobProvider>
     );
   } else {
-    return <div>Cargando...</div>;
+    return <div className="parr2">Cargando...</div>;
   }
 };
 const DonationItem = (props) => {
   const navigate = useNavigate();
   // lado donante
   const { dePaginaTareas } = props;
-  console.log("dePaginaTareas ", dePaginaTareas);
   // Lado receptor
   const { currentUser } = useContext(AuthContext);
   const [donacion, setDonacion] = useState(props.donacion);
   const [dataReceipt, setDataReceipt] = useState({});
   let confRec = donacion.confReceptor;
   let confVol = donacion.confVoluntario;
-  console.log(donacion);
   const isVolunteer = donacion.idVoluntario === currentUser.idusuario;
   const isReceiver = donacion.idGeneral === currentUser.idusuario;
   useEffect(() => {
@@ -86,7 +87,6 @@ const DonationItem = (props) => {
       );
       if (result.status === 200) {
         setDataReceipt(result.data);
-        console.log(result.data);
       }
     } catch (err) {
       console.log("Error");
@@ -163,13 +163,11 @@ const DonationItem = (props) => {
       .post(apiPath + requestPath, formData)
       .then((res) => {
         if (res.status === 200) {
-          console.log("Status uptaded");
           if (nuevoEstado === "Pendiente") {
             navigate(`/detalles/${donacion.idDonacion}`);
           }
         } else {
           console.log("An error has occurred");
-          // setInsertState("error");
         }
       })
       .catch((err) => console.log(err));
@@ -177,21 +175,15 @@ const DonationItem = (props) => {
   const handleQueryInsertReceipt = () => {
     const formData = {
       fecha: new Date().toJSON(),
-      nota: "Nota del recibo",
       idDonacion: donacion.idDonacion,
     };
-    console.log(formData);
     axios
       .post(apiPath + "/donations/insert_receipt", formData)
       .then((res) => {
         if (res.status === 200) {
-          console.log("Receipt inserted");
-          // console.log(res.data);
-          // console.log("recibo :", res.data);
           fetchDataReceipt();
         } else {
           console.log("Error insert Receipt");
-          // setInsertState("error");
         }
       })
       .catch((err) => console.log(err));

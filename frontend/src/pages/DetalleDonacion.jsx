@@ -5,9 +5,6 @@ import { ArrowLeft } from "@phosphor-icons/react";
 const DetalleDonacion = (props) => {
   const { donacionId } = useParams();
   const { dePaginaTareas } = props;
-  console.log(dePaginaTareas);
-  console.log("detalle donaciol", dePaginaTareas);
-  console.log("detalle donacion", donacionId);
   return (
     <div>
       <div className="go-back">

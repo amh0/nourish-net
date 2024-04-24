@@ -68,12 +68,14 @@ export const insertDeliveryDonation = async (req, res) => {
   try {
     // create donation
     const idNourishNet = 1;
-    const qCreate = `insert into donacion(tipo_envio, estado, lugar_entrega, fecha_entrega, hora_entrega, mensaje_solicitud, 
-      fecha_solicitud, idgeneral) values (?,?,?,?,?,?,?,?)`;
+    const qCreate = `insert into donacion(tipo_envio, estado, lugar_entrega, lat, lng, fecha_entrega, hora_entrega, mensaje_solicitud, 
+      fecha_solicitud, idgeneral) values (?,?,?,?,?,?,?,?,?,?)`;
     const createValues = [
       data.tipoEnvio,
       data.estado,
       data.lugarEntrega,
+      data.lat,
+      data.lng,
       data.fechaEntrega,
       data.horaEntrega,
       data.mensajeSolicitud,
@@ -516,8 +518,8 @@ export const assignVolunteer = async (req, res) => {
 export const insertReceipt = async (req, res) => {
   const data = req.body;
   try {
-    const q = `insert into recibo (fecha, nota, iddonacion) values (?,?,?)`;
-    const donationValues = [data.fecha, data.nota, data.idDonacion];
+    const q = `insert into recibo (fecha, iddonacion) values (?,?)`;
+    const donationValues = [data.fecha, data.idDonacion];
     const receiptResult = await queryDatabase(q, donationValues);
 
     res.status(200).json(receiptResult.data);

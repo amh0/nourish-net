@@ -47,7 +47,6 @@ const Map = (props) => {
       geocoder.geocode({ location: newLoc }, (results, status) => {
         if (status === "OK") {
           if (results[0]) {
-            console.log(results[0]);
             setExtAddress(results[0].formatted_address);
           } else {
             setExtAddress("Direccion no encontrada");

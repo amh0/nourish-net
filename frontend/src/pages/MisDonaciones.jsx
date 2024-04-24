@@ -30,7 +30,6 @@ const MisDonaciones = () => {
       if (currentUser.isAdmin) {
         result = await axios(apiPath + "/donations/findall");
       } else {
-        console.log("user:", currentUser.idusuario);
         result = await axios.post(apiPath + "/donations/find_by_user", {
           idUsuario: currentUser.idusuario,
           assignedDonations: false,
