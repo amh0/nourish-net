@@ -135,7 +135,7 @@ export const requestDonation = async (req, res) => {
     // actualizar datos donacion y asignar estado solicitado
     const q = `update donacion 
     set tipo_envio = ?, estado = ?, fecha_entrega = ?, hora_entrega = ?, 
-      lugar_entrega = ?, mensaje_solicitud = ?, fecha_solicitud = ?
+      lugar_entrega = ?, lat = ?, lng = ?, mensaje_solicitud = ?, fecha_solicitud = ?
     where iddonacion = ? and idgeneral = ?`;
     const donationValues = [
       data.tipoEnvio,
@@ -143,6 +143,8 @@ export const requestDonation = async (req, res) => {
       data.fechaEntrega,
       data.horaEntrega,
       data.lugarEntrega,
+      data.lat,
+      data.lng,
       data.mensajeSolicitud,
       data.fechaSolicitud,
       data.idDonacion,
@@ -206,7 +208,7 @@ export const getDonationDetails = async (req, res) => {
       // esta es una donacion que nourishnet recibio
       qDonation = `
       select d.tipo_envio as tipoEnvio, d.iddonacion as idDonacion,  
-        d.lugar_entrega as lugarEntrega, d.fecha_entrega as fechaEntrega, d.hora_entrega as horaEntrega, 
+        d.lugar_entrega as lugarEntrega, d.lat, d.lng, d.fecha_entrega as fechaEntrega, d.hora_entrega as horaEntrega, 
         d.mensaje_solicitud as mensajeSolicitud, tmp.idgeneral as idGeneral, d.idvoluntario as idVoluntario,
         nombre_voluntario_x(d.idvoluntario) as nombreVoluntario, 
         direccion_voluntario_x(d.idvoluntario) as direccionVoluntario, 
@@ -225,7 +227,7 @@ export const getDonationDetails = async (req, res) => {
     } else {
       qDonation = `
       select d.tipo_envio as tipoEnvio, d.iddonacion as idDonacion,  
-        d.lugar_entrega as lugarEntrega, d.fecha_entrega as fechaEntrega, d.hora_entrega as horaEntrega, 
+        d.lugar_entrega as lugarEntrega, d.lat, d.lng, d.fecha_entrega as fechaEntrega, d.hora_entrega as horaEntrega, 
         d.mensaje_solicitud as mensajeSolicitud, d.idgeneral as idGeneral, d.idvoluntario as idVoluntario,
         nombre_voluntario_x(d.idvoluntario) as nombreVoluntario, 
         direccion_voluntario_x(d.idvoluntario) as direccionVoluntario, 

@@ -2,13 +2,7 @@ import React, { useEffect, useState, useContext, Fragment } from "react";
 import axios from "axios";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
-import {
-  Warning,
-  CheckCircle,
-  ShoppingCartSimple,
-  X,
-  Barcode,
-} from "@phosphor-icons/react";
+import { Warning, CheckCircle, Barcode } from "@phosphor-icons/react";
 import { AuthContext } from "../../context/authContext";
 import { PageContext } from "../../context/PageContext";
 import "./DonationDetailDisplay.css";
@@ -17,6 +11,7 @@ import {
   getFormattedHour,
   padNumber,
 } from "../utils/functionUtils";
+import Map from "../map/Map";
 const imgPath = "http://localhost:3001/img/";
 const apiURL = "http://localhost:3001/api/";
 
@@ -78,6 +73,18 @@ const DonationDetailDisplay = (props) => {
   const [selectedVol, setSelectedVol] = useState();
   const [volunteerList, setVolunteerList] = useState([]);
   const [uploadState, setUploadState] = useState("none");
+  const [location, setLocation] = useState({});
+
+  useEffect(() => {
+    setLocation({
+      lat: parseFloat(donation.lat),
+      lng: parseFloat(donation.lng),
+    });
+    console.log("aaaa", parseFloat(donation.lat), parseFloat(donation.lng));
+  }, [donation]);
+
+  console.log(donation);
+  console.log("location ", location);
   useEffect(() => {
     setVolunteerList(
       volunteers.map((volunteer) => {
@@ -197,8 +204,14 @@ const DonationDetailDisplay = (props) => {
             <div className="parr1">{donation.nombreGeneral}</div>
           </div>
           <div className="row-wrapper">
-            <div className="sub-title parr1 bold">Direccion</div>
-            <div className="parr1">{donation.direccionGeneral}</div>
+            <div className="sub-title parr1 bold">Metodo</div>
+            <div className="parr1">
+              {" "}
+              Envio
+              {donation.tipoEnvio === "Voluntario"
+                ? " con voluntario"
+                : " personal"}
+            </div>
           </div>
           <div className="row-wrapper">
             <div className="row-wrapper2">
@@ -216,13 +229,20 @@ const DonationDetailDisplay = (props) => {
           </div>
 
           <div className="row-wrapper">
-            <div className="sub-title parr1 bold">Metodo</div>
-            <div className="parr1">{donation.tipoEnvio}</div>
-          </div>
-          <div className="row-wrapper">
             <div className="sub-title parr1 bold">Mensaje</div>
             <p className="parr1">{donation.mensajeSolicitud}</p>
           </div>
+          <div className="row-wrapper">
+            <div className="sub-title parr1 bold">Direccion</div>
+            <div className="parr1">{donation.lugarEntrega}</div>
+          </div>
+
+          <div className="row-wrapper">
+            <div className="form-label parr1 bold accent-secondary">
+              Ubicación de entrega
+            </div>
+          </div>
+          <Map initialLocation={location} isDisabled={true} />
         </div>
       </div>
       <div>

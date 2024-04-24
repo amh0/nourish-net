@@ -84,7 +84,9 @@ const CartPage = (props) => {
   const [fecha, setFecha] = useState("");
   const [hora, setHora] = useState("");
   const [msg, setMsg] = useState("");
-  const [direccion, setDireccion] = useState("");
+  const [direccion, setDireccion] = useState(
+    "Av. 16 de Julio, La Paz, Bolivia"
+  );
   const [ubicacion, setUbicacion] = useState({});
 
   const [insertState, setInsertState] = useState("none");
@@ -100,7 +102,7 @@ const CartPage = (props) => {
 
   const handleForm = () => {
     // TODO validation
-    if (fecha && hora && direccion) {
+    if (fecha && hora && direccion && ubicacion) {
       if (isCart) {
         handleData();
       } else {
@@ -117,6 +119,9 @@ const CartPage = (props) => {
       estado: "Solicitado",
       fechaEntrega: fecha,
       horaEntrega: hora,
+      lugarEntrega: direccion,
+      lat: ubicacion.lat,
+      lng: ubicacion.lng,
       mensajeSolicitud: msg,
       idDonacion: currentUser.idCarrito, // id del receptor
       idGeneral: currentUser.idusuario,

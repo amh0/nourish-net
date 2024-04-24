@@ -271,7 +271,7 @@ const DonationItem = (props) => {
           </div>
           <div className="row-wrapper">
             <MapPin size={24} weight="light" color="var(--secondary)" />
-            <p className="parr1 single-line">{donacion.direccionGeneral}</p>
+            <p className="parr1 single-line">{donacion.lugarEntrega}</p>
           </div>
         </div>
         <div className="col-separator"></div>

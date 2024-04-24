@@ -14,7 +14,6 @@ export const AuthContextProvider = ({ children }) => {
     JSON.parse(localStorage.getItem("user")) || null
   );
 
-  console.log(currentUser);
   const login = async (email, password) => {
     //TO DO
     // setCurrentUser({
