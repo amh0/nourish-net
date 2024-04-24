@@ -162,7 +162,7 @@ CREATE TABLE DONACION (
 CREATE TABLE RECIBO (
     idrecibo INT AUTO_INCREMENT PRIMARY KEY,
     fecha DATE,
-    nota VARCHAR(100),
+    nota VARCHAR(100), --eliminar
     iddonacion INT,
     FOREIGN KEY (iddonacion) REFERENCES DONACION(iddonacion)
 );
