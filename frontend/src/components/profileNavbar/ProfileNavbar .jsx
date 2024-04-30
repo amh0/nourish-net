@@ -56,7 +56,7 @@ const ProfileNavbar = () => {
             setMenu("peticiones");
           }}
         >
-          <Link className="link" to="/peticiones">
+          <Link className="link" to="/evaluacion">
             Peticiones
           </Link>
           {menu === "peticiones" ? <hr /> : <></>}
@@ -72,7 +72,7 @@ const ProfileNavbar = () => {
           </Link>
           {menu === "alimentos" ? <hr /> : <></>}
         </li>
-        {currentUser && (currentUser.isVolunteer || currentUser.isAdmin) ? (
+        {/* {currentUser && (currentUser.isVolunteer || currentUser.isAdmin) ? (
           <li
             onClick={() => {
               setMenu("evaluacion");
@@ -85,7 +85,7 @@ const ProfileNavbar = () => {
           </li>
         ) : (
           <></>
-        )}
+        )} */}
       </ul>
       <div className="actions-section">
         <div className="actions-section">

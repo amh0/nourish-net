@@ -1,18 +1,26 @@
 @import url("../../components/globals.css");
+.alimentos-wrapper {
+  background-color: var(--primarybackground);
+  padding-top: 64px;
+  padding-bottom: 64px;
+}
 .alimentos-page {
+  max-width: 1136px;
+  /* 200  + 40 + 408*2 + 40 */
   display: flex;
-  gap: 120px;
-  background-color: #fffdf9;
-  padding: 64px 80px;
+  justify-content: space-between;
+
+  margin-inline: auto;
 }
 .products-section {
-  flex: 1;
+  max-width: 856px;
+  /* flex: 1; */
 }
 .products-list {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 40px;
-  max-width: 586px;
+  /* max-width: 586px; */
 }
 .sidebar {
   box-sizing: border-box;

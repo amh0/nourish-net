@@ -5,7 +5,7 @@
   padding: 64px 80px;
 }
 .products-section {
-  flex: 1;
+  /* flex: 1; */
 }
 .donations-list {
   display: grid;
