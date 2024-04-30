@@ -3,13 +3,23 @@
   background-color: var(--primarybackground);
   padding-top: 64px;
   padding-bottom: 64px;
+  padding-left: 40px;
+  padding-right: 40px;
 }
 /* 200  + 40 + 408*2 + 40 */
 .alimentos-page {
   max-width: 1136px;
   display: flex;
   justify-content: space-between;
+  gap: 40px;
   margin-inline: auto;
+}
+.donations-section .filter-wrapper,
+.products-section .filter-wrapper {
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 48px;
 }
 .products-section {
   max-width: 856px;
@@ -78,4 +88,9 @@
   display: flex;
   align-items: center;
   gap: 4px;
+}
+@media (max-width: 1199px) {
+  .filter-wrapper {
+    justify-content: center;
+  }
 }

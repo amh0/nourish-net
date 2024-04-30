@@ -4,9 +4,6 @@
   background-color: #fffdf9;
   padding: 64px 80px;
 }
-.products-section {
-  /* flex: 1; */
-}
 .donations-list {
   display: grid;
   grid-template-columns: 1fr;
@@ -15,13 +12,6 @@
 }
 .sidebar li {
   cursor: pointer;
-}
-.donations-section .filter-wrapper,
-.products-section .filter-wrapper {
-  display: flex;
-  align-items: flex-start;
-  flex-wrap: wrap;
-  gap: 48px;
 }
 .filter-section {
   display: flex;

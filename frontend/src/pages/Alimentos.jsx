@@ -97,26 +97,28 @@ const Alimentos = () => {
                 />
               </button>
             </div>
-            <div className="filter-section">
-              {categoryFilter && categoryFilter !== "Todos" ? (
-                <div className="icon-container light-v">
-                  <Funnel size={24} color="var(--textlight)" weight="bold" />
-                </div>
-              ) : null}
-              <div className="filter-container">
-                {categoryFilter && categoryFilter !== "Todos" ? (
-                  <>
-                    <div className="filter-text">{categoryFilter}</div>
-                    <button
-                      className="btn"
-                      onClick={() => setCategoryFilter("")}
-                    >
-                      <X size={16} color="var(--parr1)" weight={"bold"} />
-                    </button>
-                  </>
+            {categoryFilter ? (
+              <div className="filter-section">
+                {categoryFilter !== "Todos" ? (
+                  <div className="icon-container light-v">
+                    <Funnel size={24} color="var(--textlight)" weight="bold" />
+                  </div>
                 ) : null}
+                <div className="filter-container">
+                  {categoryFilter !== "Todos" ? (
+                    <>
+                      <div className="filter-text">{categoryFilter}</div>
+                      <button
+                        className="btn"
+                        onClick={() => setCategoryFilter("")}
+                      >
+                        <X size={16} color="var(--parr1)" weight={"bold"} />
+                      </button>
+                    </>
+                  ) : null}
+                </div>
               </div>
-            </div>
+            ) : null}
           </div>
           <div className="products-list">
             {filteredFood && filteredFood.length > 0
