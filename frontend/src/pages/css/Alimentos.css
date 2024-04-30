@@ -4,23 +4,22 @@
   padding-top: 64px;
   padding-bottom: 64px;
 }
+/* 200  + 40 + 408*2 + 40 */
 .alimentos-page {
   max-width: 1136px;
-  /* 200  + 40 + 408*2 + 40 */
   display: flex;
   justify-content: space-between;
-
   margin-inline: auto;
 }
 .products-section {
   max-width: 856px;
-  /* flex: 1; */
+  flex: 1;
 }
 .products-list {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(408px, 1fr));
   gap: 40px;
-  /* max-width: 586px; */
+  justify-items: center;
 }
 .sidebar {
   box-sizing: border-box;
