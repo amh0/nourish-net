@@ -69,3 +69,20 @@
     padding: 40px;
   }
 }
+@media screen and (max-width: 419px) {
+  .footer .description-section .logo-section {
+    margin-bottom: 16px;
+  }
+  .footer .logo-section svg {
+    width: 32px;
+  }
+  .footer .logo-section h3 {
+    font-size: var(--title5);
+  }
+  .footer h5 {
+    font-size: var(--title7);
+  }
+  .footer {
+    padding: 24px;
+  }
+}
