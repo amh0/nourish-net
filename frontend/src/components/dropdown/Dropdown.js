@@ -60,7 +60,7 @@ function Dropdown() {
           <li>
             <Link
               className="dropdown-link link"
-              to="/donaciones/entregas"
+              to="/tareas"
               onClick={() => setClick(false)}
             >
               Tareas
