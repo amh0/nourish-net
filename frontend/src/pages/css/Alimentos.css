@@ -94,3 +94,8 @@
     justify-content: center;
   }
 }
+@media screen and (max-width: 719px) {
+  .sidebar {
+    display: none;
+  }
+}

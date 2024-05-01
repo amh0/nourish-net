@@ -14,6 +14,9 @@
   align-items: center;
   gap: 24px;
 }
+.nav-logo img {
+  max-width: 64px;
+}
 .nav-logo p {
   color: var(--text);
   font-size: var(--title5);
@@ -127,3 +130,22 @@ li .link {
   }
 }
 
+@media screen and (max-width: 559px) {
+  .navbar {
+    padding: 16px 24px;
+  }
+  .nav-logo {
+    gap: 16px;
+  }
+  .nav-logo img {
+    width: 48px;
+  }
+}
+@media screen and (max-width: 447px) {
+  .navbar .nav-logo p {
+    font-size: var(--parr1);
+  }
+  .nav-logo img {
+    width: 32px;
+  }
+}

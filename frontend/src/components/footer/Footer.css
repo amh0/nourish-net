@@ -1,12 +1,13 @@
 @import url(../globals.css);
 .footer {
   display: flex;
-  gap: 120px;
+  gap: 40px;
   justify-content: space-between;
   box-sizing: border-box;
   background-color: var(--text);
   padding: 80px;
-  height: 340px;
+  min-height: 340px;
+  flex-wrap: wrap;
 }
 .footer,
 .footer .title3,
@@ -21,7 +22,7 @@
   margin-bottom: 32px;
 }
 .description-section {
-  width: 330px;
+  max-width: 330px;
 }
 .links-section .title5 {
   margin-bottom: 32px;
@@ -45,6 +46,26 @@
   flex-wrap: wrap;
   gap: 16px;
 }
-.footer-filler {
-  flex: 1;
+/* .footer-filler {
+  flex: 0.5 0 1;
+} */
+
+@media screen and (max-width: 1199px) {
+  .footer-filler {
+    display: none;
+  }
+}
+@media screen and (max-width: 1080px) {
+  .footer .socials-section svg {
+    width: 32px;
+    height: 32px;
+  }
+}
+@media screen and (max-width: 899px) {
+  .footer .logo-section h3 {
+    font-size: var(--title4);
+  }
+  .footer {
+    padding: 40px;
+  }
 }
