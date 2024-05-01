@@ -89,7 +89,7 @@
   align-items: center;
   gap: 4px;
 }
-@media (max-width: 1199px) {
+@media screen and (max-width: 1199px) {
   .filter-wrapper {
     justify-content: center;
   }

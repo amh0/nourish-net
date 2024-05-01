@@ -1,16 +1,36 @@
 import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
-import { Bell, ShoppingCartSimple } from "phosphor-react";
+import { Bell, ShoppingCartSimple, List } from "phosphor-react";
 import "./ProfileNavbar.css";
 import logo from "../assets/logo_64.png";
 import perfil from "../assets/perfil.jpg";
 import { AuthContext } from "../../context/authContext";
+import Dropdown from "../dropdown/Dropdown";
 const ProfileNavbar = () => {
   const { currentUser } = useContext(AuthContext);
   const { notificationQty } = useContext(AuthContext);
   const [menu, setMenu] = useState("inicio");
+  const [dropDown, setDropdown] = useState(false);
+  const changeDropdown = () => {
+    setDropdown((prev) => !prev);
+  };
+  const onMouseEnter = () => {
+    if (window.innerWidth >= 1200) {
+      setDropdown(false);
+    } else {
+      setDropdown(true);
+    }
+  };
+
+  const onMouseLeave = () => {
+    if (window.innerWidth >= 1200) {
+      setDropdown(false);
+    } else {
+      setDropdown(false);
+    }
+  };
   return (
-    <div className="profile-navbar">
+    <div className="navbar">
       <div className="nav-logo">
         <img src={logo} alt="" />
         <p>NourishNet</p>
@@ -27,16 +47,6 @@ const ProfileNavbar = () => {
           </Link>
           {menu === "inicio" ? <hr /> : <></>}
         </li>
-        {/* <li
-          onClick={() => {
-            setMenu("donantes");
-          }}
-        >
-          <Link className="link" to="/donantes">
-            Donantes
-          </Link>
-          {menu === "donantes" ? <hr /> : <></>}
-        </li> */}
 
         {currentUser && (currentUser.isDonor || currentUser.isAdmin) && (
           <li
@@ -87,7 +97,7 @@ const ProfileNavbar = () => {
           <></>
         )} */}
       </ul>
-      <div className="actions-section">
+      <div className="container-section">
         <div className="actions-section">
           {currentUser && currentUser.isVolunteer && (
             <Link className="link" to="/donaciones/entregas">
@@ -160,6 +170,10 @@ const ProfileNavbar = () => {
             )}
             <span>{currentUser && currentUser.nombre} </span>
           </Link>
+          <div className="list-menu" onClick={changeDropdown}>
+            <List size={30} color="var(--textlight)" />
+          </div>
+          {dropDown && <Dropdown />}
         </div>
       </div>
     </div>

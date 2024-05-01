@@ -1,5 +1,5 @@
 @import "../globals.css";
-.profile-navbar {
+.navbar {
   display: flex;
   box-sizing: border-box;
   justify-content: space-between;
@@ -46,6 +46,12 @@
   height: 3px;
   border-radius: 8px;
   background-color: var(--primary);
+}
+.container-section {
+  display: flex;
+  align-items: center;
+  padding: 0px;
+  gap: 20px;
 }
 .actions-section {
   display: flex;
@@ -102,3 +108,22 @@ li .link {
 .notif-badge {
   background-color: var(--tertiary_strong);
 }
+.navbar .list-menu {
+  display: none;
+  cursor: pointer;
+}
+@media screen and (max-width: 1280px) {
+  .nav-logo p {
+    font-size: 20px;
+  }
+}
+@media screen and (max-width: 1199px) {
+  .navbar .list-menu {
+    display: block;
+  }
+  .navbar .nav-menu,
+  .navbar .actions-section {
+    display: none;
+  }
+}
+
