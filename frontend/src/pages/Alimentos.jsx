@@ -1,10 +1,46 @@
 import React, { useState, useEffect, useContext } from "react";
 // import food_data from "../components/assets/data";
 import axios from "axios";
+import Select from "react-select";
+import makeAnimated from "react-select/animated";
 import { AuthContext } from "../context/authContext";
 import Item from "../components/item/Item";
 import { MagnifyingGlass, Funnel, X } from "@phosphor-icons/react";
 import "./css/Alimentos.css";
+import Dropdown from "../components/dropdown/Dropdown";
+const listStyle = {
+  control: (styles) => ({ ...styles, backgroundColor: "white" }),
+  multiValue: (styles, { data }) => {
+    return {
+      ...styles,
+      backgroundColor: "#E2F0EE",
+    };
+  },
+  multiValueRemove: (styles, { data }) => {
+    return {
+      ...styles,
+      cursor: "pointer",
+    };
+  },
+};
+let filterCategories = [
+  {
+    value: 0,
+    label: "Todos",
+  },
+  {
+    value: 1,
+    label: "Fruta",
+  },
+  {
+    value: 2,
+    label: "Verdura",
+  },
+  {
+    value: 3,
+    label: "Bebida",
+  },
+];
 const Alimentos = () => {
   const imgPath = "http://localhost:3001/img/";
   const { currentUser } = useContext(AuthContext);
@@ -12,6 +48,7 @@ const Alimentos = () => {
   const [foodData, setFoodData] = useState([]);
   const [filteredFood, setFilteredFood] = useState(foodData);
   const [categoryFilter, setCategoryFilter] = useState("");
+  const [categoryOption, setCategoryOption] = useState();
   const [search, setSearch] = useState("");
 
   useEffect(() => {
@@ -46,6 +83,11 @@ const Alimentos = () => {
     setFilteredFood(newData);
   }, [categoryFilter, search, currentUser, foodData]);
 
+  const handleCategorySelection = (op) => {
+    console.log(op);
+    setCategoryFilter(op.label);
+    setCategoryOption(op);
+  };
   return (
     <div className="alimentos-wrapper">
       <div className="alimentos-page">
@@ -69,12 +111,6 @@ const Alimentos = () => {
             <li onClick={() => setCategoryFilter("Lacteo")}>Lacteo</li>
             <li onClick={() => setCategoryFilter("Otros")}>Otros</li>
           </ol>
-          {/* <h5 className="title5">Ordenar por</h5>
-          <ol>
-            <li>Más cercano</li>
-            <li>Más reciente</li>
-            <li>Más donaciones</li>
-          </ol> */}
         </div>
 
         <div className="products-section">
@@ -97,7 +133,7 @@ const Alimentos = () => {
                 />
               </button>
             </div>
-            {categoryFilter ? (
+            {categoryFilter && categoryFilter !== "Todos" ? (
               <div className="filter-section">
                 {categoryFilter !== "Todos" ? (
                   <div className="icon-container light-v">
@@ -119,6 +155,32 @@ const Alimentos = () => {
                 </div>
               </div>
             ) : null}
+          </div>
+          <div className="filter-selection">
+            <div className="filter-selection-wrapper">
+              <p className="title7 bold">Categorias</p>
+              <Select
+                className="list-option"
+                options={filterCategories}
+                components={makeAnimated()}
+                closeMenuOnSelect={false}
+                value={categoryOption}
+                onChange={handleCategorySelection}
+                styles={listStyle}
+                placeholder={"Haz clic para seleccionar"}
+                theme={(theme) => ({
+                  ...theme,
+                  borderRadius: 6,
+                  colors: {
+                    ...theme.colors,
+                    text: "orangered",
+                    primary25: "#E2F0EE",
+                    primary50: "#99CBC5",
+                    primary: "#red",
+                  },
+                })}
+              />
+            </div>
           </div>
           <div className="products-list">
             {filteredFood && filteredFood.length > 0

@@ -8,6 +8,8 @@
   padding: 16px 50px;
   box-shadow: 0px 4px 4px var(--textlighter);
   isolation: isolate; /*puts navbar at the top*/
+  position: relative;
+  z-index: 100000;
 }
 .nav-logo {
   display: flex;
@@ -147,5 +149,10 @@ li .link {
   }
   .nav-logo img {
     width: 32px;
+  }
+}
+@media screen and (max-width: 419px) {
+  .nav-logo p {
+    display: none;
   }
 }
