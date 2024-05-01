@@ -1,0 +1,87 @@
+.data-updater-container {
+  width: 100%;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.data-updater-title {
+  font-size: var(--title4);
+}
+.data-updater-title h3 {
+  margin: 0;
+}
+
+.data-updater-inputs {
+  padding: 10px;
+  width: 70%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.data-updater-input-row {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.data-updater-input-row-i {
+  width: 100%;
+  gap: 25px;
+}
+
+.data-updater-item {
+  display: flex;
+  align-items: center;
+}
+
+.data-updater-content {
+  display: flex;
+  align-items: center;
+}
+
+.data-updater-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.data-updater-image-container {
+  position: relative;
+}
+
+.data-updater-image-container .update-profile-image {
+  max-width: 150px;
+  max-height: 150px;
+  border-radius: 20%;
+}
+
+.data-updater-button {
+  border-color: transparent;
+  margin: 10px;
+  border-radius: 10px;
+  color: var(--background0);
+  padding: 12px 20px;
+  width: 50%;
+  background-color: var(--secondary);
+  font-weight: bold;
+}
+
+.data-updater-input-row-i {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 20px;
+}
+
+.data-updater-item-i {
+  width: 100%;
+}
+
+.responsable-table {
+  width: 100%;
+}

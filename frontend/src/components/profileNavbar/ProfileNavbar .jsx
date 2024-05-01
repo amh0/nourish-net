@@ -6,6 +6,7 @@ import logo from "../assets/logo_64.png";
 import perfil from "../assets/perfil.jpg";
 import { AuthContext } from "../../context/authContext";
 const ProfileNavbar = () => {
+  const imgPath = "http://localhost:3001/img/";
   const { currentUser } = useContext(AuthContext);
   const [menu, setMenu] = useState("inicio");
   return (
@@ -26,6 +27,7 @@ const ProfileNavbar = () => {
           </Link>
           {menu === "inicio" ? <hr /> : <></>}
         </li>
+        {/* {currentUser && currentUser.isAdmin && (
         <li
           onClick={() => {
             setMenu("informes");
@@ -35,7 +37,7 @@ const ProfileNavbar = () => {
             Informes
           </Link>
           {menu === "informes" ? <hr /> : <></>}
-        </li>
+        </li>)} */}
         {/* <li
           onClick={() => {
             setMenu("donantes");
@@ -137,13 +139,13 @@ const ProfileNavbar = () => {
           </Link>
           <Link
             className="link"
-            to="/perfil"
+            to={`/perfil/${currentUser.idusuario}`}
             onClick={() => {
               setMenu("");
             }}
           >
             {currentUser && currentUser.img_perfil ? (
-              <img src={currentUser.img_perfil} alt="" />
+              <img src={imgPath + currentUser.img_perfil} alt="" />
             ) : (
               <img src={perfil} alt="" />
             )}

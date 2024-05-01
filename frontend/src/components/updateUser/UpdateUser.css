@@ -1,0 +1,136 @@
+.container-u {
+  position: relative;
+}
+
+.update-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 998;
+}
+
+.update {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 70%;
+  max-width: 500px;
+  height: 70vh;
+  overflow-y: auto;
+  background-color: var(--background0);
+  padding: 50px;
+  z-index: 999;
+  border-radius: 10px;
+}
+
+.update-add-profile-image {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.update-profile-image-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.update-profile-image-container img {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-bottom: 15px;
+}
+
+.update-profile-image-overlay {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  cursor: pointer;
+  margin: 0;
+}
+
+.update-profile-image-overlay svg {
+  background-color: var(--background0);
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+}
+
+.input-with-margin {
+  margin-bottom: 50px;
+}
+
+.flex-column-container-update {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  /* margin-bottom: 15px; */
+}
+
+.dropdown {
+  position: relative;
+  width: 100%;
+}
+
+/* .dropdown input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+} */
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 96%;
+  max-height: 150px;
+  overflow-y: auto;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.dropdown-menu li {
+  padding: 8px;
+  cursor: pointer;
+}
+
+.dropdown-menu li:hover {
+  background-color: #f0f0f0;
+}
+
+.button-update {
+  background-color: var(--secondary);
+  color: white;
+  border: 1px solid var(--secondary);
+  padding: 8px;
+  margin: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  width: 60%;
+  height: 40px;
+}
+
+.button-update:hover {
+  background-color: var(--secondary_strong);
+}
+
+.container-button-update {
+  display: flex;
+  justify-content: center;
+}

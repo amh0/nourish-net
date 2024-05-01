@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 const imgPath = "http://localhost:3001/img/";
 
 const Peticion = ({ post }) => {
+  const imgPath = "http://localhost:3001/img/";
   const tiempoTranscurrido = moment(post.fecha_publicacion).fromNow();
 
   const getPriorityClass = (priority) => {
@@ -43,14 +44,17 @@ const Peticion = ({ post }) => {
         <div className="peticion-container">
           <div className="user">
             <div className="userInfo">
-              <img src={post.img_perfil || perfil} alt="" />
+              <img
+                src={post.img_perfil ? imgPath + post.img_perfil : perfil}
+                alt=""
+              />
               <div className="details">
-                <Link
+                {/* <Link
                   to={`/perfil/${post.idusuario}`}
                   style={{ textDecoration: "none", color: "var(--text)" }}
-                >
-                  <span className="name">{post.nombre}</span>
-                </Link>
+                > */}
+                <span className="name">{post.nombre}</span>
+                {/* </Link> */}
                 <span className="date">{tiempoTranscurrido}</span>
               </div>
             </div>

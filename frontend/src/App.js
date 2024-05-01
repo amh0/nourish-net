@@ -69,9 +69,10 @@ function App() {
           {currentUser && (
             <Route path="/notificaciones" element={<Notificaciones />} />
           )}
-          {currentUser && <Route path="/perfil" element={<Perfil />} />}
-          {currentUser.isAdmin && <Route path="/informes" element={<Informes />} />}
-
+          {currentUser && <Route path="/perfil/:id" element={<Perfil />} />}
+          {currentUser && currentUser.isAdmin && (
+            <Route path="/informes" element={<Informes />} />
+          )}
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
         <Footer />

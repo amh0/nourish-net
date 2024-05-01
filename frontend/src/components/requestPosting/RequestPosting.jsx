@@ -16,7 +16,7 @@ moment.locale("es");
 
 const RequestPosting = () => {
   const { currentUser } = useContext(AuthContext);
-
+  const imgPath = "http://localhost:3001/img/";
   const [selectedCat, setSelectedCat] = useState(null);
   const [titulo, setTitulo] = useState("");
   const [descripcion, setDescripcion] = useState("");
@@ -143,7 +143,15 @@ const RequestPosting = () => {
           <div className="user-section">
             <div className="user-info">
               <div className="photo-container">
-                <img src={currentUser.img_perfil || perfil} alt="" />
+                <img
+                  src={
+                    currentUser.img_perfil
+                      ? imgPath + currentUser.img_perfil
+                      : perfil
+                  }
+                  // src={currentUser.img_perfil || perfil}
+                  alt=""
+                />
               </div>
             </div>
             <div className="request-posting-text">
@@ -171,7 +179,15 @@ const RequestPosting = () => {
                 />
               </div>
               <div className="name-container">
-                <span className="user-name">{currentUser.nombre}</span>
+                <span className="user-name">
+                  {(currentUser.apellido_pat
+                    ? currentUser.apellido_pat + " "
+                    : "") +
+                    (currentUser.apellido_mat
+                      ? currentUser.apellido_mat + " "
+                      : "") +
+                    currentUser.nombre}
+                </span>
               </div>
               <div className="input-container-p">
                 <div class="input-container-title">

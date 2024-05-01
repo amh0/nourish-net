@@ -1,357 +1,5 @@
 import { db } from "../connect.js";
 
-// export const filterAdmin = (req, res) => {
-//   const { idusuario, correo, nombre } = req.query;
-//   // console.log(idusuario, correo, nombre);
-
-//   const sql = `SELECT *
-//               FROM usuario u
-//               INNER JOIN admin a ON u.idusuario = a.idadmin
-//               WHERE u.idusuario like '${idusuario}%'
-//               AND lower(u.correo) like '%${correo.toLowerCase()}%'
-//               AND lower(CONCAT(a.nombre, ' ', a.apellido_pat, ' ', a.apellido_mat)) like '%${nombre.toLowerCase()}%';`;
-//   const parm = [];
-
-//   db.query(sql, parm, (error, results) => {
-//     if (error) {
-//       console.error("Error al ejecutar la consulta SQL:", error);
-//       res.status(500).send("Error interno del servidor");
-//     } else {
-//       res.json(results);
-//       // console.log(results);
-//     }
-//   });
-// };
-
-// export const filterVolunteer = (req, res) => {
-//   const { idusuario, correo, nombre, celular } = req.query;
-//   // console.log(idusuario, correo, nombre, celular);
-
-//   const sql = `SELECT u.*, v.*,
-//               (SELECT COUNT(*) FROM donacion d1 WHERE d1.idvoluntario = v.idvoluntario AND d1.estado = 'Pendiente' AND d1.tipo_envio = 'Voluntario') AS pendiente,
-//               (SELECT COUNT(*) FROM donacion d2 WHERE d2.idvoluntario = v.idvoluntario AND d2.estado = 'Entregado' AND d2.tipo_envio = 'Voluntario') AS recibidos
-//             FROM usuario u
-//             INNER JOIN voluntario v ON u.idusuario = v.idvoluntario
-//             WHERE u.idusuario like '${idusuario}%'
-//             AND lower(u.correo) like '%${correo}%'
-//             AND lower(CONCAT(v.nombre, ' ', v.apellido_pat, ' ', v.apellido_mat)) like '%${nombre}%'
-//             AND v.celular like '${celular}%';
-// `;
-//   const parm = [];
-
-//   db.query(sql, parm, (error, results) => {
-//     if (error) {
-//       console.error("Error al ejecutar la consulta SQL:", error);
-//       res.status(500).send("Error interno del servidor");
-//     } else {
-//       res.json(results);
-//       // console.log(results);
-//     }
-//   });
-// };
-
-// export const filterReceiver = (req, res) => {
-//   const { idusuario, correo, nombre, tipo } = req.query;
-//   // console.log(idusuario, correo, nombre, tipo);
-
-//   const sql = `SELECT *
-//               FROM (SELECT *,
-//               CASE
-//                   WHEN EXISTS (SELECT 1 FROM organizacion o WHERE o.idorg = g.idgeneral) THEN 'Organización'
-//                   WHEN EXISTS (SELECT 1 FROM persona p WHERE p.idpersona = g.idgeneral) THEN 'Usuario Individual'
-//                   ELSE 'No especificado'
-//               END AS tipo,
-//               CASE
-//                   WHEN EXISTS (SELECT 1 FROM organizacion o WHERE o.idorg = g.idgeneral) THEN (SELECT o.nombre FROM organizacion o WHERE o.idorg = g.idgeneral)
-//                   WHEN EXISTS (SELECT 1 FROM persona p WHERE p.idpersona = g.idgeneral) THEN (SELECT CONCAT(p.nombre, ' ', p.apellido_pat, ' ', p.apellido_mat) FROM persona p WHERE p.idpersona = g.idgeneral)
-//                   ELSE 'No especificado'
-//               END AS tipo_nombre,
-//               (SELECT COUNT(*) FROM donacion d WHERE d.estado = 'Entregado' and d.idgeneral = g.idgeneral) AS entregados,
-//               (SELECT COUNT(*) FROM donacion d WHERE d.estado = 'Pendiente' and d.idgeneral = g.idgeneral) AS pendientes
-//             FROM usuario u
-//             INNER JOIN general g ON u.idusuario = g.idgeneral
-//             WHERE FIND_IN_SET('Receptor', REPLACE(g.rol, ' ', ',')) > 0
-//             AND u.idusuario like '${idusuario}%'
-//             AND u.correo like '%${correo}%'
-
-//             GROUP BY u.idusuario) TMP
-//             WHERE TMP.tipo_nombre like '%${nombre}%'
-//             AND TMP.tipo like '%${tipo}%';
-//   `;
-//   const parm = [];
-
-//   db.query(sql, parm, (error, results) => {
-//     if (error) {
-//       console.error("Error al ejecutar la consulta SQL:", error);
-//       res.status(500).send("Error interno del servidor");
-//     } else {
-//       res.json(results);
-//       // console.log(results);
-//     }
-//   });
-// };
-
-// export const filterDonor = (req, res) => {
-//   const { idusuario, correo, nombre, tipo } = req.query;
-//   // console.log(idusuario, correo, nombre, tipo);
-
-//   const sql = `SELECT *
-//               FROM(SELECT u.idusuario, u.correo,
-//                 CASE
-//                     WHEN o.idorg IS NOT NULL THEN 'Organización'
-//                     WHEN p.idpersona IS NOT NULL THEN 'Usuario Individual'
-//                     ELSE 'No especificado'
-//                 END AS tipo,
-//                 COALESCE(o.nombre, CONCAT(p.apellido_pat, ' ', p.apellido_mat, ' ', p.nombre), 'No se encontró') AS tipo_nombre,
-//                 COUNT(DISTINCT a.idalimento) AS donaciones_publicadas,
-//                 SUM(CASE WHEN d.estado = 'Pendiente' THEN 1 ELSE 0 END) AS donaciones_pendientes,
-//                 SUM(CASE WHEN d.estado = 'Entregado' THEN 1 ELSE 0 END) AS donaciones_entregadas
-//               FROM usuario u
-//               INNER JOIN general g ON u.idusuario = g.idgeneral
-//               LEFT JOIN organizacion o ON u.idusuario = o.idorg
-//               LEFT JOIN persona p ON u.idusuario = p.idpersona
-//               LEFT JOIN alimento a ON u.idusuario = a.idgeneral
-//               LEFT JOIN donacion d ON d.idalimento = a.idalimento
-//               WHERE FIND_IN_SET('Donador', REPLACE(g.rol, ' ', ',')) > 0
-//               AND u.idusuario like '${idusuario}%'
-//               AND u.correo like '%${correo}%'
-//               GROUP BY u.idusuario, u.correo, tipo, tipo_nombre
-//               ) TMP
-//               WHERE TMP.tipo_nombre like '%${nombre}%'
-//               AND TMP.tipo like '%${tipo}%'
-//               ORDER BY 1;
-//   `;
-//   const parm = [];
-
-//   db.query(sql, parm, (error, results) => {
-//     if (error) {
-//       console.error("Error al ejecutar la consulta SQL:", error);
-//       res.status(500).send("Error interno del servidor");
-//     } else {
-//       res.json(results);
-//       // console.log(results);
-//     }
-//   });
-// };
-
-// export const filterFood = (req, res) => {
-//   const {
-//     idalimento,
-//     nombre,
-//     estado,
-//     fecha_vencimiento,
-//     fecha_publicacion,
-//     idgeneral,
-//     nombre_donante,
-//   } = req.query;
-//   // console.log(idalimento, nombre, estado, fecha_vencimiento, fecha_publicacion);
-
-//   const sql = `SELECT *
-//               FROM (SELECT a.*,
-//                 CASE
-//                     WHEN p.idpersona IS NOT NULL THEN CONCAT(p.nombre, ' ', p.apellido_pat, ' ', p.apellido_mat)
-//                     WHEN o.idorg IS NOT NULL THEN o.nombre
-//                 END AS nombre_donante
-//               FROM
-//                 alimento a
-//               LEFT JOIN
-//                 persona p ON a.idgeneral = p.idpersona
-//               LEFT JOIN
-//                 organizacion o ON a.idgeneral = o.idorg
-//               WHERE
-//                 a.idalimento like '${idalimento}%'
-//                 AND lower(a.nombre) like '%${nombre.toLowerCase()}%'
-//                 AND lower(a.estado) like '%${estado.toLowerCase()}%'
-//                 AND (DATE_FORMAT(a.fecha_vencimiento, '%Y-%m-%d') = '${fecha_vencimiento}' OR '${fecha_vencimiento}' = '')
-//                 AND (DATE_FORMAT(a.fecha_publicacion, '%Y-%m-%d') = '${fecha_publicacion}' OR '${fecha_publicacion}' = '')
-//                 AND a.idgeneral like '${idgeneral}%'
-//               ORDER BY 1)TMP
-//               WHERE TMP.nombre_donante like '%${nombre_donante}%'
-//               `;
-//   const parm = [];
-
-//   db.query(sql, parm, (error, results) => {
-//     if (error) {
-//       console.error("Error al ejecutar la consulta SQL:", error);
-//       res.status(500).send("Error interno del servidor");
-//     } else {
-//       res.json(results);
-//       // console.log(results);
-//     }
-//   });
-// };
-
-// export const filterDonations = (req, res) => {
-//   const {
-//     iddonacion,
-//     tipo_envio,
-//     xestado,
-//     nombreVoluntario,
-//     fechaInicial,
-//     fechaFinal,
-//     nombreReceptor,
-//     nombreDonante,
-//     nombreAlimento,
-//   } = req.query;
-//   // console.log(
-//   //   iddonacion,
-//   //   tipo_envio,
-//   //   nombreVoluntario,
-//   //   fechaInicial,
-//   //   fechaFinal,
-//   //   xestado,
-//   //   nombreReceptor,
-//   //   nombreDonante,
-//   //   nombreAlimento
-//   // );
-
-//   let nombreVoluntarioCondition = `lower(CONCAT(v.apellido_pat, ' ', v.nombre)) like '%${nombreVoluntario.toLowerCase()}%'`;
-//   if (nombreVoluntario === "") {
-//     nombreVoluntarioCondition = `v.nombre is NULL OR v.nombre like '%'`;
-//   }
-
-//   const sql = `
-//     SELECT
-//     d.*,
-//     a.idalimento,
-//     a.nombre AS nombre_alimento,
-//     a.imagen AS imagen_alimento,
-//     a.idgeneral AS id_donador,
-//     COALESCE(CONCAT(v.apellido_pat, ' ', v.nombre), '-') AS nombre_voluntario,
-//     COALESCE(CONCAT(p.apellido_pat, ' ', p.nombre), o.nombre, 'No encontrado') AS nombre_receptor,
-//     COALESCE(CONCAT(p1.apellido_pat, ' ', p1.nombre), o1.nombre, 'No encontrado') AS nombre_donador
-//   FROM
-//     donacion d
-//     INNER JOIN alimento a ON d.idalimento = a.idalimento
-//     LEFT JOIN voluntario v ON d.idvoluntario = v.idvoluntario
-//     LEFT JOIN persona p ON d.idgeneral = p.idpersona
-//     LEFT JOIN organizacion o ON d.idgeneral = o.idorg
-//     LEFT JOIN persona p1 ON a.idgeneral = p1.idpersona
-//     LEFT JOIN organizacion o1 ON a.idgeneral = o1.idorg
-//   WHERE
-//   d.iddonacion like '${iddonacion}%'
-//   AND lower(d.tipo_envio) like '%${tipo_envio}%'
-//   AND (${nombreVoluntarioCondition})
-//   AND (DATE_FORMAT(d.fecha_entrega, '%Y-%m-%d') >= '${fechaInicial}' OR '${fechaInicial}' = '')
-//   AND (DATE_FORMAT(d.fecha_entrega, '%Y-%m-%d') <= '${fechaFinal}' OR '${fechaFinal}' = '')
-//   AND lower(d.estado) like '%${xestado}%'
-//   AND lower(a.nombre) like '%${nombreAlimento}%'
-//   AND (lower(CONCAT(p.apellido_pat, ' ', p.nombre)) like '%${nombreReceptor.toLowerCase()}%'
-//     OR  lower(o.nombre) like '%${nombreReceptor.toLowerCase()}%')
-//   AND (lower(CONCAT(p1.apellido_pat, ' ', p1.nombre)) like '%${nombreDonante.toLowerCase()}%'
-//     OR  lower(o1.nombre) like '%${nombreDonante.toLowerCase()}%')
-//     ORDER BY 1;
-//   `;
-
-//   const parm = [];
-//   db.query(sql, parm, (error, results) => {
-//     if (error) {
-//       console.error("Error al ejecutar la consulta SQL:", error);
-//       res.status(500).send("Error interno del servidor");
-//     } else {
-//       res.json(results);
-//       // console.log(results);
-//     }
-//   });
-// };
-
-// export const filterAlimentos = (req, res) => {
-//   const { fechaInicial, fechaFinal, xestado } = req.query;
-//   // console.log(fechaInicial, fechaFinal, xestado);
-
-//   let sql;
-//   let parm;
-
-//   if (xestado === "TODO") {
-//     sql = `SELECT * FROM alimento
-//     WHERE DATE_FORMAT(fecha_publicacion, '%Y-%m-%d') >= ?
-//   AND DATE_FORMAT(fecha_publicacion, '%Y-%m-%d') <= ?`;
-//     parm = [fechaInicial, fechaFinal];
-//   } else {
-//     sql = `
-//   SELECT d.*
-//   FROM donacion d
-
-//   WHERE DATE_FORMAT(d.fecha_entrega, '%Y-%m-%d') >= ?
-//   AND DATE_FORMAT(d.fecha_entrega, '%Y-%m-%d') <= ?
-//   AND d.estado = ?
-//       `;
-//     parm = [fechaInicial, fechaFinal, xestado];
-//   }
-
-//   db.query(sql, parm, (error, results) => {
-//     if (error) {
-//       console.error("Error al ejecutar la consulta SQL:", error);
-//       res.status(500).send("Error interno del servidor");
-//     } else {
-//       res.json(results);
-//       // console.log(results);
-//     }
-//   });
-// };
-
-// export const CategoryType = (req, res) => {
-//   const sql = `
-//   SELECT c.nombre_cat AS categoria,
-//   COUNT(a.idalimento) AS cantidad_alimentos
-// FROM CATEGORIA c
-// LEFT JOIN TIENE_C tc ON c.idcategoria = tc.idcategoria
-// LEFT JOIN ALIMENTO a ON tc.idalimento = a.idalimento
-// GROUP BY c.nombre_cat;
-//   `;
-
-//   const parm = [];
-//   db.query(sql, parm, (error, results) => {
-//     if (error) {
-//       console.error("Error al ejecutar la consulta SQL:", error);
-//       res.status(500).send("Error interno del servidor");
-//     } else {
-//       res.json(results);
-//       console.log(results);
-//     }
-//   });
-// };
-
-// export const UserType = (req, res) => {
-//   const sql = `
-//   SELECT
-//   (SELECT COUNT(DISTINCT idvoluntario) FROM VOLUNTARIO) AS cantidad_voluntarios,
-//   (SELECT COUNT(DISTINCT idpersona) FROM PERSONA) AS cantidad_personas,
-//   (SELECT COUNT(DISTINCT idorg) FROM ORGANIZACION) AS cantidad_organizaciones;`;
-
-//   const parm = [];
-//   db.query(sql, parm, (error, results) => {
-//     if (error) {
-//       console.error("Error al ejecutar la consulta SQL:", error);
-//       res.status(500).send("Error interno del servidor");
-//     } else {
-//       const resultadoFinal = results
-//         .map((item) => {
-//           return [
-//             {
-//               categoria: "cantidad voluntarios",
-//               cantidad_alimentos: item.cantidad_voluntarios,
-//             },
-//             {
-//               categoria: "cantidad personas",
-//               cantidad_alimentos: item.cantidad_personas,
-//             },
-//             {
-//               categoria: "cantidad organizaciones",
-//               cantidad_alimentos: item.cantidad_organizaciones,
-//             },
-//           ];
-//         })
-//         .flat();
-
-//       console.log(resultadoFinal);
-//       res.json(resultadoFinal);
-//       // console.log(results);
-//     }
-//   });
-// };
-
-// ===========================================================
 export const contarMiembrosDonacionesAlimentos = (req, res) => {
   const sql = "CALL contarMiembrosDonacionesAlimentos();";
 
@@ -385,7 +33,7 @@ export const getAllUserData = (req, res) => {
       console.error("Error al ejecutar la consulta SQL:", error);
       res.status(500).send("Error interno del servidor");
     } else {
-      console.log(results);
+      // console.log(results);
       res.json(results);
     }
   });
@@ -393,12 +41,12 @@ export const getAllUserData = (req, res) => {
 
 export const getAdminin = (req, res) => {
   const { buscar } = req.query;
-  const sql = `SELECT u.idusuario ID, u.img_perfil foto, u.correo, CONCAT_WS(' ',apellido_mat, apellido_pat,nombre ) nombre
+  const sql = `SELECT u.idusuario ID, u.img_perfil foto, u.correo, CONCAT_WS(' ', apellido_pat ,apellido_mat,nombre ) nombre
                 FROM usuario u
                 INNER JOIN admin a ON u.idusuario = a.idadmin
                 WHERE u.idusuario like '${buscar}%'
                 OR u.correo like '%${buscar}%'
-                OR CONCAT_WS(' ',apellido_mat, apellido_pat,nombre ) like '%${buscar}%';`;
+                OR CONCAT_WS(' ', apellido_pat ,apellido_mat,nombre ) like '%${buscar}%';`;
 
   db.query(sql, (error, results) => {
     if (error) {
@@ -413,12 +61,12 @@ export const getAdminin = (req, res) => {
 
 export const getVolunteers = (req, res) => {
   const { buscar } = req.query;
-  const sql = `SELECT u.idusuario ID, u.img_perfil foto, u.correo, CONCAT_WS(' ',v.apellido_mat, v.apellido_pat,v.nombre ) nombre, v.celular, obtenerVoluntarioXCantidad(u.idusuario, 'Entregado') as 'Catidad entregada',  obtenerVoluntarioXCantidad(u.idusuario, 'Pendiente') as'Cantidad pendiente'
+  const sql = `SELECT u.idusuario ID, u.img_perfil foto, u.correo, CONCAT_WS(' ', apellido_pat ,apellido_mat,nombre ) nombre, v.celular, obtenerVoluntarioXCantidad(u.idusuario, 'Entregado') as 'Cantidad entregada',  obtenerVoluntarioXCantidad(u.idusuario, 'Pendiente') as'Cantidad pendiente'
                 FROM usuario u
                 INNER JOIN voluntario v ON u.idusuario = v.idvoluntario
                 WHERE u.idusuario like '${buscar}%'
                 OR u.correo like '%${buscar}%'
-                OR CONCAT_WS(' ',v.apellido_mat, v.apellido_pat,v.nombre ) like '%${buscar}%';`;
+                OR CONCAT_WS(' ', apellido_pat ,apellido_mat,nombre ) like '%${buscar}%';`;
 
   db.query(sql, (error, results) => {
     if (error) {
@@ -506,7 +154,7 @@ export const getFood = (req, res) => {
                           TMP.nom_don as 'Nombre donante'
               FROM (SELECT a.idalimento, a.imagen, 
                         a.nombre, obtenerCategoriasAlimentox(a.idalimento) categoria,
-                        CONCAT(a.cantidad_donada, ' ', a.unidad_medida) cant_don, 
+                        CONCAT(Coalesce(cantidad_disponible, 0)+ coalesce(cantidad_reservada,0) + coalesce(cantidad_no_disponible,0), ' ', a.unidad_medida) cant_don, 
                         CONCAT(a.cantidad_disponible, ' ', a.unidad_medida) cant_disp, 
                         a.estado,DATE_FORMAT(a.fecha_vencimiento, '%Y-%m-%d') fecha_vencimiento , 
                         DATE_FORMAT( a.fecha_publicacion, '%Y-%m-%d') fecha_publicacion,a.idgeneral,
@@ -539,29 +187,26 @@ export const getDonations = (req, res) => {
   const { firstSelectValue, secondSelectValue, buscar } = req.query;
 
   const sql = `SELECT TMP.iddonacion as 'ID donacion', TMP.nomReceptor as 'Receptor', 
-                  TMP.tipo_envio as 'Tipo envio', TMP.nomVoluntario voluntario, 
-                  TMP.estado, TMP.fecha_entrega as 'fecha entrega', TMP.cantidad, TMP.alimento,
-                  TMP.imagen
-                FROM (SELECT d.iddonacion, obtenerNombreGeneralx(g.idgeneral, g.tipo) AS nomReceptor, 
-                  d.tipo_envio, 
-                  CASE 
-                    WHEN TRIM(CONCAT_WS(' ', v.apellido_pat, v.apellido_mat, v.nombre)) = '' OR 
-                      TRIM(CONCAT_WS(' ', v.apellido_pat, v.apellido_mat, v.nombre)) IS NULL 
-                    THEN '-'
-                    ELSE TRIM(CONCAT_WS(' ', v.apellido_pat, v.apellido_mat, v.nombre))
-                  END AS nomVoluntario, 
-                  d.estado, DATE_FORMAT(d.fecha_entrega, '%Y-%m-%d') fecha_entrega, CONCAT(d.cantidad_donacion, ' ', a.unidad_medida) cantidad, a.nombre alimento,
-                  a.imagen
-                FROM donacion d
-                INNER JOIN general g ON d.idgeneral = g.idgeneral
-                INNER JOIN alimento a ON a.idalimento = d.idalimento
-                LEFT JOIN voluntario v ON v.idvoluntario = d.idvoluntario) TMP
-                WHERE TMP.tipo_envio like '%${firstSelectValue}%'
-                AND TMP.estado like '%${secondSelectValue}%'
-                AND (TMP.nomReceptor like '%${buscar}%' COLLATE utf8mb4_unicode_ci
-                OR TMP.iddonacion like '${buscar}%'
-                OR TMP.nomVoluntario like '%${buscar}%'
-                OR TMP.alimento like '%${buscar}%');
+                TMP.tipo_envio as 'Tipo envio', TMP.nomVoluntario voluntario, 
+                TMP.estado, TMP.fecha_entrega as 'fecha entrega', TMP.alimentos
+              FROM (SELECT d.iddonacion, obtenerNombreGeneralx(g.idgeneral, g.tipo) AS nomReceptor, 
+                d.tipo_envio, 
+                CASE 
+                  WHEN TRIM(CONCAT_WS(' ', v.apellido_pat, v.apellido_mat, v.nombre)) = '' OR 
+                    TRIM(CONCAT_WS(' ', v.apellido_pat, v.apellido_mat, v.nombre)) IS NULL 
+                  THEN '-'
+                  ELSE TRIM(CONCAT_WS(' ', v.apellido_pat, v.apellido_mat, v.nombre))
+                END AS nomVoluntario, 
+                d.estado, DATE_FORMAT(d.fecha_entrega, '%Y-%m-%d') fecha_entrega, obtenerNombreAlimentoYCantidadPorDonacion(d.iddonacion) alimentos
+              FROM donacion d
+              INNER JOIN general g ON d.idgeneral = g.idgeneral
+              LEFT JOIN voluntario v ON v.idvoluntario = d.idvoluntario) TMP
+              WHERE TMP.tipo_envio like '%${firstSelectValue}%'
+              AND TMP.estado like '%${secondSelectValue}%'
+              AND (TMP.nomReceptor like '%${buscar}%' COLLATE utf8mb4_unicode_ci
+              OR TMP.iddonacion like '${buscar}%'
+              OR TMP.nomVoluntario like '%${buscar}%'
+              OR TMP.alimentos like '%${buscar}%' COLLATE utf8mb4_unicode_ci);
                 `;
 
   db.query(sql, (error, results) => {
@@ -663,10 +308,11 @@ export const nroAlimentoCategorias = (req, res) => {
 };
 
 export const nroAlimentosRecibidos = (req, res) => {
-  const sql = `SELECT a.nombre, COUNT(*) cantidad
+  const sql = `SELECT a.nombre, SUM(ta.cantidad) cantidad
               FROM donacion d
-              INNER JOIN alimento a ON a.idalimento = d.idalimento
-              WHERE d.estado like 'Entregado'
+              INNER JOIN tiene_a ta ON ta.iddonacion = d.iddonacion
+              INNER JOIN alimento a ON a.idalimento =ta.idalimento
+              WHERE d.estado like 'Entregado' 
               GROUP BY  a.nombre;`;
 
   db.query(sql, (error, results) => {
@@ -729,10 +375,10 @@ export const nroEstadoEntrega = (req, res) => {
 export const getDonationsUserx = (req, res) => {
   const { iduser } = req.query;
   const sql = ` SELECT imagen,nombre, obtenerCategoriasAlimentox(idalimento) categoria, DATE_FORMAT(fecha_publicacion, '%Y-%m-%d') 'fecha publicacion', 
-              CONCAT(cantidad_donada, ' ', unidad_medida) 'cant. total', CONCAT(cantidad_donada - cantidad_disponible , ' ', unidad_medida) 'Entregado'
-                FROM alimento
+  CONCAT(Coalesce(cantidad_disponible, 0)+ coalesce(cantidad_reservada,0) + coalesce(cantidad_no_disponible,0) , ' ', unidad_medida) 'cant. total' , CONCAT(cantidad_no_disponible , ' ', unidad_medida) 'cant. entregada'
+    FROM alimento
                 WHERE idgeneral = '${iduser}'
-                ORDER BY entregado desc`;
+                -- ORDER BY entregado desc`;
 
   db.query(sql, (error, results) => {
     if (error) {
@@ -800,11 +446,11 @@ export const getDonMonth = (req, res) => {
 
 export const getDonRec = (req, res) => {
   const { iduser } = req.query;
-  const sql = `SELECT a.imagen, a.nombre, d.tipo_envio 'tipo de envio', DATE_FORMAT(d.fecha_entrega, '%Y-%m-%d') 'fecha entrega', CONCAT(d.cantidad_donacion, ' ', a.unidad_medida) cantidad
-              FROM donacion d
-              INNER JOIN alimento a ON d.idalimento = a.idalimento
-              WHERE d.estado like 'Entregado'
-              AND d.idgeneral like '${iduser}'
+  const sql = `SELECT d.iddonacion,a.imagen, a.nombre, d.tipo_envio 'tipo de envio', DATE_FORMAT(d.fecha_entrega, '%Y-%m-%d') 'fecha entrega',  CONCAT(ta.cantidad, ' ', a.unidad_medida) cantidad
+              FROM DONACION d
+              INNER JOIN TIENE_A ta ON d.iddonacion = ta.iddonacion AND d.idgeneral = '${iduser}'
+              INNER JOIN alimento a ON a.idalimento = ta.idalimento
+              WHERE d.estado like 'Entregado';
               `;
 
   db.query(sql, (error, results) => {
@@ -854,16 +500,25 @@ export const getRecMonth = (req, res) => {
 
 export const getDonationVolunteer = (req, res) => {
   const { iduser } = req.query;
-  const sql = `SELECT u.img_perfil foto, obtenerNombreGeneralx(u.idusuario, g.tipo) receptor,
-                a.nombre alimento, CONCAT(d.cantidad_donacion,' ',a.unidad_medida) cantidad, 
-                DATE_FORMAT(d.fecha_entrega, '%Y-%m-%d') 'fecha entrega'
-              FROM donacion d
-              INNER JOIN general g ON d.idgeneral = g.idgeneral
-              INNER JOIN usuario u ON u.idusuario = g.idgeneral
-              INNER JOIN alimento a ON a.idalimento = d.idalimento
+  const sql = `SELECT u.img_perfil foto,  obtenerNombreGeneralx(u.idusuario, g.tipo) receptor, d.iddonacion,
+                obtenerNombreAlimentoYCantidadPorDonacion(d.iddonacion) alimentos, DATE_FORMAT(d.fecha_entrega, '%Y-%m-%d') 'fecha entrega'
+              FROM DONACION d
+                          INNER JOIN general g ON d.idgeneral = g.idgeneral
+                          INNER JOIN usuario u ON u.idusuario = g.idgeneral
               WHERE d.idvoluntario = '${iduser}'
-              AND d.estado like 'Entregado'
-              `;
+              AND d.estado like 'Entregado';`;
+
+  // const sql = `SELECT u.img_perfil foto,  obtenerNombreGeneralx(u.idusuario, g.tipo) receptor, d.iddonacion,
+  //               a.nombre alimento, CONCAT(ta.cantidad,' ',a.unidad_medida) cantidad,
+  //                         DATE_FORMAT(d.fecha_entrega, '%Y-%m-%d') 'fecha entrega'
+  //             FROM DONACION d
+  //             INNER JOIN general g ON d.idgeneral = g.idgeneral
+  //             INNER JOIN usuario u ON u.idusuario = g.idgeneral
+  //             INNER JOIN TIENE_A ta ON d.iddonacion = ta.iddonacion
+  //             INNER JOIN alimento a ON a.idalimento = ta.idalimento
+  //             WHERE d.idvoluntario = '${iduser}'
+  //                       AND d.estado like 'Entregado'
+  //             `;
 
   db.query(sql, (error, results) => {
     if (error) {
@@ -911,7 +566,6 @@ export const getDonationVolunteerMonth = (req, res) => {
   });
 };
 
-
 export const nroInfoPerfil = (req, res) => {
   const { iduser } = req.query;
   const sql = ` SELECT cantidadAlimentoPublicadoDonadorx('${iduser}') alimentos_publicados,
@@ -923,9 +577,8 @@ export const nroInfoPerfil = (req, res) => {
       console.error("Error al ejecutar la consulta SQL:", error);
       res.status(500).send("Error interno del servidor");
     } else {
-      console.log(results);
+      // console.log(results);
       res.json(results);
     }
   });
 };
-

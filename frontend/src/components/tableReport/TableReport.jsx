@@ -1,13 +1,25 @@
 import React, { useState, useEffect } from "react";
 import "./TableReport.css";
+import { PencilSimple, Trash, Check, X } from "phosphor-react";
 
-const TableReport = ({ tableData, customClassName }) => {
+const TableReport = ({
+  tableData,
+  customClassName,
+  onRowButtonClick,
+  trash,
+}) => {
   const imgPath = "http://localhost:3001/img/";
   const [data, setData] = useState([]);
 
   useEffect(() => {
     setData(tableData || []);
   }, [tableData]);
+
+  const handleButtonClick = (id, actionType) => {
+    if (onRowButtonClick) {
+      onRowButtonClick(id, actionType);
+    }
+  };
 
   return (
     <div>
@@ -42,6 +54,41 @@ const TableReport = ({ tableData, customClassName }) => {
                     )}
                   </td>
                 ))}
+                {onRowButtonClick && (
+                  <td>
+                    <div className="button-edit-container">
+                      <button
+                        className="btn-editar"
+                        onClick={() =>
+                          handleButtonClick(row[Object.keys(row)[0]], "editar")
+                        }
+                      >
+                        <PencilSimple
+                          size={20}
+                          color="var(--background0)"
+                          weight="light"
+                        />
+                      </button>
+                      {trash && (
+                        <button
+                          className="btn-eliminar"
+                          onClick={() =>
+                            handleButtonClick(
+                              row[Object.keys(row)[0]],
+                              "eliminar"
+                            )
+                          }
+                        >
+                          <Trash
+                            size={20}
+                            color="var(--background0)"
+                            weight="light"
+                          />
+                        </button>
+                      )}
+                    </div>
+                  </td>
+                )}
               </tr>
             ))}
           </tbody>

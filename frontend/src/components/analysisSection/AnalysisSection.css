@@ -16,12 +16,14 @@
   border: 0px;
   padding: 0 30px;
   background-color: transparent;
+  padding-bottom: 7px;
   color: var(--text);
 }
 
 .custom-data-table th {
   background-color: transparent;
   color: var(--text);
+  /* border-bottom: 1px solid #ddd; */
 }
 
 .analysis-container-grafics {
@@ -29,7 +31,6 @@
   flex-wrap: wrap;
   gap: 40px;
   justify-content: center;
-
 }
 
 .analysis-barchart-content {
@@ -37,14 +38,14 @@
   max-width: 100%;
 }
 
-.analysis-barchart-content h3{
-    margin: 0;
-  }
+.analysis-barchart-content h3 {
+  margin: 0;
+}
 
 .analysis-barchart-content canvas {
   /* max-width: 100%;
   height: 300px;
   width: 100%; */
-  width: 100%; 
+  width: 100%;
   height: 300px;
 }
