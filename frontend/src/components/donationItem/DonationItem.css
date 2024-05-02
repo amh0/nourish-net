@@ -5,7 +5,7 @@
   flex-wrap: wrap;
   border-radius: 16px;
   box-shadow: 0px 0px 4px 0px var(--textlighter);
-  width: 772px;
+  width: 708px;
   height: 144px;
   padding: 24px;
   background-color: var(--background0);
@@ -42,6 +42,11 @@
   gap: 8px;
   width: 96px;
 }
+.donation-item .detail-section {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
 .donation-item .date-section {
   display: flex;
   justify-content: space-between;
@@ -63,4 +68,41 @@
   border-radius: 8px;
   width: 32px;
   height: 32px;
+}
+.status-container .entregado {
+  color: var(--secondary);
+}
+.status-container .pendiente {
+  color: var(--textlight);
+}
+.status-container .solicitado,
+.status-container .confirmando {
+  color: var(--textlight);
+}
+.status-container .cancelado,
+.status-container .rechazado {
+  color: var(--tertiary);
+}
+
+.single-line {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.donation-item .status-container .btn.pdf-button {
+  display: flex;
+  gap: 4px;
+  width: 80px;
+  font-size: var(--parr2);
+  font-weight: normal;
+}
+.btn-link {
+  all: unset;
+}
+.donation-item .details-btn {
+  height: 24px;
+  width: 72px;
+  font-size: var(--parr2);
+  font-weight: normal;
+  border-radius: 8px;
 }

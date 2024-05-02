@@ -120,3 +120,25 @@
   height: 24px;
   margin-right: 8px;
 }
+
+.container-button-add {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px;
+}
+
+.button-add-admin {
+  width: 30%;
+  padding: 10px 8px;
+  background-color: var(--tertiary_strong);
+  color: var(--background0);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: var(--parr2);
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

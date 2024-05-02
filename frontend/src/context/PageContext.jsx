@@ -5,9 +5,11 @@ const PageContextProvider = (props) => {
   const apiURL = "http://localhost:3001/api";
   const [foodData, setFoodData] = useState([]);
   const [foodCat, setFoodCat] = useState([]);
+  const [volunteers, setVolunteers] = useState([]);
   useEffect(() => {
     fetchData();
     fetchCat();
+    fetchVolunteers();
   }, []);
   const fetchCat = async () => {
     try {
@@ -28,8 +30,21 @@ const PageContextProvider = (props) => {
       console.log(err);
     }
   };
+  const fetchVolunteers = async () => {
+    try {
+      const result = await axios.get(apiURL + "/users/get_volunteers");
+      setVolunteers(result.data);
+    } catch (err) {
+      console.log("Error");
+      console.log(err);
+    }
+  };
 
-  const contextValue = { foodData, foodCat };
+  const contextValue = {
+    foodData,
+    foodCat,
+    volunteers,
+  };
   return (
     <PageContext.Provider value={contextValue}>
       {props.children}

@@ -1,13 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import axios from "axios";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import { Warning, CheckCircle } from "@phosphor-icons/react";
+import { AuthContext } from "../../context/authContext";
 
 import Input from "../input/Input";
 import "./Coordination.css";
 
 const imgPath = "http://localhost:3001/img/";
+const apiPath = "http://localhost:3001/api";
 const methodOptions = [
   {
     value: "Personal",
@@ -22,6 +24,8 @@ const methodOptions = [
 ];
 
 const Coordination = (props) => {
+  const { currentUser } = useContext(AuthContext);
+
   const { product } = props;
   const cantidad = props.cantidad || 1;
   const [method, setMethod] = useState(methodOptions[0]);
@@ -31,7 +35,6 @@ const Coordination = (props) => {
 
   const [insertState, setInsertState] = useState("none");
   const [formError, setFormError] = useState(false);
-
   const listStyle = {
     control: (styles) => ({ ...styles, backgroundColor: "white" }),
     multiValue: (styles, { data }) => {
@@ -63,18 +66,17 @@ const Coordination = (props) => {
   };
   const handleData = () => {
     const formData = {
-      tipo_envio: method.value,
+      tipoEnvio: method.value,
       estado: "Solicitado",
-      fecha_entrega: fecha,
-      hora_entrega: hora,
-      mensaje_solicitud: msg,
-      cantidad_donacion: cantidad,
-      idgeneral: product.idgeneral,
-      idalimento: product.idalimento,
+      fechaEntrega: fecha,
+      horaEntrega: hora,
+      mensajeSolicitud: msg,
+      idDonacion: currentUser.idCarrito, // id del receptor
+      idGeneral: currentUser.idUsuario,
     };
     console.log("formData", formData);
     axios
-      .post("http://localhost:3001/api/donations/insert_donation", formData)
+      .post(apiPath + "/donations/insert_donation", formData)
       .then((res) => {
         if (res.status === 200) {
           console.log("Data inserted");
@@ -171,7 +173,7 @@ const Coordination = (props) => {
         ></textarea>
         <div className="row-wrapper">
           <div className="form-label parr1 bold">Direccion entrega:</div>
-          <div className="parr1 text-address">{product.direccion}</div>
+          <div className="parr1 text-address">{product.direccion_don}</div>
         </div>
       </div>
       {formError ? (
@@ -194,12 +196,12 @@ const Coordination = (props) => {
                 <div></div>
                 <div></div>
               </div>
-              <p className="parr1">Publicando donación...</p>
+              <p className="parr1">Enviando solicitud...</p>
             </>
           ) : insertState === "success" ? (
             <>
               <CheckCircle size={32} color="var(--secondary)" weight="light" />
-              <p className="parr1 boldparr">¡Donacion publicada!</p>
+              <p className="parr1 boldparr">¡Solicitud enviada!</p>
               <p className="parr2">Aceptar</p>
             </>
           ) : insertState === "error" ? (

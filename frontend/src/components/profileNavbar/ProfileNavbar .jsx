@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
-import { Bell } from "phosphor-react";
+import { Bell, ShoppingCartSimple } from "phosphor-react";
 import "./ProfileNavbar.css";
 import logo from "../assets/logo_64.png";
 import perfil from "../assets/perfil.jpg";
@@ -8,6 +8,7 @@ import { AuthContext } from "../../context/authContext";
 const ProfileNavbar = () => {
   const imgPath = "http://localhost:3001/img/";
   const { currentUser } = useContext(AuthContext);
+  const { notificationQty } = useContext(AuthContext);
   const [menu, setMenu] = useState("inicio");
   return (
     <div className="profile-navbar">
@@ -49,43 +50,55 @@ const ProfileNavbar = () => {
           {menu === "donantes" ? <hr /> : <></>}
         </li> */}
 
-        {currentUser && currentUser.isDonor && (
+        {currentUser && (currentUser.isDonor || currentUser.isAdmin) && (
           <li
             onClick={() => {
               setMenu("misDonaciones");
             }}
           >
-            <Link className="link" to="/mis-donaciones">
-              Mis donaciones
+            <Link className="link" to="/donaciones">
+              {currentUser.isAdmin ? "Donaciones" : "Mis donaciones"}
             </Link>
             {menu === "misDonaciones" ? <hr /> : <></>}
           </li>
         )}
 
-        {currentUser && !currentUser.isAdmin && (
+        <li
+          onClick={() => {
+            setMenu("peticiones");
+          }}
+        >
+          <Link className="link" to="/peticiones">
+            Peticiones
+          </Link>
+          {menu === "peticiones" ? <hr /> : <></>}
+        </li>
+
+        <li
+          onClick={() => {
+            setMenu("alimentos");
+          }}
+        >
+          <Link className="link" to="/alimentos">
+            Alimentos
+          </Link>
+          {menu === "alimentos" ? <hr /> : <></>}
+        </li>
+        {currentUser && (currentUser.isVolunteer || currentUser.isAdmin) ? (
           <li
             onClick={() => {
-              setMenu("peticiones");
+              setMenu("evaluacion");
             }}
           >
-            <Link className="link" to="/peticiones">
-              Peticiones
+            <Link className="link" to="/evaluacion">
+              Evaluar
             </Link>
-            {menu === "peticiones" ? <hr /> : <></>}
+            {menu === "evaluacion" ? <hr /> : <></>}
           </li>
+        ) : (
+          <></>
         )}
-        {currentUser && !currentUser.isAdmin && (
-          <li
-            onClick={() => {
-              setMenu("alimentos");
-            }}
-          >
-            <Link className="link" to="/alimentos">
-              Alimentos
-            </Link>
-            {menu === "alimentos" ? <hr /> : <></>}
-          </li>
-        )}
+
         {currentUser && currentUser.isAdmin && (
           <li
             onClick={() => {
@@ -102,7 +115,7 @@ const ProfileNavbar = () => {
       <div className="actions-section">
         <div className="actions-section">
           {currentUser && currentUser.isVolunteer && (
-            <Link className="link" to="/tareas">
+            <Link className="link" to="/donaciones/entregas">
               <button
                 className="btn btn secondary-v"
                 onClick={() => {
@@ -128,14 +141,35 @@ const ProfileNavbar = () => {
         </div>
 
         <div className="user">
+          {currentUser.isReceiver ? (
+            <Link to="/solicitar">
+              <div className="icon-badge-container">
+                <ShoppingCartSimple
+                  size={30}
+                  color="var(--textlight)"
+                  onClick={() => {
+                    setMenu("");
+                  }}
+                />
+                {currentUser.itemQty > 0 ? (
+                  <div className="icon-badge">{currentUser.itemQty}</div>
+                ) : null}
+              </div>
+            </Link>
+          ) : null}
           <Link to="/notificaciones">
-            <Bell
-              size={30}
-              color="var(--textlight)"
-              onClick={() => {
-                setMenu("");
-              }}
-            />
+            <div className="icon-badge-container">
+              <Bell
+                size={30}
+                color="var(--textlight)"
+                onClick={() => {
+                  setMenu("");
+                }}
+              />
+              {notificationQty > 0 ? (
+                <div className="icon-badge notif-badge">{notificationQty}</div>
+              ) : null}
+            </div>
           </Link>
           <Link
             className="link"

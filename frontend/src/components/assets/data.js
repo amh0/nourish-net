@@ -104,5 +104,111 @@ let food_data = [
     imagen: p8_img,
   },
 ];
-
-export default food_data;
+let foodDefault = [
+  {
+    value: 0,
+    label: "Otro",
+    categoria: [],
+  },
+  {
+    value: 1,
+    label: "Arroz blanco",
+    categoria: [7, 8],
+  },
+  {
+    value: 2,
+    label: "Frijoles negros",
+    categoria: [7, 8],
+  },
+  {
+    value: 3,
+    label: "Leche desnatada",
+    categoria: [8, 10],
+  },
+  {
+    value: 4,
+    label: "Pan integral",
+    categoria: [7, 8],
+  },
+  {
+    value: 5,
+    label: "Manzanas",
+    categoria: [1, 9],
+  },
+  {
+    value: 6,
+    label: "Zanahorias",
+    categoria: [2, 9],
+  },
+  {
+    value: 7,
+    label: "Agua embotellada",
+    categoria: [3, 8],
+  },
+  {
+    value: 8,
+    label: "Sopa de verduras en lata",
+    categoria: [5, 8],
+  },
+  {
+    value: 9,
+    label: "Atún enlatado",
+    categoria: [5, 8],
+  },
+  {
+    value: 10,
+    label: "Cereal de desayuno",
+    categoria: [7, 8],
+  },
+  {
+    value: 11,
+    label: "Pasta",
+    categoria: [7, 8],
+  },
+  {
+    value: 12,
+    label: "Salsa de tomate",
+    categoria: [7, 8],
+  },
+  {
+    value: 13,
+    label: "Yogur natural",
+    categoria: [8, 10],
+  },
+  {
+    value: 14,
+    label: "Cereal en caja",
+    categoria: [7, 8],
+  },
+  {
+    value: 15,
+    label: "Pechuga de pollo",
+    categoria: [7, 9],
+  },
+  {
+    value: 16,
+    label: "Espinacas",
+    categoria: [2, 9],
+  },
+  {
+    value: 17,
+    label: "Jugo de naranja",
+    categoria: [1, 3],
+  },
+  {
+    value: 18,
+    label: "Sardinas en lata",
+    categoria: [5, 8],
+  },
+  {
+    value: 19,
+    label: "Mantequilla de maní",
+    categoria: [7, 8],
+  },
+  {
+    value: 20,
+    label: "Tortillas de maíz",
+    categoria: [7, 8],
+  },
+];
+export default foodDefault;

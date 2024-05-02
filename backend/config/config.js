@@ -4,6 +4,7 @@ export const database = {
   password: "",
   database: "bdnourishnet",
   // port: "3307", // my port
+  multipleStatements: true,
 };
 
 export const smtpConfig = {

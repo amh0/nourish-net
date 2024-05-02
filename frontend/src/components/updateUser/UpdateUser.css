@@ -117,7 +117,7 @@
 .button-update {
   background-color: var(--secondary);
   color: white;
-  border: 1px solid var(--secondary);
+  border: 1px solid transparent;
   padding: 8px;
   margin: 10px;
   border-radius: 10px;
@@ -133,4 +133,9 @@
 .container-button-update {
   display: flex;
   justify-content: center;
+}
+
+.container-button-updatePass {
+  display: flex;
+  width: 70%;
 }

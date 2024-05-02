@@ -5,7 +5,11 @@ import axios from "axios";
 
 export const AuthContext = createContext();
 
+const apiURL = "http://localhost:3001/api/";
+
 export const AuthContextProvider = ({ children }) => {
+  const [notificationQty, setNotificationQty] = useState(0);
+  const [uploadedQty, setUploadedQty] = useState(0);
   const [currentUser, setCurrentUser] = useState(
     JSON.parse(localStorage.getItem("user")) || null
   );
@@ -25,6 +29,7 @@ export const AuthContextProvider = ({ children }) => {
     } else if (verificationResult === "emailNotFound") {
       throw new Error("emailNotFound");
     }
+    console.log("requesting user");
     // throw new Error("holaa");
     setCurrentUser(res.data);
   };
@@ -49,8 +54,53 @@ export const AuthContextProvider = ({ children }) => {
     localStorage.setItem("user", JSON.stringify(currentUser));
   }, [currentUser]);
 
+  useEffect(() => {
+    const fetchUploaded = async () => {
+      try {
+        const result = await axios.post(apiURL + "users/get_not_assigned_qty", {
+          idUsuario: currentUser.idusuario,
+        });
+        setUploadedQty(result.data[0].uploadedQty);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchUploaded();
+  }, [currentUser]);
+
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      try {
+        const result = await axios.post(
+          apiURL + "users/get_notifications_qty",
+          {
+            idUsuario: currentUser.idusuario,
+          }
+        );
+        setNotificationQty(result.data[0].newNotifQty);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchNotifications();
+  }, [currentUser]);
+  // useEffect(() => {
+  //   localStorage.setItem("notificationQty", JSON.stringify(notificationQty));
+  //   console.log(localStorage);
+  // }, [notificationQty]);
   return (
-    <AuthContext.Provider value={{ currentUser, login, logout  }}>
+    <AuthContext.Provider
+      value={{
+        currentUser,
+        login,
+        logout,
+        setCurrentUser,
+        notificationQty,
+        setNotificationQty,
+        uploadedQty,
+        setUploadedQty,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

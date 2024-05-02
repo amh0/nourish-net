@@ -21,23 +21,42 @@ import Tareas from "./pages/Tareas";
 import Notificaciones from "./pages/Notificaciones";
 import Perfil from "./pages/Perfil";
 import CoordSolicitud from "./pages/CoordSolicitud";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "./context/authContext";
 import Informes from "./pages/Informes";
 
+import CartPage from "./pages/CartPage";
+import DetalleDonacion from "./pages/DetalleDonacion";
+import DonacionesVoluntario from "./pages/DonacionesVoluntario";
+import Evaluar from "./pages/Evaluar";
+import UpdateUser from "./components/updateUser/UpdateUser";
+
 function App() {
   const { currentUser } = useContext(AuthContext);
+  const [openUpdate, setOpenUpdate] = useState(true);
 
   useEffect(() => {
     if (!currentUser) {
       console.log("Usuario no autenticado. Redireccionando...");
     }
+    setOpenUpdate(true);
   }, [currentUser]);
 
   return (
     <div>
       <BrowserRouter>
         <ScrollToTop />
+        {openUpdate &&
+          currentUser &&
+          currentUser.isAdmin &&
+          currentUser.actualizar_pass === 1 && (
+            <UpdateUser
+              setOpenUpdate={setOpenUpdate}
+              btnClose={true}
+              cambiarContrasenia={true}
+              mensaje={"Debe cambiar su contraseña"}
+            />
+          )}
         {currentUser ? <ProfileNavbar /> : <NavBar />}
         <Routes>
           <Route path="/" element={<Inicio />} />
@@ -52,23 +71,64 @@ function App() {
             path="/producto/:productId/solicitud"
             element={<CoordSolicitud />}
           />
-          {currentUser && <Route path="/donar" element={<Publicar />} />}{" "}
-          {/* verify donor */}
+          {currentUser && <Route path="/donar" element={<Publicar />} />}
+
+          {/*verify donor*/}
           {!currentUser && <Route path="/login" element={<Login />} />}
           {!currentUser && <Route path="/signup" element={<Signup />} />}
           {!currentUser && <Route path="/loginHelp" element={<LoginHelp />} />}
           {currentUser && <Route path="/donantes" element={<Donantes />} />}
-          {currentUser && currentUser.isDonor && (
-            <Route path="/mis-donaciones" element={<MisDonaciones />} />
+          {/* donaciones */}
+          {currentUser && (
+            <>
+              <Route path="/donaciones" element={<MisDonaciones />} />
+              <Route path="/detalles" element={<DetalleDonacion />}>
+                <Route path=":donacionId" element={<DetalleDonacion />} />
+              </Route>
+            </>
           )}
           {currentUser && <Route path="/peticiones" element={<Peticiones />} />}
+          {/*verify volunteer*/}
           {currentUser && currentUser.isVolunteer && (
-            <Route path="/tareas" element={<Tareas />} />
+            <>
+              <Route path="/tareas" element={<Tareas />} />
+              <Route
+                path="/donaciones/entregas"
+                element={<DonacionesVoluntario />}
+              />
+              <Route
+                path="/donaciones/entregas/detalles"
+                element={<DetalleDonacion dePaginaTareas={true} />}
+              >
+                <Route
+                  path=":donacionId"
+                  element={<DetalleDonacion dePaginaTareas={true} />}
+                />
+              </Route>
+            </>
           )}
-          {/* verify volunteer */}
+          {/* Evaluacion */}
+          {currentUser && (currentUser.isVolunteer || currentUser.isAdmin) && (
+            <>
+              <Route path="/evaluacion" element={<Evaluar />} />
+              <Route path="/evaluacion" element={<Product />}>
+                <Route path=":productId" element={<Product />} />
+              </Route>
+            </>
+          )}
           {currentUser && (
             <Route path="/notificaciones" element={<Notificaciones />} />
           )}
+          {currentUser && !currentUser.isAdmin && (
+            <>
+              <Route path="/solicitar" element={<CartPage isCart={true} />} />
+              <Route
+                path="/donar/entrega"
+                element={<CartPage isCart={false} />}
+              />
+            </>
+          )}
+
           {currentUser && <Route path="/perfil/:id" element={<Perfil />} />}
           {currentUser && currentUser.isAdmin && (
             <Route path="/informes" element={<Informes />} />

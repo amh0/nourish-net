@@ -1,0 +1,16 @@
+.notification-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.icon {
+  flex-shrink: 0;
+}
+.notification-item .text-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.notification-item .notification-time {
+  color: var(--textlight);
+}

@@ -151,6 +151,13 @@ export const register = async (req, res) => {
       await queryDatabase(insertVoluntarioQuery, valueV);
       console.log("User successfully registered in the VOLUNTARIO table.");
     }
+    // carrito
+    const cartQuery = "insert into donacion (idgeneral, estado) values (?, ?)";
+    const cartValues = [userId, "Inactivo"];
+    await queryDatabase(cartQuery, cartValues);
+    console.log("Carrito creado....");
+    // -------
+
     res.status(200).json({
       message: "User successfully registered in database",
       userId,
@@ -193,6 +200,9 @@ export const login = async (req, res) => {
     let isReceiver = false;
     let isBeneficial = false;
 
+    let idCarrito = -1;
+    let itemQty = 0;
+    let newNotifQty = 0;
     //ADMIN
     const adminQuery = "SELECT * FROM ADMIN WHERE idadmin = ?";
     const adminResults = await queryDatabase(adminQuery, [
@@ -201,7 +211,6 @@ export const login = async (req, res) => {
 
     if (adminResults.length > 0) {
       isAdmin = true;
-
       const adminData = { ...adminResults[0] };
       delete adminData.idadmin;
       userData = { ...userData, ...adminData };
@@ -222,7 +231,23 @@ export const login = async (req, res) => {
       const roleResults = await queryDatabase(roleQuery, [
         selectResults[0].idusuario,
       ]);
-
+      // --- obtener id carrito
+      const cartQuery = `select g.idgeneral as idgeneral, iddonacion as idCarrito
+         from general g inner join donacion d 
+         on g.idgeneral = d.idgeneral 
+         where g.idgeneral = ? and estado = ?`;
+      const cartData = [selectResults[0].idusuario, "Inactivo"];
+      const cartResult = await queryDatabase(cartQuery, cartData);
+      // obtener cantidad de productos
+      if (cartResult.length > 0) {
+        idCarrito = cartResult[0].idCarrito;
+        const qtyQuery = `select count(idalimento) cantidadProd
+        from tiene_a 
+        where iddonacion = ?`;
+        const qtyResult = await queryDatabase(qtyQuery, [idCarrito]);
+        itemQty = qtyResult[0].cantidadProd;
+      }
+      // ---
       if (roleResults.length > 0) {
         const userRole = roleResults[0].rol.split(" ");
         if (userRole.includes("Receptor")) isReceiver = true;
@@ -265,6 +290,8 @@ export const login = async (req, res) => {
       isOrganization: isOrganization,
       isReceiver: isReceiver,
       isBeneficial: isBeneficial,
+      idCarrito: idCarrito,
+      itemQty: itemQty,
     };
 
     // console.log(JSON.stringify(userData));
@@ -327,4 +354,119 @@ const queryDatabase = (query, values) => {
       }
     });
   });
+};
+
+// CAMBIAR CONTRASENIA
+export const verifyPassword = async (req, res) => {
+  const userId = req.body.userId;
+  const currentPassword = req.body.currentPassword;
+  const newPassword = req.body.newPassword;
+  // console.log(req.body);
+  try {
+    const userQuery = "SELECT contrasenia FROM usuario WHERE idusuario = ?";
+    const userResults = await queryDatabase(userQuery, [userId]);
+
+    if (userResults.length === 1) {
+      const hashedPasswordFromDB = userResults[0].contrasenia;
+      // console.log(userResults);
+
+      const isPasswordMatch = bcrypt.compareSync(
+        currentPassword,
+        hashedPasswordFromDB
+      );
+
+      if (isPasswordMatch) {
+        // La contraseña es correcta so cambiarla
+        if (currentPassword === newPassword) {
+          res.status(200).send({
+            message: "La nueva contraseña debe ser distinta a la antigua",
+          });
+        } else {
+          const salt = bcrypt.genSaltSync(10);
+          const hashedPassword = bcrypt.hashSync(newPassword, salt);
+          const updateQuery =
+            "UPDATE usuario SET contrasenia = ? WHERE idusuario = ?";
+          await queryDatabase(updateQuery, [hashedPassword, userId]);
+
+          // si es admin
+          const updateQ =
+            "UPDATE admin SET actualizar_pass = FALSE WHERE idadmin = ?";
+          await queryDatabase(updateQ, [userId]);
+          res.status(200).send({ success: true });
+        }
+      } else {
+        // La contraseña es incorrecta
+        res
+          .status(200)
+          .send({ success: false, message: "Contraseña incorrecta" });
+      }
+    } else {
+      res.status(404).send({ message: "Usuario no encontrado" });
+    }
+  } catch (error) {
+    console.error("Error verifying password:", error);
+    res.status(500).send("Error verifying password");
+  }
+};
+
+export const addAdmin = async (req, res) => {
+  let imagen = null;
+  if (req.file) {
+    imagen = req.file.filename;
+  }
+  const { correo, contrasena, nombre, apellido_paterno, apellido_materno } =
+    req.body;
+  console.log(req.body);
+
+  if (correo === "" || contrasena == "") {
+    res.status(200).send({
+      message: "Es necesario llenar los espacios de correo y contraseña.",
+    });
+  } else {
+    const userQuery = "SELECT * FROM usuario WHERE correo = ?";
+    const userResults = await queryDatabase(userQuery, [correo]);
+    // console.log(userResults);
+    if (userResults.length === 1) {
+      res.status(200).send({
+        message: "El correo ya existe utilice otro.",
+      });
+    } else {
+      const salt = bcrypt.genSaltSync(10);
+      const hashedPassword = bcrypt.hashSync(contrasena, salt);
+
+      // USUARIO table
+      const insertUserQuery =
+        "INSERT INTO usuario(correo, contrasenia, img_perfil) VALUES (?, ?, ?)";
+      const insertUserResult = await queryDatabase(insertUserQuery, [
+        correo,
+        hashedPassword,
+        imagen,
+      ]);
+      const userId = insertUserResult.insertId;
+
+      //TABLA ADMIN
+      const insertAdminQuery =
+        "INSERT INTO admin(idadmin, nombre, apellido_pat, apellido_mat) VALUES (?,?, ?, ?)";
+      const insertAdminResult = await queryDatabase(insertAdminQuery, [
+        userId,
+        nombre,
+        apellido_paterno,
+        apellido_materno,
+      ]);
+
+      //enviar correo:
+      const transporter = nodemailer.createTransport(smtpConfig);
+      const mailOptions = {
+        from: smtpConfig.auth.user,
+        to: correo,
+        subject: "NOURISH NET: NUEVO ADMINISTRADOR",
+        text: `Su correo: ${correo} fue registrado como parte de los Admiistradores de nuestra página. \nLa contraseña con la que puede ingresar a su cuenta es: \n${contrasena}\n Al ingresar a su cuenta debe cambiar su contraseña.`,
+      };
+      const sendMailResult = await transporter.sendMail(mailOptions);
+      console.log("Verification email sent successfully");
+      res.status(200).send({
+        message: "ok",
+      });
+    }
+  }
 };

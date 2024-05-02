@@ -22,9 +22,13 @@
   height: 560px;
   width: 200px;
   background-color: var(--background0);
+  color: var(--text);
 }
 .sidebar .title5 {
   margin-bottom: 32px;
+}
+.sidebar ol + .title5 {
+  margin-top: 32px;
 }
 .categories {
   list-style: none;
@@ -47,6 +51,7 @@
   border-radius: 8px;
 }
 .search-bar .input-wrapper {
+  flex: 1;
   margin: 0px;
 }
 .search-bar .input-wrapper input {
@@ -61,4 +66,9 @@
   border-radius: 8px;
   width: 40px;
   height: 40px;
+}
+.icon-text-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }

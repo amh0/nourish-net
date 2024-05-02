@@ -94,6 +94,14 @@
   background-color: var(--primary);
   color: var(--background0);
 }
+.bg0-tertiary-v {
+  background-color: var(--background0);
+  color: var(--primary);
+}
+.bg0-tertiary-v:active {
+  background-color: var(--tertiarylighter);
+  color: var(--background0);
+}
 .bg-text-v {
   background-color: var(--text);
   color: var(--background1);

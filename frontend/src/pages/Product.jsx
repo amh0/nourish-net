@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { PageContext } from "../context/PageContext";
 import ProductDisplay from "../components/productDisplay/ProductDisplay";
 import { ArrowLeft } from "@phosphor-icons/react";
@@ -8,6 +8,11 @@ import "./css/Product.css";
 const Product = () => {
   const { foodData } = useContext(PageContext);
   const { productId } = useParams();
+  // obtener ruta desde la cual se llamo a este componente
+  const location = useLocation().pathname.substring(1, 11);
+  // verificar si se deben mostrar los controles de evaluacion
+  const isEvaluation = location === "evaluacion";
+
   // verifica que los datos se hayan obtenido de la base
   if (foodData === undefined || foodData.length === 0) {
     console.log("Fetching data... ");
@@ -21,12 +26,14 @@ const Product = () => {
   return (
     <div>
       <div className="go-back">
-        <Link className="link" to="/alimentos">
+        <Link className="link" to={isEvaluation ? "/evaluacion" : "/alimentos"}>
           <ArrowLeft size={24} weight="light" color="var(--textlight)" />
-          <p className="parr1">Volver a Alimentos</p>
+          <p className="parr1">
+            Volver a {isEvaluation ? "Evaluar" : "Alimentos"}
+          </p>
         </Link>
       </div>
-      <ProductDisplay product={product} />
+      <ProductDisplay product={product} isEval={isEvaluation} />
     </div>
   );
 };

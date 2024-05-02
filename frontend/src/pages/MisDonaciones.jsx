@@ -1,80 +1,169 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
-import { MagnifyingGlass } from "@phosphor-icons/react";
-import "./css/MisDonaciones.css";
+import {
+  MagnifyingGlass,
+  X,
+  Funnel,
+  HandHeart,
+  HandArrowUp,
+  HandArrowDown,
+} from "@phosphor-icons/react";
+
+import { AuthContext } from "../context/authContext";
 import DonationItem from "../components/donationItem/DonationItem";
-const imgPath = "http://localhost:3001/img/";
+import "./css/MisDonaciones.css";
+
 const apiPath = "http://localhost:3001/api";
 const MisDonaciones = () => {
+  const { currentUser } = useContext(AuthContext);
   const [donationsData, setDonationsData] = useState([]);
+  const [filteredDonations, setFilteredDonations] = useState(donationsData);
+  const [statusFilter, setStatusFilter] = useState("");
+  const [typeFilter, setTypeFilter] = useState("");
+  const [search, setSearch] = useState("");
   useEffect(() => {
-    fetchData();
+    getAllDonations();
   }, []);
-  const fetchData = async () => {
+  const getAllDonations = async () => {
     try {
-      const result = await axios(apiPath + "/donations/findall");
-
+      let result = [];
+      if (currentUser.isAdmin) {
+        result = await axios(apiPath + "/donations/findall");
+      } else {
+        result = await axios.post(apiPath + "/donations/find_by_user", {
+          idUsuario: currentUser.idusuario,
+          assignedDonations: false,
+        });
+      }
       setDonationsData(result.data);
+      // setFilteredDonations(result.data);
     } catch (err) {
       console.log("Error");
       console.log(err);
     }
   };
-  console.log(donationsData);
+  // filterEffect
+  useEffect(() => {
+    const newData = donationsData.filter((donation) => {
+      let filteredByType = true;
+      let filteredByStatus = true;
+      let filteredBySearch = true;
+      if (typeFilter === "Donado") {
+        // donaciones hechas al banco de alimentos
+        filteredByType = !donation.aUsuario;
+      } else if (typeFilter === "Recibido") {
+        // donaciones solicitadas al banco
+        filteredByType = donation.aUsuario;
+      }
+      filteredByStatus =
+        !statusFilter ||
+        statusFilter === "Todos" ||
+        donation.estado === statusFilter;
+      filteredBySearch =
+        search === "" ||
+        donation.nombreGeneral.toLowerCase().includes(search.toLowerCase());
+
+      return filteredByType && filteredByStatus && filteredBySearch;
+    });
+    // console.log(newData);
+    setFilteredDonations(newData);
+  }, [statusFilter, typeFilter, search, currentUser, donationsData]);
+
   return (
     <div className="mis-donaciones">
       <div className="sidebar">
-        <h5 className="title5">Estado</h5>
+        <h5 className="title5 accent-secondary">Tipo</h5>
         <ol className="categories">
-          <li>Todos</li>
-          <li>Entregado</li>
-          <li>Pendiente</li>
-          <li>Solicitado</li>
-          <li>Cancelado</li>
-          <li>Rechazado</li>
+          <li onClick={() => setTypeFilter("Todos")}>
+            <div className="icon-text-wrapper">
+              <HandHeart size={24} weight="light" color="var(--textlight)" />
+              Todos
+            </div>
+          </li>
+          <li onClick={() => setTypeFilter("Donado")}>
+            <div className="icon-text-wrapper">
+              <HandArrowUp
+                size={24}
+                weight="light"
+                color="var(--primary_strong)"
+              />
+              Donado
+            </div>
+          </li>
+          <li onClick={() => setTypeFilter("Recibido")}>
+            <div className="icon-text-wrapper">
+              <HandArrowDown
+                size={24}
+                weight="light"
+                color="var(--secondary)"
+              />
+              Recibido
+            </div>
+          </li>
         </ol>
-        {/* <h5 className="title5">Ordenar por</h5>
-        <ol>
-          <li>Más cercano</li>
-          <li>Más reciente</li>
-          <li>Más donaciones</li>
-        </ol> */}
+        <h5 className="title5 accent-secondary">Estado</h5>
+        <ol className="categories">
+          <li onClick={() => setStatusFilter("Todos")}>Todos</li>
+          <li onClick={() => setStatusFilter("Entregado")}>Entregado</li>
+          <li onClick={() => setStatusFilter("Confirmando")}>Confirmando</li>
+          <li onClick={() => setStatusFilter("Pendiente")}>Pendiente</li>
+          <li onClick={() => setStatusFilter("Solicitado")}>Solicitado</li>
+          <li onClick={() => setStatusFilter("Cancelado")}>Cancelado</li>
+          <li onClick={() => setStatusFilter("Rechazado")}>Rechazado</li>
+        </ol>
       </div>
       <div className="donations-section">
-        <div className="search-bar">
-          <div className="input-wrapper">
-            <input
-              className="input"
-              type="text"
-              id="search"
-              placeholder="Buscar..."
-            />
+        <div className="filter-wrapper">
+          <div className="search-bar">
+            <div className="input-wrapper">
+              <input
+                className="input"
+                type="text"
+                id="search"
+                placeholder="Buscar..."
+                onChange={(e) => setSearch(e.target.value)}
+              />
+            </div>
+            <button className="btn secondary-v">
+              <MagnifyingGlass
+                size={24}
+                weight="light"
+                color="var(--background0)"
+              />
+            </button>
           </div>
-          <button className="btn secondary-v">
-            <MagnifyingGlass
-              size={24}
-              weight="light"
-              color="var(--background0)"
-            />
-          </button>
+          <div className="filter-section">
+            {statusFilter && statusFilter !== "Todos" ? (
+              <div className="icon-container light-v">
+                <Funnel size={24} color="var(--textlight)" weight="bold" />
+              </div>
+            ) : null}
+            <div className="filter-container">
+              {typeFilter && typeFilter !== "Todos" ? (
+                <>
+                  <div className="filter-text">{typeFilter}</div>
+                  <button className="btn" onClick={() => setStatusFilter("")}>
+                    <X size={16} color="var(--parr1)" weight={"bold"} />
+                  </button>
+                </>
+              ) : null}
+              {statusFilter && statusFilter !== "Todos" ? (
+                <>
+                  <div className="filter-text">{statusFilter}</div>
+                  <button className="btn" onClick={() => setStatusFilter("")}>
+                    <X size={16} color="var(--parr1)" weight={"bold"} />
+                  </button>
+                </>
+              ) : null}
+            </div>
+          </div>
         </div>
         <div className="donations-list">
-          {donationsData.map((item, i) => {
-            return (
-              <DonationItem
-                key={i}
-                nombre={item.nombre_alimento}
-                imagen={imgPath + item.imagen}
-                unidad_medida={item.unidad_medida}
-                nombre_receptor={item.nombre_receptor}
-                direccion={item.direccion_receptor}
-                cantidad_donacion={item.cantidad_donacion}
-                fecha_entrega={item.fecha_entrega}
-                hora_entrega={item.hora_entrega}
-                estado={item.estado}
-              />
-            );
-          })}
+          {filteredDonations && filteredDonations.length > 0
+            ? filteredDonations.map((item) => {
+                return <DonationItem key={item.idDonacion} donacion={item} />;
+              })
+            : "No se encontraron resultados..."}
         </div>
       </div>
     </div>

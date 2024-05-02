@@ -1,0 +1,119 @@
+.donation-display {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  margin: 40px auto 120px auto;
+  max-width: 496px;
+  padding: 0px 16px;
+  font-family: "Open Sans", sans-serif;
+}
+.donation-display .grid-prod {
+  display: grid;
+  grid-template-columns: 1fr 80px 80px;
+  row-gap: 12px;
+  column-gap: 16px;
+  align-items: center;
+  margin-bottom: 24px;
+}
+.donation-display .cell-left {
+  justify-self: end;
+}
+.donation-display .img-container {
+  width: 80px;
+  height: 80px;
+  flex: 0 0 auto;
+}
+.donation-display .img-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.donation-display .product-name-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.donation-display .row-border {
+  border-top: 2px solid var(--textlight);
+  grid-column: 1 / 4;
+}
+.donation-display .row-border-lighter {
+  border-top: 2px solid var(--textlighter);
+  grid-column: 1 / 4;
+}
+.donation-display .form-area {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+.donation-display .metodo-title {
+  margin-bottom: 24px;
+}
+.donation-display .row-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+
+.donation-display .row-wrapper2 {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.donation-display .title-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.donation-display .title-wrapper .row-wrapper {
+  gap: 8px;
+}
+.donation-display .input-wrapper input {
+  box-sizing: border-box;
+  width: 100%;
+  margin-right: 0px;
+  padding: 0px 16px;
+  font-family: "Open Sans", sans-serif;
+}
+.donation-display .input-field label {
+  left: 16px;
+}
+.donation-display .text-area {
+  box-sizing: border-box;
+  border-radius: 6px;
+  padding: 16px;
+  display: flex;
+  width: 100%;
+  height: 96px;
+  font-family: "Open Sans", sans-serif;
+  resize: none;
+}
+.donation-display .text-area::placeholder {
+  color: var(--textlighter);
+}
+.donation-display .row-wrapper .list-option {
+  width: 100%;
+  flex: 1;
+}
+.donation-display .row-wrapper .input-wrapper,
+.donation-display .row-wrapper .parr2 {
+  flex: 1;
+}
+.donation-display .btn {
+  width: 100%;
+}
+.donation-display .state-container {
+  margin-top: 0px;
+}
+.donation-display .donations-info .row-wrapper {
+  margin-bottom: 16px;
+  gap: 24px;
+}
+.donation-display .title5 {
+  margin-bottom: 24px;
+}
+.donation-display  .sub-title {
+  width: 80px;
+  /* text-align: end; */
+}

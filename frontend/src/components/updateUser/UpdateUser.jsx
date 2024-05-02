@@ -6,7 +6,21 @@ import { AuthContext } from "../../context/authContext";
 import { PlusCircle } from "phosphor-react";
 import axios, { toFormData } from "axios";
 
-const UpdateUser = ({ setOpenUpdate }) => {
+const UpdateUser = ({
+  setOpenUpdate,
+  btnClose,
+  cambiarContrasenia,
+  mensaje,
+}) => {
+  //ACTUALIZAR CONTRASENIA
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmNewPassword, setConfirmNewPassword] = useState("");
+  const [showCambiarContrasenia, setShowCambiarContrasenia] = useState(
+    cambiarContrasenia || false
+  );
+  const [errorMensaje, setErrorMensaje] = useState("");
+
   const imgPath = "http://localhost:3001/img/";
   const { currentUser } = useContext(AuthContext);
   const [entityTypes, setEntityTypes] = useState([
@@ -104,6 +118,47 @@ const UpdateUser = ({ setOpenUpdate }) => {
     setTexts((prev) => ({ ...prev, [name]: e.target.value }));
   };
 
+  const handleSubmitPass = () => {
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+    if (
+      newPassword === "" ||
+      confirmNewPassword === "" ||
+      currentPassword === ""
+    ) {
+      setErrorMensaje("Llene los espacios");
+    } else if (newPassword !== confirmNewPassword) {
+      setErrorMensaje("Las contraseñas no coinciden");
+    } else if (!passwordRegex.test(newPassword)) {
+      setErrorMensaje(
+        "La contraseña debe contener al menos una mayúscula, una minúscula, un número y tener una longitud mínima de 8 caracteres"
+      );
+    } else {
+      verificarContraseña(currentUser.idusuario, currentPassword, newPassword);
+    }
+  };
+
+  const verificarContraseña = async (userId, currentPassword, newPassword) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:3001/api/auth/verifyPassword",
+        {
+          userId: userId,
+          currentPassword: currentPassword,
+          newPassword: newPassword,
+        }
+      );
+
+      setErrorMensaje(response.data.message);
+      // Manejar la respuesta de la API
+      if (response.data.success) {
+        console.log("La contraseña es correcta y actualizacion realizada");
+        setOpenUpdate(false);
+      }
+    } catch (error) {
+      console.error("Error al verificar la contraseña:", error);
+    }
+  };
+
   const handleSubmit = () => {
     const formData = new FormData();
     formData.append("nombre", texts.nombre);
@@ -127,8 +182,6 @@ const UpdateUser = ({ setOpenUpdate }) => {
       console.error("No se encontró el token de autenticación.");
       return;
     }
-    console.log(file);
-
     const userData = {
       ...data,
       token: token,
@@ -147,16 +200,17 @@ const UpdateUser = ({ setOpenUpdate }) => {
         withCredentials: true,
       })
       .then((response) => {
+        console.log("RES:", response.data);
         if (response.data && response.data.newTokenData) {
           localStorage.setItem(
             "user",
             JSON.stringify(response.data.newTokenData)
           );
           window.location.reload();
-          setOpenUpdate(false);
+          if (!btnClose) {
+            setOpenUpdate(false);
+          }
         }
-
-        console.log(response.data);
       })
       .catch((error) => {
         console.error("Error al enviar la solicitud:", error);
@@ -167,167 +221,234 @@ const UpdateUser = ({ setOpenUpdate }) => {
     <div class="container-u">
       <div class="update-container">
         <div className="update">
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <span style={{ color: "var(--textlight)" }}>Editar Perfil</span>
-            <button
-              onClick={() => setOpenUpdate(false)}
-              style={{
-                backgroundColor: "var(--tertiary)",
-                color: "var(--background0)",
-                padding: "8px 16px",
-                border: "none",
-                borderRadius: "4px",
-              }}
-            >
-              X
-            </button>
-          </div>
-          <form>
-            <div className="update-add-profile-image">
-              <div className="update-profile-image-container">
-                <img
-                  // src={preview && imgPath + preview}
+          {showCambiarContrasenia ? (
+            <>
+              <h2>Cambiar contraseña</h2>
 
-                  src={
-                    preview === currentUser.img_perfil
-                      ? imgPath + preview
-                      : preview
-                  }
-                  alt="Profile"
-                  className="update-profile-image"
+              <div className="flex-column-container-update">
+                {mensaje && (
+                  <span style={{ color: "var(--tertiary_strong)" }}>
+                    *{mensaje}
+                  </span>
+                )}
+                <Input
+                  type={"password"}
+                  placeholder={"Contraseña actual"}
+                  value={currentPassword}
+                  onChange={(e) => setCurrentPassword(e.target.value)}
                 />
-                <label htmlFor="file-upload">
-                  <input
-                    id="file-upload"
-                    type="file"
-                    accept="image/jpg, image/jpeg, image/png"
-                    onChange={handleFile}
-                    style={{ display: "none" }}
-                  />
-                </label>
-
-                <div
-                  className="update-profile-image-overlay"
-                  onClick={handleAddImage}
+                <Input
+                  type={"password"}
+                  placeholder={"Nueva contraseña"}
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                />
+                <Input
+                  type={"password"}
+                  placeholder={"Confirmar nueva contraseña"}
+                  value={confirmNewPassword}
+                  onChange={(e) => setConfirmNewPassword(e.target.value)}
+                />
+                <span
+                  style={{
+                    color: "var(--textlight)",
+                    fontSize: "var(--parr2)",
+                  }}
                 >
-                  <PlusCircle
-                    size={200}
-                    color="var(--secondary)"
-                    weight="fill"
-                  />
+                  {errorMensaje}
+                </span>
+                <div className="container-button-updatePass">
+                  {!btnClose && (
+                    <button
+                      style={{ background: "var(--tertiary_strong)" }}
+                      className="button-update"
+                      onClick={() => setShowCambiarContrasenia(false)}
+                    >
+                      Cancelar
+                    </button>
+                  )}
+
+                  <button className="button-update" onClick={handleSubmitPass}>
+                    Cambiar contraseña
+                  </button>
                 </div>
               </div>
-            </div>
+            </>
+          ) : (
+            <>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <span style={{ color: "var(--textlight)" }}>Editar Perfil</span>
+                {!btnClose && (
+                  <button
+                    onClick={() => setOpenUpdate(false)}
+                    style={{
+                      backgroundColor: "var(--tertiary)",
+                      color: "var(--background0)",
+                      padding: "8px 16px",
+                      border: "none",
+                      borderRadius: "4px",
+                    }}
+                  >
+                    X
+                  </button>
+                )}
+              </div>
+              <form>
+                <div className="update-add-profile-image">
+                  <div className="update-profile-image-container">
+                    <img
+                      // src={preview && imgPath + preview}
 
-            <div className="flex-column-container-update">
-              <Input
-                type={"text"}
-                placeholder={"Nombre"}
-                // value={texts.nombre || ""}
-                value={texts.nombre || ""}
-                onChange={(e) => handleChange(e, "nombre")}
-              />
+                      src={
+                        preview === currentUser.img_perfil
+                          ? imgPath + preview
+                          : preview
+                      }
+                      alt="Profile"
+                      className="update-profile-image"
+                    />
+                    <label htmlFor="file-upload">
+                      <input
+                        id="file-upload"
+                        type="file"
+                        accept="image/jpg, image/jpeg, image/png"
+                        onChange={handleFile}
+                        style={{ display: "none" }}
+                      />
+                    </label>
 
-              {!currentUser.isOrganization && (
+                    <div
+                      className="update-profile-image-overlay"
+                      onClick={handleAddImage}
+                    >
+                      <PlusCircle
+                        size={200}
+                        color="var(--secondary)"
+                        weight="fill"
+                      />
+                    </div>
+                  </div>
+                </div>
+
                 <div className="flex-column-container-update">
-                  {/* <Input
+                  <Input
+                    type={"text"}
+                    placeholder={"Nombre"}
+                    // value={texts.nombre || ""}
+                    value={texts.nombre || ""}
+                    onChange={(e) => handleChange(e, "nombre")}
+                  />
+
+                  {!currentUser.isOrganization && (
+                    <div className="flex-column-container-update">
+                      {/* <Input
                   type={"text"}
                   placeholder={"Nombre"}
                   value={texts.nombre || ""}
                   onChange={(e) => handleChange(e, "nombre")}
                 /> */}
 
-                  <Input
-                    type={"text"}
-                    placeholder={"Apellido Paterno"}
-                    value={texts.apellido_pat || ""}
-                    onChange={(e) => handleChange(e, "apellido_pat")}
-                  />
-                  <Input
-                    type={"text"}
-                    placeholder={"Apellido Materno"}
-                    value={texts.apellido_mat || ""}
-                    onChange={(e) => handleChange(e, "apellido_mat")}
-                  />
+                      <Input
+                        type={"text"}
+                        placeholder={"Apellido Paterno"}
+                        value={texts.apellido_pat || ""}
+                        onChange={(e) => handleChange(e, "apellido_pat")}
+                      />
+                      <Input
+                        type={"text"}
+                        placeholder={"Apellido Materno"}
+                        value={texts.apellido_mat || ""}
+                        onChange={(e) => handleChange(e, "apellido_mat")}
+                      />
+
+                      {!currentUser.isAdmin && (
+                        <div className="flex-column-container-update">
+                          <Input
+                            type={"date"}
+                            placeholder={"Fecha nacimiento"}
+                            value={
+                              texts.fechanaci
+                                ? convertirFecha(texts.fechanaci)
+                                : ""
+                            }
+                            onChange={(e) => handleChange(e, "fechanaci")}
+                          />
+                        </div>
+                      )}
+                    </div>
+                  )}
 
                   {!currentUser.isAdmin && (
                     <div className="flex-column-container-update">
                       <Input
-                        type={"date"}
-                        placeholder={"Fecha nacimiento"}
-                        value={
-                          texts.fechanaci ? convertirFecha(texts.fechanaci) : ""
-                        }
-                        onChange={(e) => handleChange(e, "fechanaci")}
+                        type={"text"}
+                        placeholder={"Dirección"}
+                        value={texts.direccion || ""}
+                        onChange={(e) => handleChange(e, "direccion")}
+                      />
+                      <Input
+                        type={"text"}
+                        placeholder={"Teléfono"}
+                        value={texts.telefono || ""}
+                        onChange={(e) => handleChange(e, "telefono")}
+                      />
+                      <Input
+                        type={"text"}
+                        placeholder={"Celular"}
+                        value={texts.celular || ""}
+                        onChange={(e) => handleChange(e, "celular")}
                       />
                     </div>
                   )}
-                </div>
-              )}
 
-              {!currentUser.isAdmin && (
-                <div className="flex-column-container-update">
-                  <Input
-                    type={"text"}
-                    placeholder={"Dirección"}
-                    value={texts.direccion || ""}
-                    onChange={(e) => handleChange(e, "direccion")}
-                  />
-                  <Input
-                    type={"text"}
-                    placeholder={"Teléfono"}
-                    value={texts.telefono || ""}
-                    onChange={(e) => handleChange(e, "telefono")}
-                  />
-                  <Input
-                    type={"text"}
-                    placeholder={"Celular"}
-                    value={texts.celular || ""}
-                    onChange={(e) => handleChange(e, "celular")}
-                  />
+                  {currentUser.isOrganization && (
+                    <div className="flex-column-container-update">
+                      <div className="dropdown">
+                        <Input
+                          type="text"
+                          id="entityType"
+                          placeholder="Tipo de entidad"
+                          value={searchTerm}
+                          onChange={handleSearch}
+                        />
+                        {showDropdown && (
+                          <ul className="dropdown-menu">
+                            {filteredEntityTypes.map((type, index) => (
+                              <li
+                                key={index}
+                                onClick={() => handleSelectEntity(type)}
+                              >
+                                {type}
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                  <span
+                    onClick={() => setShowCambiarContrasenia(true)}
+                    style={{ color: "var(--textlight)", cursor: "pointer" }}
+                  >
+                    Cambiar contraseña
+                  </span>
                 </div>
-              )}
+              </form>
 
-              {currentUser.isOrganization && (
-                <div className="flex-column-container-update">
-                  <div className="dropdown">
-                    <Input
-                      type="text"
-                      id="entityType"
-                      placeholder="Tipo de entidad"
-                      value={searchTerm}
-                      onChange={handleSearch}
-                    />
-                    {showDropdown && (
-                      <ul className="dropdown-menu">
-                        {filteredEntityTypes.map((type, index) => (
-                          <li
-                            key={index}
-                            onClick={() => handleSelectEntity(type)}
-                          >
-                            {type}
-                          </li>
-                        ))}
-                      </ul>
-                    )}
-                  </div>
-                </div>
-              )}
-            </div>
-          </form>
-
-          <div className="container-button-update">
-            <button className="button-update" onClick={handleSubmit}>
-              {" "}
-              Actualizar Datos{" "}
-            </button>
-          </div>
+              <div className="container-button-update">
+                <button className="button-update" onClick={handleSubmit}>
+                  {" "}
+                  Actualizar Datos{" "}
+                </button>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>

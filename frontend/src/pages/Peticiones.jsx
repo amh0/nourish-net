@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import Peticion from "../components/peticion/Peticion";
 import "./css/Peticiones.css";

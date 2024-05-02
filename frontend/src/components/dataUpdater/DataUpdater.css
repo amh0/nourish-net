@@ -20,6 +20,8 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
+  justify-content: center;
+  gap: 100px;
 }
 
 .data-updater-input-row {
@@ -36,7 +38,14 @@
 
 .data-updater-item {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
+  justify-content: space-between;
+  justify-content: center;
+
+  /* display: flex;
+  align-items: center;
+  justify-content: center; */
 }
 
 .data-updater-content {

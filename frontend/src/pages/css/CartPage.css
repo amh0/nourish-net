@@ -1,0 +1,23 @@
+.empty-cart {
+  margin: 120px auto 120px auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+.empty-cart .title5 {
+  margin-top: 16px;
+}
+.empty-cart .title5,
+.empty-cart .parr1 {
+  color: var(--textlight);
+}
+
+.grid-prod .btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  border-radius: 8px;
+}

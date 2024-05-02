@@ -26,6 +26,7 @@ const InformePanel = ({ userType }) => {
   const [userData, setUserData] = useState([]);
   const [showUpdate, setShowUpdate] = useState(false);
   const [URLupdate, setURLupdate] = useState(null);
+  const [showAdd, setShowAdd] = useState(false);
 
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState(null);
@@ -209,6 +210,50 @@ const InformePanel = ({ userType }) => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  const addAdmin = () => {
+    setShowAdd(true);
+    const newData = [
+      {
+        nombre: "img_perfil",
+        contenido: "",
+        tipo: "img",
+        input: false,
+      },
+      {
+        nombre: "Correo",
+        contenido: "",
+        tipo: "email",
+        input: true,
+      },
+      {
+        nombre: "Contraseña",
+        contenido: "",
+        tipo: "password",
+        input: true,
+      },
+      {
+        nombre: "Nombre",
+        contenido: "",
+        tipo: "text",
+        input: true,
+      },
+      {
+        nombre: "Apellido paterno",
+        contenido: "",
+        tipo: "text",
+        input: true,
+      },
+      {
+        nombre: "Apellido materno",
+        contenido: "",
+        tipo: "text",
+        input: true,
+      },
+    ];
+
+    setDataEdit(newData);
+  };
+
   useEffect(() => {
     if (showUpdate) {
       scrollToTop();
@@ -226,11 +271,77 @@ const InformePanel = ({ userType }) => {
   };
 
   return (
-    <div>
-      {showUpdate ? (
+    <>
+      {!showAdd ? (
+        <div>
+          {showUpdate ? (
+            <div>
+              <button
+                onClick={() => setShowUpdate(false)}
+                className="back-button-informe"
+              >
+                {" "}
+                <ArrowLeft size={44} color="#222222" weight="thin" />
+                Atrás
+              </button>
+              <DataUpdater
+                type={userType}
+                id={selectedUserId}
+                data={dataEdit}
+                URLedit={URLupdate}
+                updateShow={setShowUpdate}
+              />
+            </div>
+          ) : (
+            <div>
+              <div className="option-report-informe">
+                <h2>{userType.toUpperCase()}</h2>
+                <p>Selecciona una opción para generar el informe:</p>
+                <div className="buttons-container">
+                  {reportOptions.map((option, index) => (
+                    <button
+                      key={index}
+                      style={{
+                        backgroundColor:
+                          activeButton === index
+                            ? "var(--secondarylight)"
+                            : "var(--secondary)",
+                      }}
+                      onClick={() => {
+                        handleGenerateReport(option.type, index);
+                      }}
+                    >
+                      {option.icon} {option.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              {reportType === "tabla" && (
+                <SearchFilters
+                  userType={userType}
+                  onSearchFiltersData={handleSearchFiltersData}
+                />
+              )}
+              {userType === "Usuarios" && (
+                <div className="container-button-add">
+                  <button
+                    className="button-add-admin"
+                    onClick={() => addAdmin()}
+                  >
+                    {/* <Plus size={30} color="var(--background0)" weight="thin" /> */}
+                    Agregar Administrador
+                  </button>
+                </div>
+              )}
+
+              {renderReport()}
+            </div>
+          )}
+        </div>
+      ) : (
         <div>
           <button
-            onClick={() => setShowUpdate(false)}
+            onClick={() => setShowAdd(false)}
             className="back-button-informe"
           >
             {" "}
@@ -238,83 +349,16 @@ const InformePanel = ({ userType }) => {
             Atrás
           </button>
           <DataUpdater
-            type={userType}
-            id={selectedUserId}
+            type={"Agregar Administrador"}
+            id={""}
             data={dataEdit}
-            URLedit={URLupdate}
-            updateShow={setShowUpdate}
+            URLedit={"http://localhost:3001/api/auth/addAdmin"}
+            updateShow={setShowAdd}
+            btnCont={"AGREGAR"}
           />
         </div>
-      ) : (
-        <div>
-          <div className="option-report-informe">
-            <h2>{userType.toUpperCase()}</h2>
-            <p>Selecciona una opción para generar el informe:</p>
-            <div className="buttons-container">
-              {reportOptions.map((option, index) => (
-                <button
-                  key={index}
-                  style={{
-                    backgroundColor:
-                      activeButton === index
-                        ? "var(--secondarylight)"
-                        : "var(--secondary)",
-                  }}
-                  onClick={() => {
-                    handleGenerateReport(option.type, index);
-                  }}
-                >
-                  {option.icon} {option.label}
-                </button>
-              ))}
-            </div>
-          </div>
-          {reportType === "tabla" && (
-            <SearchFilters
-              userType={userType}
-              onSearchFiltersData={handleSearchFiltersData}
-            />
-          )}
-
-          {renderReport()}
-        </div>
       )}
-
-      {/* {showConfirmation && (
-        <div className="confirmation-popup">
-          <div className="confirmation-container">
-            <p className="confirmation-message">
-              ¿Está seguro de eliminar {userType.toLowerCase().slice(0, -1)} con
-              ID:
-              {selectedUserId}?
-            </p>
-            <div className="confirmation-buttons">
-              <button
-                className="confirmation-button "
-                onClick={() => setShowConfirmation(false)}
-              >
-                Cancelar
-              </button>
-              <button
-                onClick={() => handleDelete(selectedUserId, userType)}
-                className="confirmation-button"
-                style={{
-                  backgroundColor: "var(--tertiary_strong)",
-                }}
-                onMouseEnter={(e) =>
-                  (e.target.style.backgroundColor = "var(--tertiary)")
-                }
-                onMouseLeave={(e) =>
-                  (e.target.style.backgroundColor = "var(--tertiary_strong)")
-                }
-              >
-                Eliminar
-              </button>
-            </div>
-          </div>
-        </div> */}
-      {/* )} */}
-    </div>
+    </>
   );
 };
 

@@ -13,7 +13,7 @@ const CoordSolicitud = (props) => {
     setProduct(location.state.alimento);
     setCantidad(location.state.cantidad_solicitada);
   }, [location.state]);
-
+  console.log(product);
   return (
     <div>
       <div className="go-back">
