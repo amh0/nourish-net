@@ -73,11 +73,13 @@ CREATE TABLE VOLUNTARIO (
 
 --- //////////////////////////////////////////////////////////
 
+-- SE HIZO CAMBIOS EN ESTA TABLA SE AGREGO ATRIBUTO actualizar_pass
 CREATE TABLE ADMIN (
     idadmin INT PRIMARY KEY,
     nombre VARCHAR(30),
     apellido_pat VARCHAR(30),
-    apellido_mat VARCHAR(30)
+    apellido_mat VARCHAR(30),
+    actualizar_pass BOOLEAN DEFAULT 1,
 );
 
 CREATE TABLE NOTIFICACION (
@@ -99,6 +101,8 @@ CREATE TABLE TIENE_N (
     FOREIGN KEY (idnotif) REFERENCES NOTIFICACION(idnotif)
 );
 
+-- SE CAMBIO EL IDGENERAL POR EL IDUSUARIO
+-- SE AGREGO FECHA_PUBLICACION
 CREATE TABLE PETICION (
     idpeticion INT AUTO_INCREMENT PRIMARY KEY,
     titulo VARCHAR(250),
