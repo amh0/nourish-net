@@ -44,6 +44,7 @@
   max-width: 200px;
   background-color: var(--background0);
   color: var(--text);
+  align-self: flex-start;
 }
 .sidebar .title5 {
   margin-bottom: 32px;
@@ -72,7 +73,6 @@
   border-radius: 8px;
   min-width: 100px;
 }
-
 .search-bar .input-wrapper {
   flex: 1;
   margin: 0px;

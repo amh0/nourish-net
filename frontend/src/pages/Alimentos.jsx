@@ -154,7 +154,9 @@ const Alimentos = () => {
                   ) : null}
                 </div>
               </div>
-            ) : null}
+            ) : (
+              <></>
+            )}
           </div>
           <div className="filter-selection">
             <div className="filter-selection-wrapper">
