@@ -59,7 +59,7 @@ const EmailValidator = ({
   };
 
   return (
-    <div className="step">
+    <div>
       <h2>{title}</h2>
       <div className="marginBottom">
         <p>{description}</p>

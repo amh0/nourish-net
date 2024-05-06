@@ -67,7 +67,7 @@ const SignupForm = () => {
   return (
     <div className="signup-container">
       <div className="rectangle-container"></div>
-      <div>
+      <div className="step">
         {step === 1 && (
           <EmailValidator
             formData={formData}

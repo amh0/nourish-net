@@ -35,7 +35,7 @@ const PasswordForm = ({ formData, title, description, onBack, onNext }) => {
   // };
 
   return (
-    <div className="step">
+    <div>
       <h2>{title}</h2>
       <div className="align">
         <CheckCircle size={20} color="var(--textlight)" />
