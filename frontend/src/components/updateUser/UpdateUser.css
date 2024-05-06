@@ -90,7 +90,7 @@
   border-radius: 4px;
 } */
 
-.dropdown-menu {
+.update-container .dropdown-menu {
   position: absolute;
   top: 100%;
   left: 0;
