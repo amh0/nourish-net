@@ -160,3 +160,12 @@
     transform: rotate(360deg);
   }
 }
+
+@media screen and (max-width: 399px) {
+  .publication .row-wrapper {
+    gap: 16px;
+  }
+  .publication .form-label {
+    max-width: 85px;
+  }
+}
