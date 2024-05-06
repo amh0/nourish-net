@@ -2,16 +2,7 @@ import express from "express";
 import multer from "multer";
 import path from "path";
 
-import {
-  verifyEmail,
-  login,
-  register,
-  logout,
-  forgotPassword,
-  verifyPassword,
-  addAdmin,
-} from "../controllers/auth.js";
-
+import { getPeticiones, uploadPeticion } from "../controllers/peticiones.js";
 const router = express.Router();
 
 const storage = multer.diskStorage({
@@ -25,14 +16,11 @@ const storage = multer.diskStorage({
     );
   },
 });
+
 const upload = multer({ storage: storage });
 
-router.post("/verifyEmail", verifyEmail);
-router.post("/register", register);
-router.post("/login", login);
-router.post("/forgotPassword", forgotPassword);
-router.post("/logout", logout);
-router.post("/verifyPassword", verifyPassword);
-router.put("/addAdmin", upload.single("img"), addAdmin);
+router.get("/get-peticiones", getPeticiones);
+router.post("/upload-peticion", upload.single("img"), uploadPeticion);
+// router.post("/insert_donation", insertDonation);
 
 export default router;

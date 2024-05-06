@@ -1,6 +1,6 @@
 import "./App.css";
 import NavBar from "./components/navbar/NavBar";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Inicio from "./pages/Inicio";
 import Nosotros from "./pages/Nosotros";
 import Contacto from "./pages/Contacto";
@@ -21,19 +21,42 @@ import Tareas from "./pages/Tareas";
 import Notificaciones from "./pages/Notificaciones";
 import Perfil from "./pages/Perfil";
 import CoordSolicitud from "./pages/CoordSolicitud";
+import { useContext, useEffect, useState } from "react";
+import { AuthContext } from "./context/authContext";
+import Informes from "./pages/Informes";
+
 import CartPage from "./pages/CartPage";
 import DetalleDonacion from "./pages/DetalleDonacion";
-import { useContext } from "react";
-import { AuthContext } from "./context/authContext";
 import DonacionesVoluntario from "./pages/DonacionesVoluntario";
 import Evaluar from "./pages/Evaluar";
+import UpdateUser from "./components/updateUser/UpdateUser";
+
 function App() {
   const { currentUser } = useContext(AuthContext);
-  // const currentUser = null;
+  const [openUpdate, setOpenUpdate] = useState(true);
+
+  useEffect(() => {
+    if (!currentUser) {
+      console.log("Usuario no autenticado. Redireccionando...");
+    }
+    setOpenUpdate(true);
+  }, [currentUser]);
+
   return (
     <div>
       <BrowserRouter>
         <ScrollToTop />
+        {openUpdate &&
+          currentUser &&
+          currentUser.isAdmin &&
+          currentUser.actualizar_pass === 1 && (
+            <UpdateUser
+              setOpenUpdate={setOpenUpdate}
+              btnClose={true}
+              cambiarContrasenia={true}
+              mensaje={"Debe cambiar su contraseña"}
+            />
+          )}
         {currentUser ? <ProfileNavbar /> : <NavBar />}
         <Routes>
           <Route path="/" element={<Inicio />} />
@@ -105,7 +128,12 @@ function App() {
               />
             </>
           )}
-          {currentUser && <Route path="/perfil" element={<Perfil />} />}
+
+          {currentUser && <Route path="/perfil/:id" element={<Perfil />} />}
+          {currentUser && currentUser.isAdmin && (
+            <Route path="/informes" element={<Informes />} />
+          )}
+          <Route path="*" element={<Navigate to="/" />} />
         </Routes>
         <Footer />
       </BrowserRouter>

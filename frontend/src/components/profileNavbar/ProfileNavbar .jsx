@@ -7,6 +7,7 @@ import perfil from "../assets/perfil.jpg";
 import { AuthContext } from "../../context/authContext";
 import Dropdown from "../dropdown/Dropdown";
 const ProfileNavbar = () => {
+  const imgPath = "http://localhost:3001/img/";
   const { currentUser } = useContext(AuthContext);
   const { notificationQty } = useContext(AuthContext);
   const [menu, setMenu] = useState("inicio");
@@ -82,6 +83,33 @@ const ProfileNavbar = () => {
           </Link>
           {menu === "alimentos" ? <hr /> : <></>}
         </li>
+        {currentUser && (currentUser.isVolunteer || currentUser.isAdmin) ? (
+          <li
+            onClick={() => {
+              setMenu("evaluacion");
+            }}
+          >
+            <Link className="link" to="/evaluacion">
+              Evaluar
+            </Link>
+            {menu === "evaluacion" ? <hr /> : <></>}
+          </li>
+        ) : (
+          <></>
+        )}
+
+        {currentUser && currentUser.isAdmin && (
+          <li
+            onClick={() => {
+              setMenu("informes");
+            }}
+          >
+            <Link className="link" to="/informes">
+              Informes
+            </Link>
+            {menu === "informes" ? <hr /> : <></>}
+          </li>
+        )}
       </ul>
       <div className="container-section">
         <div className="actions-section">
@@ -144,13 +172,13 @@ const ProfileNavbar = () => {
           </Link>
           <Link
             className="link"
-            to="/perfil"
+            to={`/perfil/${currentUser.idusuario}`}
             onClick={() => {
               setMenu("");
             }}
           >
             {currentUser && currentUser.img_perfil ? (
-              <img src={currentUser.img_perfil} alt="" />
+              <img src={imgPath + currentUser.img_perfil} alt="" />
             ) : (
               <img src={perfil} alt="" />
             )}

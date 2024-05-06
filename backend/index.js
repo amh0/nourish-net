@@ -4,7 +4,11 @@ import authRoutes from "./routes/auth.js";
 import productRoutes from "./routes/products.js";
 import cookieParser from "cookie-parser";
 import donationRoutes from "./routes/donations.js";
+import reportsRoutes from "./routes/reports.js";
+import peticionesRoutes from "./routes/peticiones.js";
 import userRoutes from "./routes/users.js";
+import editRoutes from "./routes/edit.js";
+
 const app = express();
 
 app.use((req, res, next) => {
@@ -25,7 +29,10 @@ app.use(express.static("upload"));
 app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/donations", donationRoutes);
-app.use("/api/users", userRoutes);
+app.use("/api/reports", reportsRoutes);
+app.use("/api/peticiones", peticionesRoutes);
+app.use("/api/user", userRoutes);
+app.use("/api/edit", editRoutes);
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {

@@ -1,0 +1,20 @@
+.pie-chart-report {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.pie-chart-container {
+  flex: 1;
+  max-width: 400px;
+}
+
+.pie-chart-container h2 {
+  display: flex;
+  justify-content: center;
+}
+.pie-chart-container div {
+  max-width: 300px;
+  max-height: 300px;
+  margin: 0 auto;
+}

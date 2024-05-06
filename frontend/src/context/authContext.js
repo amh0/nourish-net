@@ -15,13 +15,6 @@ export const AuthContextProvider = ({ children }) => {
   );
 
   const login = async (email, password) => {
-    //TO DO
-    // setCurrentUser({
-    //   idusuario: "123",
-    //   correo: "123@gmail.com",
-    //   img_perfil: perfil,
-    // });
-
     const res = await axios.post(
       "http://localhost:3001/api/auth/login",
       {
@@ -39,6 +32,22 @@ export const AuthContextProvider = ({ children }) => {
     console.log("requesting user");
     // throw new Error("holaa");
     setCurrentUser(res.data);
+  };
+
+  const logout = async () => {
+    try {
+      const response = await axios.post(
+        "http://localhost:3001/api/auth/logout"
+      );
+      console.log(response.data);
+      localStorage.removeItem("user");
+      setCurrentUser(null);
+      // Opcional: redirigir a la página de inicio u otra página después del cierre de sesión
+      // history.push("/");
+    } catch (error) {
+      console.error("Error al cerrar sesión:", error);
+      // Aquí podrías manejar el error mostrando un mensaje al usuario o realizando alguna acción adicional
+    }
   };
 
   useEffect(() => {
@@ -84,6 +93,7 @@ export const AuthContextProvider = ({ children }) => {
       value={{
         currentUser,
         login,
+        logout,
         setCurrentUser,
         notificationQty,
         setNotificationQty,

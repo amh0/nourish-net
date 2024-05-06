@@ -3,7 +3,7 @@ export const database = {
   user: "root",
   password: "",
   database: "bdnourishnet",
-  port: "3307", // my port
+  // port: "3307", // my port
   multipleStatements: true,
 };
 

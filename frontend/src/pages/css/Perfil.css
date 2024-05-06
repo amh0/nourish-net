@@ -1,0 +1,152 @@
+.perfil-container {
+  padding: 30px;
+  max-width: 900px;
+  margin: 0 auto;
+  /* background-color: #fffdf9 */
+}
+
+.perfil-container header {
+  padding: 20px;
+  /* background-color: var(--primarylight); */
+  border-bottom: 2px solid var(--textlighter);
+  padding-bottom: 10px;
+}
+.perfil-header {
+  display: flex;
+  align-items: center;
+}
+.perfil-image-container {
+  width: 150px;
+  height: 120px;
+  overflow: hidden;
+  border-radius: 50%;
+  margin-right: 20px;
+}
+
+.perfil-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.perfil-info {
+  width: 100%;
+  height: 100%;
+}
+
+.perfil-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin: 0px;
+}
+
+.perfil-name {
+  font-size: var(--title4);
+  margin: 0;
+}
+
+.perfil-email {
+  font-size: var(--parr1);
+  margin: 0;
+  color: var(--textlight);
+}
+
+.stat-value {
+  margin: 0;
+  font-size: 18px;
+}
+
+.edit-button,
+.logout-button {
+  border: none;
+  padding: 12px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: var(--parr2);
+  margin-right: 10px;
+  color: var(--background0);
+  font-weight: bold;
+}
+
+.edit-button {
+  background-color: var(--secondary);
+  /* font-weight: bold; */
+}
+.logout-button {
+  background-color: var(--tertiary);
+}
+.edit-button:hover {
+  background-color: var(--secondary_strong);
+}
+.logout-button:hover {
+  background-color: var(--tertiary_strong);
+}
+
+/* ============================= */
+
+.perfil-stats {
+  padding: 10px 10px 20px 10px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+  margin-top: 20px;
+}
+
+.stat-item {
+  display: flex;
+  /* background-color: #fffdf9; */
+  padding: 10px 30px 10px 30px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+
+.stat-label {
+  font-weight: bold;
+  font-size: var(--parr1);
+  margin-bottom: 5px;
+}
+.stat-value {
+  font-size: var(--parr1);
+  margin-bottom: 5px;
+}
+
+.nav-menu-perfil {
+  display: flex;
+  align-items: first baseline;
+  gap: 32px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  font-size: var(--parr1);
+  font-weight: bold;
+  color: var(--textlight);
+}
+.nav-menu-perfil li {
+  display: flex;
+  flex-direction: column;
+  margin-top: 23px; /*if set to 24 causes .6px of overflow*/
+  cursor: pointer;
+}
+.nav-menu-perfil hr {
+  border: 0px;
+  width: 80%;
+  height: 3px;
+  border-radius: 8px;
+  background-color: var(--primary);
+}
+
+/* REPSPONSABLES TABLA */
+.cont-table-resp {
+  /* background-color: var(--primarylight); */
+  /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); */
+  /* margin: 0px 50px 0px 50px; */
+  display: flex;
+  margin: 0 auto;
+  padding: 10px;
+  border-radius: 10px;
+  display: inline-block;
+}
+

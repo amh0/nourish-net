@@ -1,0 +1,51 @@
+.analysis-container {
+  text-align: center;
+}
+
+.table-container {
+  /* background-color: var(--primarylight); */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  /* margin: 0px 50px 0px 50px; */
+  margin: 0 auto;
+  padding: 10px;
+  border-radius: 10px;
+  display: inline-block;
+}
+
+.custom-data-table td {
+  border: 0px;
+  padding: 0 30px;
+  background-color: transparent;
+  padding-bottom: 7px;
+  color: var(--text);
+}
+
+.custom-data-table th {
+  background-color: transparent;
+  color: var(--text);
+  /* border-bottom: 1px solid #ddd; */
+}
+
+.analysis-container-grafics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+  justify-content: center;
+}
+
+.analysis-barchart-content {
+  flex: 1 1 400px;
+  max-width: 100%;
+}
+
+.analysis-barchart-content h3 {
+  margin: 0;
+}
+
+.analysis-barchart-content canvas {
+  /* max-width: 100%;
+  height: 300px;
+  width: 100%; */
+  width: 100%;
+  height: 300px;
+}

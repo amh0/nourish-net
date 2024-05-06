@@ -1,0 +1,77 @@
+/* Estilos base para EditableTable */
+.editable-table-container {
+  width: 100%;
+  font-size: var(--parr2);
+}
+
+.editable-table-container table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.editable-table-container th,
+.editable-table-container td {
+  padding: 8px;
+  border: 1px solid #ccc;
+  text-align: center;
+}
+
+.editable-table-container th {
+  /* background-color: #f2f2f2; */
+  font-weight: bold;
+}
+
+.editable-table-container input[type="text"] {
+  width: 100%;
+  padding: 6px;
+  box-sizing: border-box;
+}
+
+.editable-table-container button {
+  border-radius: 10px;
+  padding: 10px 10px;
+  margin-right: 10px;
+  cursor: pointer;
+  border: none;
+  color: var(--background0);
+  font-weight: bold;
+}
+
+.editable-table-container .btn-ok {
+  background-color: var(--secondary);
+}
+
+.editable-table-container .btn-cancelar {
+  background-color: var(--tertiary_strong);
+}
+
+.editable-table-container .btn-eliminar {
+  background-color: var(--textlight);
+}
+
+.editable-table-container .add-row-buttons {
+  margin-top: 10px;
+}
+
+.editable-table-container .button-container {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+/* .editable-table-container .button-container button {
+  flex-grow: 1; 
+  min-width: 80px; 
+}
+
+.editable-table-container .button-container .btn-ok,
+.editable-table-container .button-container .btn-eliminar {
+  flex-grow: 0;
+} */
+
+.editable-table-container .add-button {
+  background-color: var(--secondary);
+  display: block;
+  margin: 0 auto;
+  padding: 15px 15px;
+}

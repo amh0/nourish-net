@@ -14,6 +14,9 @@ CREATE TABLE GENERAL (
     rol VARCHAR(50),
     tipo varchar(20)
 );
+-- ROL: Donador Receptor Benefico
+-- TIPO: persona, organizacion
+ 
 
 CREATE TABLE PERSONA (
     idpersona INT PRIMARY KEY,
@@ -70,11 +73,13 @@ CREATE TABLE VOLUNTARIO (
 
 --- //////////////////////////////////////////////////////////
 
+-- SE HIZO CAMBIOS EN ESTA TABLA SE AGREGO ATRIBUTO actualizar_pass
 CREATE TABLE ADMIN (
     idadmin INT PRIMARY KEY,
     nombre VARCHAR(30),
     apellido_pat VARCHAR(30),
-    apellido_mat VARCHAR(30)
+    apellido_mat VARCHAR(30),
+    actualizar_pass BOOLEAN DEFAULT 1,
 );
 
 CREATE TABLE NOTIFICACION (
@@ -96,20 +101,29 @@ CREATE TABLE TIENE_N (
     FOREIGN KEY (idnotif) REFERENCES NOTIFICACION(idnotif)
 );
 
+-- SE CAMBIO EL IDGENERAL POR EL IDUSUARIO
+-- SE AGREGO FECHA_PUBLICACION
 CREATE TABLE PETICION (
     idpeticion INT AUTO_INCREMENT PRIMARY KEY,
-    titulo VARCHAR(20),
-    descripcion VARCHAR(100),
-    ubicacion VARCHAR(50),
+    titulo VARCHAR(250),
+    descripcion VARCHAR(250),
+    ubicacion VARCHAR(250),
     fecha_limite DATE,
-    contacto VARCHAR(30),
-    imagen VARCHAR(50),
+    contacto VARCHAR(100),
+    imagen VARCHAR(100),
     prioridad VARCHAR(30),
-    tipos_alimentos VARCHAR(50),
-    beneficiario VARCHAR(30),
-    idgeneral INT,
-    FOREIGN KEY (idgeneral) REFERENCES GENERAL(idgeneral)
+    tipos_alimentos VARCHAR(100),
+    beneficiario VARCHAR(100),
+    idusuario INT,
+    fecha_publicacion DATETIME,
+    FOREIGN KEY (idusuario) REFERENCES usuario(idusuario)
 );
+-- PRIORIDAD: 
+-- Urgente: Situaciones críticas que requieren acción inmediata para evitar consecuencias graves.
+-- Alta
+-- Media: Solicitudes significativas que necesitan ser atendidas con prontitud, pero sin urgencia inmediata.
+-- Baja: Peticiones de menor importancia que pueden ser manejadas en momentos menos ocupados.
+-- Permanente/Continua: Necesidades o solicitudes que son constantes y no están relacionadas con una situación específica.
 
 CREATE TABLE ALIMENTO (
     idalimento INT AUTO_INCREMENT PRIMARY KEY,
