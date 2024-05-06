@@ -1,18 +1,11 @@
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
 import Select from "react-select";
 import moment from "moment";
 import makeAnimated from "react-select/animated";
 import { AuthContext } from "../../context/authContext";
 import Input from "../input/Input";
-import {
-  MapPin,
-  Cube,
-  CheckCircle,
-  Warning,
-  Toolbox,
-} from "@phosphor-icons/react";
+import { Cube, CheckCircle, Warning, Toolbox } from "@phosphor-icons/react";
 import "./ProductDisplay.css";
 import "../globals.css";
 
@@ -191,25 +184,15 @@ const ProductDisplay = (props) => {
         <h3 className="title3">{product.nombre}</h3>
         <div className="product-details">
           <div>
-            <MapPin
+            <Cube
               className="icon"
               size={24}
               weight="light"
               color="var(--secondary)"
             />
             <p className="parr2">
-              {donnor.ubicacion + ", " + donnor.direccion}
-            </p>
-          </div>
-          <div>
-            <Cube
-              className="icon"
-              size={24}
-              weight="light"
-              color="var(--textlight)"
-            />
-            <p className="parr2">
-              {product.cantidad_disponible} {product.unidad_medida}
+              {product.cantidad_disponible} {product.unidad_medida}{" "}
+              disponible(s)
             </p>
           </div>
         </div>
@@ -296,7 +279,7 @@ const ProductDisplay = (props) => {
                   weight="light"
                 />
                 <p className="parr1 boldparr">
-                  {isEval ? "¡Alimenta evaluado!" : "¡Alimento agregado!"}
+                  {isEval ? "¡Alimento evaluado!" : "¡Alimento agregado!"}
                 </p>
               </>
             ) : insertState === "error" ? (

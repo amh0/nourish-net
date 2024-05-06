@@ -8,3 +8,16 @@
 .loading-container {
   height: 100vh;
 }
+
+@media screen and (max-width: 559px) {
+  .go-back .link {
+    padding: 0px 24px;
+    margin-left: 0px;
+  }
+  .title3 {
+    font-size: var(--title4);
+  }
+  .title4 {
+    font-size: var(--title5);
+  }
+}

@@ -144,9 +144,6 @@
   .alimentos-wrapper {
     padding: 40px 24px;
   }
-}
-
-@media screen and (max-width: 719px) {
   .products-list {
     grid-template-columns: 1fr;
   }
