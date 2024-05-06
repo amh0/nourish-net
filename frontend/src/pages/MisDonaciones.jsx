@@ -31,7 +31,20 @@ const listStyle = {
     };
   },
 };
-
+let typeFilterList = [
+  {
+    value: 0,
+    label: "Todos",
+  },
+  {
+    value: 1,
+    label: "Donado",
+  },
+  {
+    value: 2,
+    label: "Recibido",
+  },
+];
 let statusFilterList = [
   {
     value: 0,
@@ -70,6 +83,7 @@ const MisDonaciones = () => {
   const [typeFilter, setTypeFilter] = useState("");
   const [search, setSearch] = useState("");
   const [statusOption, setStatusOption] = useState();
+  const [typeOption, setTypeOption] = useState();
   useEffect(() => {
     getAllDonations();
   }, []);
@@ -119,9 +133,21 @@ const MisDonaciones = () => {
   }, [statusFilter, typeFilter, search, currentUser, donationsData]);
 
   const handleStatusSelection = (op) => {
-    console.log(op);
     setStatusFilter(op.label);
     setStatusOption(op);
+  };
+  const handleTypeSelection = (op) => {
+    setTypeFilter(op.label);
+    setTypeOption(op);
+  };
+  const handleMenuSelection = (filter, op) => {
+    if (filter === "tipo") {
+      setTypeFilter(typeFilterList[op].label);
+      setTypeOption(typeFilterList[op]);
+    } else if (filter === "estado") {
+      setStatusFilter(statusFilterList[op].label);
+      setStatusOption(statusFilterList[op]);
+    }
   };
   return (
     <div className="donations-wrapper">
@@ -129,13 +155,13 @@ const MisDonaciones = () => {
         <div className="sidebar">
           <h5 className="title5 accent-secondary">Tipo</h5>
           <ol className="categories">
-            <li onClick={() => setTypeFilter("Todos")}>
+            <li onClick={() => handleMenuSelection("tipo", 0)}>
               <div className="icon-text-wrapper">
                 <HandHeart size={24} weight="light" color="var(--textlight)" />
                 Todos
               </div>
             </li>
-            <li onClick={() => setTypeFilter("Donado")}>
+            <li onClick={() => handleMenuSelection("tipo", 1)}>
               <div className="icon-text-wrapper">
                 <HandArrowUp
                   size={24}
@@ -145,7 +171,7 @@ const MisDonaciones = () => {
                 Donado
               </div>
             </li>
-            <li onClick={() => setTypeFilter("Recibido")}>
+            <li onClick={() => handleMenuSelection("tipo", 2)}>
               <div className="icon-text-wrapper">
                 <HandArrowDown
                   size={24}
@@ -158,13 +184,15 @@ const MisDonaciones = () => {
           </ol>
           <h5 className="title5 accent-secondary">Estado</h5>
           <ol className="categories">
-            <li onClick={() => setStatusFilter("Todos")}>Todos</li>
-            <li onClick={() => setStatusFilter("Entregado")}>Entregado</li>
-            <li onClick={() => setStatusFilter("Confirmando")}>Confirmando</li>
-            <li onClick={() => setStatusFilter("Pendiente")}>Pendiente</li>
-            <li onClick={() => setStatusFilter("Solicitado")}>Solicitado</li>
-            <li onClick={() => setStatusFilter("Cancelado")}>Cancelado</li>
-            <li onClick={() => setStatusFilter("Rechazado")}>Rechazado</li>
+            <li onClick={() => handleMenuSelection("estado", 0)}>Todos</li>
+            <li onClick={() => handleMenuSelection("estado", 1)}>Entregado</li>
+            <li onClick={() => handleMenuSelection("estado", 2)}>
+              Confirmando
+            </li>
+            <li onClick={() => handleMenuSelection("estado", 3)}>Pendiente</li>
+            <li onClick={() => handleMenuSelection("estado", 4)}>Solicitado</li>
+            <li onClick={() => handleMenuSelection("estado", 5)}>Cancelado</li>
+            <li onClick={() => handleMenuSelection("estado", 6)}>Rechazado</li>
           </ol>
         </div>
         <div className="donations-section">
@@ -190,16 +218,20 @@ const MisDonaciones = () => {
             {(statusFilter && statusFilter !== "Todos") ||
             (typeFilter && typeFilter !== "Todos") ? (
               <div className="filter-section">
-                {statusFilter && statusFilter !== "Todos" ? (
-                  <div className="icon-container light-v">
-                    <Funnel size={24} color="var(--textlight)" weight="bold" />
-                  </div>
-                ) : null}
+                <div className="icon-container light-v">
+                  <Funnel size={24} color="var(--textlight)" weight="bold" />
+                </div>
                 <div className="filter-container">
                   {typeFilter && typeFilter !== "Todos" ? (
                     <>
                       <div className="filter-text">{typeFilter}</div>
-                      <button className="btn" onClick={() => setTypeFilter("")}>
+                      <button
+                        className="btn"
+                        onClick={() => {
+                          setTypeFilter("");
+                          setTypeOption(null);
+                        }}
+                      >
                         <X size={16} color="var(--parr1)" weight={"bold"} />
                       </button>
                     </>
@@ -229,6 +261,30 @@ const MisDonaciones = () => {
 
           <div className="filter-selection">
             <div className="filter-selection-wrapper">
+              <p className="title7 bold">Tipo:</p>
+              <Select
+                className="list-option"
+                options={typeFilterList}
+                components={makeAnimated()}
+                closeMenuOnSelect={false}
+                value={typeOption}
+                onChange={handleTypeSelection}
+                styles={listStyle}
+                placeholder={"Seleccione"}
+                theme={(theme) => ({
+                  ...theme,
+                  borderRadius: 6,
+                  colors: {
+                    ...theme.colors,
+                    text: "orangered",
+                    primary25: "#E2F0EE",
+                    primary50: "#99CBC5",
+                    primary: "#red",
+                  },
+                })}
+              />
+            </div>
+            <div className="filter-selection-wrapper">
               <p className="title7 bold">Estado:</p>
               <Select
                 className="list-option"
@@ -238,7 +294,7 @@ const MisDonaciones = () => {
                 value={statusOption}
                 onChange={handleStatusSelection}
                 styles={listStyle}
-                placeholder={"Haz clic para seleccionar"}
+                placeholder={"Seleccione"}
                 theme={(theme) => ({
                   ...theme,
                   borderRadius: 6,

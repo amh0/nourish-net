@@ -62,6 +62,9 @@
   justify-content: center;
 }
 
+.mis-donaciones .filter-selection {
+  display: none;
+}
 @media screen and (max-width: 1071px) {
   .mis-donaciones {
     gap: 40px;
@@ -112,5 +115,26 @@
   }
   .mis-donaciones .donation-item {
     padding: 20px;
+  }
+  .mis-donaciones .filter-selection {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+}
+
+@media screen and (max-width: 479px) {
+  .mis-donaciones .filter-selection {
+    justify-content: space-between;
+  }
+  .mis-donaciones .filter-selection .filter-selection-wrapper {
+    display: block;
+    /* flex-direction: column;
+    justify-content: start;
+    align-items: flex-start; */
+  }
+
+  .mis-donaciones .filter-selection .filter-selection-wrapper p {
+    margin-top: 0px;
   }
 }
