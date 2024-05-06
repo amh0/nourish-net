@@ -14,10 +14,10 @@
     padding: 0px 24px;
     margin-left: 0px;
   }
-  .title3 {
+  .product .title3 {
     font-size: var(--title4);
   }
-  .title4 {
+  .product .title4 {
     font-size: var(--title5);
   }
 }

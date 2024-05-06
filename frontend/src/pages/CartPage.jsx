@@ -223,8 +223,15 @@ const CartPage = (props) => {
           <div>
             <div className="grid-prod parr1">
               <div className="parr1 bold">Alimento</div>
-              <div className="parr1 bold cell-left">Cantidad</div>
-              <div className="parr1 bold cell-left">Unidad</div>
+              <div className="parr1 bold cell-left">
+                <span className="long-label">Cantidad</span>
+                <span className="short-label">Cant.</span>
+              </div>
+              <div className="parr1 bold cell-left">
+                <span className="long-label">Unidad</span>
+                <span className="short-label">Unid.</span>
+              </div>
+
               <div className="parr1 bold cell-left"></div>
               <div className="row-border"></div>
               {products.map((item, i) => {

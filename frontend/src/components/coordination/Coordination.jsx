@@ -93,9 +93,9 @@ const Coordination = (props) => {
       <h4 className="title4 accent-secondary">Coordinar entrega</h4>
       <div>
         <div className="grid-prod parr1">
-          <div className="parr1 bold">Alimento</div>
-          <div className="parr1 bold cell-left">Cantidad</div>
-          <div className="parr1 bold cell-left">Unidad</div>
+          <div className="parr1 bold">Alimentssssssso</div>
+          <div className="parr1 bold cell-left">Cant.</div>
+          <div className="parr1 bold cell-left">Unid.</div>
           <div className="row-border"></div>
           <div className="product-name-container">
             <div className="img-container">

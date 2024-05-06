@@ -237,7 +237,9 @@ const ProductDisplay = (props) => {
           ) : (
             <>
               <div>
-                <Cube size={24} weight="light" color="var(--textlight)" />
+                <div className="icon-container">
+                  <Cube size={24} weight="light" color="var(--textlight)" />
+                </div>
                 <div className="input-wrapper">
                   <Input
                     id="cantidad"
