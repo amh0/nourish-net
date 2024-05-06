@@ -54,3 +54,9 @@
 li .link {
   color: var(--textlight);
 }
+.navbar hr.bar-white {
+  background-color: var(--background0);
+}
+/* .navbar hr.bar-primary {
+  background-color: var(--primary);
+} */

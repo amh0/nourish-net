@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { Bell, ShoppingCartSimple, List } from "phosphor-react";
 import "./ProfileNavbar.css";
+import "../navbar/NavBar.css";
 import logo from "../assets/logo_64.png";
 import perfil from "../assets/perfil.jpg";
 import { AuthContext } from "../../context/authContext";
@@ -46,7 +47,11 @@ const ProfileNavbar = () => {
           <Link className="link" to="/">
             Inicio
           </Link>
-          {menu === "inicio" ? <hr /> : <></>}
+          {menu === "inicio" ? (
+            <hr className="bar-primary" />
+          ) : (
+            <hr className="bar-white" />
+          )}
         </li>
 
         {currentUser && (currentUser.isDonor || currentUser.isAdmin) && (
@@ -83,38 +88,11 @@ const ProfileNavbar = () => {
           </Link>
           {menu === "alimentos" ? <hr /> : <></>}
         </li>
-        {currentUser && (currentUser.isVolunteer || currentUser.isAdmin) ? (
-          <li
-            onClick={() => {
-              setMenu("evaluacion");
-            }}
-          >
-            <Link className="link" to="/evaluacion">
-              Evaluar
-            </Link>
-            {menu === "evaluacion" ? <hr /> : <></>}
-          </li>
-        ) : (
-          <></>
-        )}
-
-        {currentUser && currentUser.isAdmin && (
-          <li
-            onClick={() => {
-              setMenu("informes");
-            }}
-          >
-            <Link className="link" to="/informes">
-              Informes
-            </Link>
-            {menu === "informes" ? <hr /> : <></>}
-          </li>
-        )}
       </ul>
       <div className="container-section">
         <div className="actions-section">
-          {currentUser && currentUser.isVolunteer && (
-            <Link className="link" to="/donaciones/entregas">
+          {currentUser && (currentUser.isVolunteer || currentUser.isAdmin) && (
+            <Link className="link" to="/tareas">
               <button
                 className="btn btn secondary-v"
                 onClick={() => {
