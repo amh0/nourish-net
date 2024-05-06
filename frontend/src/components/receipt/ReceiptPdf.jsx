@@ -171,7 +171,7 @@ const ReceiptDetail = (props) => {
       <View style={styles.detailRow}>
         <Text style={styles.detailTitle}>Código de recibo:</Text>
         <Text style={styles.detailContent}>
-          {padNumber(recibo.idRecibo, 6, "0")}
+          {padNumber(recibo.idRecibo, 5, "0")}
         </Text>
       </View>
       <View style={styles.detailRow}>

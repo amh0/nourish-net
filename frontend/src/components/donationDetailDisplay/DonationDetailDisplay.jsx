@@ -155,7 +155,7 @@ const DonationDetailDisplay = (props) => {
         <div className="row-wrapper">
           <Barcode size={24} color="var(--textlight)" />
           <p className="parr1 bold  ">
-            {"COD: " + padNumber(idDonacion, 6, "0")}
+            {"COD: " + padNumber(idDonacion, 5, "0")}
           </p>
         </div>
       </div>

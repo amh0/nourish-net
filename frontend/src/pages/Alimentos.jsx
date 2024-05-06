@@ -94,14 +94,69 @@ const Alimentos = () => {
         <div className="sidebar">
           <h5 className="title5">Categorias</h5>
           <ol className="categories">
-            <li onClick={() => setCategoryFilter("Todos")}>Todos</li>
-            <li onClick={() => setCategoryFilter("Fruta")}>Frutas</li>
-            <li onClick={() => setCategoryFilter("Verdura")}>Verdura</li>
-            <li onClick={() => setCategoryFilter("Bebida")}>Bebidas</li>
-            <li onClick={() => setCategoryFilter("Organico")}>Organicos</li>
-            <li onClick={() => setCategoryFilter("Enlatado")}>Enlatados</li>
-            <li onClick={() => setCategoryFilter("Envasado")}>Envasados</li>
-            <li onClick={() => setCategoryFilter("Ingrediente")}>
+            <li
+              onClick={() => {
+                setCategoryFilter("Todos");
+                setCategoryOption(null);
+              }}
+            >
+              Todos
+            </li>
+
+            <li
+              onClick={() => {
+                setCategoryFilter("Fruta");
+                setCategoryOption(filterCategories[1]);
+              }}
+            >
+              Frutas
+            </li>
+            <li
+              onClick={() => {
+                setCategoryFilter("Verdura");
+                setCategoryOption(filterCategories[2]);
+              }}
+            >
+              Verdura
+            </li>
+            <li
+              onClick={() => {
+                setCategoryFilter("Bebida");
+                setCategoryOption(filterCategories[3]);
+              }}
+            >
+              Bebidas
+            </li>
+            <li
+              onClick={() => {
+                setCategoryFilter("Organico");
+                setCategoryOption(filterCategories[4]);
+              }}
+            >
+              Organicos
+            </li>
+            <li
+              onClick={() => {
+                setCategoryFilter("Enlatado");
+                setCategoryOption(filterCategories[5]);
+              }}
+            >
+              Enlatados
+            </li>
+            <li
+              onClick={() => {
+                setCategoryFilter("Envasado");
+                setCategoryOption(filterCategories[6]);
+              }}
+            >
+              Envasados
+            </li>
+            <li
+              onClick={() => {
+                setCategoryFilter("Ingrediente");
+                setCategoryOption(filterCategories[7]);
+              }}
+            >
               Ingredientes
             </li>
             <li onClick={() => setCategoryFilter("No Perecedero")}>
@@ -146,7 +201,10 @@ const Alimentos = () => {
                       <div className="filter-text">{categoryFilter}</div>
                       <button
                         className="btn"
-                        onClick={() => setCategoryFilter("")}
+                        onClick={() => {
+                          setCategoryFilter("");
+                          setCategoryOption(null);
+                        }}
                       >
                         <X size={16} color="var(--parr1)" weight={"bold"} />
                       </button>

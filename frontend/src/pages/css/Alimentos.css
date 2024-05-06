@@ -20,7 +20,8 @@
   display: flex;
   align-items: flex-start;
   flex-wrap: wrap;
-  gap: 48px;
+  column-gap: 48px;
+  row-gap: 24px;
 }
 .products-section {
   max-width: 856px;
@@ -63,14 +64,16 @@
 }
 
 .search-bar {
+  max-width: 408px;
   flex: 1;
   display: flex;
   gap: 8px;
-  max-width: 408px;
 }
 .search-bar .input {
   box-sizing: border-box;
   border-radius: 8px;
+}
+.search-bar .input {
   min-width: 100px;
 }
 .search-bar .input-wrapper {
@@ -117,13 +120,16 @@
 }
 
 @media screen and (max-width: 1199px) {
-  .filter-wrapper {
+  .alimentos-page .filter-wrapper {
     justify-content: center;
   }
 }
 @media screen and (max-width: 719px) {
-  .sidebar {
+  .alimentos-wrapper .sidebar {
     display: none;
+  }
+  .alimentos-page .filter-wrapper {
+    justify-content: center;
   }
   .alimentos-page {
     flex-direction: column;
@@ -150,5 +156,4 @@
 }
 
 @media screen and (max-width: 455px) {
-  
 }

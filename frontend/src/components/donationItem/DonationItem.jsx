@@ -199,7 +199,7 @@ const DonationItem = (props) => {
             <div className="row-wrapper">
               <Barcode size={24} color="var(--text)" />
               <p className="parr1 ">
-                {"COD: " + padNumber(donacion.idDonacion, 6, "0")}
+                {"COD: " + padNumber(donacion.idDonacion, 5, "0")}
               </p>
             </div>
             <div className="row-wrapper ">
