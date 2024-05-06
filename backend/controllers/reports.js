@@ -484,6 +484,7 @@ export const getRecMonth = (req, res) => {
                 LEFT JOIN donacion d ON MONTH(d.fecha_entrega) = meses.mes
                                   AND d.idgeneral = '${iduser}'
                                   AND YEAR(d.fecha_entrega) = YEAR(CURDATE())
+                                  AND d.estado = "Entregado"
                 GROUP BY meses.mes, meses.nombre_mes
                 ORDER BY meses.mes;`;
 
