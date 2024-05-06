@@ -20,7 +20,11 @@ const NavBar = () => {
           <Link className="link" to="/">
             Inicio
           </Link>
-          {menu === "inicio" ? <hr /> : <></>}
+          {menu === "inicio" ? (
+            <hr className="bar-primary" />
+          ) : (
+            <hr className="bar-white" />
+          )}
         </li>
         <li
           onClick={() => {
