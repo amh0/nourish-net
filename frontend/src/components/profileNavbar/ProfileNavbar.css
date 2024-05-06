@@ -45,6 +45,7 @@
   margin-top: 23px; /*if set to 24 causes .6px of overflow*/
   cursor: pointer;
 }
+/* ---- */
 .container-section {
   display: flex;
   align-items: center;
@@ -57,12 +58,12 @@
   padding: 0px;
   gap: 20px;
 }
-.link {
+/* .link {
   text-decoration: none;
-}
-li .link {
+} */
+/* li .link {
   color: var(--textlight);
-}
+} */
 
 .user {
   display: flex;
@@ -77,7 +78,8 @@ li .link {
   object-fit: cover;
 }
 
-.user .link {
+.user .link,
+.dropdown-container .link {
   display: flex;
   color: var(--textlight);
   font-size: var(--parr1);
@@ -110,6 +112,7 @@ li .link {
   display: none;
   cursor: pointer;
 }
+
 @media screen and (max-width: 1280px) {
   .nav-logo p {
     font-size: 20px;
@@ -117,6 +120,9 @@ li .link {
 }
 @media screen and (max-width: 1199px) {
   .navbar .list-menu {
+    display: block;
+  }
+  .navbar .dropdown-container {
     display: block;
   }
   .navbar .nav-menu,

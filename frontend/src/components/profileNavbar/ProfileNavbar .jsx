@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { Bell, ShoppingCartSimple, List } from "phosphor-react";
-import "./ProfileNavbar.css";
+// import "./ProfileNavbar.css";
 import "../navbar/NavBar.css";
 import logo from "../assets/logo_64.png";
 import perfil from "../assets/perfil.jpg";
@@ -162,10 +162,12 @@ const ProfileNavbar = () => {
             )}
             <span>{currentUser && currentUser.nombre} </span>
           </Link>
-          <div className="list-menu" onClick={changeDropdown}>
-            <List size={30} color="var(--textlight)" />
+          <div className="dropdown-container">
+            <div className="list-menu" onClick={changeDropdown}>
+              <List size={30} color="var(--textlight)" />
+            </div>
+            {dropDown && <Dropdown type="user" />}
           </div>
-          {dropDown && <Dropdown />}
         </div>
       </div>
     </div>

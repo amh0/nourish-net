@@ -2,10 +2,11 @@ import React, { useState, useContext } from "react";
 import "./Dropdown.css";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/authContext";
-function Dropdown() {
+function Dropdown(props) {
   const { currentUser } = useContext(AuthContext);
   const [click, setClick] = useState(false);
-
+  const type = props.type;
+  console.log(type);
   const handleClick = () => setClick(!click);
 
   return (
@@ -23,6 +24,39 @@ function Dropdown() {
             Inicio
           </Link>
         </li>
+        {type === "default" ? (
+          <>
+            <li>
+              <Link
+                className="dropdown-link link"
+                to="/nosotros"
+                onClick={() => setClick(false)}
+              >
+                Nosotros
+              </Link>
+            </li>
+            <li>
+              <Link
+                className="dropdown-link link"
+                to="/contacto"
+                onClick={() => setClick(false)}
+              >
+                Contacto
+              </Link>
+            </li>
+            <li>
+              <Link
+                className="dropdown-link link"
+                to="/faq"
+                onClick={() => setClick(false)}
+              >
+                Preguntas
+              </Link>
+            </li>
+          </>
+        ) : (
+          <></>
+        )}
 
         {currentUser && (currentUser.isDonor || currentUser.isAdmin) && (
           <li>
@@ -52,7 +86,7 @@ function Dropdown() {
             to="/alimentos"
             onClick={() => setClick(false)}
           >
-            Mis donaciones
+            Alimentos
           </Link>
         </li>
 

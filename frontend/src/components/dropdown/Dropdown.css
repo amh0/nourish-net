@@ -1,6 +1,5 @@
 @import "../globals.css";
-.dropdown-menu {
-  background: red;
+.navbar .dropdown-menu {
   position: absolute;
   width: 160px;
   top: 50px;
@@ -15,35 +14,27 @@
   z-index: 10000;
 }
 
-.dropdown-menu li {
+.navbar .dropdown-menu li {
   background: var(--background0);
   cursor: pointer;
 }
 
-.dropdown-menu li:hover {
+.navbar .dropdown-menu li:hover {
   color: var(--primary);
   background-color: var(--primarylighter);
 }
 
-.dropdown-menu.clicked {
+.navbar .dropdown-menu.clicked {
   display: none;
 }
 
-.dropdown-link {
+.navbar .dropdown-link {
   text-decoration: none;
-  color: #fff;
   padding: 16px;
 }
 
 @media screen and (max-width: 960px) {
   .fa-caret-down {
     display: none;
-  }
-}
-
-@media screen and (max-width: 559px) {
-  .dropdown-menu {
-    top: 34px;
-    right: 24px;
   }
 }
