@@ -6,8 +6,8 @@
   flex-wrap: wrap;
   border-radius: 16px;
   box-shadow: 0px 0px 4px 0px var(--textlighter);
-  width: 408px;
-  height: 232px; /*208*/
+  max-width: 408px;
+  min-height: 232px; /*208*/
   padding: 24px;
   background-color: var(--background0);
 }
@@ -28,7 +28,8 @@
   margin-bottom: 16px;
 }
 .item .parr2 {
-  height: 56px;
+  min-height: 56px;
+  /* height: 56px; */
   /*hack to add ellipsis after 3 lines might cause some bugs on unsupported web browsers*/
   display: -webkit-box;
   -webkit-box-orient: vertical;
@@ -72,4 +73,24 @@
 .item .parr1.no-eval,
 .item .item-title.no-eval {
   color: var(--textlight);
+}
+/* breakpoint for item card*/
+@media screen and (max-width: 455px) {
+  .item .img-container {
+    max-width: 120px;
+    min-height: 120px;
+  }
+  .item .img-link {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+  }
+  .item .item-text {
+    flex: 1;
+    width: 100%;
+    max-width: 550px;
+  }
+  .item .item-location {
+    max-width: 224px;
+  }
 }
