@@ -44,7 +44,7 @@ const TableReport = ({
                         <img
                           src={`http://localhost:3001/img/${row[fieldName]}`}
                           alt=""
-                          style={{ width: "80px", height: "80px" }}
+                          // style={{ width: "80px", height: "80px" }}
                         />
                       ) : (
                         "Sin foto"

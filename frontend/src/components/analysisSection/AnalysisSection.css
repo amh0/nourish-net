@@ -2,6 +2,11 @@
   text-align: center;
 }
 
+.analysis-container-barchart {
+  text-align: center;
+  width: 60%;
+}
+
 .table-container {
   /* background-color: var(--primarylight); */
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
@@ -23,7 +28,6 @@
 .custom-data-table th {
   background-color: transparent;
   color: var(--text);
-  /* border-bottom: 1px solid #ddd; */
 }
 
 .analysis-container-grafics {
@@ -48,4 +52,104 @@
   width: 100%; */
   width: 100%;
   height: 300px;
+}
+
+@media (max-width: 768px) {
+  .analysis-container {
+    text-align: center;
+    padding: 10px;
+  }
+
+  .table-container {
+    margin: 0 auto;
+    padding: 10px;
+  }
+
+  .custom-data-table td {
+    padding: 0 10px;
+    padding-bottom: 5px;
+  }
+
+  .analysis-container-grafics {
+    gap: 20px;
+  }
+
+  .analysis-barchart-content {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+
+  .analysis-barchart-content canvas {
+    height: 200px;
+  }
+  .analysis-barchart-content img {
+    max-width: 10px;
+    height: 10px;
+  }
+  .analysis-container-barchart {
+    width: 90%;
+  }
+}
+
+@media (max-width: 768px) {
+  .analysis-container,
+  .table-container {
+    padding: 10px;
+  }
+
+  .custom-data-table td {
+    padding: 0 10px;
+    padding-bottom: 5px;
+    font-size: 12px; /* Reducir el tamaño de fuente en celdas */
+  }
+
+  .analysis-container-grafics {
+    gap: 20px;
+  }
+
+  .analysis-barchart-content {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+
+  .analysis-barchart-content canvas {
+    height: 200px;
+  }
+  .analysis-barchart-content img {
+    max-width: 50px; /* Reducir el tamaño de las imágenes */
+    height: auto;
+  }
+
+  .analysis-container-barchart {
+    width: 90%;
+  }
+}
+
+/* Media queries para pantallas extra pequeñas */
+@media (max-width: 480px) {
+  .custom-data-table td {
+    padding: 0 5px;
+    padding-bottom: 5px;
+    font-size: 10px; /* Reducir aún más el tamaño de fuente en celdas */
+  }
+
+  .analysis-container-grafics {
+    gap: 10px;
+  }
+
+  .analysis-barchart-content h3 {
+    font-size: 14px; /* Ajustar el tamaño de fuente del título */
+  }
+
+  .analysis-barchart-content canvas {
+    height: 180px;
+  }
+  .analysis-barchart-content img {
+    max-width: 30px; /* Reducir aún más el tamaño de las imágenes */
+    height: auto;
+  }
+
+  .analysis-container-barchart {
+    width: 90%;
+  }
 }

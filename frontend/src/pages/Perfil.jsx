@@ -200,7 +200,7 @@ const Perfil = () => {
             </div>
 
             {selectedOption === "Donaciones realizadas" && (
-              <div>
+              <div className="div-analisis">
                 <AnalysisSection
                   tablesData={[
                     "ALIMENTOS DONADOS",

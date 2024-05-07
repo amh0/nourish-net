@@ -32,6 +32,7 @@
 .perfil-info {
   width: 100%;
   height: 100%;
+  margin-bottom: 10px;
 }
 
 .perfil-actions {
@@ -94,8 +95,7 @@
 
 .stat-item {
   display: flex;
-  /* background-color: #fffdf9; */
-  padding: 10px 30px 10px 30px;
+  padding: 10px 30px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   flex-direction: row;
@@ -127,8 +127,9 @@
 .nav-menu-perfil li {
   display: flex;
   flex-direction: column;
-  margin-top: 23px; /*if set to 24 causes .6px of overflow*/
+  margin-top: 23px;
   cursor: pointer;
+  text-align: center;
 }
 .nav-menu-perfil hr {
   border: 0px;
@@ -150,3 +151,79 @@
   display: inline-block;
 }
 
+@media (max-width: 868px) {
+  .perfil-container {
+    padding: 10px;
+  }
+
+  .perfil-image-container {
+    width: 120px;
+    height: 100px;
+    margin-right: 10px;
+  }
+
+  .perfil-name {
+    font-size: var(--title5);
+  }
+
+  .perfil-email {
+    font-size: var(--parr2);
+  }
+
+  .stat-value {
+    font-size: 16px;
+  }
+
+  .edit-button,
+  .logout-button {
+    font-size: var(--parr1);
+  }
+
+  .stat-item {
+    padding: 10px;
+  }
+}
+
+/* Media query para pantallas extra pequeñas */
+@media (max-width: 680px) {
+  .perfil-container {
+    padding: 5px;
+  }
+
+  .perfil-image-container {
+    width: 100px;
+    height: 80px;
+  }
+
+  .perfil-name {
+    font-size: var(--title6);
+  }
+
+  .perfil-email {
+    font-size: var(--parr1);
+  }
+
+  .stat-value {
+    font-size: 14px;
+  }
+
+  .edit-button,
+  .logout-button {
+    font-size: var(--parr2);
+  }
+
+  .perfil-stats {
+    width: 60%;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 15px;
+
+    margin: 0 auto;
+  }
+
+  .stat-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 30px;
+  }
+}
