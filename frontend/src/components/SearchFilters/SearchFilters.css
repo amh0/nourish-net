@@ -23,7 +23,7 @@
 }
 
 .filter-wrapper {
-  width: 80%;
+  width: 100%;
 }
 
 .container-select button {
@@ -36,11 +36,86 @@
 }
 
 .container-date {
+  width: 100%;
   display: flex;
   gap: 20px;
   margin: 0px 0px 12px 0px;
   align-items: center;
 }
+
+.container-date span {
+  width: 20%;
+}
 .container-date .btndate {
+  width: 100%;
+}
+
+.date-post {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 20px;
+  width: 100%;
+}
+
+.btndate {
   width: 37%;
+}
+.btn-filter-inf {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  width: 50%;
+}
+.btn-filter-inf button{
+  width: 100%;
+}
+@media screen and (max-width: 768px) {
+  .search-filters {
+    padding: 10px;
+  }
+
+  .search-filters span {
+    font-size: var(--parr2);
+  }
+
+  .container-select {
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .container-select button {
+    width: 100%;
+  }
+
+  .container-date {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-bottom: 15px;
+    justify-content: flex-start;
+  }
+
+  .container-date span {
+    width: 100%;
+  }
+
+  .date-post {
+    display: flex;
+    align-items: center;
+    gap: 5%;
+    width: 90%;
+  }
+  .filter-wrapper {
+    width: 102%;
+  }
+
+  .btn-filter-inf {
+    width: 100%;
+  }
+
+  .btn-filter-inf button{
+    margin: 10px 0 0 0;
+    padding: 10px;
+  }
 }

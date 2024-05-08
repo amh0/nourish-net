@@ -82,13 +82,11 @@ const AnalysisSection = ({ tablesData, chartsData, iduser }) => {
         tablesData &&
         tablesData.length > 0 ? (
           <div>
-            <div className="analysis-container">
-              <div className="table-container">
-                <TableReport
-                  tableData={tableData}
-                  customClassName="custom-data-table"
-                />
-              </div>
+            <div>
+              <TableReport
+                tableData={tableData}
+                customClassName="custom-data-table"
+              />
             </div>
           </div>
         ) : (

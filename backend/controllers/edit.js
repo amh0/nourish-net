@@ -84,12 +84,12 @@ export const getAdmins = (req, res) => {
       return res.status(500).json({ error: "Error al agregar el responsable" });
     }
     res.status(200).json(data);
-    console.log(data);
+    // console.log(data);
   });
 };
 
 export const editAdmin = (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
   const q =
     "UPDATE admin SET `nombre` = ?, `apellido_pat` = ?, `apellido_mat` = ? WHERE idadmin = ?";
 
@@ -105,7 +105,7 @@ export const editAdmin = (req, res) => {
       console.log("Error:", err);
       return res.status(500).json({ error: "Error al actualizar el admin" });
     }
-    res.status(200).json({ message: "admin actualizado correctamente" });
+    res.status(200).json({ message: "Admin actualizado correctamente" });
   });
 };
 
@@ -153,7 +153,8 @@ export const editFood = (req, res) => {
       console.log("Error:", err);
       return res.status(500).json({ error: "Error al actualizar " });
     }
-    res.status(200).json({ message: "actualizado correctamente" });
+    // res.status(200).json({ message: "Actualizado correctamente" });
+    res.status(200).json({ message: "ok" });
   });
 };
 
@@ -273,8 +274,8 @@ export const editUser = (req, res) => {
   if (req.file) {
     imagen = req.file.filename;
   }
-  console.log(req.body);
-  console.log(imagen);
+  // console.log(req.body);
+  // console.log(imagen);
 
   if (imagen) {
     const qUser = "UPDATE usuario SET `img_perfil` = ? WHERE idusuario = ?";
@@ -387,5 +388,5 @@ export const editUser = (req, res) => {
   //   }
   //   res.status(200).json({ message: "actualizado correctamente" });
   // });
-  res.status(200).json({ message: "actualizado correctamente" });
+  res.status(200).json({ message: "ok" });
 };

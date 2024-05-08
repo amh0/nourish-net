@@ -416,7 +416,7 @@ export const addAdmin = async (req, res) => {
   }
   const { correo, contrasena, nombre, apellido_paterno, apellido_materno } =
     req.body;
-  console.log(req.body);
+  // console.log(req.body);
 
   if (correo === "" || contrasena == "") {
     res.status(200).send({

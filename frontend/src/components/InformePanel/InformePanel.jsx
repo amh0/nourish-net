@@ -322,7 +322,7 @@ const InformePanel = ({ userType }) => {
                   onSearchFiltersData={handleSearchFiltersData}
                 />
               )}
-              {userType === "Usuarios" && (
+              {userType === "Usuarios" && reportType === "tabla" && (
                 <div className="container-button-add">
                   <button
                     className="button-add-admin"
@@ -349,7 +349,7 @@ const InformePanel = ({ userType }) => {
             Atrás
           </button>
           <DataUpdater
-            type={"Agregar Administrador"}
+            type={"Agregar Administrador."}
             id={""}
             data={dataEdit}
             URLedit={"http://localhost:3001/api/auth/addAdmin"}

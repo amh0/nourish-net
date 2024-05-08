@@ -180,26 +180,27 @@ const SearchFilters = ({ onSearchFiltersData, userType }) => {
       {userType === "Alimentos" && (
         <div className="container-date">
           <span>Fecha de publicación:</span>
-          <div className="btndate">
-            <Input
-              type="date"
-              value={inputData.fechaInicial || ""}
-              onChange={handleFechaInicialChange}
-              placeholder="Fecha Inicio"
-            />
-          </div>
-
-          <span> - </span>
-          <div className="btndate">
-            <Input
-              type="date"
-              value={inputData.fechaFinal || ""}
-              min={inputData.fechaInicial}
-              onChange={(e) =>
-                setInputData({ ...inputData, fechaFinal: e.target.value })
-              }
-              placeholder="Fecha Fin"
-            />
+          <div className="date-post">
+            <div className="btndate">
+              <Input
+                type="date"
+                value={inputData.fechaInicial || ""}
+                onChange={handleFechaInicialChange}
+                placeholder="Fecha Inicio"
+              />
+            </div>
+            -
+            <div className="btndate">
+              <Input
+                type="date"
+                value={inputData.fechaFinal || ""}
+                min={inputData.fechaInicial}
+                onChange={(e) =>
+                  setInputData({ ...inputData, fechaFinal: e.target.value })
+                }
+                placeholder="Fecha Fin"
+              />
+            </div>
           </div>
         </div>
       )}
@@ -220,19 +221,21 @@ const SearchFilters = ({ onSearchFiltersData, userType }) => {
             placeholder={placeholderText}
           />
         </div>
-        <button
-          style={{ backgroundColor: "var(--secondary)" }}
-          onClick={handleSearchClick}
-        >
-          Buscar
-        </button>
+        <div className="btn-filter-inf">
+          <button
+            style={{ backgroundColor: "var(--secondary)" }}
+            onClick={handleSearchClick}
+          >
+            Buscar
+          </button>
 
-        <button
-          style={{ backgroundColor: "var(--tertiary_strong)" }}
-          onClick={handleClearClick}
-        >
-          Limpiar
-        </button>
+          <button
+            style={{ backgroundColor: "var(--tertiary_strong)" }}
+            onClick={handleClearClick}
+          >
+            Limpiar
+          </button>
+        </div>
       </div>
     </div>
   );

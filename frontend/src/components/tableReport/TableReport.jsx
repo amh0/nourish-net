@@ -22,7 +22,7 @@ const TableReport = ({
   };
 
   return (
-    <div>
+    <div class="table-container">
       {data.length > 0 ? (
         // <table className="data-table">
         <table className={`data-table ${customClassName}`}>

@@ -229,7 +229,7 @@ export const nroUser = (req, res) => {
       console.error("Error al ejecutar la consulta SQL:", error);
       res.status(500).send("Error interno del servidor");
     } else {
-      console.log(results[0][0]);
+      // console.log(results[0][0]);
       res.json(results[0][0]);
     }
   });

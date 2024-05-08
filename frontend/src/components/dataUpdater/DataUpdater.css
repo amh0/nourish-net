@@ -94,3 +94,20 @@
 .responsable-table {
   width: 100%;
 }
+
+
+
+@media (max-width: 600px) {
+  .data-updater-title {
+    font-size: var(--title5);
+    text-align: center;
+  }
+
+  .data-updater-container {
+    width: 95%;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
