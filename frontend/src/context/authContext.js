@@ -53,7 +53,7 @@ export const AuthContextProvider = ({ children }) => {
   useEffect(() => {
     const fetchUploaded = async () => {
       try {
-        const result = await axios.post(apiURL + "users/get_not_assigned_qty", {
+        const result = await axios.post(apiURL + "user/get_not_assigned_qty", {
           idUsuario: currentUser.idusuario,
         });
         setUploadedQty(result.data[0].uploadedQty);
@@ -67,12 +67,9 @@ export const AuthContextProvider = ({ children }) => {
   useEffect(() => {
     const fetchNotifications = async () => {
       try {
-        const result = await axios.post(
-          apiURL + "users/get_notifications_qty",
-          {
-            idUsuario: currentUser.idusuario,
-          }
-        );
+        const result = await axios.post(apiURL + "user/get_notifications_qty", {
+          idUsuario: currentUser.idusuario,
+        });
         setNotificationQty(result.data[0].newNotifQty);
       } catch (err) {
         console.log(err);

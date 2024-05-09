@@ -82,106 +82,108 @@ const DonacionesVoluntario = () => {
   }, [statusFilter, typeFilter, search, currentUser, donationsData]);
 
   return (
-    <div className="mis-donaciones">
-      <div className="sidebar">
-        <h5 className="title5 accent-secondary">Tipo</h5>
-        <ol className="categories">
-          <li onClick={() => setTypeFilter("Todos")}>
-            <div className="icon-text-wrapper">
-              <HandHeart size={24} weight="light" color="var(--textlight)" />
-              Todos
-            </div>
-          </li>
-          <li onClick={() => setTypeFilter("Donado")}>
-            <div className="icon-text-wrapper">
-              <HandArrowUp
-                size={24}
-                weight="light"
-                color="var(--primary_strong)"
-              />
-              Donado
-            </div>
-          </li>
-          <li onClick={() => setTypeFilter("Recibido")}>
-            <div className="icon-text-wrapper">
-              <HandArrowDown
-                size={24}
-                weight="light"
-                color="var(--secondary)"
-              />
-              Recibido
-            </div>
-          </li>
-        </ol>
-        <h5 className="title5 accent-secondary">Estado</h5>
-        <ol className="categories">
-          <li onClick={() => setStatusFilter("Todos")}>Todos</li>
-          <li onClick={() => setStatusFilter("Entregado")}>Entregado</li>
-          <li onClick={() => setStatusFilter("Confirmando")}>Confirmando</li>
-          <li onClick={() => setStatusFilter("Pendiente")}>Pendiente</li>
-          <li onClick={() => setStatusFilter("Solicitado")}>Solicitado</li>
-          <li onClick={() => setStatusFilter("Cancelado")}>Cancelado</li>
-          <li onClick={() => setStatusFilter("Rechazado")}>Rechazado</li>
-        </ol>
-      </div>
-      <div className="donations-section">
-        <div className="filter-wrapper">
-          <div className="search-bar">
-            <div className="input-wrapper">
-              <input
-                className="input"
-                type="text"
-                id="search"
-                placeholder="Buscar..."
-                onChange={(e) => setSearch(e.target.value)}
-              />
-            </div>
-            <button className="btn secondary-v">
-              <MagnifyingGlass
-                size={24}
-                weight="light"
-                color="var(--background0)"
-              />
-            </button>
-          </div>
-          <div className="filter-section">
-            {statusFilter && statusFilter !== "Todos" ? (
-              <div className="icon-container light-v">
-                <Funnel size={24} color="var(--textlight)" weight="bold" />
+    <div className="donations-wrapper">
+      <div className="mis-donaciones">
+        <div className="sidebar">
+          <h5 className="title5 accent-secondary">Tipo</h5>
+          <ol className="categories">
+            <li onClick={() => setTypeFilter("Todos")}>
+              <div className="icon-text-wrapper">
+                <HandHeart size={24} weight="light" color="var(--textlight)" />
+                Todos
               </div>
-            ) : null}
-            <div className="filter-container">
-              {typeFilter && typeFilter !== "Todos" ? (
-                <>
-                  <div className="filter-text">{typeFilter}</div>
-                  <button className="btn" onClick={() => setStatusFilter("")}>
-                    <X size={16} color="var(--parr1)" weight={"bold"} />
-                  </button>
-                </>
-              ) : null}
+            </li>
+            <li onClick={() => setTypeFilter("Donado")}>
+              <div className="icon-text-wrapper">
+                <HandArrowUp
+                  size={24}
+                  weight="light"
+                  color="var(--primary_strong)"
+                />
+                Donado
+              </div>
+            </li>
+            <li onClick={() => setTypeFilter("Recibido")}>
+              <div className="icon-text-wrapper">
+                <HandArrowDown
+                  size={24}
+                  weight="light"
+                  color="var(--secondary)"
+                />
+                Recibido
+              </div>
+            </li>
+          </ol>
+          <h5 className="title5 accent-secondary">Estado</h5>
+          <ol className="categories">
+            <li onClick={() => setStatusFilter("Todos")}>Todos</li>
+            <li onClick={() => setStatusFilter("Entregado")}>Entregado</li>
+            <li onClick={() => setStatusFilter("Confirmando")}>Confirmando</li>
+            <li onClick={() => setStatusFilter("Pendiente")}>Pendiente</li>
+            <li onClick={() => setStatusFilter("Solicitado")}>Solicitado</li>
+            <li onClick={() => setStatusFilter("Cancelado")}>Cancelado</li>
+            <li onClick={() => setStatusFilter("Rechazado")}>Rechazado</li>
+          </ol>
+        </div>
+        <div className="donations-section">
+          <div className="filter-wrapper">
+            <div className="search-bar">
+              <div className="input-wrapper">
+                <input
+                  className="input"
+                  type="text"
+                  id="search"
+                  placeholder="Buscar..."
+                  onChange={(e) => setSearch(e.target.value)}
+                />
+              </div>
+              <button className="btn secondary-v">
+                <MagnifyingGlass
+                  size={24}
+                  weight="light"
+                  color="var(--background0)"
+                />
+              </button>
+            </div>
+            <div className="filter-section">
               {statusFilter && statusFilter !== "Todos" ? (
-                <>
-                  <div className="filter-text">{statusFilter}</div>
-                  <button className="btn" onClick={() => setStatusFilter("")}>
-                    <X size={16} color="var(--parr1)" weight={"bold"} />
-                  </button>
-                </>
+                <div className="icon-container light-v">
+                  <Funnel size={24} color="var(--textlight)" weight="bold" />
+                </div>
               ) : null}
+              <div className="filter-container">
+                {typeFilter && typeFilter !== "Todos" ? (
+                  <>
+                    <div className="filter-text">{typeFilter}</div>
+                    <button className="btn" onClick={() => setStatusFilter("")}>
+                      <X size={16} color="var(--parr1)" weight={"bold"} />
+                    </button>
+                  </>
+                ) : null}
+                {statusFilter && statusFilter !== "Todos" ? (
+                  <>
+                    <div className="filter-text">{statusFilter}</div>
+                    <button className="btn" onClick={() => setStatusFilter("")}>
+                      <X size={16} color="var(--parr1)" weight={"bold"} />
+                    </button>
+                  </>
+                ) : null}
+              </div>
             </div>
           </div>
-        </div>
-        <div className="donations-list">
-          {filteredDonations && filteredDonations.length > 0
-            ? filteredDonations.map((item) => {
-                return (
-                  <DonationItem
-                    key={item.idDonacion}
-                    donacion={item}
-                    dePaginaTareas={true}
-                  />
-                );
-              })
-            : "No se encontraron resultados..."}
+          <div className="donations-list">
+            {filteredDonations && filteredDonations.length > 0
+              ? filteredDonations.map((item) => {
+                  return (
+                    <DonationItem
+                      key={item.idDonacion}
+                      donacion={item}
+                      dePaginaTareas={true}
+                    />
+                  );
+                })
+              : "No se encontraron resultados..."}
+          </div>
         </div>
       </div>
     </div>

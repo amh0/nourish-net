@@ -40,7 +40,14 @@ const Item = (props) => {
           <p className="parr2">{props.desc}</p>
         </div>
       </Link>
-      <Link className="link img-link" to={`/producto/${props.idalimento}`}>
+      <Link
+        className="link img-link"
+        to={
+          props.eval
+            ? `/evaluacion/${props.idalimento}`
+            : `/producto/${props.idalimento}`
+        }
+      >
         <div className="img-container">
           <img src={props.imagen} alt="" />
         </div>

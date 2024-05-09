@@ -41,6 +41,12 @@ let filterCategories = [
     label: "Bebida",
   },
 ];
+const fechaMenorHoy = (d2) => {
+  let date1 = new Date().getTime();
+  let date2 = new Date(d2).getTime();
+  return date2 < date1;
+};
+
 const Alimentos = () => {
   const imgPath = "http://localhost:3001/img/";
   const { currentUser } = useContext(AuthContext);
@@ -50,7 +56,7 @@ const Alimentos = () => {
   const [categoryFilter, setCategoryFilter] = useState("");
   const [categoryOption, setCategoryOption] = useState();
   const [search, setSearch] = useState("");
-
+  console.log(foodData);
   useEffect(() => {
     fetchData();
   }, []);
@@ -69,6 +75,9 @@ const Alimentos = () => {
       let filteredByCat = true;
       let filteredBySearch = true;
       filteredByCat = !categoryFilter || categoryFilter === "Todos";
+      if (categoryFilter) {
+        filteredByCat = true;
+      }
       // item.categorias.includes(categoryFilter); // TODO filter by category
       filteredBySearch =
         search === "" ||
@@ -77,7 +86,8 @@ const Alimentos = () => {
         filteredByCat &&
         filteredBySearch &&
         item.cantidad_disponible > 0 &&
-        (item.evaluacion === "Optimo" || item.evaluacion === "Excelente")
+        (item.evaluacion === "Optimo" || item.evaluacion === "Excelente") &&
+        !fechaMenorHoy(item.fecha_vencimiento.substr(0, 10))
       );
     });
     setFilteredFood(newData);

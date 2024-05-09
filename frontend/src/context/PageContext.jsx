@@ -32,7 +32,7 @@ const PageContextProvider = (props) => {
   };
   const fetchVolunteers = async () => {
     try {
-      const result = await axios.get(apiURL + "/users/get_volunteers");
+      const result = await axios.get(apiURL + "/user/get_volunteers");
       setVolunteers(result.data);
     } catch (err) {
       console.log("Error");
