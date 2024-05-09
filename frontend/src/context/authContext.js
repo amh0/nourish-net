@@ -30,7 +30,6 @@ export const AuthContextProvider = ({ children }) => {
       throw new Error("emailNotFound");
     }
     console.log("requesting user");
-    // throw new Error("holaa");
     setCurrentUser(res.data);
   };
 
@@ -42,11 +41,8 @@ export const AuthContextProvider = ({ children }) => {
       console.log(response.data);
       localStorage.removeItem("user");
       setCurrentUser(null);
-      // Opcional: redirigir a la página de inicio u otra página después del cierre de sesión
-      // history.push("/");
     } catch (error) {
       console.error("Error al cerrar sesión:", error);
-      // Aquí podrías manejar el error mostrando un mensaje al usuario o realizando alguna acción adicional
     }
   };
 

@@ -32,6 +32,9 @@
   margin-bottom: 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
+  background-image: url("../assets/resgisincs.jpg");
+  background-size: cover;
+  background-position: center;
 }
 
 /* @media (max-width: 500px) {
@@ -61,7 +64,7 @@
 
   .rectangle-container {
     width: 70%; /* Ancho decreciente */
-    height: calc(70vw *0.5);
+    height: calc(70vw * 0.5);
     margin: 0 5%; /* Margen más pequeño */
     margin-bottom: 10px;
   }
