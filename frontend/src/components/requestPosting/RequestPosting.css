@@ -7,7 +7,7 @@
   -moz-box-shadow: 0px 0px 17px -5px rgba(0, 0, 0, 0.38);
   box-shadow: 0px 0px 17px -5px rgba(0, 0, 0, 0.38);
   border-radius: 10px;
-  /* background-color: ; */
+
   color: var(--text);
   margin: 0 20%;
   padding: 20px;
@@ -15,20 +15,17 @@
 
 .user-section {
   display: flex;
-
-  /* align-items: center; */
   margin-bottom: 10px;
 }
 
 .user-info {
   display: flex;
-  /* align-items: center; */
+  padding: 5px;
 }
 
 .photo-container {
   width: 50px;
   height: 50px;
-
   padding: 20px 0px;
   overflow: hidden;
   margin-right: 10px;
@@ -53,8 +50,6 @@
   flex-grow: 1;
   margin: 10px 20px 10px 0;
   position: relative;
-  /* padding: 10px 10px 10px 30px; */
-  /* margin-top: 100px; */
 }
 
 .input-container-p textarea {
@@ -165,4 +160,55 @@
 .parr1-peticion {
   font-size: var(--parr2);
   color: var(--textlight);
+}
+
+/* Media query para pantalla pequeña */
+@media screen and (max-width: 800px) {
+  .user-info {
+    padding-top: 15px;
+  }
+  .input-container-title {
+    width: 100%;
+  }
+
+  .content-section {
+    gap: 5%;
+  }
+
+  .request-posting {
+    margin: 0 4%;
+    padding: 10px;
+  }
+
+  .photo-container {
+    width: 40px;
+    height: 40px;
+    padding: 10px 0px;
+    margin-right: 8px;
+  }
+
+  .input-container-p {
+    margin: 10px 20px 0px 0px;
+  }
+
+  .input-container-p textarea {
+    height: 80px;
+  }
+
+  .input-container-p .full-width-inpu-tit {
+    height: 30px;
+  }
+
+  .location,
+  .content-item {
+    font-size: 0.9rem;
+  }
+
+  .description {
+    margin-top: 5px;
+  }
+
+  .parr1-peticion {
+    font-size: 0.8rem;
+  }
 }

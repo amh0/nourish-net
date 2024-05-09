@@ -22,7 +22,7 @@ const OrgRegForm = ({ formData, title, buttonText, onBack, onNext }) => {
   };
 
   return (
-    <div className="step">
+    <div>
       <h2>{title}</h2>
       <div className="marginBottom">
         <p>Completa los datos de tu organización</p>
@@ -47,7 +47,7 @@ const OrgRegForm = ({ formData, title, buttonText, onBack, onNext }) => {
           placeholder="Dirección"
         />
       </div>
-      <div className="button-container btn-margin-bottom">
+      <div className="input-form-2  button-container">
         <Input
           id="cellPhoneNumber"
           type="tel"

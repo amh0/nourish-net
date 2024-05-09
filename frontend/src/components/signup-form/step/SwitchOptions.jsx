@@ -101,7 +101,7 @@ const SwitchOptions = ({ formData, onBack, onNext }) => {
   };
 
   return (
-    <div className="step">
+    <div>
       <h2>Registro</h2>
 
       {renderForm()}

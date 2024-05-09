@@ -22,7 +22,7 @@ const TableReport = ({
   };
 
   return (
-    <div>
+    <div class="table-container">
       {data.length > 0 ? (
         // <table className="data-table">
         <table className={`data-table ${customClassName}`}>
@@ -44,7 +44,7 @@ const TableReport = ({
                         <img
                           src={`http://localhost:3001/img/${row[fieldName]}`}
                           alt=""
-                          style={{ width: "80px", height: "80px" }}
+                          // style={{ width: "80px", height: "80px" }}
                         />
                       ) : (
                         "Sin foto"

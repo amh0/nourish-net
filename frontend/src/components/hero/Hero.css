@@ -30,6 +30,9 @@
   height: 504px;
   border-radius: 50%;
   background-color: var(--primary);
+  background-image: url("../assets/hero2.jpg");
+  background-size: cover;
+  background-position: center;
 }
 .accent {
   color: var(--primary);

@@ -65,6 +65,29 @@
   height: 160px;
   background-color: var(--primarylight);
 }
+
+.sqr-placeholder-1 {
+  background-image: url("../assets/body2.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
+.sqr-placeholder-2 {
+  background-image: url("../assets/body1.png");
+  background-size: cover;
+  background-position: center;
+}
+
+.sqr-placeholder-3 {
+  background-image: url("../assets/body3.jpg");
+  background-size: cover;
+  background-position: center;
+}
+.sqr-placeholder-4 {
+  background-image: url("../assets/body4.png");
+  background-size: cover;
+  background-position: center;
+}
 .card-box button {
   width: 200px;
 }
@@ -131,7 +154,7 @@
 .secondary-wrapper .title5 {
   color: var(--background0);
 }
-.secondary-wrapper .btn{
+.secondary-wrapper .btn {
   width: 180px;
 }
 /* button section */

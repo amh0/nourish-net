@@ -45,7 +45,7 @@ const InformeSidebar = ({ userType }) => {
           <HandHeart size={sizeIcon} color="#222222" weight="thin" />
           <div className="info">
             <div>
-              <strong>Entregadas</strong>
+              <strong>Entregados</strong>
             </div>
             {cantidad && cantidad.nrDon ? cantidad.nrDon : "0"}
           </div>

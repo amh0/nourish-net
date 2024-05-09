@@ -13,7 +13,7 @@ const IsOrgSwitch = ({ formData, onBack, onNext }) => {
   };
 
   return (
-    <div className="step">
+    <div>
       <h2>Registro</h2>
       <div className="marginBottom">
         <p>Para brindarte un mejor servicio, necesitamos saber si</p>

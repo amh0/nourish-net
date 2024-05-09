@@ -1,20 +1,14 @@
-/* body {
-  background-color: #fffdf9; 
-} */
 .container-informe {
   display: flex;
   margin: 20px;
 }
 
 .sidebar-menu-informe {
-  width: 20%;
-  height: 100%;
   box-sizing: border-box;
   overflow-y: auto;
 }
 
 .content-right-informe {
-  
   flex: 1;
   padding: 20px;
   margin: 10px 10px 20px 0;
@@ -24,4 +18,22 @@
   border-radius: 0px 10px 10px 10px;
   position: relative;
   z-index: 1;
+}
+
+@media screen and (max-width: 1100px) {
+  .container-informe {
+    flex-direction: column;
+    margin: 20px 5px 5px 5px;
+  }
+
+  .sidebar-menu-informe {
+    width: 100%;
+    height: auto;
+  }
+
+  .content-right-informe {
+    margin: 0;
+    border-radius: 0px;
+    padding: 5px;
+  }
 }

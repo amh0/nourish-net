@@ -229,7 +229,7 @@ export const nroUser = (req, res) => {
       console.error("Error al ejecutar la consulta SQL:", error);
       res.status(500).send("Error interno del servidor");
     } else {
-      console.log(results[0][0]);
+      // console.log(results[0][0]);
       res.json(results[0][0]);
     }
   });
@@ -484,6 +484,7 @@ export const getRecMonth = (req, res) => {
                 LEFT JOIN donacion d ON MONTH(d.fecha_entrega) = meses.mes
                                   AND d.idgeneral = '${iduser}'
                                   AND YEAR(d.fecha_entrega) = YEAR(CURDATE())
+                                  AND d.estado = "Entregado"
                 GROUP BY meses.mes, meses.nombre_mes
                 ORDER BY meses.mes;`;
 

@@ -43,7 +43,7 @@ const Body = () => {
                 Conviértete en un donante y comparte el sabor de la bondad.{" "}
               </p>
             </div>
-            <div className="sqr-placeholder"></div>
+            <div className="sqr-placeholder sqr-placeholder-1"></div>
             <button className="btn secondary-v">Donar ahora</button>
           </div>
           <div className="card-box">
@@ -53,14 +53,14 @@ const Body = () => {
                 Te necesitamos para transformar las vidas de otras personas.
               </p>
             </div>
-            <div className="sqr-placeholder"></div>
+            <div className="sqr-placeholder sqr-placeholder-2"></div>
             <button className="btn secondary-v">Quiero ser voluntario</button>
           </div>
         </div>
       </div>
 
       <div className="card-info-wrapper">
-        <div className="sqr-placeholder"></div>
+        <div className="sqr-placeholder sqr-placeholder-3"></div>
         <div className="text-section">
           <div>
             <h3 className="title3">Obtén donaciones</h3>
@@ -103,7 +103,7 @@ const Body = () => {
             </button>
           </div>
         </div>
-        <div className="sqr-placeholder"></div>
+        <div className="sqr-placeholder sqr-placeholder-4"></div>
       </div>
       <div className="horizontal-wrapper secondary-wrapper">
         <h5 className="title5">Preguntas Frecuentes</h5>

@@ -40,7 +40,7 @@ const PersonalDataForm = ({
   };
 
   return (
-    <div className="step">
+    <div>
       <h2>{title}</h2>
       <div className="marginBottom">
         <p>{description}</p>
@@ -56,7 +56,8 @@ const PersonalDataForm = ({
         />
       </div>
 
-      <div className="button-container btn-margin-bottom">
+      {/* <div className="button-container btn-margin-bottom"> */}
+      <div className=" input-form-2  input-container-form-2 ">
         <Input
           id="lastName"
           type="text"
@@ -64,6 +65,7 @@ const PersonalDataForm = ({
           onChange={(e) => setLastName(e.target.value)}
           placeholder="Apellido paterno"
         />
+
         <Input
           id="seondLastName"
           type="text"
@@ -91,7 +93,7 @@ const PersonalDataForm = ({
           placeholder="Dirección"
         />
       </div>
-      <div className="button-container btn-margin-bottom">
+      <div className="input-form-2  button-container">
         <Input
           id="cellPhoneNumber"
           type="tel"

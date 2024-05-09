@@ -30,7 +30,7 @@ const VerificationForm = ({ email, verificationCode, onBack, onNext }) => {
   };
 
   return (
-    <div className="step">
+    <div>
       <h2>Verificación</h2>
 
       <p>Enviamos un código de verificación a tu correo</p>
@@ -42,7 +42,7 @@ const VerificationForm = ({ email, verificationCode, onBack, onNext }) => {
         <p>Ingresa el código:</p>
       </div>
 
-      <div>
+      <div className="verification-container">
         {code.map((value, index) => (
           <input
             key={index}

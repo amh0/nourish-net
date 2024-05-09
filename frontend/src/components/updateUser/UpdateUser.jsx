@@ -269,7 +269,7 @@ const UpdateUser = ({
                   )}
 
                   <button className="button-update" onClick={handleSubmitPass}>
-                    Cambiar contraseña
+                    Cambiar
                   </button>
                 </div>
               </div>
