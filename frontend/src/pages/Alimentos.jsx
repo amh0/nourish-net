@@ -56,7 +56,6 @@ const Alimentos = () => {
   const [categoryFilter, setCategoryFilter] = useState("");
   const [categoryOption, setCategoryOption] = useState();
   const [search, setSearch] = useState("");
-  console.log(foodData);
   useEffect(() => {
     fetchData();
   }, []);

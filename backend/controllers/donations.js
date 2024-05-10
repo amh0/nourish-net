@@ -518,6 +518,7 @@ export const assignVolunteer = async (req, res) => {
 export const insertReceipt = async (req, res) => {
   const data = req.body;
   try {
+    console.log(data);
     const q = `insert into recibo (fecha, iddonacion) values (?,?)`;
     const donationValues = [data.fecha, data.idDonacion];
     const receiptResult = await queryDatabase(q, donationValues);
