@@ -56,9 +56,9 @@ DELIMITER ;
 
 -- --------------------------------------
 
-SELECT * FROM DONACION WHERE IDUSUARIO = 3
+-- SELECT * FROM DONACION WHERE IDUSUARIO = 3
 
--- DROP FUNCTION IF EXISTS obtenerCategoriasAlimentox;
+DROP FUNCTION IF EXISTS obtenerCategoriasAlimentox;
 
 DELIMITER //
 CREATE FUNCTION obtenerCategoriasAlimentox(xidalimento INT)
@@ -128,8 +128,8 @@ END //
 DELIMITER ;
 
 -- -------------------------------
-DELIMITER //
 DROP FUNCTION IF EXISTS obtenerNombreUs;
+DELIMITER //
 CREATE FUNCTION obtenerNombreUs(usuarioID INT)
 RETURNS VARCHAR(255)
 DETERMINISTIC
@@ -164,8 +164,7 @@ END //
 
 DELIMITER ;
  -- ---------------------------------------
- DROP FUNCTION IF EXISTS obtenerTipoUsuario;
-
+DROP FUNCTION IF EXISTS obtenerTipoUsuario;
 DELIMITER //
 CREATE FUNCTION obtenerTipoUsuario(usuarioID INT)
 RETURNS VARCHAR(255)
@@ -295,10 +294,8 @@ CALL cantidadUsuariosAdminVolReceptDonador();
 
 
 -- -----------------------------
-DELIMITER //
-
 DROP PROCEDURE IF EXISTS contarMiembrosDonacionesAlimentos;
-
+DELIMITER //
 CREATE PROCEDURE contarMiembrosDonacionesAlimentos()
 BEGIN
     DECLARE nrMiem INT;
