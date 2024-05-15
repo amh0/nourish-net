@@ -69,7 +69,7 @@
     padding: 40px;
   }
 }
-@media screen and (max-width: 419px) {
+@media screen and (max-width: 464px) {
   .footer .description-section .logo-section {
     margin-bottom: 16px;
   }
@@ -84,5 +84,16 @@
   }
   .footer {
     padding: 24px;
+  }
+}
+
+@media screen and (max-width: 387px) {
+  .footer,
+  .footer .logo-section {
+    justify-content: center;
+  }
+  .footer .links-section,
+  .description-section {
+    text-align: center;
   }
 }
