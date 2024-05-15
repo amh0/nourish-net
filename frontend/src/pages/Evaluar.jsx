@@ -167,14 +167,12 @@ const Evaluar = () => {
                 />
               </button>
             </div>
-            <div className="filter-section">
-              {evaluationFilter && evaluationFilter !== "Todos" ? (
+            {evaluationFilter && evaluationFilter !== "Todos" ? (
+              <div className="filter-section">
                 <div className="icon-container light-v">
                   <Funnel size={24} color="var(--textlight)" weight="bold" />
                 </div>
-              ) : null}
-              <div className="filter-container">
-                {evaluationFilter && evaluationFilter !== "Todos" ? (
+                <div className="filter-container">
                   <>
                     <div className="filter-text">{evaluationFilter}</div>
                     <button
@@ -184,9 +182,9 @@ const Evaluar = () => {
                       <X size={16} color="var(--parr1)" weight={"bold"} />
                     </button>
                   </>
-                ) : null}
+                </div>
               </div>
-            </div>
+            ) : null}
           </div>
           <div className="filter-selection">
             <div className="filter-selection-wrapper">

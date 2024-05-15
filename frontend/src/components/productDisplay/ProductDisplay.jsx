@@ -53,10 +53,10 @@ const ProductDisplay = (props) => {
   const idgen = product.idgeneral;
   const [cantidad, setCantidad] = useState();
   const [insertState, setInsertState] = useState("none");
-
   // evaluation
+  console.log(product);
   const [evalSel, setEvalSel] = useState(
-    product.evaluation === "No evaluado"
+    product.evaluacion === "No evaluado"
       ? null
       : evalDefault.find((e) => e.label === product.evaluacion)
   );
@@ -230,9 +230,11 @@ const ProductDisplay = (props) => {
                   />
                 </div>
               </div>
-              <button className="btn secondary-v" onClick={handleEval}>
-                Evaluar
-              </button>
+              {product.evaluacion === "No evaluado" ? (
+                <button className="btn secondary-v" onClick={handleEval}>
+                  Evaluar
+                </button>
+              ) : null}
             </>
           ) : (
             <>
