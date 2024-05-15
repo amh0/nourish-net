@@ -7,7 +7,6 @@ import { AuthContext } from "../context/authContext";
 import Item from "../components/item/Item";
 import { MagnifyingGlass, Funnel, X } from "@phosphor-icons/react";
 import "./css/Alimentos.css";
-import Dropdown from "../components/dropdown/Dropdown";
 const listStyle = {
   control: (styles) => ({ ...styles, backgroundColor: "white" }),
   multiValue: (styles, { data }) => {
