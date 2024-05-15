@@ -8,12 +8,73 @@ import {
   HandArrowUp,
   HandArrowDown,
 } from "@phosphor-icons/react";
+import Select from "react-select";
+import makeAnimated from "react-select/animated";
 
 import { AuthContext } from "../context/authContext";
 import DonationItem from "../components/donationItem/DonationItem";
 import "./css/MisDonaciones.css";
 
 const apiPath = "http://localhost:3001/api";
+const listStyle = {
+  control: (styles) => ({ ...styles, backgroundColor: "white" }),
+  multiValue: (styles, { data }) => {
+    return {
+      ...styles,
+      backgroundColor: "#E2F0EE",
+    };
+  },
+  multiValueRemove: (styles, { data }) => {
+    return {
+      ...styles,
+      cursor: "pointer",
+    };
+  },
+};
+let typeFilterList = [
+  {
+    value: 0,
+    label: "Todos",
+  },
+  {
+    value: 1,
+    label: "Donado",
+  },
+  {
+    value: 2,
+    label: "Recibido",
+  },
+];
+let statusFilterList = [
+  {
+    value: 0,
+    label: "Todos",
+  },
+  {
+    value: 1,
+    label: "Entregado",
+  },
+  {
+    value: 2,
+    label: "Confirmando",
+  },
+  {
+    value: 3,
+    label: "Pendiente",
+  },
+  {
+    value: 4,
+    label: "Solicitado",
+  },
+  {
+    value: 5,
+    label: "Cancelado",
+  },
+  {
+    value: 6,
+    label: "Rechazado",
+  },
+];
 const DonacionesVoluntario = () => {
   const { currentUser } = useContext(AuthContext);
   const [donationsData, setDonationsData] = useState([]);
@@ -21,6 +82,8 @@ const DonacionesVoluntario = () => {
   const [statusFilter, setStatusFilter] = useState("");
   const [typeFilter, setTypeFilter] = useState("");
   const [search, setSearch] = useState("");
+  const [statusOption, setStatusOption] = useState();
+  const [typeOption, setTypeOption] = useState();
   console.log("donaciones entregas");
   useEffect(() => {
     getAllDonations();
@@ -81,6 +144,23 @@ const DonacionesVoluntario = () => {
     setFilteredDonations(newData);
   }, [statusFilter, typeFilter, search, currentUser, donationsData]);
 
+  const handleStatusSelection = (op) => {
+    setStatusFilter(op.label);
+    setStatusOption(op);
+  };
+  const handleTypeSelection = (op) => {
+    setTypeFilter(op.label);
+    setTypeOption(op);
+  };
+  const handleMenuSelection = (filter, op) => {
+    if (filter === "tipo") {
+      setTypeFilter(typeFilterList[op].label);
+      setTypeOption(typeFilterList[op]);
+    } else if (filter === "estado") {
+      setStatusFilter(statusFilterList[op].label);
+      setStatusOption(statusFilterList[op]);
+    }
+  };
   return (
     <div className="donations-wrapper">
       <div className="mis-donaciones">
@@ -116,13 +196,15 @@ const DonacionesVoluntario = () => {
           </ol>
           <h5 className="title5 accent-secondary">Estado</h5>
           <ol className="categories">
-            <li onClick={() => setStatusFilter("Todos")}>Todos</li>
-            <li onClick={() => setStatusFilter("Entregado")}>Entregado</li>
-            <li onClick={() => setStatusFilter("Confirmando")}>Confirmando</li>
-            <li onClick={() => setStatusFilter("Pendiente")}>Pendiente</li>
-            <li onClick={() => setStatusFilter("Solicitado")}>Solicitado</li>
-            <li onClick={() => setStatusFilter("Cancelado")}>Cancelado</li>
-            <li onClick={() => setStatusFilter("Rechazado")}>Rechazado</li>
+            <li onClick={() => handleMenuSelection("estado", 0)}>Todos</li>
+            <li onClick={() => handleMenuSelection("estado", 1)}>Entregado</li>
+            <li onClick={() => handleMenuSelection("estado", 2)}>
+              Confirmando
+            </li>
+            <li onClick={() => handleMenuSelection("estado", 3)}>Pendiente</li>
+            <li onClick={() => handleMenuSelection("estado", 4)}>Solicitado</li>
+            <li onClick={() => handleMenuSelection("estado", 5)}>Cancelado</li>
+            <li onClick={() => handleMenuSelection("estado", 6)}>Rechazado</li>
           </ol>
         </div>
         <div className="donations-section">
@@ -145,30 +227,95 @@ const DonacionesVoluntario = () => {
                 />
               </button>
             </div>
-            <div className="filter-section">
-              {statusFilter && statusFilter !== "Todos" ? (
+            {(statusFilter && statusFilter !== "Todos") ||
+            (typeFilter && typeFilter !== "Todos") ? (
+              <div className="filter-section">
                 <div className="icon-container light-v">
                   <Funnel size={24} color="var(--textlight)" weight="bold" />
                 </div>
-              ) : null}
-              <div className="filter-container">
-                {typeFilter && typeFilter !== "Todos" ? (
-                  <>
-                    <div className="filter-text">{typeFilter}</div>
-                    <button className="btn" onClick={() => setStatusFilter("")}>
-                      <X size={16} color="var(--parr1)" weight={"bold"} />
-                    </button>
-                  </>
-                ) : null}
-                {statusFilter && statusFilter !== "Todos" ? (
-                  <>
-                    <div className="filter-text">{statusFilter}</div>
-                    <button className="btn" onClick={() => setStatusFilter("")}>
-                      <X size={16} color="var(--parr1)" weight={"bold"} />
-                    </button>
-                  </>
-                ) : null}
+                <div className="filter-container">
+                  {typeFilter && typeFilter !== "Todos" ? (
+                    <>
+                      <div className="filter-text">{typeFilter}</div>
+                      <button
+                        className="btn"
+                        onClick={() => {
+                          setTypeFilter("");
+                          setTypeOption(null);
+                        }}
+                      >
+                        <X size={16} color="var(--parr1)" weight={"bold"} />
+                      </button>
+                    </>
+                  ) : null}
+                </div>
+                <div className="filter-container">
+                  {statusFilter && statusFilter !== "Todos" ? (
+                    <>
+                      <div className="filter-text">{statusFilter}</div>
+                      <button
+                        className="btn"
+                        onClick={() => {
+                          setStatusFilter("");
+                          setStatusOption(null);
+                        }}
+                      >
+                        <X size={16} color="var(--parr1)" weight={"bold"} />
+                      </button>
+                    </>
+                  ) : null}
+                </div>
               </div>
+            ) : null}
+          </div>
+          <div className="filter-selection">
+            <div className="filter-selection-wrapper">
+              <p className="title7 bold">Tipo:</p>
+              <Select
+                className="list-option"
+                options={typeFilterList}
+                components={makeAnimated()}
+                closeMenuOnSelect={false}
+                value={typeOption}
+                onChange={handleTypeSelection}
+                styles={listStyle}
+                placeholder={"Seleccione"}
+                theme={(theme) => ({
+                  ...theme,
+                  borderRadius: 6,
+                  colors: {
+                    ...theme.colors,
+                    text: "orangered",
+                    primary25: "#E2F0EE",
+                    primary50: "#99CBC5",
+                    primary: "#red",
+                  },
+                })}
+              />
+            </div>
+            <div className="filter-selection-wrapper">
+              <p className="title7 bold">Estado:</p>
+              <Select
+                className="list-option"
+                options={statusFilterList}
+                components={makeAnimated()}
+                closeMenuOnSelect={false}
+                value={statusOption}
+                onChange={handleStatusSelection}
+                styles={listStyle}
+                placeholder={"Seleccione"}
+                theme={(theme) => ({
+                  ...theme,
+                  borderRadius: 6,
+                  colors: {
+                    ...theme.colors,
+                    text: "orangered",
+                    primary25: "#E2F0EE",
+                    primary50: "#99CBC5",
+                    primary: "#red",
+                  },
+                })}
+              />
             </div>
           </div>
           <div className="donations-list">
