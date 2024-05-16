@@ -179,7 +179,7 @@
   width: 196px;
 }
 .hero {
-  display: none;
+  /* display: none; */
 }
 @media screen and (max-width: 1296px) {
   .stats-wrapper {

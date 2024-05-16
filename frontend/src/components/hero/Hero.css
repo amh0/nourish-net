@@ -1,16 +1,24 @@
 .hero {
-  height: 86vh;
+  min-height: 600px;
   display: flex;
   justify-content: space-between;
   box-sizing: border-box;
   padding: 64px 120px;
+  gap: 40px;
 }
 .hero-left {
+  flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
   gap: 20px;
-  width: 496px;
+  max-width: 496px;
+  width: 100%;
+}
+.hero-right {
+  flex: 1;
+  display: flex;
+  justify-content: end;
 }
 .title2 {
   font-size: 48px;
@@ -21,13 +29,14 @@
   display: flex;
   margin-top: 44px;
   gap: 16px;
+  flex-wrap: wrap-reverse;
 }
 .btn-wrapper .btn {
   min-width: 240px;
 }
 .placeholder {
-  width: 504px;
-  height: 504px;
+  width: 100%;
+  max-width: 464px;
   border-radius: 50%;
   background-color: var(--primary);
   background-image: url("../assets/hero2.jpg");
@@ -36,4 +45,73 @@
 }
 .accent {
   color: var(--primary);
+}
+
+@media screen and (max-width: 1239px) {
+  .hero {
+    padding: 64px;
+  }
+}
+
+@media screen and (max-width: 1117px) {
+  .placeholder {
+    width: 100%;
+    height: 0;
+    padding-bottom: 100%;
+    align-self: center;
+  }
+}
+
+@media screen and (max-width: 1098px) {
+  .btn-wrapper .btn {
+    min-width: 160px;
+    flex: 1;
+  }
+}
+@media screen and (max-width: 861px) {
+  .hero .title2 {
+    font-size: 40px;
+    line-height: 40px;
+  }
+}
+@media screen and (max-width: 746px) {
+  .hero {
+    flex-direction: column;
+  }
+  .placeholder {
+    width: 100%;
+    max-width: 240px;
+    height: 240px;
+    padding-bottom: 0px;
+  }
+  .hero-right {
+    justify-content: center;
+  }
+  .hero .title2,
+  .hero .parr1 {
+    text-align: center;
+  }
+  .hero {
+    padding: 48px 24px;
+    justify-content: center;
+  }
+  .hero-left {
+    align-self: center;
+  }
+  .hero .btn-wrapper {
+    margin-top: 0px;
+  }
+  .long-desc {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 559px) {
+  .hero .title2 {
+    font-size: 32px;
+    line-height: 32px;
+  }
+}
+
+@media screen and (max-width: 370px) {
 }
