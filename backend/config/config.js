@@ -1,9 +1,12 @@
+import { config } from "dotenv";
+config();
+
 export const database = {
-  host: "localhost",
-  user: "root",
-  password: "",
-  database: "bdnourishnet",
-  port: "3307", // my port
+  host: process.env.HOST,
+  user: process.env.USER,
+  password: process.env.PASSWORD,
+  database: process.env.DATABASE,
+  port: process.env.DBPORT,
   multipleStatements: true,
 };
 

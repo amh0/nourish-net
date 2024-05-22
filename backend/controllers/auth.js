@@ -204,7 +204,7 @@ export const login = async (req, res) => {
     let itemQty = 0;
     let newNotifQty = 0;
     //ADMIN
-    const adminQuery = "SELECT * FROM ADMIN WHERE idadmin = ?";
+    const adminQuery = "SELECT * FROM admin WHERE idadmin = ?";
     const adminResults = await queryDatabase(adminQuery, [
       selectResults[0].idusuario,
     ]);
@@ -216,7 +216,7 @@ export const login = async (req, res) => {
       userData = { ...userData, ...adminData };
     } else {
       //TABLA VOLUNTARIO
-      const volunteerQuery = "SELECT * FROM VOLUNTARIO WHERE idvoluntario = ?";
+      const volunteerQuery = "SELECT * FROM voluntario WHERE idvoluntario = ?";
       const volunteerResults = await queryDatabase(volunteerQuery, [
         selectResults[0].idusuario,
       ]);
@@ -227,7 +227,7 @@ export const login = async (req, res) => {
         userData = { ...userData, ...volunteerData };
       }
       // TABLE GENERAL
-      const roleQuery = "SELECT * FROM GENERAL WHERE idgeneral = ?";
+      const roleQuery = "SELECT * FROM general WHERE idgeneral = ?";
       const roleResults = await queryDatabase(roleQuery, [
         selectResults[0].idusuario,
       ]);
@@ -257,7 +257,7 @@ export const login = async (req, res) => {
         if (!isVolunteer) {
           //TABLE ORGANIZACION
           const organizationQuery =
-            "SELECT * FROM ORGANIZACION WHERE idorg = ?";
+            "SELECT * FROM organizacion WHERE idorg = ?";
           const organizationResults = await queryDatabase(organizationQuery, [
             selectResults[0].idusuario,
           ]);
@@ -269,7 +269,7 @@ export const login = async (req, res) => {
           }
 
           //TABLE PERSONA
-          const personaQuery = "SELECT * FROM PERSONA WHERE idpersona  = ?";
+          const personaQuery = "SELECT * FROM persona WHERE idpersona  = ?";
           const personaResults = await queryDatabase(personaQuery, [
             selectResults[0].idusuario,
           ]);

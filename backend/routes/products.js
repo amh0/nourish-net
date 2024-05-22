@@ -3,6 +3,7 @@ import multer from "multer";
 import path from "path";
 
 import {
+  getAllProductsNoFunctions,
   getAllProducts,
   uploadProduct,
   getCategories,

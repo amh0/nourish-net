@@ -46,6 +46,35 @@ export const getDonnor = async (req, res) => {
     console.log(error);
   }
 };
+export const getAllProductsNoFunctions = async (req, res) => {
+  try {
+    // obtener tipo de organizacion
+    const qType = `
+    select a.*, o.nombre as nombre_don, o.direccion as direccion_don
+    from alimento a inner join general g 
+    on a.idgeneral = g.idgeneral
+    inner join organizacion o
+    on g.idgeneral = o.idorg
+    where g.tipo like 'Organizacion' 
+      and (a.estado like 'Disponible'
+      or a.estado like 'No disponible')
+    UNION
+    select a.*,  concat(p.nombre, ' ', p.apellido_pat, ' ', p.apellido_mat) as nombre_don, p.direccion as direccion_don  
+    from alimento a inner join general g 
+    on a.idgeneral = g.idgeneral
+    inner join persona p
+    on g.idgeneral like p.idpersona
+    where g.tipo = 'Persona'
+      and (a.estado like 'Disponible'
+      or a.estado like 'No disponible')
+    order by 7 desc`;
+    const foodQuery = await queryDatabase(qType);
+    res.status(200).json(foodQuery);
+  } catch (error) {
+    res.status(500).json(error);
+    console.log(error);
+  }
+};
 
 export const getAllProducts = async (req, res) => {
   try {
