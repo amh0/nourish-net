@@ -2,7 +2,7 @@ import React, { createContext, useEffect, useState } from "react";
 import axios from "axios";
 export const PageContext = createContext(null);
 const PageContextProvider = (props) => {
-  const apiURL = "http://localhost:3001/api";
+  const apiURL = "https://nourish-net-api.onrender.com/api";
   const [foodData, setFoodData] = useState([]);
   const [foodCat, setFoodCat] = useState([]);
   const [volunteers, setVolunteers] = useState([]);

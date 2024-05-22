@@ -21,7 +21,7 @@ const UpdateUser = ({
   );
   const [errorMensaje, setErrorMensaje] = useState("");
 
-  const imgPath = "http://localhost:3001/img/";
+  const imgPath = "https://nourish-net-api.onrender.com/img/";
   const { currentUser } = useContext(AuthContext);
   const [entityTypes, setEntityTypes] = useState([
     "Asilo",
@@ -140,7 +140,7 @@ const UpdateUser = ({
   const verificarContraseña = async (userId, currentPassword, newPassword) => {
     try {
       const response = await axios.post(
-        "http://localhost:3001/api/auth/verifyPassword",
+        "https://nourish-net-api.onrender.com/api/auth/verifyPassword",
         {
           userId: userId,
           currentPassword: currentPassword,
@@ -192,7 +192,7 @@ const UpdateUser = ({
     // axios.defaults.withCredentials = true;
 
     axios
-      .put("http://localhost:3001/api/user/updateUser", data, {
+      .put("https://nourish-net-api.onrender.com/api/user/updateUser", data, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,

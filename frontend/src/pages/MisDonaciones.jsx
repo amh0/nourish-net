@@ -15,7 +15,7 @@ import { AuthContext } from "../context/authContext";
 import DonationItem from "../components/donationItem/DonationItem";
 import "./css/MisDonaciones.css";
 
-const apiPath = "http://localhost:3001/api";
+const apiPath = "https://nourish-net-api.onrender.com/api";
 const listStyle = {
   control: (styles) => ({ ...styles, backgroundColor: "white" }),
   multiValue: (styles, { data }) => {

@@ -8,8 +8,8 @@ import { AuthContext } from "../../context/authContext";
 import Input from "../input/Input";
 import "./Coordination.css";
 
-const imgPath = "http://localhost:3001/img/";
-const apiPath = "http://localhost:3001/api";
+const imgPath = "https://nourish-net-api.onrender.com/img/";
+const apiPath = "https://nourish-net-api.onrender.com/api";
 const methodOptions = [
   {
     value: "Personal",

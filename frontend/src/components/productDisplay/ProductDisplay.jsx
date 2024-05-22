@@ -9,8 +9,8 @@ import { Cube, CheckCircle, Warning, Toolbox } from "@phosphor-icons/react";
 import "./ProductDisplay.css";
 import "../globals.css";
 
-const imgPath = "http://localhost:3001/img/";
-const apiURL = "http://localhost:3001/api/";
+const imgPath = "https://nourish-net-api.onrender.com/img/";
+const apiURL = "https://nourish-net-api.onrender.com/api/";
 let evalDefault = [
   {
     value: 0,

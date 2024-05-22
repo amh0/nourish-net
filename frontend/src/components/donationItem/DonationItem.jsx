@@ -29,7 +29,7 @@ import {
   getFormattedHour,
   padNumber,
 } from "../utils/functionUtils";
-const apiPath = "http://localhost:3001/api";
+const apiPath = "https://nourish-net-api.onrender.com/api";
 const DonationPDFComponent = (props) => {
   if (
     props.estado === "Entregado" &&

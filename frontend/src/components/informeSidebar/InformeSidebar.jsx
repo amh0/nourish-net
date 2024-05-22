@@ -12,7 +12,7 @@ const InformeSidebar = ({ userType }) => {
     const obtenerCantidad = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3001/api/reports/contarMDA"
+          "https://nourish-net-api.onrender.com/api/reports/contarMDA"
         );
         setCantidad(response.data);
       } catch (error) {

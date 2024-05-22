@@ -16,7 +16,7 @@ moment.locale("es");
 
 const RequestPosting = () => {
   const { currentUser } = useContext(AuthContext);
-  const imgPath = "http://localhost:3001/img/";
+  const imgPath = "https://nourish-net-api.onrender.com/img/";
   const [selectedCat, setSelectedCat] = useState(null);
   const [titulo, setTitulo] = useState("");
   const [descripcion, setDescripcion] = useState("");
@@ -91,7 +91,10 @@ const RequestPosting = () => {
   const handleData = (data) => {
     console.log("Datos a enviar al backend:", data);
     axios
-      .post("http://localhost:3001/api/peticiones/upload-peticion", data)
+      .post(
+        "https://nourish-net-api.onrender.com/api/peticiones/upload-peticion",
+        data
+      )
       .then((res) => {
         if (res.data.Status === "OK") {
           console.log("Data inserted");

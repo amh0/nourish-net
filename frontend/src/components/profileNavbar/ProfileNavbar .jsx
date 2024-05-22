@@ -8,7 +8,7 @@ import perfil from "../assets/perfil.jpg";
 import { AuthContext } from "../../context/authContext";
 import Dropdown from "../dropdown/Dropdown";
 const ProfileNavbar = () => {
-  const imgPath = "http://localhost:3001/img/";
+  const imgPath = "https://nourish-net-api.onrender.com/img/";
   const { currentUser } = useContext(AuthContext);
   const { notificationQty } = useContext(AuthContext);
   const [menu, setMenu] = useState("inicio");

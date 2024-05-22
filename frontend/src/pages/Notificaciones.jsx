@@ -4,7 +4,7 @@ import { AuthContext } from "../context/authContext";
 import NotificationItem from "../components/notificationItem/NotificationItem";
 import "./css/Notificaciones.css";
 
-const apiURL = "http://localhost:3001/api/";
+const apiURL = "https://nourish-net-api.onrender.com/api/";
 
 const Notificaciones = () => {
   const { currentUser, setCurrentUser } = useContext(AuthContext);

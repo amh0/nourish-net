@@ -18,8 +18,8 @@ import Input from "../components/input/Input";
 import Map from "../components/map/Map";
 import "./css/CoordSolicitud.css";
 import "./css/CartPage.css";
-const imgPath = "http://localhost:3001/img/";
-const apiURL = "http://localhost:3001/api/";
+const imgPath = "https://nourish-net-api.onrender.com/img/";
+const apiURL = "https://nourish-net-api.onrender.com/api/";
 
 const methodOptions = [
   {

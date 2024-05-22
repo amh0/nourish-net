@@ -27,10 +27,13 @@ const LoginHelp = () => {
 
   const updatePassword = async (password) => {
     try {
-      await axios.post("http://localhost:3001/api/auth/forgotPassword", {
-        email: formData.email,
-        password: password,
-      });
+      await axios.post(
+        "https://nourish-net-api.onrender.com/api/auth/forgotPassword",
+        {
+          email: formData.email,
+          password: password,
+        }
+      );
     } catch (error) {
       console.error(error);
     }

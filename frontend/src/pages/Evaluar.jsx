@@ -48,7 +48,7 @@ let filterCategories = [
   },
 ];
 const Evaluar = () => {
-  const imgPath = "http://localhost:3001/img/";
+  const imgPath = "https://nourish-net-api.onrender.com/img/";
   const { currentUser } = useContext(AuthContext);
 
   const [foodData, setFoodData] = useState([]);
@@ -62,7 +62,9 @@ const Evaluar = () => {
   }, []);
   const fetchData = async () => {
     try {
-      const result = await axios("http://localhost:3001/api/products/findall");
+      const result = await axios(
+        "https://nourish-net-api.onrender.com/api/products/findall"
+      );
       setFoodData(result.data);
     } catch (err) {
       console.log("Error");

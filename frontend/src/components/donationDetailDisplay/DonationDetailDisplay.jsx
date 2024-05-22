@@ -12,8 +12,8 @@ import {
   padNumber,
 } from "../utils/functionUtils";
 import Map from "../map/Map";
-const imgPath = "http://localhost:3001/img/";
-const apiURL = "http://localhost:3001/api/";
+const imgPath = "https://nourish-net-api.onrender.com/img/";
+const apiURL = "https://nourish-net-api.onrender.com/api/";
 
 const listStyle = {
   control: (styles) => ({ ...styles, backgroundColor: "white" }),

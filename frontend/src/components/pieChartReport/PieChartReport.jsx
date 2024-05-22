@@ -20,7 +20,7 @@ const PieChartReport = ({ userType }) => {
       const fetchData = async (x, tit) => {
         try {
           const response = await axios.get(
-            `http://localhost:3001/api/reports/${x}`
+            `https://nourish-net-api.onrender.com/api/reports/${x}`
           );
           const formattedData = convertObjectToArray(response.data);
 
