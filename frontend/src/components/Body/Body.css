@@ -250,4 +250,7 @@
   }
 }
 @media screen and (max-width: 385px) {
+  .hero-left .btn-wrapper {
+    justify-content: center;
+  }
 }
