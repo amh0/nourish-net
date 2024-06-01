@@ -61,6 +61,7 @@ const UpdateUser = ({
   const [tipo_entidad, setTipo_entidad] = useState(searchTerm || "");
 
   const [texts, setTexts] = useState({
+    idusuario: currentUser.idusuario || "",
     nombre: currentUser.nombre || "",
     apellido_pat: currentUser.apellido_pat || "",
     apellido_mat: currentUser.apellido_mat || "",
@@ -152,6 +153,19 @@ const UpdateUser = ({
       // Manejar la respuesta de la API
       if (response.data.success) {
         console.log("La contraseña es correcta y actualizacion realizada");
+        if (currentUser.isAdmin) {
+          let token = localStorage.getItem("user");
+
+          if (token) {
+            token = JSON.parse(token);
+            token.actualizar_pass = "0";
+            localStorage.setItem("user", JSON.stringify(token));
+
+            console.log("Token actualizado:", token);
+          } else {
+            console.error("No se encontró un token válido en localStorage");
+          }
+        }
         setOpenUpdate(false);
       }
     } catch (error) {
@@ -161,6 +175,7 @@ const UpdateUser = ({
 
   const handleSubmit = () => {
     const formData = new FormData();
+    formData.append("idusuario", texts.idusuario);
     formData.append("nombre", texts.nombre);
     formData.append("apellido_pat", texts.apellido_pat);
     formData.append("apellido_mat", texts.apellido_mat);

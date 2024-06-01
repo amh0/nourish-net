@@ -203,7 +203,7 @@ const Perfil = () => {
               <div className="div-analisis">
                 <AnalysisSection
                   tablesData={[
-                    "ALIMENTOS DONADOS",
+                    "DONACIONES PUBLICADAS",
                     {
                       title: "Alimetos Donados",
                       databaseQuery:

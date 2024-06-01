@@ -378,6 +378,7 @@ export const getDonationsUserx = (req, res) => {
   CONCAT(Coalesce(cantidad_disponible, 0)+ coalesce(cantidad_reservada,0) + coalesce(cantidad_no_disponible,0) , ' ', unidad_medida) 'cant. total' , CONCAT(cantidad_no_disponible , ' ', unidad_medida) 'cant. entregada'
     FROM alimento
                 WHERE idgeneral = '${iduser}'
+                AND NOT evaluacion like 'No evaluado'
                 -- ORDER BY entregado desc`;
 
   db.query(sql, (error, results) => {
