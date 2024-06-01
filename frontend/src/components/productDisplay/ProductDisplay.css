@@ -4,12 +4,12 @@
   flex-wrap: wrap-reverse;
   justify-content: center;
   gap: 56px;
-  margin: 16px 0px 120px 0px;
-  padding: 16px;
+  margin: 24px 0px 120px 0px;
+  padding: 16px 24px;
 }
 .product-display .img-container {
-  width: 400px;
-  height: 400px;
+  max-width: 400px;
+  max-height: 400px;
 }
 
 .product-display .img-container img {
@@ -19,8 +19,10 @@
 }
 .product-display .img-list {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
-  margin-top: 32px;
+  gap: 24px;
+  margin-top: 24px;
 }
 .product-display .img-list .img-container {
   width: 96px;
@@ -32,17 +34,18 @@
 
 .product-details {
   display: flex;
-  gap: 16px;
 }
 .product-details > div {
   display: flex;
   align-items: center;
-  gap: 8px;
+  flex-wrap: wrap;
+  gap: 12px;
+  width: 200px;
 }
-.product-details div:first-child {
+/* .product-details div:first-child {
   width: 224px;
   flex-shrink: 0;
-}
+} */
 .product-details .icon {
   flex-shrink: 0;
 }
@@ -50,7 +53,11 @@
 .controls-container {
   display: flex;
   justify-content: space-between;
+  align-content: center;
+  flex-wrap: wrap;
   align-items: center;
+  column-gap: 40px;
+  row-gap: 24px;
   margin: 24px 0px;
 }
 .controls-container > div {
@@ -61,8 +68,14 @@
 .controls-container .btn {
   width: 200px;
 }
+.controls-container .input-wrapper input {
+  margin-right: 0px;
+}
+.controls-container .input-field input {
+  width: 134px;
+}
 .product-display .controls-container .input-wrapper {
-  width: 144px;
+  width: 164px;
 }
 .product-display .title3,
 .product-display .title4 {
@@ -85,4 +98,35 @@
   align-items: center;
   height: 64px;
   margin-bottom: 40px;
+}
+.controls-container .icon-container {
+  flex: 0;
+}
+@media screen and (max-width: 559px) {
+  .product-display .title3 {
+    font-size: var(--title4);
+  }
+  .product-display .title4 {
+    font-size: var(--title5);
+  }
+}
+
+@media screen and (max-width: 499px) {
+  .product-display .controls-container {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .product-display .controls-container .btn,
+  .product-display .controls-container .input-wrapper {
+    width: 100%;
+  }
+  .product-display .controls-container .input-wrapper input {
+    width: 90%;
+  }
+}
+@media screen and (max-width: 399px) {
+  .product-display .img-list {
+    justify-content: center;
+    align-items: center;
+  }
 }

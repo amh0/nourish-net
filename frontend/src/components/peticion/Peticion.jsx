@@ -6,10 +6,10 @@ import { Heart, MapPin, Phone } from "phosphor-react";
 import perfil from "../assets/perfil.jpg";
 import { Link } from "react-router-dom";
 
-const imgPath = "http://localhost:3001/img/";
+const imgPath = "https://nourish-net-api.onrender.com/img/";
 
 const Peticion = ({ post }) => {
-  const imgPath = "http://localhost:3001/img/";
+  const imgPath = "https://nourish-net-api.onrender.com/img/";
   const tiempoTranscurrido = moment(post.fecha_publicacion).fromNow();
 
   const getPriorityClass = (priority) => {

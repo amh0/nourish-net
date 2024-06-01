@@ -19,7 +19,7 @@ app.use((req, res, next) => {
 
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: "https://comfy-douhua-4c8c77.netlify.app",
   })
 );
 app.use(express.json());

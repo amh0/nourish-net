@@ -10,7 +10,7 @@ import { MapPin, Phone } from "phosphor-react";
 import EditableTable from "../components/editableTable/EditableTable";
 
 const Perfil = () => {
-  const imgPath = "http://localhost:3001/img/";
+  const imgPath = "https://nourish-net-api.onrender.com/img/";
   const [selectedOption, setSelectedOption] = useState("Donaciones realizadas");
   const [openUpdate, setOpenUpdate] = useState(false);
   const [nroData, setNroData] = useState([]);
@@ -40,7 +40,7 @@ const Perfil = () => {
   const fetchData = async () => {
     try {
       const result = await axios.get(
-        "http://localhost:3001/api/reports/get-nro-publ-rec-pet",
+        "https://nourish-net-api.onrender.com/api/reports/get-nro-publ-rec-pet",
         {
           params: {
             iduser: currentUser.idusuario || "",
@@ -57,7 +57,7 @@ const Perfil = () => {
   const fetchResp = async () => {
     try {
       const result = await axios.get(
-        "http://localhost:3001/api/user/responsables",
+        "https://nourish-net-api.onrender.com/api/user/responsables",
         {
           params: {
             idOrg: currentUser.idusuario || "",
@@ -140,9 +140,15 @@ const Perfil = () => {
             <h2>RESPONSABLES</h2>
             <EditableTable
               data={responsables}
-              updateUrl={"http://localhost:3001/api/edit/editResponsable"}
-              deleteURL={"http://localhost:3001/api/edit/deleteResponsable"}
-              addURL={"http://localhost:3001/api/edit/addResponsable"}
+              updateUrl={
+                "https://nourish-net-api.onrender.com/api/edit/editResponsable"
+              }
+              deleteURL={
+                "https://nourish-net-api.onrender.com/api/edit/deleteResponsable"
+              }
+              addURL={
+                "https://nourish-net-api.onrender.com/api/edit/addResponsable"
+              }
               onSaveSuccess={fetchResp}
               idnuev={currentUser.idusuario}
               btn={true}
@@ -207,7 +213,7 @@ const Perfil = () => {
                     {
                       title: "Alimetos Donados",
                       databaseQuery:
-                        "http://localhost:3001/api/reports/get-donations-user",
+                        "https://nourish-net-api.onrender.com/api/reports/get-donations-user",
                     },
                   ]}
                   chartsData={[
@@ -215,14 +221,14 @@ const Perfil = () => {
                       title: "Alimentos por categoria",
                       activateButtons: false,
                       databaseQuery: [
-                        "http://localhost:3001/api/reports/get-donations-category",
+                        "https://nourish-net-api.onrender.com/api/reports/get-donations-category",
                       ],
                     },
                     {
                       title: `Alimentos donados por Meses - ${new Date().getFullYear()}`,
                       activateButtons: true,
                       databaseQuery: [
-                        "http://localhost:3001/api/reports/get-donations-month",
+                        "https://nourish-net-api.onrender.com/api/reports/get-donations-month",
                       ],
                     },
                   ]}
@@ -238,7 +244,7 @@ const Perfil = () => {
                     {
                       title: "Alimetos Recibidos",
                       databaseQuery:
-                        "http://localhost:3001/api/reports/get-donations-received",
+                        "https://nourish-net-api.onrender.com/api/reports/get-donations-received",
                     },
                   ]}
                   chartsData={[
@@ -246,7 +252,7 @@ const Perfil = () => {
                       title: `Alimentos recibidos por Meses - ${new Date().getFullYear()}`,
                       activateButtons: true,
                       databaseQuery: [
-                        "http://localhost:3001/api/reports/get-donations-received-month",
+                        "https://nourish-net-api.onrender.com/api/reports/get-donations-received-month",
                       ],
                     },
                   ]}
@@ -262,7 +268,7 @@ const Perfil = () => {
                     {
                       title: "Alimetos Entregados",
                       databaseQuery:
-                        "http://localhost:3001/api/reports/get-donations-volunteer",
+                        "https://nourish-net-api.onrender.com/api/reports/get-donations-volunteer",
                     },
                   ]}
                   chartsData={[
@@ -270,7 +276,7 @@ const Perfil = () => {
                       title: `Alimentos entregados por Meses - ${new Date().getFullYear()}`,
                       activateButtons: true,
                       databaseQuery: [
-                        "http://localhost:3001/api/reports/get-donations-volunteer-month",
+                        "https://nourish-net-api.onrender.com/api/reports/get-donations-volunteer-month",
                       ],
                     },
                   ]}

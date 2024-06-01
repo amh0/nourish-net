@@ -4,7 +4,7 @@ import { AuthContext } from "../context/authContext";
 import NotificationItem from "../components/notificationItem/NotificationItem";
 import "./css/Notificaciones.css";
 
-const apiURL = "http://localhost:3001/api/";
+const apiURL = "https://nourish-net-api.onrender.com/api/";
 
 const Notificaciones = () => {
   const { currentUser, setCurrentUser } = useContext(AuthContext);
@@ -15,7 +15,7 @@ const Notificaciones = () => {
   }, []);
   const fetchNotifications = async () => {
     try {
-      const result = await axios.post(apiURL + "users/get_notifications", {
+      const result = await axios.post(apiURL + "user/get_notifications", {
         idUsuario: currentUser.idusuario,
       });
       setNotifications(result.data);
@@ -27,7 +27,7 @@ const Notificaciones = () => {
   };
   const handleReadAll = async () => {
     try {
-      await axios.post(apiURL + "users/read_all_notif", {
+      await axios.post(apiURL + "user/read_all_notif", {
         idUsuario: currentUser.idusuario,
       });
       setNotificationQty(0);

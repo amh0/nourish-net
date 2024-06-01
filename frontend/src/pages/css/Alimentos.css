@@ -1,28 +1,51 @@
 @import url("../../components/globals.css");
+.alimentos-wrapper {
+  background-color: var(--primarybackground);
+  /* padding-top: 64px;
+  padding-bottom: 64px;
+  padding-left: 40px;
+  padding-right: 40px; */
+  padding: 64px 40px;
+}
+/* 200  + 40 + 408*2 + 40 */
 .alimentos-page {
+  max-width: 1136px;
   display: flex;
-  gap: 120px;
-  background-color: #fffdf9;
-  padding: 64px 80px;
+  justify-content: space-between;
+  gap: 40px;
+  margin-inline: auto;
+}
+.donations-section .filter-wrapper,
+.products-section .filter-wrapper {
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  column-gap: 48px;
+  row-gap: 24px;
 }
 .products-section {
+  max-width: 856px;
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 }
 .products-list {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(408px, 1fr));
   gap: 40px;
-  max-width: 586px;
+  justify-items: center;
 }
 .sidebar {
   box-sizing: border-box;
   border-radius: 16px;
   box-shadow: 0px 0px 4px 0px var(--textlighter);
   padding: 32px;
-  height: 560px;
-  width: 200px;
+  min-height: 560px;
+  max-width: 200px;
   background-color: var(--background0);
   color: var(--text);
+  align-self: flex-start;
 }
 .sidebar .title5 {
   margin-bottom: 32px;
@@ -41,14 +64,17 @@
 }
 
 .search-bar {
+  max-width: 408px;
+  flex: 1;
   display: flex;
   gap: 8px;
-  margin-bottom: 40px;
-  width: 408px;
 }
 .search-bar .input {
   box-sizing: border-box;
   border-radius: 8px;
+}
+.search-bar .input {
+  min-width: 100px;
 }
 .search-bar .input-wrapper {
   flex: 1;
@@ -71,4 +97,63 @@
   display: flex;
   align-items: center;
   gap: 4px;
+}
+/* filter */
+.alimentos-page .filter-selection {
+  display: none;
+  justify-content: center;
+}
+.filter-selection-wrapper {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  column-gap: 20px;
+  max-width: 408px;
+  flex-wrap: wrap;
+
+  position: relative;
+  z-index: 1;
+}
+.filter-selection-wrapper .list-option {
+  flex: 1;
+}
+
+@media screen and (max-width: 1199px) {
+  .alimentos-page .filter-wrapper {
+    justify-content: center;
+  }
+}
+@media screen and (max-width: 719px) {
+  .alimentos-wrapper .sidebar {
+    display: none;
+  }
+  .alimentos-page .filter-wrapper {
+    justify-content: center;
+  }
+  .alimentos-page {
+    flex-direction: column;
+  }
+  .sidebar {
+    max-width: 680px;
+    min-height: 200px;
+  }
+  .alimentos-page .filter-selection {
+    display: flex;
+  }
+  .alimentos-wrapper {
+    margin-inline: auto;
+  }
+  .products-section .filter-wrapper {
+    gap: 24px;
+  }
+  .alimentos-wrapper {
+    padding: 40px 24px;
+  }
+  .products-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media screen and (max-width: 455px) {
 }

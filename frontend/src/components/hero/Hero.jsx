@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "./Hero.css";
 const Hero = () => {
   return (
@@ -9,14 +10,21 @@ const Hero = () => {
         </h2>
         <p className="parr1">
           Conectamos a donadores con organizaciones y personas que necesitan
-          ayuda. Somos el punto de conexión donde la generosidad se une con la
-          necesidad, creando una red de solidaridad alimentaria.
+          ayuda.
+          <span className="long-desc">
+            Somos el punto de conexión donde la generosidad se une con la
+            necesidad, creando una red de solidaridad alimentaria.
+          </span>
         </p>
         <div className="btn-wrapper">
-          <button className="btn bg0-secondary-v secondary-brd">
-            Obten donaciones
-          </button>
-          <button className="btn secondary-v">Dona ahora</button>
+          <Link className="link" to="/signup">
+            <button className="btn bg0-secondary-v secondary-brd">
+              Obten donaciones
+            </button>
+          </Link>
+          <Link className="link" to="/signup">
+            <button className="btn secondary-v">Dona ahora</button>
+          </Link>
         </div>
       </div>
       <div className="hero-right">

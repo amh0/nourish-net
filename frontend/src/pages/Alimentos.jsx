@@ -1,25 +1,66 @@
 import React, { useState, useEffect, useContext } from "react";
 // import food_data from "../components/assets/data";
 import axios from "axios";
+import Select from "react-select";
+import makeAnimated from "react-select/animated";
 import { AuthContext } from "../context/authContext";
 import Item from "../components/item/Item";
 import { MagnifyingGlass, Funnel, X } from "@phosphor-icons/react";
 import "./css/Alimentos.css";
+const listStyle = {
+  control: (styles) => ({ ...styles, backgroundColor: "white" }),
+  multiValue: (styles, { data }) => {
+    return {
+      ...styles,
+      backgroundColor: "#E2F0EE",
+    };
+  },
+  multiValueRemove: (styles, { data }) => {
+    return {
+      ...styles,
+      cursor: "pointer",
+    };
+  },
+};
+let filterCategories = [
+  {
+    value: 0,
+    label: "Todos",
+  },
+  {
+    value: 1,
+    label: "Fruta",
+  },
+  {
+    value: 2,
+    label: "Verdura",
+  },
+  {
+    value: 3,
+    label: "Bebida",
+  },
+];
+const fechaMenorHoy = (d2) => {
+  let date1 = new Date().getTime();
+  let date2 = new Date(d2).getTime();
+  return date2 < date1;
+};
+
 const Alimentos = () => {
-  const imgPath = "http://localhost:3001/img/";
+  const imgPath = "https://nourish-net-api.onrender.com/img/";
   const { currentUser } = useContext(AuthContext);
 
   const [foodData, setFoodData] = useState([]);
   const [filteredFood, setFilteredFood] = useState(foodData);
   const [categoryFilter, setCategoryFilter] = useState("");
+  const [categoryOption, setCategoryOption] = useState();
   const [search, setSearch] = useState("");
-
   useEffect(() => {
     fetchData();
   }, []);
   const fetchData = async () => {
     try {
-      const result = await axios("http://localhost:3001/api/products/findall");
+      const result = await axios("https://nourish-net-api.onrender.com/api/products/findall");
       setFoodData(result.data);
     } catch (err) {
       console.log("Error");
@@ -32,6 +73,9 @@ const Alimentos = () => {
       let filteredByCat = true;
       let filteredBySearch = true;
       filteredByCat = !categoryFilter || categoryFilter === "Todos";
+      if (categoryFilter) {
+        filteredByCat = true;
+      }
       // item.categorias.includes(categoryFilter); // TODO filter by category
       filteredBySearch =
         search === "" ||
@@ -40,26 +84,87 @@ const Alimentos = () => {
         filteredByCat &&
         filteredBySearch &&
         item.cantidad_disponible > 0 &&
-        (item.evaluacion === "Optimo" || item.evaluacion === "Excelente")
+        (item.evaluacion === "Optimo" || item.evaluacion === "Excelente") &&
+        !fechaMenorHoy(item.fecha_vencimiento.substr(0, 10))
       );
     });
     setFilteredFood(newData);
   }, [categoryFilter, search, currentUser, foodData]);
 
+  const handleCategorySelection = (op) => {
+    console.log(op);
+    setCategoryFilter(op.label);
+    setCategoryOption(op);
+  };
   return (
     <div className="alimentos-wrapper">
       <div className="alimentos-page">
         <div className="sidebar">
           <h5 className="title5">Categorias</h5>
           <ol className="categories">
-            <li onClick={() => setCategoryFilter("Todos")}>Todos</li>
-            <li onClick={() => setCategoryFilter("Fruta")}>Frutas</li>
-            <li onClick={() => setCategoryFilter("Verdura")}>Verdura</li>
-            <li onClick={() => setCategoryFilter("Bebida")}>Bebidas</li>
-            <li onClick={() => setCategoryFilter("Organico")}>Organicos</li>
-            <li onClick={() => setCategoryFilter("Enlatado")}>Enlatados</li>
-            <li onClick={() => setCategoryFilter("Envasado")}>Envasados</li>
-            <li onClick={() => setCategoryFilter("Ingrediente")}>
+            <li
+              onClick={() => {
+                setCategoryFilter("Todos");
+                setCategoryOption(null);
+              }}
+            >
+              Todos
+            </li>
+
+            <li
+              onClick={() => {
+                setCategoryFilter("Fruta");
+                setCategoryOption(filterCategories[1]);
+              }}
+            >
+              Frutas
+            </li>
+            <li
+              onClick={() => {
+                setCategoryFilter("Verdura");
+                setCategoryOption(filterCategories[2]);
+              }}
+            >
+              Verdura
+            </li>
+            <li
+              onClick={() => {
+                setCategoryFilter("Bebida");
+                setCategoryOption(filterCategories[3]);
+              }}
+            >
+              Bebidas
+            </li>
+            <li
+              onClick={() => {
+                setCategoryFilter("Organico");
+                setCategoryOption(filterCategories[4]);
+              }}
+            >
+              Organicos
+            </li>
+            <li
+              onClick={() => {
+                setCategoryFilter("Enlatado");
+                setCategoryOption(filterCategories[5]);
+              }}
+            >
+              Enlatados
+            </li>
+            <li
+              onClick={() => {
+                setCategoryFilter("Envasado");
+                setCategoryOption(filterCategories[6]);
+              }}
+            >
+              Envasados
+            </li>
+            <li
+              onClick={() => {
+                setCategoryFilter("Ingrediente");
+                setCategoryOption(filterCategories[7]);
+              }}
+            >
               Ingredientes
             </li>
             <li onClick={() => setCategoryFilter("No Perecedero")}>
@@ -69,12 +174,6 @@ const Alimentos = () => {
             <li onClick={() => setCategoryFilter("Lacteo")}>Lacteo</li>
             <li onClick={() => setCategoryFilter("Otros")}>Otros</li>
           </ol>
-          {/* <h5 className="title5">Ordenar por</h5>
-          <ol>
-            <li>Más cercano</li>
-            <li>Más reciente</li>
-            <li>Más donaciones</li>
-          </ol> */}
         </div>
 
         <div className="products-section">
@@ -97,25 +196,58 @@ const Alimentos = () => {
                 />
               </button>
             </div>
-            <div className="filter-section">
-              {categoryFilter && categoryFilter !== "Todos" ? (
-                <div className="icon-container light-v">
-                  <Funnel size={24} color="var(--textlight)" weight="bold" />
-                </div>
-              ) : null}
-              <div className="filter-container">
-                {categoryFilter && categoryFilter !== "Todos" ? (
-                  <>
-                    <div className="filter-text">{categoryFilter}</div>
-                    <button
-                      className="btn"
-                      onClick={() => setCategoryFilter("")}
-                    >
-                      <X size={16} color="var(--parr1)" weight={"bold"} />
-                    </button>
-                  </>
+            {categoryFilter && categoryFilter !== "Todos" ? (
+              <div className="filter-section">
+                {categoryFilter !== "Todos" ? (
+                  <div className="icon-container light-v">
+                    <Funnel size={24} color="var(--textlight)" weight="bold" />
+                  </div>
                 ) : null}
+                <div className="filter-container">
+                  {categoryFilter !== "Todos" ? (
+                    <>
+                      <div className="filter-text">{categoryFilter}</div>
+                      <button
+                        className="btn"
+                        onClick={() => {
+                          setCategoryFilter("");
+                          setCategoryOption(null);
+                        }}
+                      >
+                        <X size={16} color="var(--parr1)" weight={"bold"} />
+                      </button>
+                    </>
+                  ) : null}
+                </div>
               </div>
+            ) : (
+              <></>
+            )}
+          </div>
+          <div className="filter-selection">
+            <div className="filter-selection-wrapper">
+              <p className="title7 bold">Categorias</p>
+              <Select
+                className="list-option"
+                options={filterCategories}
+                components={makeAnimated()}
+                closeMenuOnSelect={false}
+                value={categoryOption}
+                onChange={handleCategorySelection}
+                styles={listStyle}
+                placeholder={"Haz clic para seleccionar"}
+                theme={(theme) => ({
+                  ...theme,
+                  borderRadius: 6,
+                  colors: {
+                    ...theme.colors,
+                    text: "orangered",
+                    primary25: "#E2F0EE",
+                    primary50: "#99CBC5",
+                    primary: "#red",
+                  },
+                })}
+              />
             </div>
           </div>
           <div className="products-list">

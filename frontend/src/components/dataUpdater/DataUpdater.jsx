@@ -8,7 +8,7 @@ import "./DataUpdater.css";
 import EditableTable from "../editableTable/EditableTable";
 
 const DataUpdater = ({ type, id, data, URLedit, updateShow, btnCont }) => {
-  const imgPath = "http://localhost:3001/img/";
+  const imgPath = "https://nourish-net-api.onrender.com/img/";
 
   const [inputData, setInputData] = useState({});
   // console.log("INITIAL:", inputData);
@@ -96,7 +96,7 @@ const DataUpdater = ({ type, id, data, URLedit, updateShow, btnCont }) => {
   const fetchResp = async () => {
     try {
       const result = await axios.get(
-        "http://localhost:3001/api/user/responsables",
+        "https://nourish-net-api.onrender.com/api/user/responsables",
         {
           params: {
             idOrg: id || "",
@@ -264,9 +264,9 @@ const DataUpdater = ({ type, id, data, URLedit, updateShow, btnCont }) => {
               <h2>RESPONSABLES</h2>
               <EditableTable
                 data={responsables}
-                updateUrl={"http://localhost:3001/api/edit/editResponsable"}
-                deleteURL={"http://localhost:3001/api/edit/deleteResponsable"}
-                addURL={"http://localhost:3001/api/edit/addResponsable"}
+                updateUrl={"https://nourish-net-api.onrender.com/api/edit/editResponsable"}
+                deleteURL={"https://nourish-net-api.onrender.com/api/edit/deleteResponsable"}
+                addURL={"https://nourish-net-api.onrender.com/api/edit/addResponsable"}
                 onSaveSuccess={fetchResp}
                 idnuev={id}
                 btn={true}

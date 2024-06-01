@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./Body.css";
-import Footer from "../footer/Footer";
+import { Link } from "react-router-dom";
+import { AuthContext } from "../../context/authContext";
 import { Buildings, HandHeart, UserCircle } from "@phosphor-icons/react";
 const Body = () => {
+  const { currentUser } = useContext(AuthContext);
   return (
     <>
       <div className="stats-wrapper">
@@ -44,7 +46,13 @@ const Body = () => {
               </p>
             </div>
             <div className="sqr-placeholder sqr-placeholder-1"></div>
-            <button className="btn secondary-v">Donar ahora</button>
+
+            <Link
+              className="link"
+              to={currentUser && currentUser.isDonor ? "/donar" : "/signup"}
+            >
+              <button className="btn secondary-v">Donar ahora</button>
+            </Link>
           </div>
           <div className="card-box">
             <div>
@@ -54,7 +62,14 @@ const Body = () => {
               </p>
             </div>
             <div className="sqr-placeholder sqr-placeholder-2"></div>
-            <button className="btn secondary-v">Quiero ser voluntario</button>
+            <Link
+              className="link"
+              to={
+                currentUser && currentUser.isVolunteer ? "/tareas" : "/signup"
+              }
+            >
+              <button className="btn secondary-v">Quiero ser voluntario</button>
+            </Link>
           </div>
         </div>
       </div>
@@ -70,10 +85,14 @@ const Body = () => {
             </p>
           </div>
           <div className="btn-wrapper-card">
-            <button className="btn bg0-secondary-v secondary-brd">
-              Inicia sesión
-            </button>
-            <button className="btn secondary-v">Registro</button>
+            <Link className="link" to="/login">
+              <button className="btn bg0-secondary-v secondary-brd">
+                Inicia sesión
+              </button>
+            </Link>
+            <Link className="link" to="/signup">
+              <button className="btn secondary-v">Registro</button>
+            </Link>
           </div>
         </div>
       </div>
@@ -85,7 +104,9 @@ const Body = () => {
         <p className="parr1">
           Estamos trabajando constantemente para mejorar nuestros servicios
         </p>
-        <button className="btn bg-text-v">Contáctanos</button>
+        <Link className="link" to="/contacto">
+          <button className="btn bg-text-v">Contáctanos</button>
+        </Link>
       </div>
       <div className="card-info-wrapper">
         <div className="text-section">
@@ -98,9 +119,11 @@ const Body = () => {
             </p>
           </div>
           <div className="btn-wrapper-card">
-            <button className="btn bg0-secondary-v secondary-brd">
-              Leer más
-            </button>
+            <Link className="link" to="/nosotros">
+              <button className="btn bg0-secondary-v secondary-brd">
+                Leer más
+              </button>
+            </Link>
           </div>
         </div>
         <div className="sqr-placeholder sqr-placeholder-4"></div>
@@ -108,19 +131,27 @@ const Body = () => {
       <div className="horizontal-wrapper secondary-wrapper">
         <h5 className="title5">Preguntas Frecuentes</h5>
         <p className="parr1">¿Tienes preguntas? Tenemos respuestas.</p>
-        <button className="btn text-v text-brd">Explora respuestas</button>
+        <Link className="link" to="/faq">
+          <button className="btn text-v text-brd">Explora respuestas</button>
+        </Link>
       </div>
 
       <div className="horizontal-btn-section">
         <h3 className="title3">Únete a nuestra misión</h3>
         <div className="btn-group">
-          <button className="btn bg0-secondary-v secondary-brd">
-            Donar ahora
-          </button>
-          <button className="btn bg0-primary-v primary-brd">
-            Ser voluntario
-          </button>
-          <button className="btn text-v text-brd ">Obtén donaciones</button>
+          <Link className="link" to="/signup">
+            <button className="btn bg0-secondary-v secondary-brd">
+              Donar ahora
+            </button>
+          </Link>
+          <Link className="link" to="/signup">
+            <button className="btn bg0-primary-v primary-brd">
+              Ser voluntario
+            </button>
+          </Link>
+          <Link className="link" to="/signup">
+            <button className="btn text-v text-brd ">Obtén donaciones</button>
+          </Link>
         </div>
       </div>
     </>

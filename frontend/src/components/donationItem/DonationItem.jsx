@@ -4,6 +4,7 @@ import axios from "axios";
 import { BlobProvider } from "@react-pdf/renderer";
 import ReceiptPdf from "../receipt/ReceiptPdf";
 import "./DonationItem.css";
+import moment from "moment";
 import {
   Export,
   CalendarBlank,
@@ -29,7 +30,7 @@ import {
   getFormattedHour,
   padNumber,
 } from "../utils/functionUtils";
-const apiPath = "http://localhost:3001/api";
+const apiPath = "https://nourish-net-api.onrender.com/api";
 const DonationPDFComponent = (props) => {
   if (
     props.estado === "Entregado" &&
@@ -45,7 +46,7 @@ const DonationPDFComponent = (props) => {
       >
         {({ url, blob }) => (
           <div className="btn secondary-v pdf-button">
-            <a href={url} target="_blank" rel="noreferrer" className="btn-link">
+            <a href={url} target="_self" rel="noreferrer" className="btn-link">
               <span>Recibo</span>
             </a>
             <LinkSimple size={16} color="var(--background0)" />
@@ -174,7 +175,7 @@ const DonationItem = (props) => {
   };
   const handleQueryInsertReceipt = () => {
     const formData = {
-      fecha: new Date().toJSON(),
+      fecha: moment(new Date()).format("YYYY-MM-DD"), // new Date()
       idDonacion: donacion.idDonacion,
     };
     axios
@@ -199,7 +200,7 @@ const DonationItem = (props) => {
             <div className="row-wrapper">
               <Barcode size={24} color="var(--text)" />
               <p className="parr1 ">
-                {"COD: " + padNumber(donacion.idDonacion, 6, "0")}
+                {"COD: " + padNumber(donacion.idDonacion, 5, "0")}
               </p>
             </div>
             <div className="row-wrapper ">

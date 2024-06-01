@@ -5,7 +5,7 @@ const fetchUserData = async (searchFiltersData) => {
   if (searchFiltersData.firstSelectValue === "voluntarios") {
     try {
       const response = await axios.get(
-        "http://localhost:3001/api/reports/get-volunteers",
+        "https://nourish-net-api.onrender.com/api/reports/get-volunteers",
         {
           params: {
             buscar: searchFiltersData.buscar || "",
@@ -20,7 +20,7 @@ const fetchUserData = async (searchFiltersData) => {
   } else if (searchFiltersData.firstSelectValue === "administradores") {
     try {
       const response = await axios.get(
-        "http://localhost:3001/api/reports/get-admins",
+        "https://nourish-net-api.onrender.com/api/reports/get-admins",
         {
           params: {
             buscar: searchFiltersData.buscar || "",
@@ -35,7 +35,7 @@ const fetchUserData = async (searchFiltersData) => {
   } else if (searchFiltersData.firstSelectValue === "donadores") {
     try {
       const response = await axios.get(
-        "http://localhost:3001/api/reports/get-donors",
+        "https://nourish-net-api.onrender.com/api/reports/get-donors",
         {
           params: {
             secondSelectValue: searchFiltersData.secondSelectValue || "",
@@ -51,7 +51,7 @@ const fetchUserData = async (searchFiltersData) => {
   } else if (searchFiltersData.firstSelectValue === "receptores") {
     try {
       const response = await axios.get(
-        "http://localhost:3001/api/reports/get-receiver",
+        "https://nourish-net-api.onrender.com/api/reports/get-receiver",
         {
           params: {
             secondSelectValue: searchFiltersData.secondSelectValue || "",
@@ -67,7 +67,7 @@ const fetchUserData = async (searchFiltersData) => {
   } else {
     try {
       const response = await axios.get(
-        "http://localhost:3001/api/reports/get-users",
+        "https://nourish-net-api.onrender.com/api/reports/get-users",
         {
           params: {
             secondSelectValue: searchFiltersData.secondSelectValue || "",
@@ -87,7 +87,7 @@ const fetchFoodData = async (searchFiltersData) => {
   console.log(JSON.stringify(searchFiltersData));
   try {
     const response = await axios.get(
-      "http://localhost:3001/api/reports/get-food",
+      "https://nourish-net-api.onrender.com/api/reports/get-food",
       {
         params: {
           firstSelectValue: searchFiltersData.firstSelectValue || "",
@@ -109,7 +109,7 @@ const fetchDonationsData = async (searchFiltersData) => {
   console.log(JSON.stringify(searchFiltersData));
   try {
     const response = await axios.get(
-      "http://localhost:3001/api/reports/get-donations",
+      "https://nourish-net-api.onrender.com/api/reports/get-donations",
       {
         params: {
           firstSelectValue: searchFiltersData.firstSelectValue || "",
@@ -129,7 +129,7 @@ const fetchDonationsData = async (searchFiltersData) => {
 const fetchUserAdmin = async () => {
   try {
     const response = await axios.get(
-      "http://localhost:3001/api/edit/getAdmins"
+      "https://nourish-net-api.onrender.com/api/edit/getAdmins"
     );
     return response.data;
   } catch (error) {
@@ -142,7 +142,7 @@ const fetchUserAdmin = async () => {
 const foodData = async (id) => {
   try {
     const response = await axios.get(
-      "http://localhost:3001/api/edit/getFoodx",
+      "https://nourish-net-api.onrender.com/api/edit/getFoodx",
       {
         params: {
           id: id,
@@ -167,7 +167,7 @@ const convertirFecha = (fecha) => {
 // const deleteFood = async (id) => {
 //   try {
 //     const response = await axios.get(
-//       "http://localhost:3001/api/edit/dete",
+//       "https://nourish-net-api.onrender.com/api/edit/dete",
 //       {
 //         params: {
 //           id: id,
@@ -183,7 +183,7 @@ const convertirFecha = (fecha) => {
 const userDatax = async (id) => {
   try {
     const response = await axios.get(
-      "http://localhost:3001/api/edit/getUserx",
+      "https://nourish-net-api.onrender.com/api/edit/getUserx",
       {
         params: {
           id: id,

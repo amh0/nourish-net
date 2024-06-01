@@ -14,7 +14,7 @@ import "./NotificationItem.css";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/authContext";
 
-const apiURL = "http://localhost:3001/api/";
+const apiURL = "https://nourish-net-api.onrender.com/api/";
 
 const notifTypes = [
   "Solicitud donacion",

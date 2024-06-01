@@ -3,6 +3,7 @@
   --primary: #ffd56f;
   --primarylight: #fff7e2;
   --primarylighter: #fff7e2;
+  --primarybackground: #fffdf9;
   --secondary: #6db4ac;
   --secondarylight: #a7d2cd;
   --secondarylighter: #e2f0ee;
@@ -24,6 +25,7 @@
   --title4: 32px;
   --title5: 24px;
   --title6: 24px;
+  --title7: 18px;
   --parr1: 16px;
   --parr2: 13px;
   --subparr: 11px;

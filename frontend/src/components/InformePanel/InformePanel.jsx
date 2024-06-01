@@ -175,11 +175,11 @@ const InformePanel = ({ userType }) => {
         ]);
 
         setDataEdit(newData[0]);
-        setURLupdate("http://localhost:3001/api/edit/editFood");
+        setURLupdate("https://nourish-net-api.onrender.com/api/edit/editFood");
       } else if (userType === "Usuarios") {
         const data = await userDatax(id);
         setDataEdit(data);
-        setURLupdate("http://localhost:3001/api/edit/editUser");
+        setURLupdate("https://nourish-net-api.onrender.com/api/edit/editUser");
       }
     } else if (actionType === "eliminar") {
       setShowConfirmation(true);
@@ -352,7 +352,7 @@ const InformePanel = ({ userType }) => {
             type={"Agregar Administrador."}
             id={""}
             data={dataEdit}
-            URLedit={"http://localhost:3001/api/auth/addAdmin"}
+            URLedit={"https://nourish-net-api.onrender.com/api/auth/addAdmin"}
             updateShow={setShowAdd}
             btnCont={"AGREGAR"}
           />

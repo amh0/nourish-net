@@ -5,7 +5,7 @@ import axios from "axios";
 import RequestPosting from "../components/requestPosting/RequestPosting";
 
 const Peticiones = () => {
-  const imgPath = "http://localhost:3001/img/";
+  const imgPath = "https://nourish-net-api.onrender.com/img/";
   const [peticiones, setPeticiones] = useState([]);
 
   useEffect(() => {
@@ -15,7 +15,7 @@ const Peticiones = () => {
   const fetchData = async () => {
     try {
       const result = await axios.get(
-        "http://localhost:3001/api/peticiones/get-peticiones"
+        "https://nourish-net-api.onrender.com/api/peticiones/get-peticiones"
       );
       setPeticiones(result.data);
     } catch (err) {

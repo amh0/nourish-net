@@ -18,8 +18,8 @@ import Input from "../components/input/Input";
 import Map from "../components/map/Map";
 import "./css/CoordSolicitud.css";
 import "./css/CartPage.css";
-const imgPath = "http://localhost:3001/img/";
-const apiURL = "http://localhost:3001/api/";
+const imgPath = "https://nourish-net-api.onrender.com/img/";
+const apiURL = "https://nourish-net-api.onrender.com/api/";
 
 const methodOptions = [
   {
@@ -223,8 +223,15 @@ const CartPage = (props) => {
           <div>
             <div className="grid-prod parr1">
               <div className="parr1 bold">Alimento</div>
-              <div className="parr1 bold cell-left">Cantidad</div>
-              <div className="parr1 bold cell-left">Unidad</div>
+              <div className="parr1 bold cell-left">
+                <span className="long-label">Cantidad</span>
+                <span className="short-label">Cant.</span>
+              </div>
+              <div className="parr1 bold cell-left">
+                <span className="long-label">Unidad</span>
+                <span className="short-label">Unid.</span>
+              </div>
+
               <div className="parr1 bold cell-left"></div>
               <div className="row-border"></div>
               {products.map((item, i) => {

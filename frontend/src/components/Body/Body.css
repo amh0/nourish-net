@@ -5,14 +5,15 @@
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
-  padding: 0px 120px;
+  padding: 48px 120px;
+  column-gap: 24px;
+  row-gap: 32px;
 }
 .stats-card {
   display: flex;
   box-sizing: border-box;
   align-items: center;
   gap: 24px;
-  padding: 48px 24px;
   width: 336px;
 }
 .stats-placeholder {
@@ -103,6 +104,7 @@
 .card-info-wrapper {
   display: flex;
   margin: 160px 80px;
+  flex-wrap: wrap;
 }
 .card-info-wrapper .sqr-placeholder {
   width: 600px;
@@ -136,6 +138,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 40px 24px;
 }
 .horizontal-wrapper .btn {
   width: 136px;
@@ -148,7 +151,7 @@
 }
 .secondary-wrapper {
   background-color: var(--secondary);
-  padding: 40px 0px;
+  padding: 40px 24px;
 }
 .secondary-wrapper .parr1,
 .secondary-wrapper .title5 {
@@ -160,14 +163,94 @@
 /* button section */
 .horizontal-btn-section {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   margin: 160px 80px;
+  gap: 40px;
+  flex-wrap: wrap;
 }
 .horizontal-btn-section .btn-group {
   display: flex;
   gap: 40px;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 .horizontal-btn-section .btn-group .btn {
   width: 196px;
+}
+.hero {
+  /* display: none; */
+}
+@media screen and (max-width: 1296px) {
+  .stats-wrapper {
+    padding: 48px 24px;
+  }
+}
+@media screen and (max-width: 1107.9px) {
+  .card-wrapper,
+  .card-info-wrapper,
+  .horizontal-btn-section {
+    margin: 80px 24px;
+  }
+  .stats-wrapper .stats-info .title4 {
+    font-size: 24px;
+  }
+  .stats-wrapper .stats-info .parr1 {
+    font-size: 13px;
+  }
+  .stats-wrapper .stats-card svg {
+    width: 48px;
+    height: 48px;
+  }
+}
+@media screen and (max-width: 743.9px) {
+  .stats-wrapper {
+    justify-content: center;
+  }
+}
+@media screen and (max-width: 600px) {
+  .card-info-wrapper {
+    gap: 40px;
+  }
+  .card-info-wrapper .sqr-placeholder,
+  .card-info-wrapper .text-section {
+    flex: auto;
+    padding: 0px;
+    gap: 40px;
+  }
+  .btn-wrapper-card {
+    justify-content: center;
+  }
+  .text-section .title3 {
+    text-align: center;
+  }
+  .card-info-wrapper:first-of-type {
+    flex-wrap: wrap-reverse;
+  }
+  .card-wrapper .title3,
+  .text-section .title3,
+  .horizontal-btn-section .title3 {
+    font-size: 32px;
+  }
+  .card-box .title4 {
+    font-size: 24px;
+  }
+  .horizontal-btn-section .title3 {
+    text-align: center;
+  }
+}
+
+@media screen and (max-width: 399px) {
+  .stats-card {
+    max-width: 336px;
+  }
+  .card-section .card-box {
+    width: 100%;
+    max-width: 360px;
+  }
+}
+@media screen and (max-width: 385px) {
+  .hero-left .btn-wrapper {
+    justify-content: center;
+  }
 }

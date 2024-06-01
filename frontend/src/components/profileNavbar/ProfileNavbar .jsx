@@ -1,17 +1,38 @@
 import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
-import { Bell, ShoppingCartSimple } from "phosphor-react";
-import "./ProfileNavbar.css";
+import { Bell, ShoppingCartSimple, List } from "phosphor-react";
+// import "./ProfileNavbar.css";
+import "../navbar/NavBar.css";
 import logo from "../assets/logo_64.png";
 import perfil from "../assets/perfil.jpg";
 import { AuthContext } from "../../context/authContext";
+import Dropdown from "../dropdown/Dropdown";
 const ProfileNavbar = () => {
-  const imgPath = "http://localhost:3001/img/";
+  const imgPath = "https://nourish-net-api.onrender.com/img/";
   const { currentUser } = useContext(AuthContext);
   const { notificationQty } = useContext(AuthContext);
   const [menu, setMenu] = useState("inicio");
+  const [dropDown, setDropdown] = useState(false);
+  const changeDropdown = () => {
+    setDropdown((prev) => !prev);
+  };
+  const onMouseEnter = () => {
+    if (window.innerWidth >= 1200) {
+      setDropdown(false);
+    } else {
+      setDropdown(true);
+    }
+  };
+
+  const onMouseLeave = () => {
+    if (window.innerWidth >= 1200) {
+      setDropdown(false);
+    } else {
+      setDropdown(false);
+    }
+  };
   return (
-    <div className="profile-navbar">
+    <div className="navbar">
       <div className="nav-logo">
         <img src={logo} alt="" />
         <p>NourishNet</p>
@@ -26,29 +47,12 @@ const ProfileNavbar = () => {
           <Link className="link" to="/">
             Inicio
           </Link>
-          {menu === "inicio" ? <hr /> : <></>}
+          {menu === "inicio" ? (
+            <hr className="bar-primary" />
+          ) : (
+            <hr className="bar-white" />
+          )}
         </li>
-        {/* {currentUser && currentUser.isAdmin && (
-        <li
-          onClick={() => {
-            setMenu("informes");
-          }}
-        >
-          <Link className="link" to="/informes">
-            Informes
-          </Link>
-          {menu === "informes" ? <hr /> : <></>}
-        </li>)} */}
-        {/* <li
-          onClick={() => {
-            setMenu("donantes");
-          }}
-        >
-          <Link className="link" to="/donantes">
-            Donantes
-          </Link>
-          {menu === "donantes" ? <hr /> : <></>}
-        </li> */}
 
         {currentUser && (currentUser.isDonor || currentUser.isAdmin) && (
           <li
@@ -84,38 +88,11 @@ const ProfileNavbar = () => {
           </Link>
           {menu === "alimentos" ? <hr /> : <></>}
         </li>
-        {currentUser && (currentUser.isVolunteer || currentUser.isAdmin) ? (
-          <li
-            onClick={() => {
-              setMenu("evaluacion");
-            }}
-          >
-            <Link className="link" to="/evaluacion">
-              Evaluar
-            </Link>
-            {menu === "evaluacion" ? <hr /> : <></>}
-          </li>
-        ) : (
-          <></>
-        )}
-
-        {currentUser && currentUser.isAdmin && (
-          <li
-            onClick={() => {
-              setMenu("informes");
-            }}
-          >
-            <Link className="link" to="/informes">
-              Informes
-            </Link>
-            {menu === "informes" ? <hr /> : <></>}
-          </li>
-        )}
       </ul>
-      <div className="actions-section">
+      <div className="container-section">
         <div className="actions-section">
-          {currentUser && currentUser.isVolunteer && (
-            <Link className="link" to="/donaciones/entregas">
+          {currentUser && (currentUser.isVolunteer || currentUser.isAdmin) && (
+            <Link className="link" to="/tareas">
               <button
                 className="btn btn secondary-v"
                 onClick={() => {
@@ -185,6 +162,12 @@ const ProfileNavbar = () => {
             )}
             <span>{currentUser && currentUser.nombre} </span>
           </Link>
+          <div className="dropdown-container">
+            <div className="list-menu" onClick={changeDropdown}>
+              <List size={30} color="var(--textlight)" />
+            </div>
+            {dropDown && <Dropdown type="user" />}
+          </div>
         </div>
       </div>
     </div>

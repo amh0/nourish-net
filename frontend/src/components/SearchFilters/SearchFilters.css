@@ -22,7 +22,7 @@
   width: 100%;
 }
 
-.filter-wrapper {
+.search-filters .filter-wrapper {
   width: 100%;
 }
 
@@ -67,7 +67,7 @@
   gap: 20px;
   width: 50%;
 }
-.btn-filter-inf button{
+.btn-filter-inf button {
   width: 100%;
 }
 @media screen and (max-width: 768px) {
@@ -114,7 +114,7 @@
     width: 100%;
   }
 
-  .btn-filter-inf button{
+  .btn-filter-inf button {
     margin: 10px 0 0 0;
     padding: 10px;
   }

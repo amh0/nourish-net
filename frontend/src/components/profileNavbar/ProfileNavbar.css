@@ -1,5 +1,5 @@
 @import "../globals.css";
-.profile-navbar {
+.navbar {
   display: flex;
   box-sizing: border-box;
   justify-content: space-between;
@@ -8,11 +8,16 @@
   padding: 16px 50px;
   box-shadow: 0px 4px 4px var(--textlighter);
   isolation: isolate; /*puts navbar at the top*/
+  position: relative;
+  z-index: 100000;
 }
 .nav-logo {
   display: flex;
   align-items: center;
   gap: 24px;
+}
+.nav-logo img {
+  max-width: 64px;
 }
 .nav-logo p {
   color: var(--text);
@@ -40,12 +45,12 @@
   margin-top: 23px; /*if set to 24 causes .6px of overflow*/
   cursor: pointer;
 }
-.nav-menu hr {
-  border: 0px;
-  width: 80%;
-  height: 3px;
-  border-radius: 8px;
-  background-color: var(--primary);
+/* ---- */
+.container-section {
+  display: flex;
+  align-items: center;
+  padding: 0px;
+  gap: 20px;
 }
 .actions-section {
   display: flex;
@@ -53,12 +58,12 @@
   padding: 0px;
   gap: 20px;
 }
-.link {
+/* .link {
   text-decoration: none;
-}
-li .link {
+} */
+/* li .link {
   color: var(--textlight);
-}
+} */
 
 .user {
   display: flex;
@@ -73,7 +78,8 @@ li .link {
   object-fit: cover;
 }
 
-.user .link {
+.user .link,
+.dropdown-container .link {
   display: flex;
   color: var(--textlight);
   font-size: var(--parr1);
@@ -101,4 +107,51 @@ li .link {
 }
 .notif-badge {
   background-color: var(--tertiary_strong);
+}
+.navbar .list-menu {
+  display: none;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 1280px) {
+  .nav-logo p {
+    font-size: 20px;
+  }
+}
+@media screen and (max-width: 1199px) {
+  .navbar .list-menu {
+    display: block;
+  }
+  .navbar .dropdown-container {
+    display: block;
+  }
+  .navbar .nav-menu,
+  .navbar .actions-section {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 559px) {
+  .navbar {
+    padding: 16px 24px;
+  }
+  .nav-logo {
+    gap: 16px;
+  }
+  .nav-logo img {
+    width: 48px;
+  }
+}
+@media screen and (max-width: 447px) {
+  .navbar .nav-logo p {
+    font-size: var(--parr1);
+  }
+  .nav-logo img {
+    width: 32px;
+  }
+}
+@media screen and (max-width: 419px) {
+  .nav-logo p {
+    display: none;
+  }
 }

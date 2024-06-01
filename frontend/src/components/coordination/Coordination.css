@@ -1,11 +1,11 @@
-@import url("../../components/globals.css");
+/* @import url("../../components/globals.css");
 .coordination {
   display: flex;
   flex-direction: column;
   gap: 40px;
   margin: 80px auto 120px auto;
   max-width: 496px;
-  padding: 0px 16px;
+  padding: 0px 24px;
   font-family: "Open Sans", sans-serif;
 }
 .grid-prod {
@@ -33,6 +33,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
+  flex-wrap: wrap;
 }
 .row-border {
   border-top: 2px solid var(--textlight);
@@ -54,6 +55,10 @@
   display: flex;
   align-items: center;
   gap: 40px;
+  flex-wrap: wrap;
+}
+.coordination > .row-wrapper {
+  row-gap: 16px;
 }
 .coordination .input-wrapper input {
   box-sizing: border-box;
@@ -91,4 +96,4 @@
 }
 .coordination .state-container {
   margin-top: 0px;
-}
+} */

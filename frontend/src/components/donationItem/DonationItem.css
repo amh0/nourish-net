@@ -5,15 +5,15 @@
   flex-wrap: wrap;
   border-radius: 16px;
   box-shadow: 0px 0px 4px 0px var(--textlighter);
-  width: 708px;
-  height: 144px;
+  max-width: 708px;
+  min-height: 144px;
   padding: 24px;
   background-color: var(--background0);
 }
 
 .donation-item .img-container {
-  width: 96px;
-  height: 96px;
+  max-width: 96px;
+  max-height: 96px;
 }
 .donation-item .img-container img {
   width: 100%;
@@ -24,13 +24,13 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
-  height: 96px;
+  min-height: 96px;
 }
 .donation-item .col-separator {
   border-right: 2px solid var(--textlight);
 }
 .donation-item .section-1 {
-  width: 200px;
+  max-width: 200px;
 }
 .donation-item .section-2 {
   width: 248px;
@@ -54,7 +54,7 @@
   gap: 16px;
 }
 .donation-item .date-section .date-wrapper {
-  width: 112px;
+  max-width: 112px;
 }
 .donation-item .row-wrapper {
   display: flex;

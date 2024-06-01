@@ -123,7 +123,10 @@ const Publicar = () => {
     });
     setUploadState("loading");
     axios
-      .post("http://localhost:3001/api/products/upload", formData)
+      .post(
+        "https://nourish-net-api.onrender.com/api/products/upload",
+        formData
+      )
       .then((res) => {
         if (res.data.Status === "OK") {
           console.log("Data inserted");

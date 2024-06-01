@@ -8,7 +8,7 @@ const TableReport = ({
   onRowButtonClick,
   trash,
 }) => {
-  const imgPath = "http://localhost:3001/img/";
+  const imgPath = "https://nourish-net-api.onrender.com/img/";
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -42,7 +42,7 @@ const TableReport = ({
                     fieldName.toLowerCase() === "foto" ? (
                       row[fieldName] ? (
                         <img
-                          src={`http://localhost:3001/img/${row[fieldName]}`}
+                          src={`https://nourish-net-api.onrender.com/img/${row[fieldName]}`}
                           alt=""
                           // style={{ width: "80px", height: "80px" }}
                         />

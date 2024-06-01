@@ -1,23 +1,16 @@
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
 import Select from "react-select";
 import moment from "moment";
 import makeAnimated from "react-select/animated";
 import { AuthContext } from "../../context/authContext";
 import Input from "../input/Input";
-import {
-  MapPin,
-  Cube,
-  CheckCircle,
-  Warning,
-  Toolbox,
-} from "@phosphor-icons/react";
+import { Cube, CheckCircle, Warning, Toolbox } from "@phosphor-icons/react";
 import "./ProductDisplay.css";
 import "../globals.css";
 
-const imgPath = "http://localhost:3001/img/";
-const apiURL = "http://localhost:3001/api/";
+const imgPath = "https://nourish-net-api.onrender.com/img/";
+const apiURL = "https://nourish-net-api.onrender.com/api/";
 let evalDefault = [
   {
     value: 0,
@@ -60,10 +53,10 @@ const ProductDisplay = (props) => {
   const idgen = product.idgeneral;
   const [cantidad, setCantidad] = useState();
   const [insertState, setInsertState] = useState("none");
-
   // evaluation
+  console.log(product);
   const [evalSel, setEvalSel] = useState(
-    product.evaluation === "No evaluado"
+    product.evaluacion === "No evaluado"
       ? null
       : evalDefault.find((e) => e.label === product.evaluacion)
   );
@@ -191,25 +184,15 @@ const ProductDisplay = (props) => {
         <h3 className="title3">{product.nombre}</h3>
         <div className="product-details">
           <div>
-            <MapPin
+            <Cube
               className="icon"
               size={24}
               weight="light"
               color="var(--secondary)"
             />
             <p className="parr2">
-              {donnor.ubicacion + ", " + donnor.direccion}
-            </p>
-          </div>
-          <div>
-            <Cube
-              className="icon"
-              size={24}
-              weight="light"
-              color="var(--textlight)"
-            />
-            <p className="parr2">
-              {product.cantidad_disponible} {product.unidad_medida}
+              {product.cantidad_disponible} {product.unidad_medida}{" "}
+              disponible(s)
             </p>
           </div>
         </div>
@@ -247,14 +230,18 @@ const ProductDisplay = (props) => {
                   />
                 </div>
               </div>
-              <button className="btn secondary-v" onClick={handleEval}>
-                Evaluar
-              </button>
+              {product.evaluacion === "No evaluado" ? (
+                <button className="btn secondary-v" onClick={handleEval}>
+                  Evaluar
+                </button>
+              ) : null}
             </>
           ) : (
             <>
               <div>
-                <Cube size={24} weight="light" color="var(--textlight)" />
+                <div className="icon-container">
+                  <Cube size={24} weight="light" color="var(--textlight)" />
+                </div>
                 <div className="input-wrapper">
                   <Input
                     id="cantidad"
@@ -296,7 +283,7 @@ const ProductDisplay = (props) => {
                   weight="light"
                 />
                 <p className="parr1 boldparr">
-                  {isEval ? "¡Alimenta evaluado!" : "¡Alimento agregado!"}
+                  {isEval ? "¡Alimento evaluado!" : "¡Alimento agregado!"}
                 </p>
               </>
             ) : insertState === "error" ? (

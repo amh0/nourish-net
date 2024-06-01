@@ -44,7 +44,7 @@ const SignupForm = () => {
 
   // const registerUser = (formdata) => {
   //   try {
-  //     axios.post("http://localhost:3001/api/auth/register", {
+  //     axios.post("https://nourish-net-api.onrender.com/api/auth/register", {
   //       formdata,
   //     });
   //   } catch (error) {
@@ -54,7 +54,7 @@ const SignupForm = () => {
   const registerUser = async (formDataR) => {
     try {
       const response = await axios.post(
-        "http://localhost:3001/api/auth/register",
+        "https://nourish-net-api.onrender.com/api/auth/register",
         formDataR
       );
       console.log("Respuesta del servidor:", response.data);

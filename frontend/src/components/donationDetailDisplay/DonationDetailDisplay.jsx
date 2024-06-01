@@ -12,8 +12,8 @@ import {
   padNumber,
 } from "../utils/functionUtils";
 import Map from "../map/Map";
-const imgPath = "http://localhost:3001/img/";
-const apiURL = "http://localhost:3001/api/";
+const imgPath = "https://nourish-net-api.onrender.com/img/";
+const apiURL = "https://nourish-net-api.onrender.com/api/";
 
 const listStyle = {
   control: (styles) => ({ ...styles, backgroundColor: "white" }),
@@ -155,7 +155,7 @@ const DonationDetailDisplay = (props) => {
         <div className="row-wrapper">
           <Barcode size={24} color="var(--textlight)" />
           <p className="parr1 bold  ">
-            {"COD: " + padNumber(idDonacion, 6, "0")}
+            {"COD: " + padNumber(idDonacion, 5, "0")}
           </p>
         </div>
       </div>

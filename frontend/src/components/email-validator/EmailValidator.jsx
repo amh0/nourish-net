@@ -32,7 +32,7 @@ const EmailValidator = ({
 
   const sendCode = () => {
     axios
-      .post("http://localhost:3001/api/auth/verifyEmail", {
+      .post("https://nourish-net-api.onrender.com/api/auth/verifyEmail", {
         email,
         existsInDB: existsInDB,
       })

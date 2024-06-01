@@ -5,7 +5,7 @@ import axios from "axios";
 
 export const AuthContext = createContext();
 
-const apiURL = "http://localhost:3001/api/";
+const apiURL = "https://nourish-net-api.onrender.com/api/";
 
 export const AuthContextProvider = ({ children }) => {
   const [notificationQty, setNotificationQty] = useState(0);
@@ -16,7 +16,7 @@ export const AuthContextProvider = ({ children }) => {
 
   const login = async (email, password) => {
     const res = await axios.post(
-      "http://localhost:3001/api/auth/login",
+      "https://nourish-net-api.onrender.com/api/auth/login",
       {
         email,
         password,
@@ -36,7 +36,7 @@ export const AuthContextProvider = ({ children }) => {
   const logout = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:3001/api/auth/logout"
+        "https://nourish-net-api.onrender.com/api/auth/logout"
       );
       console.log(response.data);
       localStorage.removeItem("user");
@@ -53,7 +53,7 @@ export const AuthContextProvider = ({ children }) => {
   useEffect(() => {
     const fetchUploaded = async () => {
       try {
-        const result = await axios.post(apiURL + "users/get_not_assigned_qty", {
+        const result = await axios.post(apiURL + "user/get_not_assigned_qty", {
           idUsuario: currentUser.idusuario,
         });
         setUploadedQty(result.data[0].uploadedQty);
@@ -67,12 +67,9 @@ export const AuthContextProvider = ({ children }) => {
   useEffect(() => {
     const fetchNotifications = async () => {
       try {
-        const result = await axios.post(
-          apiURL + "users/get_notifications_qty",
-          {
-            idUsuario: currentUser.idusuario,
-          }
-        );
+        const result = await axios.post(apiURL + "user/get_notifications_qty", {
+          idUsuario: currentUser.idusuario,
+        });
         setNotificationQty(result.data[0].newNotifQty);
       } catch (err) {
         console.log(err);
