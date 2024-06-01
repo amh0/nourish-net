@@ -20,6 +20,7 @@ const ChatbotComponent = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [nombre, setNombre] = useState(currentUser ? currentUser.nombre : "");
   const [chatKey, setChatKey] = useState(Date.now());
+  const apiPath = "https://nourish-net-api.onrender.com/api";
 
   const userInputRef = useRef("");
 
@@ -38,14 +39,10 @@ const ChatbotComponent = () => {
     const fetchCategories = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3001/api/chatbot/get-all-categories"
+          apiPath + "/chatbot/get-all-categories"
         );
-        const response1 = await axios.get(
-          "http://localhost:3001/api/chatbot/get-all-food"
-        );
-        const response2 = await axios.get(
-          "http://localhost:3001/api/chatbot/get-categoryx"
-        );
+        const response1 = await axios.get(apiPath + "/chatbot/get-all-food");
+        const response2 = await axios.get(apiPath + "/chatbot/get-categoryx");
         setFoodData(response1.data);
         setCategories(response.data);
         setFoodCategoryData(response2.data);
