@@ -8,6 +8,7 @@ import reportsRoutes from "./routes/reports.js";
 import peticionesRoutes from "./routes/peticiones.js";
 import userRoutes from "./routes/users.js";
 import editRoutes from "./routes/edit.js";
+import chatbot from "./routes/chatbot.js";
 
 const app = express();
 
@@ -33,6 +34,7 @@ app.use("/api/reports", reportsRoutes);
 app.use("/api/peticiones", peticionesRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/edit", editRoutes);
+app.use("/api/chatbot", chatbot);
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {

@@ -31,6 +31,8 @@ import DonacionesVoluntario from "./pages/DonacionesVoluntario";
 import Evaluar from "./pages/Evaluar";
 import UpdateUser from "./components/updateUser/UpdateUser";
 
+import ChatbotComponent from "./components/chatBot/Chatbot";
+
 function App() {
   const { currentUser } = useContext(AuthContext);
   const [openUpdate, setOpenUpdate] = useState(true);
@@ -133,9 +135,11 @@ function App() {
           {currentUser && currentUser.isAdmin && (
             <Route path="/informes" element={<Informes />} />
           )}
+          <Route path="/chatbot" element={<ChatbotComponent />} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
         <Footer />
+        <ChatbotComponent />
       </BrowserRouter>
     </div>
   );

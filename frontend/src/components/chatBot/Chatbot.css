@@ -1,0 +1,41 @@
+.chatbot-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 999;
+}
+
+.table-container-chatbot {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.table-container-chatbot .table-chatbot {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table-chatbot th,
+td {
+  border: 4px solid #140d0d;
+  padding: 8px;
+  text-align: right;
+}
+
+.table-chatbot th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+.login-form-container {
+  width: 10px;
+  max-width: 40px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* @media (max-width: 768px) {
+  .login-form-container {
+    max-width: 100%;
+  }
+} */
