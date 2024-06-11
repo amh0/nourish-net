@@ -39,6 +39,38 @@ let filterCategories = [
     value: 3,
     label: "Bebida",
   },
+  {
+    value: 4,
+    label: "Organico",
+  },
+  {
+    value: 5,
+    label: "Enlatado",
+  },
+  {
+    value: 6,
+    label: "Envasado",
+  },
+  {
+    value: 7,
+    label: "Ingrediente",
+  },
+  {
+    value: 8,
+    label: "No perecedero",
+  },
+  {
+    value: 9,
+    label: "Fresco",
+  },
+  {
+    value: 10,
+    label: "Lacteo",
+  },
+  {
+    value: 11,
+    label: "Otro",
+  },
 ];
 const fechaMenorHoy = (d2) => {
   let date1 = new Date().getTime();
@@ -60,23 +92,33 @@ const Alimentos = () => {
   }, []);
   const fetchData = async () => {
     try {
-      const result = await axios("https://nourish-net-api.onrender.com/api/products/findall");
-      setFoodData(result.data);
+      const result = await axios(
+        "https://nourish-net-api.onrender.com/api/products/findall"
+      );
+      if (result.data) {
+        let processedProducts = categoriesProcessing(result.data);
+        setFoodData(processedProducts);
+      }
     } catch (err) {
       console.log("Error");
       console.log(err);
     }
+  };
+  const categoriesProcessing = (products) => {
+    return products.map((prod) => {
+      let arr = prod["categorias"].split(",");
+      prod["categorias"] = arr.map((x) => parseInt(x));
+      return prod;
+    });
   };
   // filterEffect
   useEffect(() => {
     const newData = foodData.filter((item) => {
       let filteredByCat = true;
       let filteredBySearch = true;
-      filteredByCat = !categoryFilter || categoryFilter === "Todos";
-      if (categoryFilter) {
-        filteredByCat = true;
+      if (categoryFilter && categoryFilter !== "Todos") {
+        filteredByCat = item.categorias.includes(categoryOption.value);
       }
-      // item.categorias.includes(categoryFilter); // TODO filter by category
       filteredBySearch =
         search === "" ||
         item.nombre.toLowerCase().includes(search.toLowerCase());
@@ -89,10 +131,9 @@ const Alimentos = () => {
       );
     });
     setFilteredFood(newData);
-  }, [categoryFilter, search, currentUser, foodData]);
+  }, [categoryFilter, categoryOption, search, currentUser, foodData]);
 
   const handleCategorySelection = (op) => {
-    console.log(op);
     setCategoryFilter(op.label);
     setCategoryOption(op);
   };
@@ -125,7 +166,7 @@ const Alimentos = () => {
                 setCategoryOption(filterCategories[2]);
               }}
             >
-              Verdura
+              Verduras
             </li>
             <li
               onClick={() => {
@@ -167,12 +208,38 @@ const Alimentos = () => {
             >
               Ingredientes
             </li>
-            <li onClick={() => setCategoryFilter("No Perecedero")}>
+            <li
+              onClick={() => {
+                setCategoryFilter("No Perecedero");
+                setCategoryOption(filterCategories[8]);
+              }}
+            >
               No Perecedero
             </li>
-            <li onClick={() => setCategoryFilter("Fresco")}>Fresco</li>
-            <li onClick={() => setCategoryFilter("Lacteo")}>Lacteo</li>
-            <li onClick={() => setCategoryFilter("Otros")}>Otros</li>
+            <li
+              onClick={() => {
+                setCategoryFilter("Fresco");
+                setCategoryOption(filterCategories[9]);
+              }}
+            >
+              Fresco
+            </li>
+            <li
+              onClick={() => {
+                setCategoryFilter("Lacteo");
+                setCategoryOption(filterCategories[10]);
+              }}
+            >
+              Lacteo
+            </li>
+            <li
+              onClick={() => {
+                setCategoryFilter("Otros");
+                setCategoryOption(filterCategories[11]);
+              }}
+            >
+              Otros
+            </li>
           </ol>
         </div>
 

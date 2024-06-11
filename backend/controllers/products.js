@@ -80,24 +80,30 @@ export const getAllProducts = async (req, res) => {
   try {
     // obtener tipo de organizacion
     const qType = `
-    select a.*, nombre_voluntario_x(a.idvoluntario) as nombreVoluntario, o.nombre as nombre_don, o.direccion as direccion_don
-    from alimento a inner join general g 
-    on a.idgeneral = g.idgeneral
-    inner join organizacion o
-    on g.idgeneral = o.idorg
-    where g.tipo like 'Organizacion' 
-      and (a.estado like 'Disponible'
-      or a.estado like 'No disponible')
-    UNION
-    select a.*, nombre_voluntario_x(a.idvoluntario) as nombreVoluntario, concat(p.nombre, ' ', p.apellido_pat, ' ', p.apellido_mat) as nombre_don, p.direccion as direccion_don  
-    from alimento a inner join general g 
-    on a.idgeneral = g.idgeneral
-    inner join persona p
-    on g.idgeneral like p.idpersona
-    where g.tipo = 'Persona'
-      and (a.estado like 'Disponible'
-      or a.estado like 'No disponible')
-    order by 7 desc`;
+    select prod.* , cat.categorias
+    from (select a.*, nombre_voluntario_x(a.idvoluntario) as nombreVoluntario, o.nombre as nombre_don, o.direccion as direccion_don
+      from alimento a inner join general g 
+      on a.idgeneral = g.idgeneral
+      inner join organizacion o
+      on g.idgeneral = o.idorg
+      where g.tipo like 'Organizacion' 
+        and (a.estado like 'Disponible'
+        or a.estado like 'No disponible')
+      UNION
+      select a.*, nombre_voluntario_x(a.idvoluntario) as nombreVoluntario, concat(p.nombre, ' ', p.apellido_pat, ' ', p.apellido_mat) as nombre_don, p.direccion as direccion_don  
+      from alimento a inner join general g 
+      on a.idgeneral = g.idgeneral
+      inner join persona p
+      on g.idgeneral like p.idpersona
+      where g.tipo = 'Persona'
+        and (a.estado like 'Disponible'
+        or a.estado like 'No disponible')
+      order by 7 desc) prod 
+    left join (
+      SELECT idalimento, GROUP_CONCAT(idcategoria) as categorias
+      from tiene_c
+      group by idalimento) cat
+    on prod.idalimento = cat.idalimento`;
     const foodQuery = await queryDatabase(qType);
     res.status(200).json(foodQuery);
   } catch (error) {

@@ -24,7 +24,10 @@ const PageContextProvider = (props) => {
   const fetchData = async () => {
     try {
       const result = await axios.get(apiURL + "/products/findall");
-      setFoodData(result.data);
+      if (result.data) {
+        const processedResult = categoriesProcessing(result.data);
+        setFoodData(processedResult);
+      }
     } catch (err) {
       console.log("Error obteniendo productos");
       console.log(err);
@@ -39,7 +42,13 @@ const PageContextProvider = (props) => {
       console.log(err);
     }
   };
-
+  const categoriesProcessing = (products) => {
+    return products.map((prod) => {
+      let arr = prod["categorias"].split(",");
+      prod["categorias"] = arr.map((x) => parseInt(x));
+      return prod;
+    });
+  };
   const contextValue = {
     foodData,
     foodCat,
