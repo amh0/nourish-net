@@ -32,6 +32,7 @@
     "react-switch": "^7.0.0",
     "react-time-ago": "^7.3.1",
     "relative-time-format": "^1.1.6",
+    "styled-components": "^6.1.11",
     "use-places-autocomplete": "^4.0.1",
     "web-vitals": "^2.1.4"
   },
