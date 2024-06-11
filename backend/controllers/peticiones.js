@@ -36,7 +36,7 @@ export const uploadPeticion = async (req, res) => {
 
   // console.log(data);
   // console.log(imagen);
-  const q = `INSERT INTO PETICION (titulo, descripcion, ubicacion, contacto, imagen, prioridad, idusuario, fecha_publicacion)
+  const q = `INSERT INTO peticion (titulo, descripcion, ubicacion, contacto, imagen, prioridad, idusuario, fecha_publicacion)
     VALUES (?,?,?,?,?,?,?,?)`;
 
   const peticionValues = [

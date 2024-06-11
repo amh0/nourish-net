@@ -448,8 +448,8 @@ export const getDonMonth = (req, res) => {
 export const getDonRec = (req, res) => {
   const { iduser } = req.query;
   const sql = `SELECT d.iddonacion,a.imagen, a.nombre, d.tipo_envio 'tipo de envio', DATE_FORMAT(d.fecha_entrega, '%Y-%m-%d') 'fecha entrega',  CONCAT(ta.cantidad, ' ', a.unidad_medida) cantidad
-              FROM DONACION d
-              INNER JOIN TIENE_A ta ON d.iddonacion = ta.iddonacion AND d.idgeneral = '${iduser}'
+              FROM donacion d
+              INNER JOIN tiene_a ta ON d.iddonacion = ta.iddonacion AND d.idgeneral = '${iduser}'
               INNER JOIN alimento a ON a.idalimento = ta.idalimento
               WHERE d.estado like 'Entregado';
               `;
