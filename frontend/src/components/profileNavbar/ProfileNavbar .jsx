@@ -54,18 +54,21 @@ const ProfileNavbar = () => {
           )}
         </li>
 
-        {currentUser && (currentUser.isDonor || currentUser.isAdmin) && (
-          <li
-            onClick={() => {
-              setMenu("misDonaciones");
-            }}
-          >
-            <Link className="link" to="/donaciones">
-              {currentUser.isAdmin ? "Donaciones" : "Mis donaciones"}
-            </Link>
-            {menu === "misDonaciones" ? <hr /> : <></>}
-          </li>
-        )}
+        {currentUser &&
+          (currentUser.isDonor ||
+            currentUser.isReceiver ||
+            currentUser.isAdmin) && (
+            <li
+              onClick={() => {
+                setMenu("misDonaciones");
+              }}
+            >
+              <Link className="link" to="/donaciones">
+                {currentUser.isAdmin ? "Donaciones" : "Mis donaciones"}
+              </Link>
+              {menu === "misDonaciones" ? <hr /> : <></>}
+            </li>
+          )}
 
         <li
           onClick={() => {
