@@ -45,15 +45,15 @@ const PageContextProvider = (props) => {
     }
   };
   const categoriesProcessing = (products) => {
-    if (products) {
-      return products.map((prod) => {
+    return products.map((prod) => {
+      if (prod["categorias"]) {
         let arr = prod["categorias"].split(",");
         prod["categorias"] = arr.map((x) => parseInt(x));
-        return prod;
-      });
-    } else {
-      return [];
-    }
+      } else {
+        prod["categorias"] = [];
+      }
+      return prod;
+    });
   };
   const contextValue = {
     foodData,

@@ -92,9 +92,7 @@ const Alimentos = () => {
   }, []);
   const fetchData = async () => {
     try {
-      const result = await axios(
-        "https://nourish-net-api.onrender.com/api/products/findall"
-      );
+      const result = await axios("http://localhost:3001/api/products/findall");
       if (result && result.data) {
         let processedProducts = categoriesProcessing(result.data);
         setFoodData(processedProducts);
@@ -107,15 +105,15 @@ const Alimentos = () => {
     }
   };
   const categoriesProcessing = (products) => {
-    if (products) {
-      return products.map((prod) => {
+    return products.map((prod) => {
+      if (prod["categorias"]) {
         let arr = prod["categorias"].split(",");
         prod["categorias"] = arr.map((x) => parseInt(x));
-        return prod;
-      });
-    } else {
-      return [];
-    }
+      } else {
+        prod["categorias"] = [];
+      }
+      return prod;
+    });
   };
   // filterEffect
   useEffect(() => {
