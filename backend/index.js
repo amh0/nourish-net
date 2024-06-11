@@ -19,7 +19,7 @@ app.use((req, res, next) => {
 
 app.use(
   cors({
-    origin: ["https://nourishnet.netlify.app", "http://localhost:3000"],
+    origin: "https://nourishnet.netlify.app",
   })
 );
 app.use(express.json());

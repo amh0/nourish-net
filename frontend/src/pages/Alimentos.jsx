@@ -92,7 +92,9 @@ const Alimentos = () => {
   }, []);
   const fetchData = async () => {
     try {
-      const result = await axios("http://localhost:3001/api/products/findall");
+      const result = await axios(
+        "https://nourish-net-api.onrender.com/products/findall"
+      );
       if (result && result.data) {
         let processedProducts = categoriesProcessing(result.data);
         setFoodData(processedProducts);
