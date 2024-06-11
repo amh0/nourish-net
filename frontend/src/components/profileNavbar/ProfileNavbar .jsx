@@ -88,6 +88,18 @@ const ProfileNavbar = () => {
           </Link>
           {menu === "alimentos" ? <hr /> : <></>}
         </li>
+        {currentUser && currentUser.isAdmin && (
+          <li
+            onClick={() => {
+              setMenu("informes");
+            }}
+          >
+            <Link className="link" to="/informes">
+              Informes
+            </Link>
+            {menu === "informes" ? <hr /> : <></>}
+          </li>
+        )}
       </ul>
       <div className="container-section">
         <div className="actions-section">

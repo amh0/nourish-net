@@ -102,7 +102,7 @@ function Dropdown(props) {
           </li>
         )}
 
-        {currentUser && currentUser.isVolunteer && (
+        {currentUser && currentUser.isDonor && (
           <li>
             <Link
               className="dropdown-link link"
@@ -110,6 +110,17 @@ function Dropdown(props) {
               onClick={() => setClick(false)}
             >
               Donar
+            </Link>
+          </li>
+        )}
+        {currentUser && currentUser.isAdmin && (
+          <li>
+            <Link
+              className="dropdown-link link"
+              to="/informes"
+              onClick={() => setClick(false)}
+            >
+              Informes
             </Link>
           </li>
         )}
